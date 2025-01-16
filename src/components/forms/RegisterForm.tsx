@@ -17,13 +17,14 @@ import { authApi } from '@/lib/services/appwrite/api';
 import Link from 'next/link';
 import { OAuthButton } from '@/components/auth/OAuthButton';
 
-interface LoginFormProps extends React.ComponentPropsWithoutRef<'div'> {
+interface RegisterFormProps extends React.ComponentPropsWithoutRef<'div'> {
   className?: string;
 }
 
-export function LoginForm({ className, ...props }: LoginFormProps) {
+export function RegisterForm({ className, ...props }: RegisterFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -34,11 +35,11 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     setError('');
 
     try {
-      await authApi.login(email, password);
+      await authApi.signup(email, password, name);
       router.push('/dashboard');
     } catch (error) {
-      setError('Invalid email or password');
-      console.error('Login failed:', error);
+      setError('Registration failed. Please try again.');
+      console.error('Registration failed:', error);
     } finally {
       setIsLoading(false);
     }
@@ -48,9 +49,9 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className='text-2xl'>Login</CardTitle>
+          <CardTitle className='text-2xl'>Create an account</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your details below to create your account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -62,27 +63,31 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
             )}
             <div className='space-y-4'>
               <div className='space-y-2'>
-                <Label htmlFor='email'>Email</Label>
+                <Label htmlFor='name'>Full Name</Label>
                 <Input
-                  id='email'
-                  type='email'
-                  placeholder='elonmusk@gmail.com'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id='name'
+                  type='text'
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder='Elon Musk'
                   required
                   disabled={isLoading}
                 />
               </div>
               <div className='space-y-2'>
-                <div className='flex items-center justify-between'>
-                  <Label htmlFor='password'>Password</Label>
-                  <Link
-                    href='/forgot-password'
-                    className='text-sm text-muted-foreground hover:underline'
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
+                <Label htmlFor='email'>Email</Label>
+                <Input
+                  id='email'
+                  type='email'
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder='elonmusk@gmail.com'
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className='space-y-2'>
+                <Label htmlFor='password'>Password</Label>
                 <Input
                   id='password'
                   type='password'
@@ -94,7 +99,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
               </div>
             </div>
             <Button type='submit' className='w-full' disabled={isLoading}>
-              {isLoading ? 'Signing in...' : 'Sign in'}
+              {isLoading ? 'Creating account...' : 'Create account'}
             </Button>
             <div className='relative my-6'>
               <div className='absolute inset-0 flex items-center'>
@@ -108,9 +113,9 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
             </div>
             <OAuthButton label='Sign up with Google' />
             <div className='mt-4 text-center text-sm text-muted-foreground'>
-              Don&apos;t have an account?{' '}
-              <Link href='/register' className='text-primary hover:underline'>
-                Sign up
+              Already have an account?{' '}
+              <Link href='/login' className='text-primary hover:underline'>
+                Sign in
               </Link>
             </div>
           </form>
