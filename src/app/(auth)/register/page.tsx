@@ -1,6 +1,6 @@
 'use client';
 
-import { Input } from '@/components/ui/Input';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/Label';
 import { authApi } from '@/lib/services/appwrite/api';
 import { useRouter } from 'next/navigation';
