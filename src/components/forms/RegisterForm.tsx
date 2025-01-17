@@ -13,9 +13,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { authApi } from '@/lib/services/appwrite/api';
 import Link from 'next/link';
 import { OAuthButton } from '@/components/auth/OAuthButton';
+import { authApi } from '@/lib/services/appwrite/api';
 
 interface RegisterFormProps extends React.ComponentPropsWithoutRef<'div'> {
   className?: string;
@@ -35,8 +35,16 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
     setError('');
 
     try {
+      // Create user account
       await authApi.signup(email, password, name);
-      router.push('/dashboard');
+
+      // Create email session (login)
+      await authApi.login(email, password);
+
+      // Send verification email
+      await authApi.createVerification(`${window.location.origin}/verify`);
+
+      router.push('/verification');
     } catch (error) {
       setError('Registration failed. Please try again.');
       console.error('Registration failed:', error);
@@ -69,7 +77,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
                   type='text'
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder='Elon Musk'
+                  placeholder='John Doe'
                   required
                   disabled={isLoading}
                 />
@@ -81,7 +89,7 @@ export function RegisterForm({ className, ...props }: RegisterFormProps) {
                   type='email'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder='elonmusk@gmail.com'
+                  placeholder='name@example.com'
                   required
                   disabled={isLoading}
                 />

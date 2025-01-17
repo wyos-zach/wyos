@@ -1,23 +1,26 @@
 'use server';
 
-import { Client, Account, ID } from 'node-appwrite';
+import { Client, Users } from 'node-appwrite';
 
-const client = new Client()
-  .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
-  .setProject(process.env.NEXT_PUBLIC_PROJECT_ID!)
-  .setKey(process.env.API_KEY!); // Server SDK requires an API key
+const getAppwriteConfig = () => {
+  const endpoint = process.env.NEXT_PUBLIC_APPWRITE_API_ENDPOINT;
+  const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
+  const apiKey = process.env.APPWRITE_API_KEY;
 
-const account = new Account(client);
-
-export async function signUpWithEmail(formData: FormData) {
-  try {
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-    const name = formData.get('name') as string;
-
-    const user = await account.create(ID.unique(), email, password, name);
-    return { success: true, data: user };
-  } catch (error) {
-    return { success: false, error };
+  if (!endpoint || !projectId || !apiKey) {
+    throw new Error('Missing Appwrite environment variables');
   }
-}
+
+  return { endpoint, projectId, apiKey };
+};
+
+const { endpoint, projectId, apiKey } = getAppwriteConfig();
+
+const serverClient = new Client()
+  .setEndpoint(endpoint)
+  .setProject(projectId)
+  .setKey(apiKey);
+
+const users = new Users(serverClient);
+
+export { users };
