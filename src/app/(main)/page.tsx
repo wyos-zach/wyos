@@ -1,13 +1,32 @@
 'use client';
 
-import { useAuth } from '@/hooks/use-auth';
-import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { authApi } from '@/lib/services/appwrite/api';
 
 export default function HomePage() {
-  const { user, isLoading } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  if (!isLoading && !user) {
-    redirect('/login');
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const currentUser = await authApi.getCurrentUser();
+        if (!currentUser) {
+          router.push('/login');
+        }
+      } catch {
+        router.push('/login');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void checkAuth();
+  }, [router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (

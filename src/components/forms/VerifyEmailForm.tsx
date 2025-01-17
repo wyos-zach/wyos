@@ -1,4 +1,3 @@
-// src/components/forms/VerifyEmailForm.tsx
 'use client';
 
 import { cn } from '@/lib/utils';

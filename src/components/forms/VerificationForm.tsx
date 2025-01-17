@@ -1,4 +1,3 @@
-// src/components/forms/VerificationForm.tsx
 'use client';
 
 import { cn } from '@/lib/utils';
