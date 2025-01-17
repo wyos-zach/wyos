@@ -38,7 +38,7 @@ export function ForgotPasswordForm({
     try {
       await account.createRecovery(
         email,
-        `${window.location.origin}/auth/reset-password`
+        `${window.location.origin}/reset-password`
       );
       setSuccess(true);
     } catch (error) {

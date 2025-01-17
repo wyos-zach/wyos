@@ -48,7 +48,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className='text-2xl'>Login</CardTitle>
+          <CardTitle className='text-2xl'>Sign In</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
@@ -106,7 +106,7 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
                 </span>
               </div>
             </div>
-            <OAuthButton label='Sign up with Google' />
+            <OAuthButton label='Sign in with Google' />
             <div className='mt-4 text-center text-sm text-muted-foreground'>
               Don&apos;t have an account?{' '}
               <Link href='/register' className='text-primary hover:underline'>
