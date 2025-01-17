@@ -3,5 +3,5 @@ export default function MainLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <main className='min-h-screen bg-background'>{children}</main>;
+  return <div className='flex min-h-screen flex-col'>{children}</div>;
 }

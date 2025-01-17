@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { cn } from '@/lib/utils';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 
@@ -15,7 +16,14 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'WYOS - Write Your Own Story',
-  description: 'A platform for creative writing and storytelling',
+  description:
+    'A platform that empowers individuals with practical tools and knowledge to take control of their lives',
+  keywords: [
+    'personal development',
+    'self-improvement',
+    'productivity',
+    'learning platform',
+  ],
 };
 
 export default function RootLayout({
@@ -24,12 +32,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang='en' className='dark'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} bg-background text-foreground antialiased`}
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased',
+          geistSans.variable,
+          geistMono.variable
+        )}
       >
         <Navbar />
-        {children}
+        <main className='relative flex min-h-screen flex-col'>{children}</main>
       </body>
     </html>
   );
