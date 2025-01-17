@@ -3,9 +3,9 @@
 import { Client, Account, ID } from 'node-appwrite';
 
 const client = new Client()
-  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!)
-  .setKey(process.env.APPWRITE_API_KEY!); // Server SDK requires an API key
+  .setEndpoint(process.env.NEXT_PUBLIC_ENDPOINT!)
+  .setProject(process.env.NEXT_PUBLIC_PROJECT_ID!)
+  .setKey(process.env.API_KEY!); // Server SDK requires an API key
 
 const account = new Account(client);
 
