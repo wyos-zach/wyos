@@ -8,11 +8,7 @@ interface HeroProps {
   showCTA?: boolean;
 }
 
-export function Hero({
-  headline = 'Writing Your Own Story',
-  subheadline = 'Take control of your narrative and share your unique perspective with the world',
-  showCTA = true,
-}: HeroProps) {
+export function Hero({ headline, subheadline, showCTA = true }: HeroProps) {
   return (
     <Container
       as='section'

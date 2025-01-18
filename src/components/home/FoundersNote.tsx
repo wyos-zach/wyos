@@ -1,19 +1,15 @@
 import Image from 'next/image';
 import { Container } from '@/components/ui/container';
+import { type FoundersNote as FoundersNoteType } from '@/types/home';
 
-interface FounderNoteProps {
-  message: string;
-  founderName: string;
-  founderTitle: string;
-  imageUrl?: string;
-}
+type FoundersNoteProps = FoundersNoteType;
 
-export function FounderNote({
+export function FoundersNote({
   message,
   founderName,
   founderTitle,
   imageUrl,
-}: FounderNoteProps) {
+}: FoundersNoteProps) {
   return (
     <Container as='section' className='py-12 md:py-16 lg:py-20'>
       <div className='mx-auto max-w-[58rem]'>

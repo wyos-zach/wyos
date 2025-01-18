@@ -1,22 +1,14 @@
 import { Container } from '@/components/ui/container';
-
-interface Step {
-  number: number;
-  title: string;
-  description: string;
-}
+import { type Step } from '@/types/home';
 
 interface HowItWorksProps {
   steps: Step[];
   className?: string;
 }
 
-export function HowItWorks({ steps, className }: HowItWorksProps) {
+export function HowItWorks({ steps }: HowItWorksProps) {
   return (
-    <Container
-      as='section'
-      className={`py-12 md:py-16 lg:py-20 ${className ?? ''}`}
-    >
+    <Container as='section' className='py-12 md:py-16 lg:py-20'>
       <div className='mx-auto max-w-[58rem] text-center'>
         <h2 className='text-3xl font-bold leading-[1.1] sm:text-3xl md:text-5xl'>
           How WYOS Works

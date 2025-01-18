@@ -1,19 +1,14 @@
 import { Container } from '@/components/ui/container';
-
-interface Feature {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-}
+import { type Feature } from '@/types/home';
 
 interface FeaturesProps {
   features: Feature[];
   className?: string;
 }
 
-export function Features({ features, className }: FeaturesProps) {
+export function Features({ features }: FeaturesProps) {
   return (
-    <Container as='section' className={`py-12 md:py-16 lg:py-20 ${className}`}>
+    <Container as='section' className='py-12 md:py-16 lg:py-20'>
       <div className='mx-auto max-w-[58rem] text-center'>
         <h2 className='text-3xl font-bold leading-[1.1] sm:text-3xl md:text-5xl'>
           Everything you need to write your story
