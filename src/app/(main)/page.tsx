@@ -2,8 +2,16 @@ import { Hero } from '@/components/home/Hero';
 import { Features } from '@/components/home/Features';
 import { HowItWorks } from '@/components/home/HowItWorks';
 import { FoundersNote } from '@/components/home/FoundersNote';
+import { Benefits } from '@/components/home/Benefits';
+import { GettingStarted } from '@/components/home/GettingStarted';
 import { CTA } from '@/components/home/CTA';
-import { features, steps, foundersNote } from '@/lib/config/home';
+import {
+  features,
+  steps,
+  foundersNote,
+  benefits,
+  startingSteps,
+} from '@/lib/config/home';
 
 export default function HomePage() {
   return (
@@ -13,7 +21,9 @@ export default function HomePage() {
         subheadline='Take control of your narrative and share your unique perspective with the world'
       />
       <Features features={features} />
+      <Benefits benefits={benefits} />
       <HowItWorks steps={steps} />
+      <GettingStarted steps={startingSteps} />
       <FoundersNote {...foundersNote} />
       <CTA
         headline='Ready to start your journey?'

@@ -18,3 +18,16 @@ export interface FoundersNote {
   founderTitle: string;
   imageUrl?: string;
 }
+
+export interface Benefit {
+  title: string;
+  description: string;
+  icon: ReactNode;
+}
+
+export interface StartingStep {
+  number: number;
+  title: string;
+  description: string;
+  icon?: ReactNode;
+}
