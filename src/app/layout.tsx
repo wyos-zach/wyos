@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'WYOS - Write Your Own Story',
+  title: 'WYOS - Writing Your Own Story',
   description:
     'A platform that empowers individuals with practical tools and knowledge to take control of their lives',
   keywords: [
