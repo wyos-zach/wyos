@@ -11,12 +11,22 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...compat.extends(
+    'next/core-web-vitals',
+    'next/typescript',
+    'plugin:@tanstack/eslint-plugin-query/recommended'
+  ),
   eslintConfigPrettier,
   {
+    plugins: ['@tanstack/query'],
     rules: {
+      // TanStack Query
+      '@tanstack/query/exhaustive-deps': 'error',
+      '@tanstack/query/prefer-query-object': 'error',
+      '@tanstack/query/stable-query-client': 'error',
+
       // TypeScript
-      'no-unused-vars': 'off', // Disable in favor of TypeScript rule
+      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -36,8 +46,8 @@ const eslintConfig = [
       '@typescript-eslint/explicit-function-return-type': 'off',
 
       // React
-      'react/prop-types': 'off', // Not needed with TypeScript
-      'react/react-in-jsx-scope': 'off', // Not needed in Next.js
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
       'react/display-name': 'error',
       'react/jsx-curly-brace-presence': ['error', 'never'],
       'react/no-unescaped-entities': 'off',
