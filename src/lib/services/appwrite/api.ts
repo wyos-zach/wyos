@@ -2,6 +2,43 @@ import { ID, Query, type Models } from 'appwrite';
 import { account, databases } from './config';
 import type { KnowledgeEntry } from '@/types/knowledge';
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  orderIndex: number;
+  isActive: boolean;
+}
+
+function mapDocumentToCategory(doc: Models.Document): Category {
+  return {
+    id: doc.$id,
+    name: doc.name,
+    slug: doc.slug,
+    description: doc.description,
+    orderIndex: doc.orderIndex,
+    isActive: doc.isActive,
+  };
+}
+
+export const categoryApi = {
+  fetchCategories: async () => {
+    const queries = [
+      Query.orderAsc('orderIndex'),
+      Query.equal('isActive', true),
+    ];
+
+    const response = await databases.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID!,
+      queries
+    );
+
+    return response.documents.map(mapDocumentToCategory);
+  },
+};
+
 function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
   return {
     id: doc.$id,
@@ -42,7 +79,7 @@ export const knowledgeApi = {
       queries.push(Query.search('title', searchQuery));
     }
 
-    const databaseId = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID;
+    const databaseId = process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID;
     const collectionId =
       process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID;
 
