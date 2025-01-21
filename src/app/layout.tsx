@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import './globals.css';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
+import { QueryProvider } from '@/lib/providers/query-provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -41,9 +42,13 @@ export default function RootLayout({
           geistMono.variable
         )}
       >
-        <Navbar />
-        <main className='relative flex min-h-screen flex-col'>{children}</main>
-        <Footer />
+        <QueryProvider>
+          <Navbar />
+          <main className='relative flex min-h-screen flex-col'>
+            {children}
+          </main>
+          <Footer />
+        </QueryProvider>
       </body>
     </html>
   );
