@@ -7,17 +7,18 @@ interface Category {
   name: string;
   slug: string;
   description: string;
-  orderIndex: number;
+  order: number;
   isActive: boolean;
 }
 
+//Category API
 function mapDocumentToCategory(doc: Models.Document): Category {
   return {
     id: doc.$id,
     name: doc.name,
     slug: doc.slug,
     description: doc.description,
-    orderIndex: doc.orderIndex,
+    order: doc.order,
     isActive: doc.isActive,
   };
 }
@@ -36,6 +37,7 @@ export const categoryApi = {
   },
 };
 
+//Knowledge Entry API
 function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
   return {
     id: doc.$id,
@@ -43,7 +45,7 @@ function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
     slug: doc.slug,
     summary: doc.summary,
     content: doc.content,
-    categoryId: doc.categoryId,
+    categoryId: doc.category?.$id,
     metadata: {
       featured: doc.featured || false,
       publishedAt: new Date(doc.$createdAt),
@@ -76,19 +78,9 @@ export const knowledgeApi = {
       queries.push(Query.search('title', searchQuery));
     }
 
-    const databaseId = process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID;
-    const collectionId =
-      process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID;
-
-    if (!databaseId || !collectionId) {
-      throw new Error(
-        'Database or Collection ID environment variables are not set'
-      );
-    }
-
     const response = await databases.listDocuments(
-      databaseId,
-      collectionId,
+      process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID!,
       queries
     );
 
@@ -100,6 +92,7 @@ export const knowledgeApi = {
   },
 };
 
+//Auth API
 export const authApi = {
   getCurrentUser: () => account.get(),
   login: (email: string, password: string) =>
