@@ -23,6 +23,9 @@ export function KnowledgeCard({
   metadata,
   onClick,
 }: KnowledgeCardProps) {
+  const isValidDate =
+    metadata.publishedAt && !isNaN(metadata.publishedAt.getTime());
+
   return (
     <Card
       onClick={onClick}
@@ -52,12 +55,14 @@ export function KnowledgeCard({
       </CardHeader>
       <CardContent className='flex-1 space-y-2'>
         <p className='line-clamp-3 text-sm text-muted-foreground'>{summary}</p>
-        <time
-          dateTime={metadata.publishedAt.toISOString()}
-          className='text-xs text-muted-foreground'
-        >
-          {formatDate(metadata.publishedAt)}
-        </time>
+        {isValidDate && (
+          <time
+            dateTime={metadata.publishedAt.toISOString()}
+            className='text-xs text-muted-foreground'
+          >
+            {formatDate(metadata.publishedAt)}
+          </time>
+        )}
       </CardContent>
     </Card>
   );

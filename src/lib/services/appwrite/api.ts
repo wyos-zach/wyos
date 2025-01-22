@@ -24,10 +24,7 @@ function mapDocumentToCategory(doc: Models.Document): Category {
 
 export const categoryApi = {
   fetchCategories: async () => {
-    const queries = [
-      Query.orderAsc('orderIndex'),
-      Query.equal('isActive', true),
-    ];
+    const queries = [Query.orderAsc('order'), Query.equal('isActive', true)];
 
     const response = await databases.listDocuments(
       process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID!,
@@ -49,8 +46,8 @@ function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
     categoryId: doc.categoryId,
     metadata: {
       featured: doc.featured || false,
-      publishedAt: new Date(doc.publishedAt),
-      updatedAt: new Date(doc.updatedAt),
+      publishedAt: new Date(doc.$createdAt),
+      updatedAt: new Date(doc.$updatedAt),
       imageUrl: doc.imageUrl,
     },
   };
