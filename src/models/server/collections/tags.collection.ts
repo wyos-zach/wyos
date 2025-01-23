@@ -1,6 +1,6 @@
 import { Permission } from 'node-appwrite';
-import { db, tagsCollection } from '../name';
-import { databases } from './config';
+import { db, tagsCollection } from '../../name';
+import { databases } from '../config';
 
 export default async function createTagsCollection() {
   // Create collection

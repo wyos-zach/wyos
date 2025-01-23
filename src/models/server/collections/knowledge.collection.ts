@@ -1,6 +1,6 @@
 import { Permission } from 'node-appwrite';
-import { db, knowledgeCollection } from '../name';
-import { databases } from './config';
+import { db, knowledgeCollection } from '../../name';
+import { databases } from '../config';
 
 export default async function createKnowledgeCollection() {
   await databases.createCollection(

@@ -1,6 +1,6 @@
 import { Permission } from 'node-appwrite';
-import { db, resourceCategoriesCollection } from '../name';
-import { databases } from './config';
+import { db, resourceCategoriesCollection } from '../../name';
+import { databases } from '../config';
 
 export default async function createResourceCategoriesCollection() {
   await databases.createCollection(
