@@ -1,5 +1,5 @@
 import { ID } from 'appwrite';
-import { account } from './config';
+import { account } from '@/models/client/config';
 
 export const authApi = {
   getCurrentUser: () => account.get(),

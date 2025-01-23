@@ -7,4 +7,6 @@ export const resourcesCollection = 'resources';
 export const tagsCollection = 'tags';
 
 export const knowledgeAttachmentsBucket = 'knowledge-attachments';
-export const resourceAttachmentsBucket = 'resource-attachments';
+export const resourcesAttachmentsBucket = 'resources-attachments';
+export const categoryImagesBucket = 'category-images';
+export const categoryIconsBucket = 'category-icons';

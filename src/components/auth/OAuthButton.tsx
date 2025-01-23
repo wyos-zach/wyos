@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { account } from '@/lib/services/appwrite/config';
+import { account } from '@/models/client/config';
 import { OAuthProvider } from 'appwrite';
 
 interface OAuthButtonProps {
