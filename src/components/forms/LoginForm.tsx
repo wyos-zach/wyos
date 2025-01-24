@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { authApi } from '@/lib/services/appwrite/api';
 import Link from 'next/link';
-import { OAuthButton } from '@/components/auth/OAuthButton';
+import { OAuthButton } from '@/components/auth/SocialAuth';
 
 interface LoginFormProps extends React.ComponentPropsWithoutRef<'div'> {
   className?: string;

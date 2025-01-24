@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { OAuthButton } from '@/components/auth/OAuthButton';
+import { OAuthButton } from '@/components/auth/SocialAuth';
 import { authApi } from '@/lib/services/appwrite/api';
 
 interface RegisterFormProps extends React.ComponentPropsWithoutRef<'div'> {
