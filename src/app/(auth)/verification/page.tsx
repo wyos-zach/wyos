@@ -1,17 +1,7 @@
-import { VerificationForm } from '@/components/forms/VerificationForm';
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Email Verification - WYOS',
-  description: 'Verify your WYOS account email',
-};
+import { RequestVerificationForm } from '@/components/auth/verification/RequestVerificationForm';
 
 export default function VerificationPage() {
-  return (
-    <div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
-      <div className='w-full max-w-sm'>
-        <VerificationForm />
-      </div>
-    </div>
-  );
+  return <RequestVerificationForm />;
 }

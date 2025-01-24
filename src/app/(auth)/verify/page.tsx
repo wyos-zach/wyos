@@ -1,17 +1,12 @@
-import { VerifyEmailForm } from '@/components/forms/VerifyEmailForm';
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Verify Email - WYOS',
-  description: 'Verify your WYOS account email address',
-};
+import { VerifyEmailForm } from '@/components/auth/verification/VerifyEmailForm';
+import { useSearchParams } from 'next/navigation';
 
-export default function VerifyPage() {
-  return (
-    <div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
-      <div className='w-full max-w-sm'>
-        <VerifyEmailForm />
-      </div>
-    </div>
-  );
+export default function VerifyEmailPage() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('userId') || '';
+  const secret = searchParams.get('secret') || '';
+
+  return <VerifyEmailForm userId={userId} secret={secret} />;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { useVerifyEmailForm } from '@/hooks/auth/useVerifyEmailForm';
 import {
   Card,
   CardContent,
@@ -8,44 +8,22 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { account } from '@/lib/services/appwrite/config';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 interface VerifyEmailFormProps extends React.ComponentPropsWithoutRef<'div'> {
   className?: string;
+  userId: string;
+  secret: string;
 }
 
-export function VerifyEmailForm({ className, ...props }: VerifyEmailFormProps) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  const userId = searchParams.get('userId');
-  const secret = searchParams.get('secret');
-
-  useEffect(() => {
-    const verifyEmail = async () => {
-      if (!userId || !secret) {
-        setError('Invalid verification link');
-        setIsLoading(false);
-        return;
-      }
-
-      try {
-        await account.updateVerification(userId, secret);
-        router.push('/dashboard?verified=true');
-      } catch (error) {
-        setError('Email verification failed. Please try again.');
-        console.error('Verification failed:', error);
-        setIsLoading(false);
-      }
-    };
-
-    verifyEmail();
-  }, [userId, secret, router]);
+export function VerifyEmailForm({
+  className,
+  userId,
+  secret,
+  ...props
+}: VerifyEmailFormProps) {
+  const { isLoading, error, success } = useVerifyEmailForm(userId, secret);
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -74,11 +52,17 @@ export function VerifyEmailForm({ className, ...props }: VerifyEmailFormProps) {
                   </Link>
                 </div>
               </>
+            ) : success ? (
+              <div className='rounded-md bg-emerald-50 p-3 text-sm text-emerald-500'>
+                Email verified successfully! You can now{' '}
+                <Link href='/login' className='text-primary hover:underline'>
+                  login
+                </Link>{' '}
+                to your account.
+              </div>
             ) : (
               <div className='rounded-md bg-muted p-3 text-sm'>
-                {isLoading
-                  ? 'Please wait while we verify your email...'
-                  : 'Email verified successfully!'}
+                Please wait while we verify your email...
               </div>
             )}
           </div>

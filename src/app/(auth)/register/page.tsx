@@ -1,10 +1,10 @@
 'use client';
 
-import { RegisterHeader } from '@/components/auth/RegisterHeader';
-import { RegisterFields } from '@/components/auth/RegisterFields';
+import { RegisterHeader } from '@/components/auth/register/RegisterHeader';
+import { RegisterFields } from '@/components/auth/register/RegisterFields';
 import { SocialAuth } from '@/components/auth/SocialAuth';
 import { RippleButton } from '@/components/ui/ripple-button';
-import { useRegisterForm } from '@/hooks/useRegisterForm';
+import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
 
 export default function Register() {
   const { isLoading, error, handleSubmit } = useRegisterForm();

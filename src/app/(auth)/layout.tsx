@@ -3,8 +3,13 @@
 import { useAuthStore } from '@/store/Auth';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { session, hydrated } = useAuthStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
@@ -13,24 +18,28 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     if (hydrated) {
       setIsLoading(false);
       if (session) {
-        router.push('/');
+        router.replace('/dashboard');
       }
     }
   }, [session, router, hydrated]);
 
+  // Show loading state while checking authentication
   if (isLoading) {
-    return null;
+    return (
+      <div className='flex min-h-screen items-center justify-center'>
+        <LoadingSpinner />
+      </div>
+    );
   }
 
+  // Redirect authenticated users
   if (session) {
     return null;
   }
 
   return (
-    <div className='relative flex min-h-screen flex-col items-center justify-center py-12'>
-      <div className='relative'>{children}</div>
-    </div>
+    <main className='flex min-h-screen w-full items-center justify-center bg-background px-4 py-12'>
+      <div className='w-full max-w-[480px]'>{children}</div>
+    </main>
   );
-};
-
-export default Layout;
+}

@@ -1,7 +1,9 @@
 'use client';
 
-import { cn } from '@/lib/utils';
+import { useForgotPasswordForm } from '@/hooks/auth/useForgotPasswordForm';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Card,
   CardContent,
@@ -9,11 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useState } from 'react';
-import { account } from '@/lib/services/appwrite/config';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 interface ForgotPasswordFormProps
   extends React.ComponentPropsWithoutRef<'div'> {
@@ -24,30 +23,7 @@ export function ForgotPasswordForm({
   className,
   ...props
 }: ForgotPasswordFormProps) {
-  const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-    setSuccess(false);
-
-    try {
-      await account.createRecovery(
-        email,
-        `${window.location.origin}/reset-password`
-      );
-      setSuccess(true);
-    } catch (error) {
-      setError('Failed to send reset email. Please try again.');
-      console.error('Recovery creation failed:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { isLoading, error, success, handleSubmit } = useForgotPasswordForm();
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -82,10 +58,9 @@ export function ForgotPasswordForm({
                 <Label htmlFor='email'>Email</Label>
                 <Input
                   id='email'
+                  name='email'
                   type='email'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder='elonmusk@gmail.com'
+                  placeholder='you@example.com'
                   required
                   disabled={isLoading}
                 />

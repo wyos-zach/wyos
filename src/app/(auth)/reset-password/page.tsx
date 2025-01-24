@@ -1,17 +1,12 @@
-import { ResetPasswordForm } from '@/components/forms/ResetPasswordForm';
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Reset Password - WYOS',
-  description: 'Set your new WYOS account password',
-};
+import { ResetPasswordForm } from '@/components/auth/password/ResetPasswordForm';
+import { useSearchParams } from 'next/navigation';
 
 export default function ResetPasswordPage() {
-  return (
-    <div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
-      <div className='w-full max-w-sm'>
-        <ResetPasswordForm />
-      </div>
-    </div>
-  );
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('userId') || '';
+  const secret = searchParams.get('secret') || '';
+
+  return <ResetPasswordForm userId={userId} secret={secret} />;
 }

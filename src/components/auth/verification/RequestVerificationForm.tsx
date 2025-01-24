@@ -10,17 +10,19 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useState } from 'react';
-import { account } from '@/lib/services/appwrite/config';
+import { useAuthStore } from '@/store/Auth';
 import Link from 'next/link';
 
-interface VerificationFormProps extends React.ComponentPropsWithoutRef<'div'> {
+interface RequestVerificationFormProps
+  extends React.ComponentPropsWithoutRef<'div'> {
   className?: string;
 }
 
-export function VerificationForm({
+export function RequestVerificationForm({
   className,
   ...props
-}: VerificationFormProps) {
+}: RequestVerificationFormProps) {
+  const { requestEmailVerification } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -28,16 +30,17 @@ export function VerificationForm({
   const handleResendVerification = async () => {
     setIsLoading(true);
     setError('');
+    setSuccess(false);
 
-    try {
-      await account.createVerification(`${window.location.origin}/verify`);
+    const response = await requestEmailVerification();
+
+    if (response.error) {
+      setError(response.error.message);
+    } else {
       setSuccess(true);
-    } catch (error) {
-      setError('Failed to send verification email. Please try again.');
-      console.error('Verification email failed:', error);
-    } finally {
-      setIsLoading(false);
     }
+
+    setIsLoading(false);
   };
 
   return (
