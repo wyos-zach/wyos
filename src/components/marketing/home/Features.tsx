@@ -2,7 +2,7 @@
 
 import { Container } from '@/components/ui/container';
 import { motion } from 'framer-motion';
-import { type Feature } from '@/types/home';
+import { type Feature } from '@/types/marketing/home';
 import { cn } from '@/lib/utils';
 
 interface FeaturesProps {

@@ -1,5 +1,5 @@
 import { Container } from '@/components/ui/container';
-import { type StartingStep } from '@/types/home';
+import { type StartingStep } from '@/types/marketing/home';
 
 interface GettingStartedProps {
   steps: StartingStep[];

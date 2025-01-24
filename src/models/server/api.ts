@@ -1,6 +1,6 @@
 import { ID, Query, type Models } from 'appwrite';
 import { account, databases } from '@/models/client/config';
-import type { KnowledgeEntry } from '@/types/knowledge';
+import type { KnowledgeEntry } from '@/types/core/knowledge/knowledge';
 
 interface Resource {
   id: string;

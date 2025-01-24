@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import type { PageHeaderProps } from '@/types/layout';
+import type { PageHeaderProps } from '@/types/shared/layout';
 
 const sizeVariants = {
   small: 'text-2xl md:text-3xl lg:text-4xl',

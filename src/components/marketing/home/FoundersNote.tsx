@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Container } from '@/components/ui/container';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { type FoundersNote as FoundersNoteType } from '@/types/home';
+import { type FoundersNote as FoundersNoteType } from '@/types/marketing/home';
 
 type FoundersNoteProps = FoundersNoteType;
 

@@ -2,7 +2,7 @@
 
 import { Container } from '@/components/ui/container';
 import { motion } from 'framer-motion';
-import { type Step } from '@/types/home';
+import { type Step } from '@/types/marketing/home';
 import { cn } from '@/lib/utils';
 
 interface HowItWorksProps {

@@ -2,7 +2,7 @@
 
 import { Container } from '@/components/ui/container';
 import { motion } from 'framer-motion';
-import { type Benefit } from '@/types/home';
+import { type Benefit } from '@/types/marketing/home';
 import { cn } from '@/lib/utils';
 
 interface BenefitsProps {

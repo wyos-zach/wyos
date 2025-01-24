@@ -1,4 +1,8 @@
-import { type Feature, type Step, type FoundersNote } from '@/types/home';
+import {
+  type Feature,
+  type Step,
+  type FoundersNote,
+} from '@/types/marketing/home';
 import {
   PenLine,
   BookOpen,
@@ -13,7 +17,7 @@ import {
   Heart,
   Star,
 } from 'lucide-react';
-import { type Benefit, type StartingStep } from '@/types/home';
+import { type Benefit, type StartingStep } from '@/types/marketing/home';
 
 export const features: Feature[] = [
   {
