@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { account } from '@/models/client/config';
+import { useAuthStore } from '@/store/Auth';
 import { OAuthProvider } from 'appwrite';
 
 interface OAuthButtonProps {
@@ -11,13 +11,11 @@ interface OAuthButtonProps {
 }
 
 function OAuthButton({ provider, label, disabled }: OAuthButtonProps) {
+  const { createOAuthSession } = useAuthStore();
+
   const handleOAuthLogin = async () => {
     try {
-      await account.createOAuth2Session(
-        OAuthProvider.Google,
-        `${window.location.origin}/dashboard`,
-        `${window.location.origin}/login`
-      );
+      await createOAuthSession(OAuthProvider.Google);
     } catch (error) {
       console.error('OAuth error:', error);
     }

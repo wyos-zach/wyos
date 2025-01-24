@@ -1,13 +1,16 @@
+// src/components/shared/Navbar.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
+import { Menu, User, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/Auth';
+import { useRouter } from 'next/navigation';
 
 const navigationLinks = [
   { href: '/about', label: 'About' },
@@ -17,6 +20,8 @@ const navigationLinks = [
 ];
 
 export function Navbar() {
+  const { session, user, logout } = useAuthStore();
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState('');
@@ -26,6 +31,91 @@ export function Navbar() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
+    setIsOpen(false);
+  };
+
+  const AuthButtons = () => {
+    if (session) {
+      return (
+        <>
+          <Button
+            variant='ghost'
+            className='flex items-center gap-2 font-medium tracking-wide text-zinc-400 hover:bg-blue-950/30 hover:text-white'
+          >
+            <User className='h-4 w-4' />
+            <span>{user?.name}</span>
+          </Button>
+          <Button
+            variant='ghost'
+            onClick={handleLogout}
+            className='flex items-center gap-2 font-medium tracking-wide text-zinc-400 hover:bg-blue-950/30 hover:text-white'
+          >
+            <LogOut className='h-4 w-4' />
+            <span>Logout</span>
+          </Button>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Link href='/login'>
+          <Button
+            variant='ghost'
+            className='font-medium tracking-wide text-zinc-400 hover:bg-blue-950/30 hover:text-white'
+          >
+            Login
+          </Button>
+        </Link>
+        <Link href='/register'>
+          <ShinyButton className='font-medium tracking-wide'>
+            Get Started
+          </ShinyButton>
+        </Link>
+      </>
+    );
+  };
+
+  const MobileAuthButtons = () => {
+    if (session) {
+      return (
+        <div className='pt-4'>
+          <Button
+            variant='ghost'
+            className='flex w-full items-center justify-center gap-2'
+          >
+            <User className='h-4 w-4' />
+            <span>{user?.name}</span>
+          </Button>
+          <Button
+            variant='ghost'
+            onClick={handleLogout}
+            className='mt-4 flex w-full items-center justify-center gap-2'
+          >
+            <LogOut className='h-4 w-4' />
+            <span>Logout</span>
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <div className='pt-4'>
+        <Link href='/login' onClick={() => setIsOpen(false)}>
+          <Button variant='ghost' className='w-full'>
+            Login
+          </Button>
+        </Link>
+        <Link href='/register' onClick={() => setIsOpen(false)}>
+          <ShinyButton className='mt-4 w-full'>Write Your Story</ShinyButton>
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <motion.header
@@ -41,7 +131,7 @@ export function Navbar() {
     >
       <div className='container mx-auto px-4'>
         <nav className='flex h-20 items-center justify-between'>
-          {/* Logo with glitch effect */}
+          {/* Logo section remains unchanged */}
           <Link href='/' className='group relative'>
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -53,7 +143,7 @@ export function Navbar() {
             </motion.div>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation remains unchanged */}
           <div className='hidden md:flex md:items-center md:gap-10'>
             <AnimatePresence>
               {navigationLinks.map((link) => (
@@ -82,24 +172,12 @@ export function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Auth Buttons */}
+          {/* Updated Auth Buttons */}
           <div className='hidden md:flex md:items-center md:gap-4'>
-            <Link href='/login'>
-              <Button
-                variant='ghost'
-                className='font-medium tracking-wide text-zinc-400 hover:bg-blue-950/30 hover:text-white'
-              >
-                Login
-              </Button>
-            </Link>
-            <Link href='/register'>
-              <ShinyButton className='font-medium tracking-wide'>
-                Get Started
-              </ShinyButton>
-            </Link>
+            <AuthButtons />
           </div>
 
-          {/* Mobile Menu */}
+          {/* Updated Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className='md:hidden'>
               <Button
@@ -136,18 +214,7 @@ export function Navbar() {
                     </Link>
                   </motion.div>
                 ))}
-                <div className='pt-4'>
-                  <Link href='/login' onClick={() => setIsOpen(false)}>
-                    <Button variant='ghost' className='w-full'>
-                      Login
-                    </Button>
-                  </Link>
-                  <Link href='/register' onClick={() => setIsOpen(false)}>
-                    <ShinyButton className='mt-4 w-full'>
-                      Write Your Story
-                    </ShinyButton>
-                  </Link>
-                </div>
+                <MobileAuthButtons />
               </motion.div>
             </SheetContent>
           </Sheet>

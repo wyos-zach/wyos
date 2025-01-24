@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <>
       <Hero
-        headline='Write Your Own Story'
+        headline='Writing Your Own Story'
         subheadline='Take control of your narrative and share your unique perspective with the world'
       />
       <Features features={features} />

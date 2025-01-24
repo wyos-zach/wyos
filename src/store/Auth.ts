@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { persist } from 'zustand/middleware';
-import { AppwriteException, ID, type Models } from 'appwrite';
+import { AppwriteException, ID, type Models, OAuthProvider } from 'appwrite';
 import { account } from '@/models/client/config';
 
 export interface UserPrefs {
@@ -43,6 +43,7 @@ interface IAuthStore {
   ): Promise<AuthResponse>;
   verifyEmail(userId: string, secret: string): Promise<AuthResponse>;
   requestEmailVerification(): Promise<AuthResponse>;
+  createOAuthSession(provider: OAuthProvider): Promise<AuthResponse>;
 }
 
 export const useAuthStore = create<IAuthStore>()(
@@ -171,6 +172,23 @@ export const useAuthStore = create<IAuthStore>()(
           return { success: true };
         } catch (error) {
           console.error('Email verification request failed:', error);
+          return {
+            success: false,
+            error: error instanceof AppwriteException ? error : null,
+          };
+        }
+      },
+
+      async createOAuthSession(provider: OAuthProvider) {
+        try {
+          await account.createOAuth2Session(
+            provider,
+            `${window.location.origin}/auth/callback`,
+            `${window.location.origin}/login`
+          );
+          return { success: true };
+        } catch (error) {
+          console.error('OAuth session creation failed:', error);
           return {
             success: false,
             error: error instanceof AppwriteException ? error : null,

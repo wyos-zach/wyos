@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface RegisterHeaderProps {
   error?: string;
@@ -6,22 +7,32 @@ interface RegisterHeaderProps {
 
 export function RegisterHeader({ error }: RegisterHeaderProps) {
   return (
-    <>
-      <h2 className='text-xl font-bold text-neutral-800 dark:text-neutral-200'>
-        Welcome to WYOS
-      </h2>
-      <p className='mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300'>
-        Sign up with WYOS if you don't have an account.{' '}
-        <Link href='/login' className='text-orange-500 hover:underline'>
-          Login
-        </Link>{' '}
-        if you already have one.
+    <div className='space-y-4'>
+      <motion.h2
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className='text-2xl font-bold tracking-tight text-white md:text-3xl'
+      >
+        Write Your Own Story
+      </motion.h2>
+      <p className='text-sm text-zinc-400'>
+        Ready to start? Create your account below.{' '}
+        <Link
+          href='/login'
+          className='text-blue-400 transition-colors hover:text-blue-300'
+        >
+          Already have an account?
+        </Link>
       </p>
       {error && (
-        <p className='mt-4 text-center text-sm text-red-500 dark:text-red-400'>
-          {error}
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className='rounded-md bg-red-900/20 p-3'
+        >
+          <p className='text-sm text-red-400'>{error}</p>
+        </motion.div>
       )}
-    </>
+    </div>
   );
 }

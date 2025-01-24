@@ -10,18 +10,29 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { session, hydrated } = useAuthStore();
+  const { session, hydrated, verifySession } = useAuthStore();
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (hydrated) {
-      setIsLoading(false);
-      if (session) {
-        router.replace('/dashboard');
+    async function checkSession() {
+      if (hydrated) {
+        try {
+          await verifySession();
+        } finally {
+          setIsLoading(false);
+        }
       }
     }
-  }, [session, router, hydrated]);
+
+    void checkSession();
+  }, [hydrated, verifySession]);
+
+  React.useEffect(() => {
+    if (!isLoading && session) {
+      router.replace('/dashboard');
+    }
+  }, [isLoading, session, router]);
 
   // Show loading state while checking authentication
   if (isLoading) {
