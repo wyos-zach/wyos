@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { KnowledgeCard } from './KnowledgeCard';
-import { knowledgeApi } from '@/lib/services/appwrite/api';
+import { knowledgeApi } from '@/models/server/api';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';

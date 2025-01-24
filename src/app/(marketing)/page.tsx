@@ -11,7 +11,7 @@ import {
   foundersNote,
   benefits,
   startingSteps,
-} from '@/lib/config/home';
+} from '@/lib/config/site/home';
 
 export default function HomePage() {
   return (

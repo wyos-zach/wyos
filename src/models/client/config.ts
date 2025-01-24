@@ -1,4 +1,4 @@
-import env from '@/app/env';
+import env from '@/lib/config/env';
 
 import { Client, Account, Databases, Storage } from 'appwrite';
 

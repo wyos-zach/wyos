@@ -3,7 +3,7 @@ import { OurStory } from '@/components/marketing/about/OurStory';
 import { MissionSection } from '@/components/marketing/about/MissionSection';
 import { ValuesGrid } from '@/components/marketing/about/ValuesGrid';
 import { PageHeader } from '@/components/shared/layout/PageHeader';
-import { mission, story, values } from '@/lib/config/about';
+import { mission, story, values } from '@/lib/config/site/about';
 
 export const metadata = {
   title: 'About - WYOS',

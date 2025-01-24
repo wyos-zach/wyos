@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from '@/components/ui/skeleton';
-import { categoryApi } from '@/lib/services/appwrite/api';
+import { categoryApi } from '@/models/server/api';
 
 interface Category {
   id: string;
