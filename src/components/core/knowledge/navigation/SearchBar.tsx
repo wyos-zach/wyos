@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useDebounce } from '@/hooks/use-debounce';
+import { useDebounce } from '@/lib/hooks/shared/useDebounce';
 import { Input } from '@/components/ui/input';
 import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';

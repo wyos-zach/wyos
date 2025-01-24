@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/ui/container';
-import { PageHeader } from '@/components/layout/PageHeader';
+import { PageHeader } from '@/components/shared/layout/PageHeader';
 
 export const metadata: Metadata = {
   title: 'Resources - WYOS',

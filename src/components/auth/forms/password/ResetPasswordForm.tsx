@@ -1,6 +1,6 @@
 'use client';
 
-import { useForgotPasswordForm } from '@/hooks/auth/useForgotPasswordForm';
+import { useResetPasswordForm } from '@/lib/hooks/auth/useResetPassword';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,31 +14,35 @@ import {
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
-interface ForgotPasswordFormProps
-  extends React.ComponentPropsWithoutRef<'div'> {
+interface ResetPasswordFormProps extends React.ComponentPropsWithoutRef<'div'> {
   className?: string;
+  userId: string;
+  secret: string;
 }
 
-export function ForgotPasswordForm({
+export function ResetPasswordForm({
   className,
+  userId,
+  secret,
   ...props
-}: ForgotPasswordFormProps) {
-  const { isLoading, error, success, handleSubmit } = useForgotPasswordForm();
+}: ResetPasswordFormProps) {
+  const { isLoading, error, success, handleSubmit } = useResetPasswordForm(
+    userId,
+    secret
+  );
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className='text-2xl'>Reset password</CardTitle>
-          <CardDescription>
-            Enter your email address and we'll send you a password reset link
-          </CardDescription>
+          <CardTitle className='text-2xl'>Reset your password</CardTitle>
+          <CardDescription>Enter your new password below</CardDescription>
         </CardHeader>
         <CardContent>
           {success ? (
             <div className='space-y-4'>
               <div className='rounded-md bg-emerald-50 p-3 text-sm text-emerald-500'>
-                Check your email for a password reset link.
+                Your password has been reset successfully.
               </div>
               <Link
                 href='/login'
@@ -55,25 +59,28 @@ export function ForgotPasswordForm({
                 </div>
               )}
               <div className='space-y-2'>
-                <Label htmlFor='email'>Email</Label>
+                <Label htmlFor='password'>New Password</Label>
                 <Input
-                  id='email'
-                  name='email'
-                  type='email'
-                  placeholder='you@example.com'
+                  id='password'
+                  name='password'
+                  type='password'
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className='space-y-2'>
+                <Label htmlFor='confirmPassword'>Confirm Password</Label>
+                <Input
+                  id='confirmPassword'
+                  name='confirmPassword'
+                  type='password'
                   required
                   disabled={isLoading}
                 />
               </div>
               <Button type='submit' className='w-full' disabled={isLoading}>
-                {isLoading ? 'Sending...' : 'Send reset link'}
+                {isLoading ? 'Resetting...' : 'Reset Password'}
               </Button>
-              <div className='text-center text-sm text-muted-foreground'>
-                Remember your password?{' '}
-                <Link href='/login' className='text-primary hover:underline'>
-                  Sign in
-                </Link>
-              </div>
             </form>
           )}
         </CardContent>

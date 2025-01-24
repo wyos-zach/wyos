@@ -1,8 +1,8 @@
 import { Container } from '@/components/ui/container';
-import { OurStory } from '@/components/about/OurStory';
-import { MissionSection } from '@/components/about/MissionSection';
-import { ValuesGrid } from '@/components/about/ValuesGrid';
-import { PageHeader } from '@/components/layout/PageHeader';
+import { OurStory } from '@/components/marketing/about/OurStory';
+import { MissionSection } from '@/components/marketing/about/MissionSection';
+import { ValuesGrid } from '@/components/marketing/about/ValuesGrid';
+import { PageHeader } from '@/components/shared/layout/PageHeader';
 import { mission, story, values } from '@/lib/config/about';
 
 export const metadata = {

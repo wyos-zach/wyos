@@ -1,10 +1,10 @@
-import { Hero } from '@/components/home/Hero';
-import { Features } from '@/components/home/Features';
-import { HowItWorks } from '@/components/home/HowItWorks';
-import { FoundersNote } from '@/components/home/FoundersNote';
-import { Benefits } from '@/components/home/Benefits';
-import { GettingStarted } from '@/components/home/GettingStarted';
-import { CTA } from '@/components/home/CTA';
+import { Hero } from '@/components/marketing/home/Hero';
+import { Features } from '@/components/marketing/home/Features';
+import { HowItWorks } from '@/components/marketing/home/HowItWorks';
+import { FoundersNote } from '@/components/marketing/home/FoundersNote';
+import { Benefits } from '@/components/marketing/home/Benefits';
+import { GettingStarted } from '@/components/marketing/home/GettingStarted';
+import { CTA } from '@/components/marketing/home/CTA';
 import {
   features,
   steps,

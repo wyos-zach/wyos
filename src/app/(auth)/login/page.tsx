@@ -1,10 +1,10 @@
 'use client';
 
-import { LoginHeader } from '@/components/auth/login/LoginHeader';
-import { LoginFields } from '@/components/auth/login/LoginFields';
+import { LoginHeader } from '@/components/auth/forms/login/LoginHeader';
+import { LoginFields } from '@/components/auth/forms/login/LoginFields';
 import { SocialAuth } from '@/components/auth/SocialAuth';
 import { RippleButton } from '@/components/ui/ripple-button';
-import { useLoginForm } from '@/hooks/auth/useLoginForm';
+import { useLoginForm } from '@/lib/hooks/auth/useLogin';
 
 export default function LoginPage() {
   const { isLoading, error, handleSubmit } = useLoginForm();

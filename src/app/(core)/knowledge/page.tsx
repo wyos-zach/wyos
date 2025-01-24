@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { KnowledgeGrid } from '@/components/knowledge/content/KnowledgeGrid';
-import { CategoryNav } from '@/components/knowledge/navigation/CategoryNav';
-import { SearchBar } from '@/components/knowledge/navigation/SearchBar';
-import { FilterPanel } from '@/components/knowledge/filters/FilterPanel';
+import { KnowledgeGrid } from '@/components/core/knowledge/content/KnowledgeGrid';
+import { CategoryNav } from '@/components/core/knowledge/navigation/CategoryNav';
+import { SearchBar } from '@/components/core/knowledge/navigation/SearchBar';
+import { FilterPanel } from '@/components/core/knowledge/filters/FilterPanel';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function KnowledgePage() {

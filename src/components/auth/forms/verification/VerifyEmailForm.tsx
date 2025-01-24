@@ -1,6 +1,6 @@
 'use client';
 
-import { useVerifyEmailForm } from '@/hooks/auth/useVerifyEmailForm';
+import { useVerifyEmailForm } from '@/lib/hooks/auth/useVerifyEmail';
 import {
   Card,
   CardContent,

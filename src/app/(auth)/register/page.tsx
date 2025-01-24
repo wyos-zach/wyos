@@ -1,10 +1,10 @@
 'use client';
 
-import { RegisterHeader } from '@/components/auth/register/RegisterHeader';
-import { RegisterFields } from '@/components/auth/register/RegisterFields';
+import { RegisterHeader } from '@/components/auth/forms/register/RegisterHeader';
+import { RegisterFields } from '@/components/auth/forms/register/RegisterFields';
 import { SocialAuth } from '@/components/auth/SocialAuth';
 import { RippleButton } from '@/components/ui/ripple-button';
-import { useRegisterForm } from '@/hooks/auth/useRegisterForm';
+import { useRegisterForm } from '@/lib/hooks/auth/useRegister';
 import { motion } from 'framer-motion';
 
 export default function Register() {
