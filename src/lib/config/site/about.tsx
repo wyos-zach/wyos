@@ -1,5 +1,5 @@
 import { Shield, Users, Sparkles } from 'lucide-react';
-import { type Mission, type Story, type Value } from '@/types/about';
+import { type Mission, type Story, type Value } from '@/types/marketing/about';
 
 export const mission: Mission = {
   statement:

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { AnimationConfig } from './animations';
+import type { AnimationConfig } from '@/types/shared/animations';
 
 export interface Value {
   title: string;
