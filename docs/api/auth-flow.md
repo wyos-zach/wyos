@@ -1,79 +1,186 @@
-# WYOS Authentication Flow Documentation
+auth-flow.md
 
-## **Overview**
+## WYOS Authentication Flow Documentation
 
-Authentication in WYOS is handled by Appwrite, which provides built-in authentication features including session management, email verification, and password reset functionality.
+### **Overview**
 
-## **Configuration Files**
+WYOS uses Appwrite for authentication, with Zustand for state management. The authentication system includes email/password authentication, Google OAuth, email verification, and password reset functionality.
 
-## **1. Appwrite Client Setup** `src/lib/services/appwrite/config.ts` :
+## **Core Components**
+
+### **State Management (`src/store/Auth.ts`)**
+
+- Uses Zustand with persist and immer middleware
+- Manages authentication state:
+  - Session management
+  - JWT handling
+  - User preferences
+  - Hydration status
+
+## **Configuration**
+
+### **Client-Side (`src/models/client/config.ts`)**
 
 ```tsx
-import { Client, Account } from 'appwrite';
+const client = new Client()
+  .setEndpoint(env.appwrite.endpoint)
+  .setProject(env.appwrite.projectId);
 
-export const client = new Client()
-  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_API_ENDPOINT!)
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
-
-export const account = new Account(client);
+const account = new Account(client);
 ```
 
-## **2. Authentication API Methods** `src/lib/services/appwrite/api.ts` :
+### **Server-Side (`src/models/server/config.ts`)**
 
 ```tsx
-import { ID } from 'appwrite';
-import { account } from './config';
+const client = new Client()
+  .setEndpoint(env.appwrite.endpoint)
+  .setProject(env.appwrite.projectId)
+  .setKey(env.appwrite.apikey);
+```
 
-export const authApi = {
-  getCurrentUser: () => account.get(),
-  login: (email: string, password: string) =>
-    account.createEmailSession(email, password),
-  signup: (email: string, password: string, name: string) =>
-    account.create(ID.unique(), email, password, name),
-  logout: () => account.deleteSession('current'),
-};
+## **Authentication Features**
+
+### **Email/Password Authentication**
+
+- Registration with email verification
+- Login with session management
+- Password requirements:
+  - Minimum 8 characters
+  - One uppercase letter
+  - One lowercase letter
+  - One number
+
+### **OAuth Integration**
+
+- Google authentication support
+- OAuth callback handling
+- Success/failure redirect management
+
+### **Password Reset Flow**
+
+- Request password reset
+- Email verification
+- Secure password update
+- Confirmation handling
+
+### **Email Verification**
+
+- Automatic verification on registration
+- Manual verification request
+- Verification link handling
+
+## **Protected Routes**
+
+### **Middleware (`src/middleware.ts`)**
+
+- Database and storage initialization
+- Route protection
+- Static asset exclusion
+
+### **Auth Layout (`src/app/(auth)/layout.tsx`)**
+
+- Session verification
+- Authentication state checks
+- Protected route redirects
+
+## **Form Validation**
+
+All authentication forms use Zod schemas for validation:
+
+### **Login Schema**
+
+```tsx
+const loginSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(1, 'Password is required'),
+});
+```
+
+### **Registration Schema**
+
+```tsx
+const registerSchema = z.object({
+  firstname: z.string().min(2),
+  lastname: z.string().min(2),
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8)
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/),
+});
+```
+
+## **Custom Hooks**
+
+### **`useLoginForm`**
+
+- Handles login form submission
+- Manages loading and error states
+- Validates credentials
+
+### **`useRegisterForm`**
+
+- Handles registration
+- Auto-login after registration
+- Form validation
+
+### **`useForgotPasswordForm`**
+
+- Password reset request
+- Email validation
+- Success/error handling
+
+### **`useResetPasswordForm`**
+
+- Password reset confirmation
+- Password validation
+- Success/error states
+
+### **`useVerifyEmailForm`**
+
+- Email verification
+- Token validation
+- Verification status handling
+
+## **Error Handling**
+
+Custom `AuthError` class for consistent error handling:
+
+```tsx
+export class AuthError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'AuthError';
+  }
+}
+```
+
+### **Authentication Routes**
+
+```md
+src/app/(auth)/
+├── login/
+├── register/
+├── forgot-password/
+├── reset-password/
+├── verify/
+└── request-verification/
 ```
 
 ## **Environment Variables**
 
-Required variables in `.env.local` :
+Required variables in `.env.local`:
 
 ```tsx
+# Appwrite Configuration
 NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
-NEXT_PUBLIC_APPWRITE_API_ENDPOINT=https://cloud.appwrite.io/v1
+NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
 APPWRITE_API_KEY=your_api_key
+
+# Team IDs
+NEXT_PUBLIC_APPWRITE_TEAMS_ADMIN=your_admin_team_id
+NEXT_PUBLIC_APPWRITE_TEAMS_MEMBERS=your_members_team_id
+
+# Application URL (for OAuth redirects)
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
-
-## **Features Handled by Appwrite**
-
-- Session management
-- Route protection
-- Authentication state
-- Cookie management
-- Token refresh
-- Security features
-- Email verification
-- Password reset
-
-## **Implementation Notes**
-
-1. No additional middleware needed - Appwrite handles route protection
-2. No context providers needed - Appwrite manages auth state
-3. No custom session management - Appwrite handles sessions
-4. No additional security implementation - Appwrite provides security features
-
-## **Appwrite Console Configuration**
-
-1. Create project in Appwrite Console
-2. Enable Email/Password authentication
-3. Configure project settings
-4. Generate API key with required permissions
-5. Set up email templates (optional)
-
-## **Current Implementation Status**
-
-- Authentication setup complete
-- Login and Register pages implemented
-- Environment variables configured
-- Appwrite project connected
-- API key generated and configured

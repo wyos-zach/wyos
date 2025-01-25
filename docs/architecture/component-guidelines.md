@@ -1,161 +1,30 @@
-# component-guidelines.md
+component-guidelines.md
 
-# WYOS Component Development Guidelines
+## WYOS Component Development Guidelines
 
-## Component Architecture
-
-### File Structure
-
-```tsx
-// ComponentName.tsx
-import { type FC } from 'react'
-import { cn } from '@/lib/utils'
-interface ComponentNameProps {
-// Props interface
-}
-const ComponentName: FC<ComponentNameProps> = ({ ...props }) => {
-return (...)
-}
-export default ComponentName
-```
-
-## Component Categories
-
-### UI Components (`components/ui/`)
-
-- Atomic, reusable components
-- Must be fully accessible
-- Should use ShadcN/Radix primitives when possible
-- Must include proper TypeScript types
-- Should implement motion variants when using animations
-
-### Layout Components (`components/layout/`)
-
-- Handle page structure and composition
-- Must be responsive
-- Should implement proper semantic HTML
-- Must handle different viewport sizes
-- Should consider SSR implications
-
-### Form Components (`components/forms/`)
-
-- Must implement proper form validation
-- Should handle loading and error states
-- Must include proper ARIA attributes
-- Should implement proper keyboard navigation
-- Must handle form submission states
-
-### Common Components (`components/common/`)
-
-- Shared across multiple features
-- Must be properly documented
-- Should be highly reusable
-- Must handle edge cases
-- Should implement proper error boundaries
-
-## Component Best Practices
-
-### Performance
-
-- Implement proper memoization (useMemo, useCallback)
-- Avoid unnecessary re-renders
-- Use proper loading states
-- Implement proper error boundaries
-- Use proper image optimization
-
-### Accessibility
-
-- Implement proper ARIA attributes
-- Ensure keyboard navigation
-- Maintain proper focus management
-- Provide proper error messaging
-- Ensure proper color contrast
-
-### State Management
-
-- Use proper React hooks
-- Implement proper loading states
-- Handle error states appropriately
-- Maintain proper state initialization
-- Implement proper cleanup
-
-### TypeScript Implementation
-
-- Use proper type definitions
-- Implement proper generics when needed
-- Use proper type guards
-- Maintain proper type exports
-- Implement proper interface segregation
-
-### Code Style
-
-- Use proper naming conventions
-- Maintain proper file structure
-- Implement proper comments
-- Use proper formatting
-- Follow ESLint rules
-
-## Component Documentation Template
-
-```tsx
-/**
-@component ComponentName
-@description Brief description of component functionality
-@props {
-className?: string; // Additional classes to apply
-children?: ReactNode; // Child elements
-variant?: 'default' | 'primary' | 'secondary'; // Visual variant
-}
-@example
-<ComponentName variant="primary">
-Content
-</ComponentName>
-@accessibility
-Implements ARIA role="button"
-Supports keyboard navigation
-Maintains focus states
-@performance
-Memoized callbacks
-Optimized re-renders
-@dependencies
-@/lib/utils
-framer-motion
-*/
-```
-
-## Testing Requirements
-
-- Must include unit tests
-- Should include integration tests when necessary
-- Must test accessibility features
-- Should test error states
-- Must test edge cases
-
----
-
-# WYOS Component Development Guidelines
-
-## Core Principles
+### **Core Principles**
 
 - Server-first: Use Server Components by default
 - Accessibility: All components must be fully accessible
 - Type Safety: Strict TypeScript implementation
 - Performance: Optimize for core web vitals
 - Dark Mode: Design with dark theme first
-- Component Composition: Build modular, reusable components that follow single responsibility principle
+- Component Composition: Build modular, reusable components
 
-## Component Architecture
+## **Component Architecture**
 
-### Server Components (Default)
+### **Server Components (Default)**
 
 ```tsx
 // ComponentName.tsx
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from '@/types';
-import { ErrorBoundary } from '@/components/common';
+import { ErrorBoundary } from '@/components/shared';
+
 interface ComponentNameProps extends ComponentProps {
   // Component-specific props
 }
+
 export default async function ComponentName({
   className,
   ...props
@@ -173,35 +42,37 @@ export default async function ComponentName({
 }
 ```
 
-### Client Components (When Needed)
+**Client Components (When Needed)**
 
 ```tsx
-// ComponentName.tsx
 'use client';
+
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from '@/types';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+
 interface ComponentNameProps extends ComponentProps {
   // Component-specific props
 }
+
 export default function ComponentName({
   className,
   ...props
 }: ComponentNameProps) {
-  // Add proper loading state management
   const [isLoading, setIsLoading] = useState(false);
-  // Add proper error handling
   const [error, setError] = useState<Error | null>(null);
-  // Add proper cleanup
+
   useEffect(() => {
     return () => {
       // Cleanup logic
     };
   }, []);
+
   if (error) {
     return <ErrorBoundary error={error} />;
   }
+
   return (
     <motion.div
       className={cn('', className, isLoading && 'opacity-50')}
@@ -214,238 +85,280 @@ export default function ComponentName({
 }
 ```
 
-## Component Categories
+## **Component Categories**
 
-### UI Components (`components/ui/`)
+### **UI Components (`components/ui/`)**
 
-- Shadcn/Radix-based components
-- Pure presentational components
-- Must be server components unless interactivity required
-- Examples: Button, Card, Input
+- Atomic, reusable components
+- Must be fully accessible
+- Should use ShadcN/Radix primitives
+- Must include proper TypeScript types
 
-### Layout Components (`components/layout/`)
+### **Layout Components (`components/layout/`)**
 
-- Page structure components
+- Handle page structure and composition
 - Must be responsive using Tailwind breakpoints
 - Should implement proper semantic HTML
-- Examples: Header, Footer, Sidebar
+- Must handle different viewport sizes
 
-### Form Components (`components/forms/`)
+### **Form Components (`components/forms/`)**
 
-- Form-specific components
-- Must use proper validation
-- Should handle all form states
-- Examples: LoginForm, StoryForm
+- Must implement proper form validation
+- Should handle loading and error states
+- Must include proper ARIA attributes
+- Should implement proper keyboard navigation
 
-### Common Components (`components/common/`)
+### **Shared Components (`components/shared/`)**
 
-- Shared business logic components
+- Shared across multiple features
 - Must be properly documented
-- Examples: StoryCard, UserAvatar
+- Should be highly reusable
+- Must handle edge cases
 
-### Feature Components (`components/features/`)
+## **Naming Conventions**
 
-- Complete feature implementations
-- Composed of multiple UI components
-- Handle feature-specific business logic
-- Example: StoryEditor, UserDashboard
-
-### Context Providers (`components/providers/`)
-
-- Manage global application state
-- Handle theme, authentication, etc.
-- Must be Client Components
-- Example: ThemeProvider, AuthProvider
-
-### HOCs (`components/hocs/`)
-
-- Handle cross-cutting concerns
-- Enhance component functionality
-- Must be documented thoroughly
-- Example: withAuth, withAnalytics
-
-## Naming Conventions
-
-### Files and Components
-
-- PascalCase for component files and names
-- Descriptive and specific names
+### **Files and Components**
 
 ```tsx
 // Good
 UserProfileCard.tsx;
 StoryEditorForm.tsx;
+
 // Bad
 Card.tsx;
 Form.tsx;
 ```
 
-### Functions and Handlers
+### **Functions and Handlers**
 
 ```tsx
 // Event Handlers
 const handleClick = () => {};
 const handleSubmit = async () => {};
+
 // Computed Values
 const isValidStory = useMemo(() => {}, []);
 const hasEditPermission = useMemo(() => {}, []);
+
 // Async Operations
 const fetchStoryDetails = async () => {};
 const updateStoryContent = async () => {};
 ```
 
-## Tailwind CSS Guidelines
+## **Tailwind CSS Guidelines**
 
-### Class Organization
+### **Class Organization**
 
 ```tsx
-// Order: Layout -> Spacing -> Typography -> Visual
 className={cn(
-// Layout
-'grid grid-cols-1 md:grid-cols-2',
-// Spacing
-'gap-4 p-6',
-// Typography
-'text-sm font-medium',
-// Visual
-'bg-background rounded-lg border',
-// Dynamic classes
-className
+  // Layout
+  'grid grid-cols-1 md:grid-cols-2',
+  // Spacing
+  'gap-4 p-6',
+  // Typography
+  'text-sm font-medium',
+  // Visual
+  'bg-background rounded-lg border',
+  // Dynamic classes
+  className
 )}
 ```
 
-### Dark Mode Implementation
+## **State Management**
+
+### **Server State**
 
 ```tsx
-// Colors should be defined in globals.css
-className = 'bg-background text-foreground';
-```
+// Using React Query for server state
+export function KnowledgeList() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['knowledge'],
+    queryFn: fetchKnowledgeItems,
+  });
 
-## State Management
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorDisplay error={error} />;
 
-### Server State
-
-- Implement proper caching strategies
-- Use React Cache for server state
-- Handle stale-while-revalidate patterns
-
-### Optimistic Updates
-
-- Provide immediate feedback
-- Handle rollback scenarios
-- Maintain data consistency
-
-### Partial Prerendering
-
-- Use Suspense boundaries strategically
-- Implement loading states
-- Handle streaming scenarios
-
-### Loading States
-
-```tsx
-'use client';
-export default function ComponentName() {
-  const [isLoading, setIsLoading] = useState(false);
   return (
-    <div className={cn('relative', isLoading && 'opacity-50')}>
-      {isLoading && <LoadingSpinner />}
-      {/* Content */}
+    <div className='grid gap-4'>
+      {data.map((item) => (
+        <KnowledgeCard key={item.id} {...item} />
+      ))}
     </div>
   );
 }
 ```
 
-### Error Handling
+### **Client State**
 
 ```tsx
-'use client'
-export default function ComponentName() {
-const [error, setError] = useState<Error | null>(null)
-if (error) {
-return <ErrorDisplay error={error} />
-}
-return (/* Content */)
+'use client';
+
+export function CategoryFilter() {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  const handleCategoryChange = async (category: string) => {
+    setIsFiltering(true);
+    setSelectedCategory(category);
+    setIsFiltering(false);
+  };
+
+  return (
+    <div className={cn('relative', isFiltering && 'opacity-50')}>
+      {/* Filter content */}
+    </div>
+  );
 }
 ```
 
-## Accessibility Requirements
+## **Accessibility Implementation**
 
-### Interactive Elements
+### **Interactive Elements**
 
 ```tsx
-<button
-type="button"
-onClick={handleClick}
-onKeyDown={handleKeyDown}
-aria-label="Descriptive action"
-tabIndex={0}
-className={cn(
-'focus:outline-none focus:ring-2 focus:ring-primary',
-'hover:bg-accent hover:text-accent-foreground'
-)}
-{/* Content */}
-</button>
+export function ActionButton({ label, onClick }: ActionButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        'rounded-md px-4 py-2',
+        'bg-primary text-primary-foreground',
+        'hover:bg-primary/90',
+        'focus:ring-primary focus:outline-none focus:ring-2'
+      )}
+      aria-label={label}
+      role='button'
+      tabIndex={0}
+    >
+      {label}
+    </button>
+  );
+}
 ```
 
-### Form Inputs
+### **Form Controls**
 
-````tsx
-<div className="space-y-2"> <label htmlFor="inputId" className="text-sm font-medium" > Label Text </label> <input id="inputId" type="text" aria-describedby="inputDescription" className={cn( 'w-full rounded-md border', 'focus:outline-none focus:ring-2' )} /> <p id="inputDescription" className="text-xs text-muted-foreground" > Helper text </p> </div> ```
-````
+```tsx
+export function FormInput({ label, error, ...props }: FormInputProps) {
+  const id = useId();
 
-## **Documentation Template**
+  return (
+    <div className='space-y-2'>
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        aria-describedby={error ? `${id}-error` : undefined}
+        className={cn(error && 'border-destructive')}
+        {...props}
+      />
+      {error && (
+        <p id={`${id}-error`} className='text-destructive text-sm'>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+```
 
-````tsx
+## **Error Handling**
+
+### **Component Error Boundaries**
+
+```tsx
+'use client';
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <div className='bg-destructive/10 rounded-md p-4'>
+      <div className='text-destructive flex items-center gap-2'>
+        <AlertCircle className='h-4 w-4' />
+        <h2 className='font-semibold'>Something went wrong</h2>
+      </div>
+      <p className='text-muted-foreground mt-2 text-sm'>{error.message}</p>
+    </div>
+  );
+}
+```
+
+### **Loading States**
+
+```tsx
+export function LoadingState() {
+  return (
+    <div className='flex items-center justify-center p-8'>
+      <div className='w-full max-w-md space-y-4'>
+        <Skeleton className='h-8 w-3/4' />
+        <Skeleton className='h-32' />
+        <Skeleton className='h-8 w-1/2' />
+      </div>
+    </div>
+  );
+}
+```
+
+### **Documentation Template**
+
+```tsx
 /**
- * @component ComponentName
+ * @component KnowledgeCard
  *
  * @description
- * Brief description of the component's purpose and functionality.
+ * Displays a knowledge item with title, description, and category.
  *
  * @example
- * ```tsx
- * <ComponentName
- *   prop1="value"
- *   prop2={123}
+ * <KnowledgeCard
+ *   title="Getting Started"
+ *   description="Learn the basics"
+ *   category="Fundamentals"
  * />
- * ```
- *
- * @props
- * @param {string} prop1 - Description of prop1
- * @param {number} prop2 - Description of prop2
  *
  * @accessibility
- * - Implements proper ARIA attributes
+ * - Uses semantic HTML
+ * - Includes proper ARIA labels
  * - Supports keyboard navigation
- * - Maintains focus management
  *
  * @performance
- * - Server component by default
- * - Optimized for dark mode
  * - Implements proper loading states
+ * - Uses optimized images
+ * - Handles error boundaries
  */
-````
+```
 
 ## **Testing Requirements**
 
-## **Unit Tests**
+### **Unit Tests**
 
-- Test component rendering
-- Test prop variations
-- Test user interactions
-- Test error states
+```tsx
+describe('KnowledgeCard', () => {
+  it('renders title and description', () => {
+    render(<KnowledgeCard title='Test' description='Description' />);
+    expect(screen.getByText('Test')).toBeInTheDocument();
+    expect(screen.getByText('Description')).toBeInTheDocument();
+  });
 
-## **Integration Tests**
+  it('handles loading state', () => {
+    render(<KnowledgeCard isLoading />);
+    expect(screen.getByTestId('loading-skeleton')).toBeInTheDocument();
+  });
+});
+```
 
-- Test component interactions
-- Test data flow
-- Test route transitions
-- Test form submissions
+### **Integration Tests**
 
-## **Accessibility Tests**
+```tsx
+describe('KnowledgeList with filters', () => {
+  it('filters content when category is selected', async () => {
+    render(
+      <>
+        <CategoryFilter />
+        <KnowledgeList />
+      </>
+    );
 
-- Test keyboard navigation
-- Test screen reader compatibility
-- Test color contrast
-- Test ARIA attributes
+    await userEvent.click(screen.getByText('Category 1'));
+    expect(await screen.findByText('Filtered Content')).toBeInTheDocument();
+  });
+});
+```

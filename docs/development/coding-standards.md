@@ -1,251 +1,411 @@
-# **WYOS Coding Standards**
+coding-standards.md
 
-## **Server-Side Architecture**
+## WYOS Coding Standards
 
-### **Server Components**
+### **Core Principles**
 
-- **Default to Server Components for all new components**
-- **Only use 'use client' directive when component requires:**
-  - **Interactive features (useState, useEffect)**
-  - **Browser APIs**
-  - **Event listeners**
-  - **Client-side routing**
-  - **Form submissions**
+- Server-first architecture
+- Type safety with TypeScript
+- Performance optimization
+- Accessibility compliance
+- Clean code practices
 
-### **Data Fetching Patterns**
+## **Server Components**
 
-- Implement proper caching strategies
-- Handle loading and error states appropriately
-- Use proper revalidation techniques
-- Follow fetch best practices:
+### **Default Approach**
 
 ```tsx
-async function getData() {
-  const res = await fetch('api/endpoint', {
-    next: { revalidate: 3600 }, // Cache for 1 hour
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  if (!res.ok) throw new Error('Failed to fetch data');
-  return res.json();
+// Default to Server Components
+export default function Component({ data }: Props) {
+  return <div>{data}</div>;
 }
 ```
 
-## **Component Architecture**
+### Client Components
 
-### **Component Template**
+```tsx
+'use client';
+
+// Only use when component needs:
+// - Interactivity (useState, useEffect)
+// - Browser APIs
+// - Event listeners
+// - Client-side routing
+export default function InteractiveComponent() {
+  const [state, setState] = useState();
+  return <button onClick={() => setState()}>Click</button>;
+}
+```
+
+## **State Management**
+
+### **Zustand Store Pattern**
+
+```tsx
+interface StoreState {
+  data: Data | null;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export const useStore = create<StoreState>()(
+  persist(
+    immer((set) => ({
+      data: null,
+      isLoading: false,
+      error: null,
+
+      actions: {
+        fetchData: async () => {
+          set({ isLoading: true });
+          try {
+            // Fetch logic
+          } catch (error) {
+            set({ error });
+          } finally {
+            set({ isLoading: false });
+          }
+        },
+      },
+    })),
+    {
+      name: 'store-name',
+    }
+  )
+);
+```
+
+## **Component Structure**
+
+### **Base Component Template**
 
 ```tsx
 interface ComponentProps {
-  // Props interface with proper TypeScript types
-  title: string;
-  content: string;
-  author: string;
+  data: Data;
+  onAction?: (data: Data) => void;
   className?: string;
 }
-export function Component({
-  title,
-  content,
-  author,
-  className,
-}: ComponentProps) {
-  // Early returns for validation
-  if (!title || !content) return null;
+
+export function Component({ data, onAction, className }: ComponentProps) {
+  if (!data) return null;
+
   return (
-    <article className={cn('bg-card rounded-lg p-4', className)}>
-      <h2>{title}</h2>
-      <p>{content}</p>
-      <span>{author}</span>
-    </article>
+    <div className={cn('base-styles', className)}>
+      {/* Component content */}
+    </div>
   );
 }
 ```
 
-## **TypeScript Standards**
-
-### **Type Definitions**
-
-- Always use explicit type annotations for function parameters and returns
-- Use interfaces for object shapes
-- Avoid using 'any' type
-- Use proper type guards for runtime checks
-- Implement proper generics when needed
-
-### **Code Organization**
-
-- One component/feature per file
-- Export types and interfaces from separate files
-- Use barrel exports (index.ts) for cleaner imports
-- Maintain consistent file naming conventions
-
-## **React Best Practices**
-
-### **Hooks Usage**
-
-- Follow hooks naming convention: use[HookName]
-- Custom hooks for reusable logic
-- Proper dependency arrays in useEffect
-- Memoization with useMemo and useCallback
-- Proper cleanup in useEffect
-
-### **Component Structure**
-
-- Functional components with arrow function syntax
-- Props interface defined above component
-- Early returns for conditional rendering
-- Props destructuring at component level
-- Proper error boundaries implementation
-
 ## **Styling Guidelines**
 
-### **Tailwind CSS**
-
-- Use Tailwind CSS with proper variants
-- Use Tailwind classes exclusively
-- Use proper responsive classes
-- Implement dark mode variants
-- **Use proper class ordering:**
-  1. **Layout (position, display, width, height)**
-  2. **Spacing (margin, padding)**
-  3. **Typography**
-  4. **Visual (colors, backgrounds)**
-  5. **Interactive states**
-- Implement consistent component styling:
+### **Tailwind Class Order**
 
 ```tsx
-const componentVariants = cva('base-styles', {
-  variants: {
-    intent: {
-      primary: 'bg-primary text-white',
-      secondary: 'bg-secondary text-gray-900',
-    },
-    size: {
-      small: 'text-sm py-1 px-2',
-      medium: 'text-base py-2 px-4',
-    },
-  },
-  defaultVariants: {
-    intent: 'primary',
-    size: 'medium',
-  },
-});
+className={cn(
+  // Layout
+  'grid grid-cols-1 md:grid-cols-2',
+  // Spacing
+  'gap-4 p-6',
+  // Typography
+  'text-sm font-medium',
+  // Visual
+  'bg-background rounded-lg border',
+  // States
+  'hover:bg-accent focus:ring-2',
+  // Dynamic classes
+  className
+)}
 ```
-
-### **CSS Variables**
-
-- Use CSS variables for theme values
-- Maintain consistent naming convention
-- Document custom variables
-- Use proper fallback values
 
 ## **Error Handling**
 
-### **Error Boundaries**
+### **API Error Pattern**
 
-- Implement component-level error boundaries
-- Proper error logging
-- User-friendly error messages
-- Fallback UI components
+```tsx
+interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: {
+    code: number;
+    message: string;
+    type: string;
+  };
+}
 
-### **Form Validation**
+async function apiCall(): Promise<ApiResponse<Data>> {
+  try {
+    // API logic
+    return { success: true, data };
+  } catch (error) {
+    return {
+      success: false,
+      error: {
+        code: error.code,
+        message: error.message,
+        type: error.name,
+      },
+    };
+  }
+}
+```
 
-- Server-side validation
-- Client-side validation
-- Proper error messaging
-- Accessibility considerations
+## **Form Handling**
 
-## **Performance Guidelines**
+### **Form Component Pattern**
 
-- Implement proper loading states
-- Use proper image optimization with next/image
-- Implement proper error boundaries
-- Handle edge cases appropriately
+```tsx
+'use client';
 
-### **Optimization**
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
-- Proper code splitting
-- Image optimization
-- Lazy loading implementation
-- Bundle size monitoring
-- Performance metrics tracking
+export function FormComponent() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-### **State Management**
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      // Form submission logic
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-- Proper state initialization
-- Controlled vs Uncontrolled components
-- Global state management
-- Local state optimization
+  return <form onSubmit={handleSubmit}>{/* Form fields */}</form>;
+}
+```
+
+## **Type Safety**
+
+### **Type Definitions**
+
+```tsx
+// Use specific types
+type Status = 'idle' | 'loading' | 'success' | 'error';
+
+// Define clear interfaces
+interface User {
+  id: string;
+  email: string;
+  preferences: UserPreferences;
+}
+
+// Use generics when needed
+function fetchData<T>(url: string): Promise<T> {
+  // Fetch logic
+}
+```
 
 ## **Code Quality**
 
-### **ESLint Rules**
+### **ESLint Configuration**
 
-- No unused variables
-- No console logs in production
-- Proper TypeScript checks
-- Accessibility rules
-- Import ordering
+```json
+{
+  "extends": ["next/core-web-vitals", "@typescript-eslint/recommended"],
+  "rules": {
+    "no-unused-vars": "error",
+    "no-console": ["error", { "allow": ["warn", "error"] }]
+  }
+}
+```
 
 ### **Prettier Configuration**
 
-- Single quotes
-- 2 space indentation
-- Semicolons required
-- Trailing commas
-- Max line length: 80 characters
-
-## Server Actions
-
-```tsx
-// Add section for Server Actions usage
-'use server';
-
-async function submitForm(formData: FormData) {
-  // Validation
-  if (!formData.get('email')) {
-    throw new Error('Email is required');
-  }
-
-  // Processing
-  try {
-    // Action logic
-  } catch (error) {
-    // Error handling
-  }
+```json
+{
+  "trailingComma": "es5",
+  "semi": true,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "jsxSingleQuote": true,
+  "printWidth": 80,
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
 ```
 
-## Route Handlers
+## **State Management**
+
+### **Server State Management**
 
 ```tsx
-// Add section for Server Actions usage
-'use server';
+// Using TanStack Query
+export function KnowledgeGrid() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['knowledge'],
+    queryFn: fetchKnowledgeItems,
+    staleTime: 60 * 1000, // 1 minute
+  });
 
-async function submitForm(formData: FormData) {
-  // Validation
-  if (!formData.get('email')) {
-    throw new Error('Email is required');
-  }
-
-  // Processing
-  try {
-    // Action logic
-  } catch (error) {
-    // Error handling
-  }
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorBoundary error={error} />;
 }
 ```
 
-## Metadata
+### Form State
 
 ```tsx
-// Add section for metadata handling
-export const metadata = {
-  title: {
-    template: '%s | WYOS',
-    default: 'WYOS - Write Your Own Story',
-  },
-  description: 'Write and share your stories',
-};
+// Using Zod validation
+const formSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+
+export function LoginForm() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    try {
+      setIsLoading(true);
+      // Form submission logic
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+}
+```
+
+## **Accessibility Implementation**
+
+### **Interactive Elements**
+
+```tsx
+export function NavigationButton({ label, onClick }: Props) {
+  return (
+    <button
+      onClick={onClick}
+      className={cn(
+        'rounded-md px-4 py-2',
+        'bg-primary text-primary-foreground',
+        'hover:bg-primary/90',
+        'focus:outline-none focus:ring-2'
+      )}
+      aria-label={label}
+      role='button'
+      tabIndex={0}
+    >
+      {label}
+    </button>
+  );
+}
+```
+
+### Form Controls
+
+```tsx
+export function FormField({ label, error, ...props }: FormFieldProps) {
+  const id = useId();
+
+  return (
+    <div className='space-y-2'>
+      <Label htmlFor={id}>{label}</Label>
+      <Input
+        id={id}
+        aria-describedby={error ? `${id}-error` : undefined}
+        aria-invalid={!!error}
+        {...props}
+      />
+      {error && (
+        <p id={`${id}-error`} className='text-destructive text-sm'>
+          {error}
+        </p>
+      )}
+    </div>
+  );
+}
+```
+
+### Documentation Template
+
+```tsx
+/**
+ * @component KnowledgeCard
+ *
+ * @description
+ * Displays a knowledge item with title, description, and metadata
+ *
+ * @example
+ * <KnowledgeCard
+ *   title="Getting Started"
+ *   description="Learn the basics"
+ *   metadata={{ publishedAt: new Date() }}
+ * />
+ *
+ * @accessibility
+ * - Uses semantic HTML
+ * - Includes proper ARIA labels
+ * - Supports keyboard navigation
+ *
+ * @performance
+ * - Implements proper loading states
+ * - Uses optimized images
+ * - Handles error boundaries
+ */
+```
+
+## **Testing Requirements**
+
+### **Unit Tests**
+
+```tsx
+describe('KnowledgeCard', () => {
+  it('renders content correctly', () => {
+    render(<KnowledgeCard title='Test' description='Description' />);
+    expect(screen.getByText('Test')).toBeInTheDocument();
+  });
+
+  it('handles loading state', () => {
+    render(<KnowledgeCard isLoading />);
+    expect(screen.getByTestId('loading-skeleton')).toBeInTheDocument();
+  });
+});
+```
+
+### Integration Tests
+
+```tsx
+describe('Knowledge Section', () => {
+  it('filters content when category is selected', async () => {
+    render(
+      <>
+        <CategoryFilter />
+        <KnowledgeList />
+      </>
+    );
+
+    await userEvent.click(screen.getByText('Category 1'));
+    expect(await screen.findByText('Filtered Content')).toBeInTheDocument();
+  });
+});
+```
+
+### Assessibility Tests
+
+```tsx
+describe('Accessibility', () => {
+  it('supports keyboard navigation', async () => {
+    render(<NavigationMenu />);
+    await userEvent.tab();
+    expect(screen.getByRole('button')).toHaveFocus();
+  });
+
+  it('announces errors to screen readers', () => {
+    render(<FormField error='Required field' />);
+    expect(screen.getByRole('alert')).toHaveTextContent('Required field');
+  });
+});
 ```
