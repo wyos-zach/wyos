@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import type { MissionSectionProps } from '@/types/about';
+import type { MissionSectionProps } from '@/types/marketing/about';
 
 export function MissionSection({ mission, className }: MissionSectionProps) {
   return (

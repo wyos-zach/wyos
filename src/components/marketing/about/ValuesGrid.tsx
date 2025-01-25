@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import type { ValuesGridProps } from '@/types/about';
+import type { ValuesGridProps } from '@/types/marketing/about';
 
 export function ValuesGrid({
   values,

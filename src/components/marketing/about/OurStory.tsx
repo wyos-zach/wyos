@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import type { OurStoryProps } from '@/types/about';
+import type { OurStoryProps } from '@/types/marketing/about';
 
 export function OurStory({ story, className }: OurStoryProps) {
   return (
