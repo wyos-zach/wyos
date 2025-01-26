@@ -26,5 +26,8 @@
   },
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "typescript.suggest.autoImports": true
+  "typescript.suggest.autoImports": true,
+  "typescript.experimental.updateImportsOnPaste": true,
+  "javascript.experimental.updateImportsOnPaste": true,
+  "typescript.preferences.preferTypeOnlyAutoImports": true
 }
