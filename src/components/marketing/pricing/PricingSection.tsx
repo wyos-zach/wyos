@@ -15,8 +15,8 @@ import type {
   PricingSectionProps,
   PricingCardProps,
 } from '@/types/marketing/pricing';
-import { useSubscriptionStatus } from '@/lib/hooks/useSubscriptionStatus';
-import { useToast } from '@/lib/hooks/useToast';
+import { useSubscriptionStatus } from '@/lib/hooks/subscription/useSubscriptionStatus';
+import { useToast } from '@/lib/hooks/shared/useToast';
 import { PricingErrorBoundary } from './PricingErrorBoundary';
 import { Functions, type Models } from 'appwrite';
 import { useAuthStore } from '@/store/Auth';
