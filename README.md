@@ -1,6 +1,6 @@
 ## WYOS (Write Your Own Story)
 
-A subscription-based personal development platform built with Next.js 15, focusing on authentic guidance through curated knowledge and resources.
+A subscription-based membership platform for personal and professional development built with Next.js 15, focusing on authentic guidance through curated knowledge and resources.
 
 ## **Tech Stack**
 
@@ -70,7 +70,7 @@ pnpm install
 ```tsx
 # Appwrite
 NEXT_PUBLIC_APPWRITE_PROJECT_ID=
-NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+NEXT_PUBLIC_APPWRITE_ENDPOINT=
 APPWRITE_API_KEY=
 
 # Teams
