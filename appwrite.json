@@ -1,1087 +1,918 @@
 {
-    "projectId": "6771757c001f6ca5aa45",
-    "projectName": "WYOS Web App",
-    "settings": {
-        "services": {
-            "account": true,
-            "avatars": true,
-            "databases": true,
-            "locale": true,
-            "health": true,
-            "storage": true,
-            "teams": true,
-            "users": true,
-            "functions": true,
-            "graphql": true,
-            "messaging": true
-        },
-        "auth": {
-            "methods": {
-                "jwt": true,
-                "phone": true,
-                "invites": true,
-                "anonymous": true,
-                "email-otp": true,
-                "magic-url": true,
-                "email-password": true
-            },
-            "security": {
-                "duration": 2592000,
-                "limit": 0,
-                "sessionsLimit": 20,
-                "passwordHistory": 0,
-                "passwordDictionary": false,
-                "personalDataCheck": false,
-                "sessionAlerts": false,
-                "mockNumbers": []
-            }
-        }
+  "projectId": "6771757c001f6ca5aa45",
+  "projectName": "WYOS",
+  "settings": {
+    "services": {
+      "account": true,
+      "avatars": true,
+      "databases": true,
+      "locale": true,
+      "health": true,
+      "storage": true,
+      "teams": true,
+      "users": true,
+      "functions": true,
+      "graphql": true,
+      "messaging": true
     },
-    "functions": [
+    "auth": {
+      "methods": {
+        "jwt": true,
+        "phone": false,
+        "invites": false,
+        "anonymous": true,
+        "email-otp": false,
+        "magic-url": false,
+        "email-password": true
+      },
+      "security": {
+        "duration": 5184000,
+        "limit": 0,
+        "sessionsLimit": 20,
+        "passwordHistory": 5,
+        "passwordDictionary": true,
+        "personalDataCheck": true,
+        "sessionAlerts": false,
+        "mockNumbers": []
+      }
+    }
+  },
+  "functions": [
+    {
+      "$id": "677cb771000aab99e698",
+      "execute": ["any", "users", "guests"],
+      "name": "Subscriptions with Stripe",
+      "enabled": true,
+      "logging": true,
+      "runtime": "node-18.0",
+      "scopes": ["sessions.write", "users.read", "users.write"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
+      "entrypoint": "src/main.js",
+      "commands": "npm install",
+      "path": "functions/Subscriptions with Stripe"
+    },
+    {
+      "$id": "678a072f0002677430d7",
+      "execute": [
+        "any",
+        "guests",
+        "team:67760a70003892be3ea7",
+        "team:677b22b8000f80b5e63f"
+      ],
+      "name": "Subscriptions",
+      "enabled": true,
+      "logging": true,
+      "runtime": "node-18.0",
+      "scopes": ["sessions.write", "users.read", "users.write"],
+      "events": [],
+      "schedule": "",
+      "timeout": 15,
+      "entrypoint": "src/main.js",
+      "commands": "npm install",
+      "path": "functions/Subscriptions"
+    }
+  ],
+  "databases": [
+    {
+      "$id": "67909a34003ae2371693",
+      "name": "Subscriptions",
+      "enabled": true
+    },
+    {
+      "$id": "wyos",
+      "name": "wyos",
+      "enabled": true
+    }
+  ],
+  "collections": [
+    {
+      "$id": "67909a920013acc413f7",
+      "$permissions": [],
+      "databaseId": "67909a34003ae2371693",
+      "name": "Users",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
         {
-            "$id": "677cb140000e7a53fa06",
-            "execute": [
-                "any"
-            ],
-            "name": "Subscriptions with Stripe",
-            "enabled": true,
-            "logging": true,
-            "runtime": "node-18.0",
-            "scopes": [
-                "sessions.write",
-                "users.read",
-                "users.write"
-            ],
-            "events": [],
-            "schedule": "",
-            "timeout": 15,
-            "entrypoint": "src/main.js",
-            "commands": "npm install",
-            "path": "functions/Subscriptions with Stripe"
+          "key": "userId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 50,
+          "default": null
         },
         {
-            "$id": "677cb771000aab99e698",
-            "execute": [
-                "any"
-            ],
-            "name": "Subscriptions with Stripe",
-            "enabled": true,
-            "logging": true,
-            "runtime": "node-18.0",
-            "scopes": [
-                "sessions.write",
-                "users.read",
-                "users.write"
-            ],
-            "events": [],
-            "schedule": "",
-            "timeout": 15,
-            "entrypoint": "src/main.js",
-            "commands": "npm install",
-            "path": "functions/Subscriptions with Stripe"
+          "key": "email",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 100,
+          "default": null
+        },
+        {
+          "key": "name",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 50,
+          "default": null
         }
-    ],
-    "databases": [
+      ],
+      "indexes": []
+    },
+    {
+      "$id": "67909aa10015935dcc36",
+      "$permissions": [],
+      "databaseId": "67909a34003ae2371693",
+      "name": "Subscriptions",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
         {
-            "$id": "6773530600209cef6255",
-            "name": "Knowledge",
-            "enabled": true
+          "key": "subscriptionsId",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 200,
+          "default": null
         },
         {
-            "$id": "67735313001707c9ab11",
-            "name": "Resources",
-            "enabled": true
-        },
-        {
-            "$id": "677c9323003c5be0a3ba",
-            "name": "Subscriptions",
-            "enabled": true
+          "key": "usersId",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "67909a920013acc413f7",
+          "relationType": "oneToOne",
+          "twoWay": false,
+          "twoWayKey": "6790a0010025bd755fdd",
+          "onDelete": "restrict",
+          "side": "parent"
         }
-    ],
-    "collections": [
+      ],
+      "indexes": []
+    },
+    {
+      "$id": "resources",
+      "$permissions": ["read(\"any\")", "read(\"users\")"],
+      "databaseId": "wyos",
+      "name": "resources",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
         {
-            "$id": "6773541f001f269e80da",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "6773530600209cef6255",
-            "name": "Knowledge",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "knowledge_id",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 36,
-                    "default": null
-                },
-                {
-                    "key": "title",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "summary",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 1000,
-                    "default": null
-                },
-                {
-                    "key": "body",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 65535,
-                    "default": null
-                },
-                {
-                    "key": "content_type",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "elements": [
-                        "article",
-                        "framework"
-                    ],
-                    "format": "enum",
-                    "default": null
-                },
-                {
-                    "key": "image_url",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "created_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "updated_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "slug",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "featured",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": false
-                },
-                {
-                    "key": "tags",
-                    "type": "string",
-                    "required": false,
-                    "array": true,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "knowledgeCategory",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "67735ba2002e55835e14",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "knowledge",
-                    "onDelete": "setNull",
-                    "side": "parent"
-                },
-                {
-                    "key": "knowledgeResource",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "6774179600009af2de62",
-                    "relationType": "oneToMany",
-                    "twoWay": true,
-                    "twoWayKey": "knowledge",
-                    "onDelete": "cascade",
-                    "side": "parent"
-                }
-            ],
-            "indexes": []
+          "key": "title",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
         },
         {
-            "$id": "67735ba2002e55835e14",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "6773530600209cef6255",
-            "name": "Knowledge Category",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "categories",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "677416c7001f789ecd5b",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "knowledgeCategory",
-                    "onDelete": "cascade",
-                    "side": "parent"
-                },
-                {
-                    "key": "knowledge",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "6773541f001f269e80da",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "knowledgeCategory",
-                    "onDelete": "setNull",
-                    "side": "child"
-                }
-            ],
-            "indexes": []
+          "key": "slug",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
         },
         {
-            "$id": "677416c7001f789ecd5b",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "6773530600209cef6255",
-            "name": "Categories",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "category_id",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 36,
-                    "default": null
-                },
-                {
-                    "key": "name",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 100,
-                    "default": null
-                },
-                {
-                    "key": "description",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 500,
-                    "default": null
-                },
-                {
-                    "key": "knowledgeCategory",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "67735ba2002e55835e14",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "categories",
-                    "onDelete": "cascade",
-                    "side": "child"
-                },
-                {
-                    "key": "image_url",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                }
-            ],
-            "indexes": []
+          "key": "type",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "elements": [
+            "app",
+            "book",
+            "course",
+            "podcast",
+            "software",
+            "youtube"
+          ],
+          "format": "enum",
+          "default": null
         },
         {
-            "$id": "6774179600009af2de62",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "6773530600209cef6255",
-            "name": "Knowledge Resource",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "external_resource_id",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 36,
-                    "default": null
-                },
-                {
-                    "key": "relationship_type",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "elements": [
-                        "recommended_reading",
-                        "related_resource",
-                        "further_learning",
-                        "related"
-                    ],
-                    "format": "enum",
-                    "default": null
-                },
-                {
-                    "key": "knowledge",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "6773541f001f269e80da",
-                    "relationType": "oneToMany",
-                    "twoWay": true,
-                    "twoWayKey": "knowledgeResource",
-                    "onDelete": "cascade",
-                    "side": "child"
-                }
-            ],
-            "indexes": []
+          "key": "description",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 1024,
+          "default": null
         },
         {
-            "$id": "67735a2f00371168101b",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "67735313001707c9ab11",
-            "name": "Categories",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "category_id",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 36,
-                    "default": null
-                },
-                {
-                    "key": "name",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 100,
-                    "default": null
-                },
-                {
-                    "key": "description",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 500,
-                    "default": null
-                },
-                {
-                    "key": "resourceCategory",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "67741f7b003740f08d1a",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "categories",
-                    "onDelete": "cascade",
-                    "side": "child"
-                },
-                {
-                    "key": "image_url",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                }
-            ],
-            "indexes": []
+          "key": "resourceUrl",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
         },
         {
-            "$id": "67741f7b003740f08d1a",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "67735313001707c9ab11",
-            "name": "Resource Category",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "categories",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "67735a2f00371168101b",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "resourceCategory",
-                    "onDelete": "cascade",
-                    "side": "parent"
-                },
-                {
-                    "key": "booksAndCourses",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "677436ea001c68a445fa",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "resourceCategory",
-                    "onDelete": "setNull",
-                    "side": "parent"
-                },
-                {
-                    "key": "podcastsAndYouTubeChannels",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "6774360e0027da5d402c",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "resourceCategory",
-                    "onDelete": "setNull",
-                    "side": "parent"
-                },
-                {
-                    "key": "softwareAndApps",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "677426c50023a16a18a5",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "resourceCategory",
-                    "onDelete": "setNull",
-                    "side": "parent"
-                }
-            ],
-            "indexes": []
+          "key": "featured",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": false
         },
         {
-            "$id": "677426c50023a16a18a5",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "67735313001707c9ab11",
-            "name": "Software and Apps",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "resource_id",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 36,
-                    "default": null
-                },
-                {
-                    "key": "title",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "summary",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 500,
-                    "default": null
-                },
-                {
-                    "key": "body",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 65535,
-                    "default": null
-                },
-                {
-                    "key": "resource_type",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "elements": [
-                        "software",
-                        "app"
-                    ],
-                    "format": "enum",
-                    "default": null
-                },
-                {
-                    "key": "image_url",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "resource_link",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "created_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "updated_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "rating",
-                    "type": "double",
-                    "required": false,
-                    "array": false,
-                    "min": 0,
-                    "max": 5,
-                    "default": null
-                },
-                {
-                    "key": "developer",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "price",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "slug",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "tags",
-                    "type": "string",
-                    "required": false,
-                    "array": true,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "featured",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": false
-                },
-                {
-                    "key": "platform",
-                    "type": "string",
-                    "required": false,
-                    "array": true,
-                    "elements": [
-                        "desktop",
-                        "mobile",
-                        "android",
-                        "mac",
-                        "apple",
-                        "iphone",
-                        "windows"
-                    ],
-                    "format": "enum",
-                    "default": null
-                },
-                {
-                    "key": "resourceCategory",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "67741f7b003740f08d1a",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "softwareAndApps",
-                    "onDelete": "setNull",
-                    "side": "child"
-                }
-            ],
-            "indexes": []
+          "key": "imageUrl",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
         },
         {
-            "$id": "6774360e0027da5d402c",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "67735313001707c9ab11",
-            "name": "Podcasts and YouTube Channels",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "resource_id",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 36,
-                    "default": null
-                },
-                {
-                    "key": "title",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "summary",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 500,
-                    "default": null
-                },
-                {
-                    "key": "body",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 65535,
-                    "default": null
-                },
-                {
-                    "key": "resource_type",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "elements": [
-                        "podcast",
-                        "youtube_channel"
-                    ],
-                    "format": "enum",
-                    "default": null
-                },
-                {
-                    "key": "image_url",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "resource_link",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "created_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "updated_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "rating",
-                    "type": "double",
-                    "required": false,
-                    "array": false,
-                    "min": 0,
-                    "max": 5,
-                    "default": null
-                },
-                {
-                    "key": "creator",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "slug",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "tags",
-                    "type": "string",
-                    "required": false,
-                    "array": true,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "featured",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": false
-                },
-                {
-                    "key": "resourceCategory",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "67741f7b003740f08d1a",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "podcastsAndYouTubeChannels",
-                    "onDelete": "setNull",
-                    "side": "child"
-                }
-            ],
-            "indexes": []
+          "key": "creator",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null
         },
         {
-            "$id": "677436ea001c68a445fa",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "databaseId": "67735313001707c9ab11",
-            "name": "Books and Courses",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "resource_id",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 37,
-                    "default": null
-                },
-                {
-                    "key": "title",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "short_summary",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 500,
-                    "default": null
-                },
-                {
-                    "key": "body",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 65535,
-                    "default": null
-                },
-                {
-                    "key": "resource_type",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "elements": [
-                        "book",
-                        "course"
-                    ],
-                    "format": "enum",
-                    "default": null
-                },
-                {
-                    "key": "image_url",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "resource_link",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "created_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "updated_at",
-                    "type": "datetime",
-                    "required": false,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "rating",
-                    "type": "double",
-                    "required": false,
-                    "array": false,
-                    "min": 0,
-                    "max": 5,
-                    "default": null
-                },
-                {
-                    "key": "author",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "slug",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "tags",
-                    "type": "string",
-                    "required": false,
-                    "array": true,
-                    "size": 255,
-                    "default": null
-                },
-                {
-                    "key": "featured",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": false
-                },
-                {
-                    "key": "resourceCategory",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "67741f7b003740f08d1a",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "booksAndCourses",
-                    "onDelete": "setNull",
-                    "side": "child"
-                }
-            ],
-            "indexes": []
+          "key": "platform",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 64,
+          "default": null
         },
         {
-            "$id": "677c93a3001d74099756",
-            "$permissions": [
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")",
-                "read(\"users\")"
-            ],
-            "databaseId": "677c9323003c5be0a3ba",
-            "name": "User Subscriptions",
-            "enabled": true,
-            "documentSecurity": false,
-            "attributes": [
-                {
-                    "key": "userId",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 36,
-                    "default": null
-                },
-                {
-                    "key": "status",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 20,
-                    "default": null
-                },
-                {
-                    "key": "stripeCustomerId",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 50,
-                    "default": null
-                },
-                {
-                    "key": "stripeSubscriptionId",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "size": 50,
-                    "default": null
-                },
-                {
-                    "key": "createdAt",
-                    "type": "datetime",
-                    "required": true,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                },
-                {
-                    "key": "updatedAt",
-                    "type": "datetime",
-                    "required": true,
-                    "array": false,
-                    "format": "",
-                    "default": null
-                }
-            ],
-            "indexes": []
+          "key": "isPaid",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": false
+        },
+        {
+          "key": "price",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 32,
+          "default": null
+        },
+        {
+          "key": "rating",
+          "type": "double",
+          "required": false,
+          "array": false,
+          "min": 0,
+          "max": 5,
+          "default": null
+        },
+        {
+          "key": "seoDescription",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 256,
+          "default": null
+        },
+        {
+          "key": "keywords",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "size": 32,
+          "default": null
+        },
+        {
+          "key": "resourceCategoryId",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "resource-categories",
+          "relationType": "manyToMany",
+          "twoWay": true,
+          "twoWayKey": "resources",
+          "onDelete": "setNull",
+          "side": "parent"
         }
-    ],
-    "buckets": [
+      ],
+      "indexes": [
         {
-            "$id": "6775fa10000756661d38",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "fileSecurity": true,
-            "name": "knowledge-assets",
-            "enabled": true,
-            "maximumFileSize": 10000000,
-            "allowedFileExtensions": [],
-            "compression": "zstd",
-            "encryption": true,
-            "antivirus": true
+          "key": "title_search",
+          "type": "fulltext",
+          "status": "available",
+          "attributes": ["title", "description"],
+          "orders": ["ASC", "ASC"]
         },
         {
-            "$id": "6775fa21002e5129b5e8",
-            "$permissions": [
-                "read(\"users\")",
-                "create(\"team:67760a70003892be3ea7\")",
-                "read(\"team:67760a70003892be3ea7\")",
-                "update(\"team:67760a70003892be3ea7\")",
-                "delete(\"team:67760a70003892be3ea7\")"
-            ],
-            "fileSecurity": true,
-            "name": "resource-assets",
-            "enabled": true,
-            "maximumFileSize": 10000000,
-            "allowedFileExtensions": [],
-            "compression": "zstd",
-            "encryption": true,
-            "antivirus": true
-        }
-    ],
-    "teams": [
-        {
-            "$id": "67760a70003892be3ea7",
-            "name": "Admin"
+          "key": "type",
+          "type": "key",
+          "status": "available",
+          "attributes": ["type"],
+          "orders": ["ASC"]
         },
         {
-            "$id": "677b22b8000f80b5e63f",
-            "name": "Members"
+          "key": "featured",
+          "type": "key",
+          "status": "available",
+          "attributes": ["featured"],
+          "orders": ["ASC"]
         }
-    ]
+      ]
+    },
+    {
+      "$id": "knowledge-categories",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
+      "databaseId": "wyos",
+      "name": "knowledge-categories",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "name",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "slug",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 256,
+          "default": null
+        },
+        {
+          "key": "order",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": 0,
+          "max": 9999,
+          "default": null
+        },
+        {
+          "key": "isActive",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": true
+        },
+        {
+          "key": "imageUrl",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "icon",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "knowledge",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "knowledge",
+          "relationType": "manyToMany",
+          "twoWay": true,
+          "twoWayKey": "knowledgeCategoryId",
+          "onDelete": "setNull",
+          "side": "child"
+        },
+        {
+          "key": "mainCategoryId",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "main-categories",
+          "relationType": "manyToOne",
+          "twoWay": false,
+          "twoWayKey": "knowledgeCategories",
+          "onDelete": "restrict",
+          "side": "parent"
+        }
+      ],
+      "indexes": [
+        {
+          "key": "slug",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["slug"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "order",
+          "type": "key",
+          "status": "available",
+          "attributes": ["order"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "tags",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
+      "databaseId": "wyos",
+      "name": "tags",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "name",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 32,
+          "default": null
+        },
+        {
+          "key": "slug",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 32,
+          "default": null
+        },
+        {
+          "key": "isActive",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": true
+        }
+      ],
+      "indexes": [
+        {
+          "key": "name",
+          "type": "fulltext",
+          "status": "available",
+          "attributes": ["name"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "slug",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["slug"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "main-categories",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
+      "databaseId": "wyos",
+      "name": "main-categories",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "name",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "slug",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 256,
+          "default": null
+        },
+        {
+          "key": "order",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": -9223372036854775808,
+          "max": 9223372036854775807,
+          "default": 0
+        },
+        {
+          "key": "isActive",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": true
+        },
+        {
+          "key": "imageUrl",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "icon",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        }
+      ],
+      "indexes": [
+        {
+          "key": "slug",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["slug"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "order",
+          "type": "key",
+          "status": "available",
+          "attributes": ["order"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "resource-categories",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
+      "databaseId": "wyos",
+      "name": "resource-categories",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "name",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "slug",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "description",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 256,
+          "default": null
+        },
+        {
+          "key": "order",
+          "type": "integer",
+          "required": false,
+          "array": false,
+          "min": -9223372036854775808,
+          "max": 9223372036854775807,
+          "default": 0
+        },
+        {
+          "key": "isActive",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": true
+        },
+        {
+          "key": "imageUrl",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "icon",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "mainCategoryId",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "main-categories",
+          "relationType": "manyToOne",
+          "twoWay": false,
+          "twoWayKey": "resourceCategories",
+          "onDelete": "setNull",
+          "side": "parent"
+        },
+        {
+          "key": "resources",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "resources",
+          "relationType": "manyToMany",
+          "twoWay": true,
+          "twoWayKey": "resourceCategoryId",
+          "onDelete": "setNull",
+          "side": "child"
+        }
+      ],
+      "indexes": [
+        {
+          "key": "slug",
+          "type": "unique",
+          "status": "available",
+          "attributes": ["slug"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "order",
+          "type": "key",
+          "status": "available",
+          "attributes": ["order"],
+          "orders": ["ASC"]
+        }
+      ]
+    },
+    {
+      "$id": "knowledge",
+      "$permissions": [],
+      "databaseId": "wyos",
+      "name": "knowledge",
+      "enabled": true,
+      "documentSecurity": false,
+      "attributes": [
+        {
+          "key": "title",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "slug",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 64,
+          "default": null
+        },
+        {
+          "key": "summary",
+          "type": "string",
+          "required": true,
+          "array": false,
+          "size": 1024,
+          "default": null
+        },
+        {
+          "key": "content",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 16384,
+          "default": null
+        },
+        {
+          "key": "featured",
+          "type": "boolean",
+          "required": false,
+          "array": false,
+          "default": false
+        },
+        {
+          "key": "imageUrl",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "format": "url",
+          "default": null
+        },
+        {
+          "key": "seoDescription",
+          "type": "string",
+          "required": false,
+          "array": false,
+          "size": 256,
+          "default": null
+        },
+        {
+          "key": "keywords",
+          "type": "string",
+          "required": false,
+          "array": true,
+          "size": 32,
+          "default": null
+        },
+        {
+          "key": "knowledgeCategoryId",
+          "type": "relationship",
+          "required": false,
+          "array": false,
+          "relatedCollection": "knowledge-categories",
+          "relationType": "manyToMany",
+          "twoWay": true,
+          "twoWayKey": "knowledge",
+          "onDelete": "setNull",
+          "side": "parent"
+        }
+      ],
+      "indexes": [
+        {
+          "key": "title_search",
+          "type": "fulltext",
+          "status": "available",
+          "attributes": ["title", "summary"],
+          "orders": ["ASC", "ASC"]
+        },
+        {
+          "key": "featured_filter",
+          "type": "key",
+          "status": "available",
+          "attributes": ["featured"],
+          "orders": ["ASC"]
+        },
+        {
+          "key": "created_sort",
+          "type": "key",
+          "status": "available",
+          "attributes": ["$createdAt"],
+          "orders": ["ASC"]
+        }
+      ]
+    }
+  ],
+  "buckets": [
+    {
+      "$id": "category-images",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"users\")",
+        "read(\"users\")",
+        "update(\"users\")",
+        "delete(\"users\")"
+      ],
+      "fileSecurity": false,
+      "name": "Category Images",
+      "enabled": true,
+      "maximumFileSize": 1000000000,
+      "allowedFileExtensions": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "svg",
+        "webp",
+        "heic"
+      ],
+      "compression": "zstd",
+      "encryption": true,
+      "antivirus": true
+    },
+    {
+      "$id": "resources-attachments",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:67760a70003892be3ea7\")",
+        "read(\"team:67760a70003892be3ea7\")",
+        "update(\"team:67760a70003892be3ea7\")",
+        "delete(\"team:67760a70003892be3ea7\")"
+      ],
+      "fileSecurity": false,
+      "name": "Resource Attachments",
+      "enabled": true,
+      "maximumFileSize": 1000000000,
+      "allowedFileExtensions": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "svg",
+        "webp",
+        "heic",
+        "pdf",
+        "html",
+        "mp4",
+        "mp3"
+      ],
+      "compression": "zstd",
+      "encryption": true,
+      "antivirus": true
+    },
+    {
+      "$id": "category-icons",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:67760a70003892be3ea7\")",
+        "read(\"team:67760a70003892be3ea7\")",
+        "update(\"team:67760a70003892be3ea7\")",
+        "delete(\"team:67760a70003892be3ea7\")"
+      ],
+      "fileSecurity": false,
+      "name": "Category Icons",
+      "enabled": true,
+      "maximumFileSize": 1000000000,
+      "allowedFileExtensions": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "svg",
+        "webp",
+        "heic",
+        "ico",
+        "icns"
+      ],
+      "compression": "zstd",
+      "encryption": true,
+      "antivirus": true
+    },
+    {
+      "$id": "knowledge-attachments",
+      "$permissions": [
+        "read(\"any\")",
+        "create(\"team:67760a70003892be3ea7\")",
+        "read(\"team:67760a70003892be3ea7\")",
+        "update(\"team:67760a70003892be3ea7\")",
+        "delete(\"team:67760a70003892be3ea7\")"
+      ],
+      "fileSecurity": false,
+      "name": "Knowledge Attachments",
+      "enabled": true,
+      "maximumFileSize": 1000000000,
+      "allowedFileExtensions": [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif",
+        "svg",
+        "webp",
+        "heic",
+        "pdf",
+        "html",
+        "mp4",
+        "mp3"
+      ],
+      "compression": "zstd",
+      "encryption": true,
+      "antivirus": true
+    }
+  ],
+  "teams": [
+    {
+      "$id": "67760a70003892be3ea7",
+      "name": "Admin"
+    },
+    {
+      "$id": "677b22b8000f80b5e63f",
+      "name": "Members"
+    }
+  ]
 }
