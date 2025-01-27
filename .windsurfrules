@@ -1,0 +1,115 @@
+## Project Overview
+
+1. **Framework**: Next.js 15 with App Router.
+2. **Language**: TypeScript (strict mode enabled).
+3. **Core Libraries**:
+   - UI Framework: Tailwind CSS with ShadcN components.
+   - State Management: Zustand (client state) and TanStack Query (server state).
+   - Animations: Framer Motion.
+   - Validation: Zod.
+   - Backend: Appwrite for authentication and database services.
+
+---
+
+## Workspace Rules
+
+### Code Standards
+
+1. Use **Server Components by default**, only adding `'use client'` when interactivity is required.
+2. Always validate props using TypeScript interfaces or utility types (e.g., `Pick`, `Omit`).
+3. Enforce modular and reusable components:
+   - Include loading, error, and empty states for all components.
+   - Document all exported components with examples and accessibility notes.
+4. Centralize error-handling logic with reusable utility functions or hooks, ensuring consistent API response handling.
+
+### Folder and File Structure
+
+1. Follow the modular structure defined for WYOS:
+   ```
+   src/
+   ├── app/
+   │   ├── (auth)/
+   │   ├── (core)/
+   │   ├── (marketing)/
+   │   └── layout.tsx
+   ├── components/
+   │   ├── ui/
+   │   ├── shared/
+   │   ├── auth/
+   │   └── feature-specific folders
+   ├── lib/
+   ├── models/
+   ├── store/
+   ├── types/
+   └── middleware.ts
+   ```
+2. Use **PascalCase** for components, **camelCase** for hooks, and **kebab-case** for file and directory names.
+3. Keep feature-specific logic self-contained (e.g., `knowledge`, `resources`).
+
+### State Management
+
+1. Use **Zustand** for local state with immer and persist middleware.
+   - Example: Persist authentication and user settings.
+2. Use **TanStack Query** for server-side state with caching and hydration.
+   - Define query keys and stale times for consistency (e.g., `['knowledge']`, `['resources']`).
+3. Define query keys with descriptive names based on features and parameters (e.g., ['knowledge', { category: 'productivity' }]).
+
+### API Usage
+
+1. Always follow the API response structure: `{ success, error, data }`.
+2. Use Appwrite’s SDK for authentication and database queries.
+3. Avoid hardcoding API endpoints; reference them from the `src/lib/config` directory.
+
+### Accessibility
+
+1. Ensure all interactive elements include:
+   - ARIA attributes.
+   - Keyboard navigation support.
+   - Proper focus-visible styles.
+2. Follow WCAG 2.1 standards for color contrast and readability.
+3. Test all new features for screen reader compatibility.
+
+### Testing
+
+1. Write unit tests for all components and hooks using **Jest** and **React Testing Library**.
+2. Include integration tests for workflows like:
+   - User authentication.
+   - Knowledge/resource filtering.
+   - Form submissions.
+3. Perform accessibility testing with `axe-core` to ensure compliance.
+4. Use mock service worker (msw) to test API interactions in isolation during unit tests.
+
+### Security
+
+1. Use **Zod** for input validation across forms and API calls.
+2. Sanitize user-generated content using `DOMPurify`.
+3. Store sensitive credentials securely in `.env.local` files.
+   ```env
+   NEXT_PUBLIC_APPWRITE_PROJECT_ID=your_project_id
+   NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+   APPWRITE_API_KEY=your_api_key
+   ```
+
+### Performance Optimization
+
+1. Use lazy loading for components and images to reduce initial page load times.
+2. Optimize server-side rendering for large datasets using streaming or pagination.
+3. Minimize re-renders by memoizing expensive computations and callback functions.
+
+### Development Workflow
+
+1. Follow the Git branch conventions:
+   - `main` for production-ready code.
+   - `develop` for staging and testing.
+   - `feature/feature-name` for new features.
+   - `fix/issue-description` for bug fixes.
+2. Enforce code reviews for all pull requests.
+3. Lint and test all code before committing.
+
+### Documentation
+
+1. Provide JSDoc-style comments for all public functions and components.
+2. Maintain a `README.md` file in each feature folder explaining:
+   - The purpose of the feature.
+   - How to test it.
+   - Key dependencies.
