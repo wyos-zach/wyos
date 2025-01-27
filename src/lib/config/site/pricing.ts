@@ -1,4 +1,10 @@
 import { BenefitItem, FaqItem, PricingPlan } from '@/types/marketing/pricing';
+import type { env } from 'process';
+
+const STRIPE_PRICES = {
+  MONTHLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY,
+  ANNUAL: process.env.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL,
+} as const;
 
 /**
  * Core benefits available in WYOS subscriptions
@@ -44,17 +50,19 @@ export const pricingPlans: PricingPlan[] = [
     price: 29.99,
     priceDisplay: '$29.99',
     benefits: benefits,
+    stripePriceId: STRIPE_PRICES.MONTHLY ?? '',
   },
   {
     id: 'annual',
     name: 'Annual',
     description: 'Our most popular plan',
     interval: 'annual',
-    price: 360,
-    priceDisplay: '$360',
-    secondaryPriceDisplay: '$30/month, billed annually',
+    price: 240,
+    priceDisplay: '$240',
+    secondaryPriceDisplay: '$20/month, billed annually',
     isPopular: true,
     benefits: benefits,
+    stripePriceId: STRIPE_PRICES.ANNUAL ?? '',
   },
 ];
 

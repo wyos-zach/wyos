@@ -1,3 +1,5 @@
+import type { benefits } from '@/lib/config/site/home';
+
 /**
  * Represents a billing interval for a pricing plan
  */
@@ -25,6 +27,7 @@ export interface PricingPlan {
   secondaryPriceDisplay?: string;
   isPopular?: boolean;
   benefits: BenefitItem[];
+  stripePriceId: string;
 }
 
 /**

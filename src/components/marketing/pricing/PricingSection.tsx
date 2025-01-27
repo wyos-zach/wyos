@@ -19,8 +19,8 @@ import { useSubscriptionStatus } from '@/lib/hooks/subscription/useSubscriptionS
 import { useToast } from '@/lib/hooks/shared/useToast';
 import { PricingErrorBoundary } from './PricingErrorBoundary';
 import { Functions, type Models } from 'appwrite';
-import { useAuthStore } from '@/store/Auth';
 import { client } from '@/models/client/config';
+import { useEffect } from 'react';
 
 // Function IDs constant
 const FUNCTION_IDS = {
@@ -31,49 +31,55 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
   const { toast } = useToast();
   const { status, isLoading, error, user, refetch } = useSubscriptionStatus();
   const isPopular = plan.isPopular;
+  useEffect(() => {
+    console.log(`Plan ${plan.name} Price ID:`, plan.stripePriceId);
+  }, [plan]);
 
   const handleSubscriptionAction = async () => {
     if (!user) {
-      // Redirect to sign in with return URL
       const returnUrl = encodeURIComponent(window.location.pathname);
       window.location.href = `/sign-in?redirect=${returnUrl}`;
       return;
     }
 
     if (status === 'active') {
-      // Redirect to subscription management
       window.location.href = '/account/subscription';
       return;
     }
 
+    if (!plan.stripePriceId) {
+      console.error('No Stripe Price ID available for plan:', plan.id);
+      toast({
+        variant: 'destructive',
+        title: 'Configuration Error',
+        description: 'Unable to process subscription. Please contact support.',
+      });
+      return;
+    }
+
     try {
-      // Show loading state in toast
       toast({
         title: 'Processing...',
         description: 'Preparing your subscription checkout...',
       });
 
-      // Initialize Appwrite Functions SDK with existing client
       const functions = new Functions(client);
 
-      // Call the Stripe checkout function
       const execution = await functions.createExecution(
         FUNCTION_IDS.stripeCheckout,
         JSON.stringify({
-          planId: plan.id,
-          successUrl: `${window.location.origin}/account/subscription?success=true`,
-          cancelUrl: `${window.location.origin}/pricing?canceled=true`,
+          priceId: plan.stripePriceId, // Changed from planId to priceId
+          successUrl: `${window.location.origin}/subscription/success`,
+          cancelUrl: `${window.location.origin}/subscription/cancel`,
         })
       );
 
-      // Parse the result from the function execution
       const result = JSON.parse(execution.responseBody);
 
       if (!result?.url) {
         throw new Error('No checkout URL returned from function');
       }
 
-      // Redirect to Stripe checkout
       window.location.href = result.url;
     } catch (err) {
       console.error('Subscription error:', err);
