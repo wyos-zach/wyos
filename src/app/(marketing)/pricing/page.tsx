@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { PricingSection } from '@/components/marketing/pricing/pricing-section';
-import { PricingFaq } from '@/components/marketing/pricing/pricing-faq';
+import { PricingSection } from '@/components/marketing/pricing/PricingSection';
+import { PricingFaq } from '@/components/marketing/pricing/PricingFAQ';
 
 export const metadata: Metadata = {
   title: 'Pricing | WYOS',
