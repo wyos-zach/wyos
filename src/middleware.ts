@@ -7,19 +7,14 @@ import { AppwriteException } from 'node-appwrite';
 
 // Define protected paths that require authentication
 const protectedPaths = [
-  '/subscription',
-  '/account',
+  '/(subscription)',
+  '/(core)',
   '/knowledge',
   '/resources',
 ];
 
 // Public paths that should never redirect to sign-in
-const publicPaths = [
-  '/sign-in',
-  '/sign-up',
-  '/reset-password',
-  '/verify-email',
-];
+const publicPaths = ['/login', '/register', '/reset-password', '/verify-email'];
 
 const client = new Client()
   .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
@@ -60,9 +55,9 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  const signInUrl = new URL('/sign-in', request.url);
-  signInUrl.searchParams.set('redirect', pathname + search);
-  return NextResponse.redirect(signInUrl);
+  const loginUrl = new URL('/login', request.url);
+  loginUrl.searchParams.set('redirect', pathname + search);
+  return NextResponse.redirect(loginUrl);
 }
 
 export const config = {
@@ -70,8 +65,8 @@ export const config = {
     // Match all paths except static files and API routes
     '/((?!api|_next/static|_next/image|favicon.ico|.*\\.).*)',
     // Include all paths under protected routes
-    '/subscription/:path*',
-    '/account/:path*',
+    '/(subscription)/:path*',
+    '/(core)/:path*',
     '/knowledge/:path*',
     '/resources/:path*',
   ],
