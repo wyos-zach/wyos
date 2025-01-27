@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Check, Loader2 } from 'lucide-react';
-import { defaultPricingConfig } from '@/lib/config/pricing';
+import { defaultPricingConfig } from '@/lib/config/site/pricing';
 import type {
   PricingSectionProps,
   PricingCardProps,
