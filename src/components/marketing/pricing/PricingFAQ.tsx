@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { defaultPricingConfig } from '@/lib/config/pricing';
-import type { PricingFaqProps } from '@/types/pricing';
+import type { PricingFaqProps } from '@/types/marketing/pricing';
 
 const faqs = [
   {

@@ -11,7 +11,10 @@ import {
 } from '@/components/ui/card';
 import { Check, Loader2 } from 'lucide-react';
 import { defaultPricingConfig } from '@/lib/config/pricing';
-import type { PricingSectionProps, PricingCardProps } from '@/types/pricing';
+import type {
+  PricingSectionProps,
+  PricingCardProps,
+} from '@/types/marketing/pricing';
 import { useSubscriptionStatus } from '@/lib/hooks/useSubscriptionStatus';
 import { useToast } from '@/lib/hooks/useToast';
 import { PricingErrorBoundary } from './PricingErrorBoundary';
