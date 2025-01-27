@@ -13,8 +13,16 @@ import { Check, Loader2 } from 'lucide-react';
 import { defaultPricingConfig } from '@/lib/config/pricing';
 import type { PricingSectionProps, PricingCardProps } from '@/types/pricing';
 import { useSubscriptionStatus } from '@/lib/hooks/useSubscriptionStatus';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/lib/hooks/useToast';
 import { PricingErrorBoundary } from './PricingErrorBoundary';
+import { Functions, type Models } from 'appwrite';
+import { useAuthStore } from '@/store/Auth';
+import { client } from '@/models/client/config';
+
+// Function IDs constant
+const FUNCTION_IDS = {
+  stripeCheckout: 'stripe-checkout',
+} as const;
 
 function PricingCard({ plan, className = '' }: PricingCardProps) {
   const { toast } = useToast();
@@ -23,8 +31,9 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
 
   const handleSubscriptionAction = async () => {
     if (!user) {
-      // Redirect to sign in
-      window.location.href = '/sign-in?redirect=/pricing';
+      // Redirect to sign in with return URL
+      const returnUrl = encodeURIComponent(window.location.pathname);
+      window.location.href = `/sign-in?redirect=${returnUrl}`;
       return;
     }
 
@@ -35,14 +44,41 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
     }
 
     try {
-      // Handle subscription flow
-      window.location.href = '/api/subscription/create-checkout';
+      // Show loading state in toast
+      toast({
+        title: 'Processing...',
+        description: 'Preparing your subscription checkout...',
+      });
+
+      // Initialize Appwrite Functions SDK with existing client
+      const functions = new Functions(client);
+
+      // Call the Stripe checkout function
+      const execution = await functions.createExecution(
+        FUNCTION_IDS.stripeCheckout,
+        JSON.stringify({
+          planId: plan.id,
+          successUrl: `${window.location.origin}/account/subscription?success=true`,
+          cancelUrl: `${window.location.origin}/pricing?canceled=true`,
+        })
+      );
+
+      // Parse the result from the function execution
+      const result = JSON.parse(execution.responseBody);
+
+      if (!result?.url) {
+        throw new Error('No checkout URL returned from function');
+      }
+
+      // Redirect to Stripe checkout
+      window.location.href = result.url;
     } catch (err) {
+      console.error('Subscription error:', err);
       toast({
         variant: 'destructive',
         title: 'Error',
         description:
-          'Failed to process subscription request. Please try again.',
+          'Failed to process subscription request. Please try again later.',
       });
     }
   };
