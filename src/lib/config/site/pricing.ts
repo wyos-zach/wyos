@@ -2,8 +2,8 @@ import { BenefitItem, FaqItem, PricingPlan } from '@/types/marketing/pricing';
 import type { env } from 'process';
 
 const STRIPE_PRICES = {
-  MONTHLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY,
-  ANNUAL: process.env.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL,
+  MONTHLY: process.env.STRIPE_PRICE_MONTHLY,
+  ANNUAL: process.env.STRIPE_PRICE_ANNUAL,
 } as const;
 
 /**
