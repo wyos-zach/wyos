@@ -861,12 +861,53 @@
         },
         {
             "$id": "679856d00029e5e2057e",
+            "$permissions": [],
             "databaseId": "wyos",
             "name": "user-subscriptions",
+            "enabled": true,
             "documentSecurity": true,
-            "attributes": [],
-            "indexes": [],
-            "enabled": true
+            "attributes": [
+                {
+                    "key": "status",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 20,
+                    "default": null
+                },
+                {
+                    "key": "priceId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 50,
+                    "default": null
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "status_id",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "status"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "price_id",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "priceId"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                }
+            ]
         }
     ],
     "buckets": [
