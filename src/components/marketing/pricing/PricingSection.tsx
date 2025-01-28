@@ -24,7 +24,7 @@ import { useEffect } from 'react';
 
 // Function IDs constant
 const FUNCTION_IDS = {
-  stripeCheckout: 'stripe-checkout',
+  subscriptions: '678a072f0002677430d7',
 } as const;
 
 function PricingCard({ plan, className = '' }: PricingCardProps) {
@@ -66,21 +66,30 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
       const functions = new Functions(client);
 
       const execution = await functions.createExecution(
-        FUNCTION_IDS.stripeCheckout,
+        FUNCTION_IDS.subscriptions,
         JSON.stringify({
-          priceId: plan.stripePriceId, // Changed from planId to priceId
           successUrl: `${window.location.origin}/subscription/success`,
-          cancelUrl: `${window.location.origin}/subscription/cancel`,
-        })
+          failureUrl: `${window.location.origin}/subscription/cancel`,
+          interval: plan.interval ?? 'monthly',
+        }),
+        false,
+        '/subscribe'
       );
 
-      const result = JSON.parse(execution.responseBody);
-
-      if (!result?.url) {
-        throw new Error('No checkout URL returned from function');
+      if (!execution.responseBody) {
+        throw new Error('No response from subscription function');
       }
 
-      window.location.href = result.url;
+      try {
+        const result = JSON.parse(execution.responseBody);
+        if (!result?.url) {
+          throw new Error('No checkout URL returned from function');
+        }
+        window.location.href = result.url;
+      } catch (parseError) {
+        console.error('Response parsing error:', execution.responseBody);
+        throw new Error('Invalid response from subscription function');
+      }
     } catch (err) {
       console.error('Subscription error:', err);
       toast({

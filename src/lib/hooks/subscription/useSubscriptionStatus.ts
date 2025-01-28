@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/Auth';
 import { Models, Query, RealtimeResponseEvent } from 'appwrite';
 import { client, databases } from '@/models/client/config';
-import { db, userSubscriptionsCollection } from '@/models/name';
+import { db, userSubscriptionsCollectionId } from '@/models/name';
 import { useEffect } from 'react';
 
 export type SubscriptionStatus =
@@ -31,7 +31,7 @@ interface UseSubscriptionStatusReturn {
 }
 
 interface SubscriptionDocument {
-  userId: string;
+  $id: string;
   status: SubscriptionStatus;
   currentPeriodEnd?: string;
   cancelAtPeriodEnd?: boolean;
@@ -56,9 +56,9 @@ export function useSubscriptionStatus(): UseSubscriptionStatusReturn {
       try {
         const subscriptions = await databases.listDocuments(
           db,
-          userSubscriptionsCollection,
+          userSubscriptionsCollectionId,
           [
-            Query.equal('userId', user.$id),
+            Query.equal('$id', user.$id),
             Query.orderDesc('$createdAt'),
             Query.limit(1),
           ]
@@ -88,9 +88,9 @@ export function useSubscriptionStatus(): UseSubscriptionStatusReturn {
     if (!user) return;
 
     const unsubscribe = client.subscribe<SubscriptionDocument>(
-      `databases.${db}.collections.${userSubscriptionsCollection}.documents`,
+      `databases.${db}.collections.${userSubscriptionsCollectionId}.documents`,
       (response: RealtimeResponseEvent<SubscriptionDocument>) => {
-        if (response.payload?.userId === user.$id) {
+        if (response.payload?.$id === user.$id) {
           refetch();
         }
       }

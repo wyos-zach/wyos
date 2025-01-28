@@ -14,27 +14,25 @@ class StripeService {
    * @param {string} userId
    * @param {string} successUrl
    * @param {string} failureUrl
+   * @param {'monthly' | 'annual'} interval
    */
-  async checkoutSubscription(context, userId, successUrl, failureUrl) {
-    /** @type {import('stripe').Stripe.Checkout.SessionCreateParams.LineItem} */
-    const lineItem = {
-      price_data: {
-        unit_amount: 1000, // $10.00
-        currency: 'usd',
-        recurring: {
-          interval: 'month',
-        },
-        product_data: {
-          name: 'Premium Subscription',
-        },
-      },
-      quantity: 1,
-    };
+  async checkoutSubscription(context, userId, successUrl, failureUrl, interval = 'monthly') {
+    const priceId = interval === 'monthly' 
+      ? process.env.STRIPE_PRICE_MONTHLY 
+      : process.env.STRIPE_PRICE_ANNUAL;
+
+    if (!priceId) {
+      context.error(`Price ID not found for interval: ${interval}`);
+      return null;
+    }
 
     try {
       return await this.client.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [lineItem],
+        line_items: [{
+          price: priceId,
+          quantity: 1,
+        }],
         success_url: successUrl,
         cancel_url: failureUrl,
         client_reference_id: userId,
@@ -66,6 +64,14 @@ class StripeService {
       context.error(err);
       return null;
     }
+  }
+
+  /**
+   * @param {string} subscriptionId 
+   * @returns {Promise<import("stripe").Stripe.Subscription>}
+   */
+  async getSubscription(subscriptionId) {
+    return await this.client.subscriptions.retrieve(subscriptionId);
   }
 }
 

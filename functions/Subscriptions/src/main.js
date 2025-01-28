@@ -8,6 +8,9 @@ export default async (context) => {
   throwIfMissing(process.env, [
     'STRIPE_SECRET_KEY',
     'STRIPE_WEBHOOK_SECRET',
+    'STRIPE_PRICE_MONTHLY',
+    'STRIPE_PRICE_ANNUAL',
+    'APPWRITE_DATABASE_ID'
   ]);
 
   if (req.method === 'GET') {
@@ -24,63 +27,95 @@ export default async (context) => {
   const stripe = new StripeService();
 
   switch (req.path) {
-    case '/subscribe':
+    case '/subscribe': {
       const fallbackUrl = req.scheme + '://' + req.headers['host'] + '/';
-
       const successUrl = req.body?.successUrl ?? fallbackUrl;
       const failureUrl = req.body?.failureUrl ?? fallbackUrl;
+      const interval = req.body?.interval ?? 'monthly';
 
       const userId = req.headers['x-appwrite-user-id'];
       if (!userId) {
         error('User ID not found in request.');
-        return res.redirect(failureUrl, 303);
+        return res.json({ 
+          success: false, 
+          error: 'User ID not found in request' 
+        }, 400);
       }
 
       const session = await stripe.checkoutSubscription(
         context,
         userId,
         successUrl,
-        failureUrl
+        failureUrl,
+        interval
       );
       if (!session) {
         error('Failed to create Stripe checkout session.');
-        return res.redirect(failureUrl, 303);
+        return res.json({ 
+          success: false, 
+          error: 'Failed to create Stripe checkout session' 
+        }, 500);
       }
 
-      context.log('Session:');
-      context.log(session);
-
       log(`Created Stripe checkout session for user ${userId}.`);
-      return res.redirect(session.url, 303);
+      return res.json({ 
+        success: true, 
+        url: session.url 
+      }, 200);
+    }
 
-    case '/webhook':
+    case '/webhook': {
       const event = stripe.validateWebhook(context, req);
       if (!event) {
         return res.json({ success: false }, 401);
       }
 
-      context.log('Event:');
-      context.log(event);
+      log('Processing Stripe event:', event.type);
 
-      if (event.type === 'customer.subscription.created') {
-        const session = event.data.object;
-        const userId = session.metadata.userId;
+      try {
+        switch (event.type) {
+          case 'customer.subscription.created':
+          case 'customer.subscription.updated': {
+            const subscription = event.data.object;
+            const userId = subscription.metadata.userId;
 
-        await appwrite.createSubscription(userId);
-        log(`Created subscription for user ${userId}`);
+            await appwrite.updateSubscription(userId, subscription);
+            log(`Updated subscription for user ${userId}`);
+            break;
+          }
+
+          case 'customer.subscription.deleted': {
+            const subscription = event.data.object;
+            const userId = subscription.metadata.userId;
+
+            await appwrite.deleteSubscription(userId);
+            log(`Deleted subscription for user ${userId}`);
+            break;
+          }
+
+          case 'checkout.session.completed': {
+            const session = event.data.object;
+            if (session.mode === 'subscription') {
+              const userId = session.client_reference_id;
+              const subscriptionId = session.subscription;
+
+              const subscription = await stripe.getSubscription(subscriptionId);
+              await appwrite.updateSubscription(userId, subscription);
+              log(`Initialized subscription for user ${userId}`);
+            }
+            break;
+          }
+
+          default:
+            log(`Unhandled event type: ${event.type}`);
+        }
+
         return res.json({ success: true });
+      } catch (err) {
+        error('Error processing webhook:', err);
+        return res.json({ success: false }, 500);
       }
-
-      if (event.type === 'customer.subscription.deleted') {
-        const session = event.data.object;
-        const userId = session.metadata.userId;
-
-        await appwrite.deleteSubscription(userId);
-        log(`Deleted subscription for user ${userId}`);
-        return res.json({ success: true });
-      }
-
-      return res.json({ success: true });
+    }
 
     default:
       return res.text('Not Found', 404);

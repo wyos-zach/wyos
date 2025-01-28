@@ -1,4 +1,4 @@
-import { Client, Users } from 'node-appwrite';
+import { Client, Users, Databases } from 'node-appwrite';
 
 const LabelsSubscriber = 'subscriber';
 
@@ -11,6 +11,26 @@ class AppwriteService {
       .setKey(apiKey);
 
     this.users = new Users(client);
+    this.databases = new Databases(client);
+  }
+
+  /**
+   * @param {string} userId
+   * @param {import('stripe').Stripe.Subscription} subscription
+   * @returns {Promise<void>}
+   */
+  async updateSubscription(userId, subscription) {
+    await this.databases.updateDocument(
+      process.env.APPWRITE_DATABASE_ID,
+      'users',
+      userId,
+      {
+        subscriptionStatus: subscription.status,
+        priceId: subscription.items.data[0].price.id,
+        subscriptionId: subscription.id,
+        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+      }
+    );
   }
 
   /**
@@ -18,11 +38,17 @@ class AppwriteService {
    * @returns {Promise<void>}
    */
   async deleteSubscription(userId) {
-    const labels = (await this.users.get(userId)).labels.filter(
-      (label) => label !== LabelsSubscriber
+    await this.databases.updateDocument(
+      process.env.APPWRITE_DATABASE_ID,
+      'users',
+      userId,
+      {
+        subscriptionStatus: 'canceled',
+        priceId: null,
+        subscriptionId: null,
+        currentPeriodEnd: null,
+      }
     );
-
-    await this.users.updateLabels(userId, labels);
   }
 
   /**
