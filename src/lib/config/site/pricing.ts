@@ -1,9 +1,13 @@
-import { BenefitItem, FaqItem, PricingPlan } from '@/types/marketing/pricing';
-import type { env } from 'process';
+import {
+  BenefitItem,
+  FaqItem,
+  PricingPlan,
+  type StripePriceId,
+} from '@/types/marketing/pricing';
 
 const STRIPE_PRICES = {
-  MONTHLY: process.env.STRIPE_PRICE_MONTHLY,
-  ANNUAL: process.env.STRIPE_PRICE_ANNUAL,
+  MONTHLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY,
+  ANNUAL: process.env.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL,
 } as const;
 
 /**
@@ -39,6 +43,16 @@ export const benefits: BenefitItem[] = [
 ];
 
 /**
+ * Stripe configuration
+ */
+export const stripeConfig = {
+  prices: {
+    monthly: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY,
+    annual: process.env.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL,
+  },
+} as const;
+
+/**
  * Available pricing plans
  */
 export const pricingPlans: PricingPlan[] = [
@@ -50,7 +64,8 @@ export const pricingPlans: PricingPlan[] = [
     price: 29.99,
     priceDisplay: '$29.99',
     benefits: benefits,
-    stripePriceId: STRIPE_PRICES.MONTHLY ?? '',
+    stripePriceId: (stripeConfig.prices.monthly ??
+      'price_placeholder') as StripePriceId,
   },
   {
     id: 'annual',
@@ -62,7 +77,8 @@ export const pricingPlans: PricingPlan[] = [
     secondaryPriceDisplay: '$20/month, billed annually',
     isPopular: true,
     benefits: benefits,
-    stripePriceId: STRIPE_PRICES.ANNUAL ?? '',
+    stripePriceId: (stripeConfig.prices.annual ??
+      'price_placeholder') as StripePriceId,
   },
 ];
 

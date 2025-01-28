@@ -15,98 +15,39 @@ import type {
   PricingSectionProps,
   PricingCardProps,
 } from '@/types/marketing/pricing';
-import { useSubscriptionStatus } from '@/lib/hooks/subscription/useSubscriptionStatus';
 import { useToast } from '@/lib/hooks/shared/useToast';
 import { PricingErrorBoundary } from './PricingErrorBoundary';
-import { Functions, type Models } from 'appwrite';
-import { client } from '@/models/client/config';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-// Function IDs constant
-const FUNCTION_IDS = {
-  subscriptions: '678a072f0002677430d7',
-} as const;
+// Function domain constant
+const FUNCTION_DOMAIN = 'https://67995290e7d65c0017dd.appwrite.global';
 
 function PricingCard({ plan, className = '' }: PricingCardProps) {
   const { toast } = useToast();
-  const { status, isLoading, error, user, refetch } = useSubscriptionStatus();
+  const [isLoading, setIsLoading] = useState(false);
   const isPopular = plan.isPopular;
+
+  // Log plan details for debugging
   useEffect(() => {
-    console.log(`Plan ${plan.name} Price ID:`, plan.stripePriceId);
+    console.log(`Plan ${plan.name} details:`, plan);
   }, [plan]);
 
   const handleSubscriptionAction = async () => {
-    if (!user) {
-      const returnUrl = encodeURIComponent(window.location.pathname);
-      window.location.href = `/sign-in?redirect=${returnUrl}`;
-      return;
-    }
-
-    if (status === 'active') {
-      window.location.href = '/account/subscription';
-      return;
-    }
-
-    if (!plan.stripePriceId) {
-      console.error('No Stripe Price ID available for plan:', plan.id);
-      toast({
-        variant: 'destructive',
-        title: 'Configuration Error',
-        description: 'Unable to process subscription. Please contact support.',
-      });
-      return;
-    }
+    setIsLoading(true);
 
     try {
-      toast({
-        title: 'Processing...',
-        description: 'Preparing your subscription checkout...',
-      });
-
-      const functions = new Functions(client);
-
-      const execution = await functions.createExecution(
-        FUNCTION_IDS.subscriptions,
-        JSON.stringify({
-          successUrl: `${window.location.origin}/subscription/success`,
-          failureUrl: `${window.location.origin}/subscription/cancel`,
-          interval: plan.interval ?? 'monthly',
-        }),
-        false,
-        '/subscribe'
-      );
-
-      if (!execution.responseBody) {
-        throw new Error('No response from subscription function');
-      }
-
-      try {
-        const result = JSON.parse(execution.responseBody);
-        if (!result?.url) {
-          throw new Error('No checkout URL returned from function');
-        }
-        window.location.href = result.url;
-      } catch (parseError) {
-        console.error('Response parsing error:', execution.responseBody);
-        throw new Error('Invalid response from subscription function');
-      }
+      // Redirect to the function's /subscribe endpoint
+      window.location.href = `${FUNCTION_DOMAIN}/subscribe`;
     } catch (err) {
       console.error('Subscription error:', err);
       toast({
         variant: 'destructive',
         title: 'Error',
-        description:
-          'Failed to process subscription request. Please try again later.',
+        description: 'Could not process subscription. Please try again.',
       });
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const getButtonText = () => {
-    if (isLoading) return 'Loading...';
-    if (error) return 'Try Again';
-    if (!user) return 'Sign Up';
-    if (status === 'active') return 'Manage Subscription';
-    return `Get Started ${plan.name}`;
   };
 
   return (
@@ -144,20 +85,19 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
       </CardContent>
       <CardFooter className='relative z-10'>
         <Button
-          className='w-full relative z-10'
+          className='relative z-10 w-full'
           size='lg'
           onClick={handleSubscriptionAction}
           disabled={isLoading}
-          aria-label={`${getButtonText()} - ${plan.name} plan`}
           variant={isPopular ? 'default' : 'outline'}
         >
           {isLoading ? (
             <>
               <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-              Loading...
+              Processing...
             </>
           ) : (
-            getButtonText()
+            'Get Started'
           )}
         </Button>
       </CardFooter>
