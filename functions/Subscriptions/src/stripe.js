@@ -1,25 +1,29 @@
-/// <reference types="stripe-event-types" />
-
 import stripe from 'stripe';
 
 class StripeService {
   constructor() {
-    // Note: stripe cjs API types are faulty
     /** @type {import('stripe').Stripe} */
-    // @ts-ignore
     this.client = stripe(process.env.STRIPE_SECRET_KEY);
   }
 
   /**
+   * @param {import('appwrite').Context} context
    * @param {string} userId
    * @param {string} successUrl
    * @param {string} failureUrl
    * @param {'monthly' | 'annual'} interval
    */
-  async checkoutSubscription(context, userId, successUrl, failureUrl, interval = 'monthly') {
-    const priceId = interval === 'monthly' 
-      ? process.env.STRIPE_PRICE_MONTHLY 
-      : process.env.STRIPE_PRICE_ANNUAL;
+  async checkoutSubscription(
+    context,
+    userId,
+    successUrl,
+    failureUrl,
+    interval = 'monthly'
+  ) {
+    const priceId =
+      interval === 'monthly'
+        ? process.env.STRIPE_PRICE_MONTHLY
+        : process.env.STRIPE_PRICE_ANNUAL;
 
     if (!priceId) {
       context.error(`Price ID not found for interval: ${interval}`);
@@ -29,10 +33,12 @@ class StripeService {
     try {
       return await this.client.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [{
-          price: priceId,
-          quantity: 1,
-        }],
+        line_items: [
+          {
+            price: priceId,
+            quantity: 1,
+          },
+        ],
         success_url: successUrl,
         cancel_url: failureUrl,
         client_reference_id: userId,
@@ -50,7 +56,9 @@ class StripeService {
   }
 
   /**
-   * @returns {import("stripe").Stripe.DiscriminatedEvent | null}
+   * @param {import('appwrite').Context} context
+   * @param {import('appwrite').Context['req']} req
+   * @returns {import('stripe').Stripe.Event | null}
    */
   validateWebhook(context, req) {
     try {
@@ -59,7 +67,7 @@ class StripeService {
         req.headers['stripe-signature'],
         process.env.STRIPE_WEBHOOK_SECRET
       );
-      return /** @type {import("stripe").Stripe.DiscriminatedEvent} */ (event);
+      return event;
     } catch (err) {
       context.error(err);
       return null;
@@ -67,8 +75,8 @@ class StripeService {
   }
 
   /**
-   * @param {string} subscriptionId 
-   * @returns {Promise<import("stripe").Stripe.Subscription>}
+   * @param {string} subscriptionId
+   * @returns {Promise<import('stripe').Stripe.Subscription>}
    */
   async getSubscription(subscriptionId) {
     return await this.client.subscriptions.retrieve(subscriptionId);
