@@ -22,13 +22,15 @@ class AppwriteService {
   async updateSubscription(userId, subscription) {
     await this.databases.updateDocument(
       process.env.APPWRITE_DATABASE_ID,
-      'users',
+      'user-subscriptions',
       userId,
       {
         subscriptionStatus: subscription.status,
         priceId: subscription.items.data[0].price.id,
         subscriptionId: subscription.id,
-        currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+        currentPeriodEnd: new Date(
+          subscription.current_period_end * 1000
+        ).toISOString(),
       }
     );
   }
@@ -40,7 +42,7 @@ class AppwriteService {
   async deleteSubscription(userId) {
     await this.databases.updateDocument(
       process.env.APPWRITE_DATABASE_ID,
-      'users',
+      'user-subscriptions',
       userId,
       {
         subscriptionStatus: 'canceled',

@@ -3,7 +3,7 @@ import stripe from 'stripe';
 class StripeService {
   constructor() {
     /** @type {import('stripe').Stripe} */
-    this.client = stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY);
+    this.client = stripe(process.env.STRIPE_SECRET_KEY);
   }
 
   /**
@@ -22,8 +22,8 @@ class StripeService {
   ) {
     const priceId =
       interval === 'monthly'
-        ? process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY
-        : process.env.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL;
+        ? process.env.STRIPE_PRICE_MONTHLY
+        : process.env.STRIPE_PRICE_ANNUAL;
 
     if (!priceId) {
       context.error(`Price ID not found for interval: ${interval}`);
@@ -65,7 +65,7 @@ class StripeService {
       const event = this.client.webhooks.constructEvent(
         req.bodyBinary,
         req.headers['stripe-signature'],
-        process.env.NEXT_PUBLIC_STRIPE_WEBHOOK_SECRET
+        process.env.STRIPE_WEBHOOK_SECRET
       );
       return event;
     } catch (err) {
