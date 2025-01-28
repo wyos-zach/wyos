@@ -858,6 +858,15 @@
                     ]
                 }
             ]
+        },
+        {
+            "$id": "679856d00029e5e2057e",
+            "databaseId": "wyos",
+            "name": "user-subscriptions",
+            "documentSecurity": true,
+            "attributes": [],
+            "indexes": [],
+            "enabled": true
         }
     ],
     "buckets": [
