@@ -142,13 +142,14 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
           ))}
         </ul>
       </CardContent>
-      <CardFooter>
+      <CardFooter className='relative z-10'>
         <Button
-          className='w-full'
+          className='w-full relative z-10'
           size='lg'
           onClick={handleSubscriptionAction}
           disabled={isLoading}
           aria-label={`${getButtonText()} - ${plan.name} plan`}
+          variant={isPopular ? 'default' : 'outline'}
         >
           {isLoading ? (
             <>

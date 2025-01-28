@@ -8,14 +8,15 @@ export default async (context) => {
   throwIfMissing(process.env, [
     'STRIPE_SECRET_KEY',
     'STRIPE_WEBHOOK_SECRET',
-    'STRIPE_PRICE_MONTHLY',
-    'STRIPE_PRICE_ANNUAL',
-    'APPWRITE_DATABASE_ID'
+    'NEXT_PUBLIC_STRIPE_PRICE_MONTHLY',
+    'NEXT_PUBLIC_STRIPE_PRICE_ANNUAL',
+    'APPWRITE_DATABASE_ID',
   ]);
 
   if (req.method === 'GET') {
     const html = interpolate(getStaticFile('index.html'), {
-      APPWRITE_FUNCTION_API_ENDPOINT: process.env.APPWRITE_FUNCTION_API_ENDPOINT,
+      APPWRITE_FUNCTION_API_ENDPOINT:
+        process.env.APPWRITE_FUNCTION_API_ENDPOINT,
       APPWRITE_FUNCTION_PROJECT_ID: process.env.APPWRITE_FUNCTION_PROJECT_ID,
       APPWRITE_FUNCTION_ID: process.env.APPWRITE_FUNCTION_ID,
     });
@@ -36,10 +37,13 @@ export default async (context) => {
       const userId = req.headers['x-appwrite-user-id'];
       if (!userId) {
         error('User ID not found in request.');
-        return res.json({ 
-          success: false, 
-          error: 'User ID not found in request' 
-        }, 400);
+        return res.json(
+          {
+            success: false,
+            error: 'User ID not found in request',
+          },
+          400
+        );
       }
 
       const session = await stripe.checkoutSubscription(
@@ -51,17 +55,23 @@ export default async (context) => {
       );
       if (!session) {
         error('Failed to create Stripe checkout session.');
-        return res.json({ 
-          success: false, 
-          error: 'Failed to create Stripe checkout session' 
-        }, 500);
+        return res.json(
+          {
+            success: false,
+            error: 'Failed to create Stripe checkout session',
+          },
+          500
+        );
       }
 
       log(`Created Stripe checkout session for user ${userId}.`);
-      return res.json({ 
-        success: true, 
-        url: session.url 
-      }, 200);
+      return res.json(
+        {
+          success: true,
+          url: session.url,
+        },
+        200
+      );
     }
 
     case '/webhook': {
