@@ -2,13 +2,17 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuthStore } from '@/store/Auth';
 import { Models, Query, RealtimeResponseEvent } from 'appwrite';
 import { client, databases } from '@/models/client/config';
+import { db, userSubscriptionsCollection } from '@/models/name';
 import { useEffect } from 'react';
 
-// Database and collection IDs
-const SUBSCRIPTIONS_DB = '677c9323003c5be0a3ba';
-const SUBSCRIPTIONS_COLLECTION = '677c93a3001d74099756';
-
-export type SubscriptionStatus = 'active' | 'inactive' | 'trialing' | 'past_due' | 'canceled' | 'loading' | 'error';
+export type SubscriptionStatus =
+  | 'active'
+  | 'inactive'
+  | 'trialing'
+  | 'past_due'
+  | 'canceled'
+  | 'loading'
+  | 'error';
 
 interface SubscriptionData {
   status: SubscriptionStatus;
@@ -26,7 +30,6 @@ interface UseSubscriptionStatusReturn {
   refetch: () => Promise<void>;
 }
 
-// Subscription document type
 interface SubscriptionDocument {
   userId: string;
   status: SubscriptionStatus;
@@ -51,11 +54,14 @@ export function useSubscriptionStatus(): UseSubscriptionStatusReturn {
       }
 
       try {
-        // Query Appwrite database for subscription status
         const subscriptions = await databases.listDocuments(
-          SUBSCRIPTIONS_DB,
-          SUBSCRIPTIONS_COLLECTION,
-          [Query.equal('userId', user.$id), Query.orderDesc('$createdAt'), Query.limit(1)]
+          db,
+          userSubscriptionsCollection,
+          [
+            Query.equal('userId', user.$id),
+            Query.orderDesc('$createdAt'),
+            Query.limit(1),
+          ]
         );
 
         if (subscriptions.documents.length === 0) {
@@ -74,20 +80,17 @@ export function useSubscriptionStatus(): UseSubscriptionStatusReturn {
       }
     },
     enabled: !!user,
-    staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
-    gcTime: 10 * 60 * 1000, // Keep data in cache for 10 minutes
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 
-  // Set up real-time subscription updates
   useEffect(() => {
     if (!user) return;
 
     const unsubscribe = client.subscribe<SubscriptionDocument>(
-      `databases.${SUBSCRIPTIONS_DB}.collections.${SUBSCRIPTIONS_COLLECTION}.documents`,
+      `databases.${db}.collections.${userSubscriptionsCollection}.documents`,
       (response: RealtimeResponseEvent<SubscriptionDocument>) => {
-        // Only process events for the current user's subscription
         if (response.payload?.userId === user.$id) {
-          // Force refetch to get the latest status
           refetch();
         }
       }

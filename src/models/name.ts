@@ -5,6 +5,7 @@ export const resourceCategoriesCollection = 'resource-categories';
 export const knowledgeCollection = 'knowledge';
 export const resourcesCollection = 'resources';
 export const tagsCollection = 'tags';
+export const userSubscriptionsCollection = 'user-subscriptions';
 
 export const knowledgeAttachmentsBucket = 'knowledge-attachments';
 export const resourcesAttachmentsBucket = 'resources-attachments';
