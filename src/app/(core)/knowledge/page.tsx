@@ -1,11 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { KnowledgeGrid } from '@/components/core/knowledge/content/KnowledgeGrid';
-import { CategoryNav } from '@/components/core/knowledge/navigation/CategoryNav';
 import { SearchBar } from '@/components/core/knowledge/navigation/SearchBar';
-import { FilterPanel } from '@/components/core/knowledge/filters/FilterPanel';
-import { Skeleton } from '@/components/ui/skeleton';
+import { CategoryNav } from '@/components/core/knowledge/navigation/CategoryNav';
+import { KnowledgeGrid } from '@/components/core/knowledge/content/KnowledgeGrid';
 
 export default function KnowledgePage() {
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -19,7 +17,6 @@ export default function KnowledgePage() {
             onSearch={setSearchQuery}
             placeholder='Search knowledge base...'
           />
-          <FilterPanel />
         </div>
         <CategoryNav
           currentCategoryId={selectedCategory}

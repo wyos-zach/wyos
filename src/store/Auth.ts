@@ -60,12 +60,24 @@ export const useAuthStore = create<IAuthStore>()(
 
       async verifySession() {
         try {
-          const session = await account.getSession('current');
-          const [user, { jwt }] = await Promise.all([
-            account.get<UserPrefs>(),
-            account.createJWT(),
-          ]);
-          set({ session, jwt, user });
+          // Try multiple times with a delay to handle race conditions
+          for (let i = 0; i < 3; i++) {
+            try {
+              const session = await account.getSession('current');
+              const [user, { jwt }] = await Promise.all([
+                account.get<UserPrefs>(),
+                account.createJWT(),
+              ]);
+              set({ session, jwt, user });
+              return;
+            } catch (error) {
+              if (i < 2) {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                continue;
+              }
+              throw error;
+            }
+          }
         } catch (error) {
           set({ session: null, jwt: null, user: null });
           console.error('Session verification failed:', error);

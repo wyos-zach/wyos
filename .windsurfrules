@@ -5,7 +5,6 @@
 3. **Core Libraries**:
    - UI Framework: Tailwind CSS with ShadcN components.
    - State Management: Zustand (client state) and TanStack Query (server state).
-   - Animations: Framer Motion.
    - Validation: Zod.
    - Backend: Appwrite for authentication and database services.
 
@@ -145,3 +144,9 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
   - Well-documented with clear comments.
   - Modular, readable, and maintainable.
   - Free of bugs and errors.
+
+When debugging, only make code changes if you are certain that you can solve the problem.
+Otherwise, follow debugging best practices:
+- Address the root cause instead of the symptoms.
+- Add descriptive logging statements and error messages to track variable and code state.
+- Add test functions and statements to isolate the problem.

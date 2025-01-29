@@ -5,7 +5,7 @@ export const resourceCategoriesCollection = 'resource-categories';
 export const knowledgeCollection = 'knowledge';
 export const resourcesCollection = 'resources';
 export const tagsCollection = 'tags';
-export const userSubscriptionsCollectionId = '679856d00029e5e2057e'; // This should come from env in the future
+export const userSubscriptionsCollection = '679856d00029e5e2057e'; // This should come from env in the future
 
 export const knowledgeAttachmentsBucket = 'knowledge-attachments';
 export const resourcesAttachmentsBucket = 'resources-attachments';
