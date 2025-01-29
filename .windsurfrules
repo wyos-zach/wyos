@@ -120,14 +120,14 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ### Testing
 
-1. Write unit tests for all components and hooks using **Jest** and **React Testing Library**.
+1. Write unit tests for all components and hooks using **Vitest** and **React Testing Library**.
 2. Include integration tests for workflows like:
    - User authentication.
    - Knowledge/resource filtering.
    - Form submissions.
 3. Perform accessibility testing with `axe-core` to ensure compliance.
-4. Snapshot tests should only be used for visual consistency but avoided for logic validation.
-5. Use mock service worker (msw) to test API interactions in isolation during unit tests.
+4. Ensure all new features are tested for accessibility, performance, and edge cases.
+5. Use **DeepSource** for static analysis and code quality.
 
 ### Documentation
 
