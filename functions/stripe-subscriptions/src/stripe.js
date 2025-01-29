@@ -1,5 +1,3 @@
-/// <reference types="stripe-event-types" />
-
 import stripe from 'stripe';
 
 class StripeService {
