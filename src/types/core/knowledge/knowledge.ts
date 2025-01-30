@@ -1,48 +1,32 @@
 export interface KnowledgeEntry {
-  id: string;
+  $id: string;
   title: string;
   slug: string;
   summary: string;
   content: string;
   categoryId: string;
-  metadata: {
-    featured: boolean;
-    publishedAt: Date;
-    updatedAt: Date;
-    imageUrl?: string;
-  };
+  featured: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  imageUrl?: string;
+  seoDescription?: string;
+  keywords?: string[];
 }
 
 export interface Category {
-  id: string;
+  $id: string;
   name: string;
   slug: string;
-  description: string;
-  orderIndex: number;
+  description?: string;
+  order: number;
   isActive: boolean;
+  imageUrl?: string;
+  icon?: string;
 }
 
-export interface QueryResult {
-  entries: KnowledgeEntry[];
+export interface QueryResult<T> {
+  documents: T[];
+  total: number;
   hasMore: boolean;
   nextPage: number;
-}
-
-export interface KnowledgeGridProps {
-  categoryId?: string;
-  searchQuery?: string;
-}
-
-export interface KnowledgeCardProps {
-  entry: KnowledgeEntry;
-}
-
-export interface CategoryNavProps {
-  currentCategoryId?: string;
-  onCategoryChange?: (categoryId: string) => void;
-}
-
-export interface SearchBarProps {
-  onSearch?: (query: string) => void;
-  placeholder?: string;
 }
