@@ -6,12 +6,7 @@ import { Account, Client } from 'node-appwrite';
 import { AppwriteException } from 'node-appwrite';
 
 // Define protected paths that require authentication
-const protectedPaths = [
-  '/(subscription)',
-  '/(core)',
-  '/knowledge',
-  '/resources',
-];
+const protectedPaths = ['/(subscription)', '/(core)'];
 
 // Public paths that should never redirect to sign-in
 const publicPaths = ['/login', '/register', '/reset-password', '/verify-email'];
