@@ -1,0 +1,73 @@
+import { Query } from 'appwrite'; // Ensure Query is imported
+import { AppwriteBaseRepository } from '../core/appwrite-base.repository';
+import type { KnowledgeEntry, KnowledgeCategory } from '@/types/core/knowledge';
+import {
+  db,
+  knowledgeCollection,
+  knowledgeCategoriesCollection,
+} from '@/models/name';
+
+export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEntry> {
+  constructor() {
+    super(db, knowledgeCollection);
+  }
+
+  protected mapDocument(document: any): KnowledgeEntry {
+    return {
+      $id: document.$id,
+      title: document.title,
+      slug: document.slug,
+      summary: document.summary,
+      content: document.content,
+      categoryId: document.categoryId,
+      featured: document.featured,
+      imageUrl: document.imageUrl,
+      seoDescription: document.seoDescription,
+      keywords: document.keywords,
+      $createdAt: new Date(document.$createdAt).toISOString(),
+      $updatedAt: new Date(document.$updatedAt).toISOString(),
+      $permissions: document.$permissions, // Added permissions
+    };
+  }
+
+  async listFeaturedEntries(limit: number = 3): Promise<KnowledgeEntry[]> {
+    const result = await this.findAll(
+      { featured: true },
+      {
+        queries: [Query.orderDesc('$createdAt'), Query.limit(limit)],
+      }
+    );
+    return result.documents;
+  }
+}
+
+export class KnowledgeCategoryRepository extends AppwriteBaseRepository<KnowledgeCategory> {
+  constructor() {
+    super(db, knowledgeCategoriesCollection);
+  }
+
+  protected mapDocument(document: any): KnowledgeCategory {
+    return {
+      $id: document.$id,
+      name: document.name,
+      slug: document.slug,
+      description: document.description,
+      order: document.order,
+      isActive: document.isActive,
+      icon: document.icon,
+      imageUrl: document.imageUrl,
+      $createdAt: new Date(document.$createdAt).toISOString(),
+      $updatedAt: new Date(document.$updatedAt).toISOString(),
+    };
+  }
+
+  async listActiveCategories(): Promise<KnowledgeCategory[]> {
+    const result = await this.findAll(
+      { isActive: true },
+      {
+        queries: [Query.orderAsc('order')],
+      }
+    );
+    return result.documents;
+  }
+}

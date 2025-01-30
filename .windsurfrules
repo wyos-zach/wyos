@@ -119,14 +119,12 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 
 ### Testing
 
-1. Write unit tests for all components and hooks using **Vitest** and **React Testing Library**.
-2. Include integration tests for workflows like:
+1. Include integration tests for workflows like:
    - User authentication.
    - Knowledge/resource filtering.
    - Form submissions.
-3. Perform accessibility testing with `axe-core` to ensure compliance.
-4. Ensure all new features are tested for accessibility, performance, and edge cases.
-5. Use **DeepSource** for static analysis and code quality.
+2. Ensure all new features are tested for accessibility, performance, and edge cases.
+3. Use **DeepSource** for static analysis and code quality.
 
 ### Documentation
 

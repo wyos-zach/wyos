@@ -4,16 +4,7 @@ import { PageHeader } from '@/components/shared/layout/PageHeader';
 
 export const metadata: Metadata = {
   title: 'Knowledge Hub - WYOS',
-  description:
-    'Discover curated knowledge and insights to help you write your own story',
-  keywords: ['knowledge', 'learning', 'personal development'],
-  openGraph: {
-    title: 'Knowledge Hub - WYOS',
-    description:
-      'Discover curated knowledge and insights to help you write your own story',
-    type: 'website',
-    siteName: 'WYOS',
-  },
+  description: 'Curated practical knowledge for personal growth',
 };
 
 export default function KnowledgeLayout({
@@ -25,7 +16,7 @@ export default function KnowledgeLayout({
     <div className='relative flex min-h-screen flex-col'>
       <PageHeader
         title='Knowledge Hub'
-        description='Discover practical insights and wisdom to help you move forward'
+        description='Actionable insights to help you write your story'
         pattern='dots'
         align='center'
       />

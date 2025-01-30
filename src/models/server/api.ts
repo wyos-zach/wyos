@@ -1,109 +1,29 @@
+// models/server/api.ts
 import { ID, Query, type Models } from 'appwrite';
-import { account, databases } from '@/models/client/config';
-import type { KnowledgeEntry } from '@/types/core/knowledge/knowledge';
-
-interface Resource {
-  id: string;
-  title: string;
-  slug: string;
-  summary: string;
-  content: string;
-  categoryId: string;
-  metadata: {
-    featured: boolean;
-    publishedAt: Date;
-    updatedAt: Date;
-    imageUrl?: string;
-    downloadUrl?: string;
-    fileType?: string;
-  };
-}
-
-interface Category {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  order: number;
-  isActive: boolean;
-}
-
-//Category API
-function mapDocumentToCategory(doc: Models.Document): Category {
-  return {
-    id: doc.$id,
-    name: doc.name,
-    slug: doc.slug,
-    description: doc.description,
-    order: doc.order,
-    isActive: doc.isActive,
-  };
-}
-
-export const categoryApi = {
-  fetchCategories: async () => {
-    const queries = [Query.orderAsc('order'), Query.equal('isActive', true)];
-
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_APPWRITE_CATEGORIES_COLLECTION_ID!,
-      queries
-    );
-
-    return response.documents.map(mapDocumentToCategory);
-  },
-  fetchResourceCategories: async () => {
-    const queries = [Query.orderAsc('order'), Query.equal('isActive', true)];
-
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_CATEGORIES_COLLECTION_ID!,
-      queries
-    );
-
-    return response.documents.map(mapDocumentToCategory);
-  },
-};
-
-//Knowledge Entry API
-function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
-  return {
-    id: doc.$id,
-    title: doc.title,
-    slug: doc.slug,
-    summary: doc.summary,
-    content: doc.content,
-    categoryId: doc.category?.$id,
-    metadata: {
-      featured: doc.featured || false,
-      publishedAt: new Date(doc.$createdAt),
-      updatedAt: new Date(doc.$updatedAt),
-      imageUrl: doc.imageUrl,
-    },
-  };
-}
+import { databases } from '@/models/client/config';
 
 export const knowledgeApi = {
-  fetchKnowledgeEntries: async ({
-    categoryId,
-    searchQuery,
-    page = 0,
-  }: {
+  async fetchKnowledgeEntries(params: {
     categoryId?: string;
     searchQuery?: string;
-    page: number;
-  }) => {
+    page?: number;
+  }) {
     const limit = 9;
+    const page = params.page || 0;
     const offset = page * limit;
 
-    const queries = [Query.limit(limit), Query.offset(offset)];
+    const queries = [
+      Query.limit(limit),
+      Query.offset(offset),
+      Query.orderDesc('$createdAt'),
+    ];
 
-    if (categoryId) {
-      queries.push(Query.equal('categoryId', categoryId));
+    if (params.categoryId) {
+      queries.push(Query.equal('categoryId', params.categoryId));
     }
 
-    if (searchQuery) {
-      queries.push(Query.search('title', searchQuery));
+    if (params.searchQuery) {
+      queries.push(Query.search('title', params.searchQuery));
     }
 
     const response = await databases.listDocuments(
@@ -113,78 +33,27 @@ export const knowledgeApi = {
     );
 
     return {
-      entries: response.documents.map(mapDocumentToKnowledgeEntry),
+      documents: response.documents.map(mapDocumentToKnowledgeEntry),
+      total: response.total,
       hasMore: response.total > offset + limit,
       nextPage: page + 1,
     };
   },
 };
 
-//Resource API
-function mapDocumentToResource(doc: Models.Document): Resource {
+function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
   return {
-    id: doc.$id,
+    $id: doc.$id,
     title: doc.title,
     slug: doc.slug,
     summary: doc.summary,
     content: doc.content,
-    categoryId: doc.category?.$id,
-    metadata: {
-      featured: doc.featured || false,
-      publishedAt: new Date(doc.$createdAt),
-      updatedAt: new Date(doc.$updatedAt),
-      imageUrl: doc.imageUrl,
-      downloadUrl: doc.downloadUrl,
-      fileType: doc.fileType,
-    },
+    categoryId: doc.categoryId,
+    featured: doc.featured,
+    createdAt: new Date(doc.$createdAt),
+    updatedAt: new Date(doc.$updatedAt),
+    imageUrl: doc.imageUrl,
+    seoDescription: doc.seoDescription,
+    keywords: doc.keywords,
   };
 }
-
-export const resourceApi = {
-  fetchResources: async ({
-    categoryId,
-    searchQuery,
-    page = 0,
-  }: {
-    categoryId?: string;
-    searchQuery?: string;
-    page: number;
-  }) => {
-    const limit = 9;
-    const offset = page * limit;
-
-    const queries = [Query.limit(limit), Query.offset(offset)];
-
-    if (categoryId) {
-      queries.push(Query.equal('categoryRef', categoryId));
-    }
-
-    if (searchQuery) {
-      queries.push(Query.search('title', searchQuery));
-    }
-
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_COLLECTION_ID!,
-      queries
-    );
-
-    return {
-      entries: response.documents.map(mapDocumentToResource),
-      hasMore: response.total > offset + limit,
-      nextPage: page + 1,
-    };
-  },
-
-  fetchResourceCategories: async () => {
-    const queries = [Query.orderAsc('order'), Query.equal('isActive', true)];
-
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_DATABASE_ID!,
-      process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_CATEGORIES_COLLECTION_ID!,
-      queries
-    );
-
-    return response.documents.map(mapDocumentToCategory);
-  },
-};
