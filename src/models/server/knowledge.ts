@@ -1,4 +1,4 @@
-import { ID, Query, type Models } from 'appwrite';
+import { ID, Query } from 'appwrite';
 import { databases } from '@/models/client/config';
 import {
   db,
@@ -36,6 +36,7 @@ export const KnowledgeService = {
       throw new KnowledgeError(500, 'Failed to fetch main categories');
     }
   },
+
   async listKnowledgeEntries({
     categoryId,
     searchQuery,
@@ -50,6 +51,7 @@ export const KnowledgeService = {
     try {
       const queries = [];
 
+      // If your actual field is "knowledgeCategoryId" in Appwrite, filter by that:
       if (categoryId) {
         queries.push(Query.equal('knowledgeCategoryId', categoryId));
       }
@@ -58,6 +60,7 @@ export const KnowledgeService = {
         queries.push(Query.search('title', searchQuery));
       }
 
+      // Remove "knowledgeCategoryId" from Query.select if Appwrite won't allow selecting that field
       const response = await databases.listDocuments(db, knowledgeCollection, [
         ...queries,
         Query.orderDesc('$createdAt'),
@@ -70,13 +73,12 @@ export const KnowledgeService = {
           'summary',
           'content',
           'featured',
-          'imageurl',
+          'imageUrl',
           'seoDescription',
           'keywords',
-          'knowledgeCategoryId',
           '$createdAt',
           '$updatedAt',
-          '$permissions', // Fix 4: Add permissions field
+          '$permissions',
         ]),
       ]);
 
@@ -87,14 +89,15 @@ export const KnowledgeService = {
           slug: doc.slug,
           summary: doc.summary,
           content: doc.content,
-          categoryId: doc.knowledgeCategoryId, // Fix 5: Match type definition
+          // Use it if the doc returns it. Otherwise this might be undefined if the field can't be selected.
+          categoryId: doc.knowledgeCategoryId ?? '',
           featured: doc.featured,
-          imageUrl: doc.imageurl,
+          imageUrl: doc.imageUrl,
           seoDescription: doc.seoDescription,
           keywords: doc.keywords,
           $createdAt: doc.$createdAt,
           $updatedAt: doc.$updatedAt,
-          $permissions: doc.$permissions, // Fix 4: Add permissions
+          $permissions: doc.$permissions,
         })),
         total: response.total,
         hasMore: response.total > page * pageSize,
@@ -115,7 +118,8 @@ export const KnowledgeService = {
         db,
         knowledgeCategoriesCollection,
         [
-          Query.equal('maincategoryId', mainCategoryId),
+          // Must match the exact attribute: if it's "mainCategoryId" in Appwrite, keep the case
+          Query.equal('mainCategoryId', mainCategoryId),
           Query.equal('isActive', true),
           Query.orderAsc('order'),
           Query.select([
@@ -138,8 +142,8 @@ export const KnowledgeService = {
         order: doc.order,
         isActive: doc.isActive,
         icon: doc.icon,
-        $createdAt: doc.$createdAt, // Added
-        $updatedAt: doc.$updatedAt, // Added
+        $createdAt: doc.$createdAt,
+        $updatedAt: doc.$updatedAt,
       }));
     } catch (error) {
       console.error('KnowledgeService.getSubcategories failed:', error);
@@ -152,6 +156,7 @@ export const KnowledgeService = {
 
   async getEntryBySlug(slug: string): Promise<KnowledgeEntry> {
     try {
+      // Remove "knowledgeCategoryId" if Appwrite doesn't allow it in Query.select
       const response = await databases.listDocuments(db, knowledgeCollection, [
         Query.equal('slug', slug),
         Query.limit(1),
@@ -162,10 +167,9 @@ export const KnowledgeService = {
           'summary',
           'content',
           'featured',
-          'imageurl',
+          'imageUrl',
           'seoDescription',
           'keywords',
-          'knowledgeCategoryId',
           '$createdAt',
           '$updatedAt',
           '$permissions',
@@ -183,9 +187,10 @@ export const KnowledgeService = {
         slug: doc.slug,
         summary: doc.summary,
         content: doc.content,
-        categoryId: doc.knowledgeCategoryId,
+        // Use doc.knowledgeCategoryId if Appwrite returns it, or fallback
+        categoryId: doc.knowledgeCategoryId ?? '',
         featured: doc.featured,
-        imageUrl: doc.imageurl,
+        imageUrl: doc.imageUrl,
         seoDescription: doc.seoDescription,
         keywords: doc.keywords,
         $createdAt: doc.$createdAt,
@@ -208,11 +213,9 @@ export const KnowledgeService = {
         Query.orderDesc('$createdAt'),
         Query.limit(limit),
       ]);
-
       if (!response.documents.length) {
         return [];
       }
-
       return response.documents as unknown as KnowledgeEntry[];
     } catch (error) {
       throw new KnowledgeError(
