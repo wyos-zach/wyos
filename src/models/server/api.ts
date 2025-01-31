@@ -1,4 +1,3 @@
-// models/server/api.ts
 import { ID, Query, type Models } from 'appwrite';
 import { databases } from '@/models/client/config';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
