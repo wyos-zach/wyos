@@ -61,21 +61,21 @@ export default async function createUserSubscriptionsCollection() {
     databases.createIndex(
       db,
       userSubscriptionsCollection,
-      'userId_index',
+      'userId_idx',
       IndexType.Key,
       ['userId']
     ),
     databases.createIndex(
       db,
       userSubscriptionsCollection,
-      'status_index',
+      'status_idx',
       IndexType.Key,
       ['status']
     ),
     databases.createIndex(
       db,
       userSubscriptionsCollection,
-      'subscriptionId_index',
+      'subscriptionId_idx',
       IndexType.Key,
       ['subscriptionId']
     ),

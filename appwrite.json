@@ -71,8 +71,11 @@
         {
             "$id": "resources",
             "$permissions": [
-                "read(\"any\")",
-                "read(\"users\")"
+                "create(\"team:67760a70003892be3ea7\")",
+                "read(\"team:67760a70003892be3ea7\")",
+                "update(\"team:67760a70003892be3ea7\")",
+                "delete(\"team:67760a70003892be3ea7\")",
+                "read(\"any\")"
             ],
             "databaseId": "wyos",
             "name": "resources",
@@ -84,7 +87,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -92,170 +95,20 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
+                    "size": 50,
                     "default": null
-                },
-                {
-                    "key": "type",
-                    "type": "string",
-                    "required": true,
-                    "array": false,
-                    "elements": [
-                        "app",
-                        "book",
-                        "course",
-                        "podcast",
-                        "software",
-                        "youtube"
-                    ],
-                    "format": "enum",
-                    "default": null
-                },
-                {
-                    "key": "description",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 1024,
-                    "default": null
-                },
-                {
-                    "key": "resourceUrl",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "featured",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": false
-                },
-                {
-                    "key": "imageUrl",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "format": "url",
-                    "default": null
-                },
-                {
-                    "key": "creator",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 64,
-                    "default": null
-                },
-                {
-                    "key": "platform",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 64,
-                    "default": null
-                },
-                {
-                    "key": "isPaid",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": false
-                },
-                {
-                    "key": "price",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 32,
-                    "default": null
-                },
-                {
-                    "key": "rating",
-                    "type": "double",
-                    "required": false,
-                    "array": false,
-                    "min": 0,
-                    "max": 5,
-                    "default": null
-                },
-                {
-                    "key": "seoDescription",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 256,
-                    "default": null
-                },
-                {
-                    "key": "keywords",
-                    "type": "string",
-                    "required": false,
-                    "array": true,
-                    "size": 32,
-                    "default": null
-                },
-                {
-                    "key": "resourceCategoryId",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "resource-categories",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "resources",
-                    "onDelete": "setNull",
-                    "side": "parent"
                 }
             ],
-            "indexes": [
-                {
-                    "key": "title_search",
-                    "type": "fulltext",
-                    "status": "available",
-                    "attributes": [
-                        "title",
-                        "description"
-                    ],
-                    "orders": [
-                        "ASC",
-                        "ASC"
-                    ]
-                },
-                {
-                    "key": "type",
-                    "type": "key",
-                    "status": "available",
-                    "attributes": [
-                        "type"
-                    ],
-                    "orders": [
-                        "ASC"
-                    ]
-                },
-                {
-                    "key": "featured",
-                    "type": "key",
-                    "status": "available",
-                    "attributes": [
-                        "featured"
-                    ],
-                    "orders": [
-                        "ASC"
-                    ]
-                }
-            ]
+            "indexes": []
         },
         {
             "$id": "knowledge-categories",
             "$permissions": [
-                "read(\"any\")",
-                "create(\"users\")",
-                "update(\"users\")",
-                "delete(\"users\")"
+                "create(\"team:67760a70003892be3ea7\")",
+                "read(\"team:67760a70003892be3ea7\")",
+                "update(\"team:67760a70003892be3ea7\")",
+                "delete(\"team:67760a70003892be3ea7\")",
+                "read(\"any\")"
             ],
             "databaseId": "wyos",
             "name": "knowledge-categories",
@@ -267,7 +120,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -275,15 +128,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
-                    "default": null
-                },
-                {
-                    "key": "description",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 256,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -291,9 +136,9 @@
                     "type": "integer",
                     "required": false,
                     "array": false,
-                    "min": 0,
-                    "max": 9999,
-                    "default": null
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807,
+                    "default": 0
                 },
                 {
                     "key": "isActive",
@@ -301,6 +146,14 @@
                     "required": false,
                     "array": false,
                     "default": true
+                },
+                {
+                    "key": "description",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 250,
+                    "default": null
                 },
                 {
                     "key": "imageUrl",
@@ -317,35 +170,11 @@
                     "array": false,
                     "format": "url",
                     "default": null
-                },
-                {
-                    "key": "knowledge",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "knowledge",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "knowledgeCategoryId",
-                    "onDelete": "setNull",
-                    "side": "child"
-                },
-                {
-                    "key": "mainCategoryId",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "main-categories",
-                    "relationType": "manyToOne",
-                    "twoWay": false,
-                    "twoWayKey": "knowledgeCategories",
-                    "onDelete": "restrict",
-                    "side": "parent"
                 }
             ],
             "indexes": [
                 {
-                    "key": "slug",
+                    "key": "slug_idx",
                     "type": "unique",
                     "status": "available",
                     "attributes": [
@@ -356,13 +185,15 @@
                     ]
                 },
                 {
-                    "key": "order",
+                    "key": "order_idx",
                     "type": "key",
                     "status": "available",
                     "attributes": [
-                        "order"
+                        "order",
+                        "isActive"
                     ],
                     "orders": [
+                        "ASC",
                         "ASC"
                     ]
                 }
@@ -371,10 +202,11 @@
         {
             "$id": "tags",
             "$permissions": [
-                "read(\"any\")",
-                "create(\"users\")",
-                "update(\"users\")",
-                "delete(\"users\")"
+                "create(\"team:67760a70003892be3ea7\")",
+                "read(\"team:67760a70003892be3ea7\")",
+                "update(\"team:67760a70003892be3ea7\")",
+                "delete(\"team:67760a70003892be3ea7\")",
+                "read(\"any\")"
             ],
             "databaseId": "wyos",
             "name": "tags",
@@ -396,47 +228,18 @@
                     "array": false,
                     "size": 32,
                     "default": null
-                },
-                {
-                    "key": "isActive",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": true
                 }
             ],
-            "indexes": [
-                {
-                    "key": "name",
-                    "type": "fulltext",
-                    "status": "available",
-                    "attributes": [
-                        "name"
-                    ],
-                    "orders": [
-                        "ASC"
-                    ]
-                },
-                {
-                    "key": "slug",
-                    "type": "unique",
-                    "status": "available",
-                    "attributes": [
-                        "slug"
-                    ],
-                    "orders": [
-                        "ASC"
-                    ]
-                }
-            ]
+            "indexes": []
         },
         {
             "$id": "main-categories",
             "$permissions": [
-                "read(\"any\")",
-                "create(\"users\")",
-                "update(\"users\")",
-                "delete(\"users\")"
+                "create(\"team:67760a70003892be3ea7\")",
+                "read(\"team:67760a70003892be3ea7\")",
+                "update(\"team:67760a70003892be3ea7\")",
+                "delete(\"team:67760a70003892be3ea7\")",
+                "read(\"any\")"
             ],
             "databaseId": "wyos",
             "name": "main-categories",
@@ -448,7 +251,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -456,15 +259,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
-                    "default": null
-                },
-                {
-                    "key": "description",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 256,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -482,6 +277,14 @@
                     "required": false,
                     "array": false,
                     "default": true
+                },
+                {
+                    "key": "description",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 250,
+                    "default": null
                 },
                 {
                     "key": "imageUrl",
@@ -502,7 +305,18 @@
             ],
             "indexes": [
                 {
-                    "key": "slug",
+                    "key": "order_idx",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "order"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "slug_idx",
                     "type": "unique",
                     "status": "available",
                     "attributes": [
@@ -513,14 +327,25 @@
                     ]
                 },
                 {
-                    "key": "order",
+                    "key": "isActive_idx",
                     "type": "key",
                     "status": "available",
                     "attributes": [
-                        "order"
+                        "isActive"
                     ],
                     "orders": [
                         "ASC"
+                    ]
+                },
+                {
+                    "key": "createdAt_idx",
+                    "type": "key",
+                    "status": "available",
+                    "attributes": [
+                        "$createdAt"
+                    ],
+                    "orders": [
+                        "DESC"
                     ]
                 }
             ]
@@ -528,10 +353,11 @@
         {
             "$id": "resource-categories",
             "$permissions": [
-                "read(\"any\")",
-                "create(\"users\")",
-                "update(\"users\")",
-                "delete(\"users\")"
+                "create(\"team:67760a70003892be3ea7\")",
+                "read(\"team:67760a70003892be3ea7\")",
+                "update(\"team:67760a70003892be3ea7\")",
+                "delete(\"team:67760a70003892be3ea7\")",
+                "read(\"any\")"
             ],
             "databaseId": "wyos",
             "name": "resource-categories",
@@ -543,7 +369,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -551,15 +377,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
-                    "default": null
-                },
-                {
-                    "key": "description",
-                    "type": "string",
-                    "required": false,
-                    "array": false,
-                    "size": 256,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -579,6 +397,14 @@
                     "default": true
                 },
                 {
+                    "key": "description",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 250,
+                    "default": null
+                },
+                {
                     "key": "imageUrl",
                     "type": "string",
                     "required": false,
@@ -593,35 +419,11 @@
                     "array": false,
                     "format": "url",
                     "default": null
-                },
-                {
-                    "key": "mainCategoryId",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "main-categories",
-                    "relationType": "manyToOne",
-                    "twoWay": false,
-                    "twoWayKey": "resourceCategories",
-                    "onDelete": "setNull",
-                    "side": "parent"
-                },
-                {
-                    "key": "resources",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "resources",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "resourceCategoryId",
-                    "onDelete": "setNull",
-                    "side": "child"
                 }
             ],
             "indexes": [
                 {
-                    "key": "slug",
+                    "key": "slug_idx",
                     "type": "unique",
                     "status": "available",
                     "attributes": [
@@ -632,13 +434,15 @@
                     ]
                 },
                 {
-                    "key": "order",
+                    "key": "order_idx",
                     "type": "key",
                     "status": "available",
                     "attributes": [
-                        "order"
+                        "order",
+                        "isActive"
                     ],
                     "orders": [
+                        "ASC",
                         "ASC"
                     ]
                 }
@@ -646,7 +450,13 @@
         },
         {
             "$id": "knowledge",
-            "$permissions": [],
+            "$permissions": [
+                "create(\"team:67760a70003892be3ea7\")",
+                "read(\"team:67760a70003892be3ea7\")",
+                "update(\"team:67760a70003892be3ea7\")",
+                "delete(\"team:67760a70003892be3ea7\")",
+                "read(\"any\")"
+            ],
             "databaseId": "wyos",
             "name": "knowledge",
             "enabled": true,
@@ -657,7 +467,7 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
+                    "size": 50,
                     "default": null
                 },
                 {
@@ -665,15 +475,22 @@
                     "type": "string",
                     "required": true,
                     "array": false,
-                    "size": 64,
+                    "size": 50,
                     "default": null
+                },
+                {
+                    "key": "isActive",
+                    "type": "boolean",
+                    "required": false,
+                    "array": false,
+                    "default": true
                 },
                 {
                     "key": "summary",
                     "type": "string",
-                    "required": true,
+                    "required": false,
                     "array": false,
-                    "size": 1024,
+                    "size": 1000,
                     "default": null
                 },
                 {
@@ -681,15 +498,8 @@
                     "type": "string",
                     "required": false,
                     "array": false,
-                    "size": 16384,
+                    "size": 5000,
                     "default": null
-                },
-                {
-                    "key": "featured",
-                    "type": "boolean",
-                    "required": false,
-                    "array": false,
-                    "default": false
                 },
                 {
                     "key": "imageUrl",
@@ -700,37 +510,27 @@
                     "default": null
                 },
                 {
-                    "key": "seoDescription",
-                    "type": "string",
+                    "key": "featured",
+                    "type": "boolean",
                     "required": false,
                     "array": false,
-                    "size": 256,
-                    "default": null
-                },
-                {
-                    "key": "keywords",
-                    "type": "string",
-                    "required": false,
-                    "array": true,
-                    "size": 32,
-                    "default": null
-                },
-                {
-                    "key": "knowledgeCategoryId",
-                    "type": "relationship",
-                    "required": false,
-                    "array": false,
-                    "relatedCollection": "knowledge-categories",
-                    "relationType": "manyToMany",
-                    "twoWay": true,
-                    "twoWayKey": "knowledge",
-                    "onDelete": "setNull",
-                    "side": "parent"
+                    "default": false
                 }
             ],
             "indexes": [
                 {
-                    "key": "title_search",
+                    "key": "slug_idx",
+                    "type": "unique",
+                    "status": "available",
+                    "attributes": [
+                        "slug"
+                    ],
+                    "orders": [
+                        "ASC"
+                    ]
+                },
+                {
+                    "key": "title_summary_idx",
                     "type": "fulltext",
                     "status": "available",
                     "attributes": [
@@ -743,22 +543,11 @@
                     ]
                 },
                 {
-                    "key": "featured_filter",
+                    "key": "featured_idx",
                     "type": "key",
                     "status": "available",
                     "attributes": [
                         "featured"
-                    ],
-                    "orders": [
-                        "ASC"
-                    ]
-                },
-                {
-                    "key": "created_sort",
-                    "type": "key",
-                    "status": "available",
-                    "attributes": [
-                        "$createdAt"
                     ],
                     "orders": [
                         "ASC"
@@ -768,7 +557,12 @@
         },
         {
             "$id": "679856d00029e5e2057e",
-            "$permissions": [],
+            "$permissions": [
+                "create(\"team:67760a70003892be3ea7\")",
+                "read(\"team:67760a70003892be3ea7\")",
+                "update(\"team:67760a70003892be3ea7\")",
+                "delete(\"team:67760a70003892be3ea7\")"
+            ],
             "databaseId": "wyos",
             "name": "user-subscriptions",
             "enabled": true,

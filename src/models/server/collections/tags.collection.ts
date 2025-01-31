@@ -1,4 +1,4 @@
-import { Permission } from 'node-appwrite';
+import { IndexType, Permission } from 'node-appwrite';
 import { db, tagsCollection } from '../../name';
 import { databases } from '../config';
 
@@ -22,17 +22,14 @@ export default async function createTagsCollection() {
     ),
   ]);
 
-  /*
-  // Create indexes
   await Promise.all([
-    databases.createIndex(db, tagsCollection, 'slug_unique', IndexType.Unique, [
+    databases.createIndex(db, tagsCollection, 'slug_idx', IndexType.Unique, [
       'slug',
     ]),
-    databases.createIndex(db, tagsCollection, 'name', IndexType.Fulltext, [
+    databases.createIndex(db, tagsCollection, 'name_idx', IndexType.Fulltext, [
       'name',
     ]),
   ]);
 
   console.log('Tags collection created');
-}*/
 }

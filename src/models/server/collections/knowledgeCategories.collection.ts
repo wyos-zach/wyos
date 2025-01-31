@@ -1,4 +1,4 @@
-import { Permission } from 'node-appwrite';
+import { Permission, IndexType } from 'node-appwrite';
 import { db, knowledgeCategoriesCollection } from '../../name';
 import { databases } from '../config';
 
@@ -6,31 +6,25 @@ export default async function createKnowledgeCategoriesCollection() {
   await databases.createCollection(
     db,
     knowledgeCategoriesCollection,
-    knowledgeCategoriesCollection,
+    'Knowledge Categories',
     [Permission.read('any'), Permission.write('users')]
   );
 
+  // Attributes
   await Promise.all([
     databases.createStringAttribute(
       db,
       knowledgeCategoriesCollection,
       'name',
-      64,
+      50,
       true
     ),
     databases.createStringAttribute(
       db,
       knowledgeCategoriesCollection,
       'slug',
-      64,
+      50,
       true
-    ),
-    databases.createStringAttribute(
-      db,
-      knowledgeCategoriesCollection,
-      'description',
-      256,
-      false
     ),
     databases.createIntegerAttribute(
       db,
@@ -50,50 +44,55 @@ export default async function createKnowledgeCategoriesCollection() {
     databases.createStringAttribute(
       db,
       knowledgeCategoriesCollection,
-      'mainCategoryId',
-      36,
-      true
+      'description',
+      250,
+      false
     ),
     databases.createStringAttribute(
       db,
       knowledgeCategoriesCollection,
       'imageUrl',
-      2048,
+      250,
       false
     ),
     databases.createStringAttribute(
       db,
       knowledgeCategoriesCollection,
       'icon',
-      2048,
+      250,
       false
+    ),
+    databases.createStringAttribute(
+      db,
+      knowledgeCategoriesCollection,
+      'mainCategoryId',
+      36,
+      true
     ),
   ]);
 
-  /*
+  // Indexes
   await Promise.all([
     databases.createIndex(
       db,
       knowledgeCategoriesCollection,
-      'slug_unique',
+      'slug_idx',
       IndexType.Unique,
       ['slug']
     ),
     databases.createIndex(
       db,
       knowledgeCategoriesCollection,
-      'order_asc',
+      'order_active_idx',
       IndexType.Key,
-      ['order']
+      ['order', 'isActive']
     ),
     databases.createIndex(
       db,
       knowledgeCategoriesCollection,
-      'main_category',
+      'mainCategoryId_idx',
       IndexType.Key,
       ['mainCategoryId']
     ),
-  ]);*/
-
-  console.log('Knowledge categories collection created');
+  ]);
 }

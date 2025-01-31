@@ -1,38 +1,30 @@
-import { Permission } from 'node-appwrite';
+import { Permission, IndexType } from 'node-appwrite';
 import { db, mainCategoriesCollection } from '../../name';
 import { databases } from '../config';
 
 export default async function createMainCategoriesCollection() {
-  // Create collection
   await databases.createCollection(
     db,
     mainCategoriesCollection,
-    mainCategoriesCollection,
+    'Main Categories',
     [Permission.read('any'), Permission.write('users')]
   );
 
-  // Create attributes
+  // Attributes
   await Promise.all([
     databases.createStringAttribute(
       db,
       mainCategoriesCollection,
       'name',
-      64,
+      50,
       true
     ),
     databases.createStringAttribute(
       db,
       mainCategoriesCollection,
       'slug',
-      64,
+      50,
       true
-    ),
-    databases.createStringAttribute(
-      db,
-      mainCategoriesCollection,
-      'description',
-      256,
-      false
     ),
     databases.createIntegerAttribute(
       db,
@@ -52,37 +44,55 @@ export default async function createMainCategoriesCollection() {
     databases.createStringAttribute(
       db,
       mainCategoriesCollection,
+      'description',
+      250,
+      false
+    ),
+    databases.createStringAttribute(
+      db,
+      mainCategoriesCollection,
       'imageUrl',
-      2048,
+      250,
       false
     ),
     databases.createStringAttribute(
       db,
       mainCategoriesCollection,
       'icon',
-      2048,
+      250,
       false
     ),
   ]);
 
-  /*
-  // Create indexes
+  // Indexes
   await Promise.all([
     databases.createIndex(
       db,
       mainCategoriesCollection,
-      'slug_unique',
+      'slug_idx',
       IndexType.Unique,
       ['slug']
     ),
     databases.createIndex(
       db,
       mainCategoriesCollection,
-      'order_asc',
+      'order_idx',
       IndexType.Key,
       ['order']
     ),
-  ]);*/
-
-  console.log('Main categories collection created');
+    databases.createIndex(
+      db,
+      mainCategoriesCollection,
+      'isActive_idx',
+      IndexType.Key,
+      ['isActive']
+    ),
+    databases.createIndex(
+      db,
+      mainCategoriesCollection,
+      'createdAt_idx',
+      IndexType.Key,
+      ['$createdAt']
+    ),
+  ]);
 }

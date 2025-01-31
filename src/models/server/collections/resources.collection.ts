@@ -1,31 +1,36 @@
-import { Permission } from 'node-appwrite';
+import { Permission, IndexType } from 'node-appwrite';
 import { db, resourcesCollection } from '../../name';
 import { databases } from '../config';
 
 export default async function createResourcesCollection() {
-  await databases.createCollection(
-    db,
-    resourcesCollection,
-    resourcesCollection,
-    [Permission.read('any'), Permission.read('users')]
-  );
+  await databases.createCollection(db, resourcesCollection, 'Resources', [
+    Permission.read('any'),
+    Permission.write('users'),
+  ]);
 
+  // Attributes
   await Promise.all([
-    databases.createStringAttribute(db, resourcesCollection, 'type', 32, true),
-    databases.createStringAttribute(db, resourcesCollection, 'title', 64, true),
-    databases.createStringAttribute(db, resourcesCollection, 'slug', 64, true),
-    databases.createStringAttribute(
+    databases.createStringAttribute(db, resourcesCollection, 'title', 50, true),
+    databases.createStringAttribute(db, resourcesCollection, 'slug', 50, true),
+    databases.createEnumAttribute(
       db,
       resourcesCollection,
-      'description',
-      2048,
+      'type',
+      ['book', 'app', 'podcast', 'course', 'youtube'],
       true
     ),
     databases.createStringAttribute(
       db,
       resourcesCollection,
+      'description',
+      1000,
+      false
+    ),
+    databases.createStringAttribute(
+      db,
+      resourcesCollection,
       'resourceUrl',
-      2048,
+      250,
       false
     ),
     databases.createBooleanAttribute(
@@ -38,29 +43,36 @@ export default async function createResourcesCollection() {
     databases.createStringAttribute(
       db,
       resourcesCollection,
-      'author',
-      64,
+      'imageUrl',
+      250,
+      false
+    ),
+    databases.createStringAttribute(
+      db,
+      resourcesCollection,
+      'creator',
+      50,
       false
     ),
     databases.createStringAttribute(
       db,
       resourcesCollection,
       'platform',
-      64,
+      50,
+      false
+    ),
+    databases.createBooleanAttribute(
+      db,
+      resourcesCollection,
+      'isPaid',
+      true,
       false
     ),
     databases.createStringAttribute(
       db,
       resourcesCollection,
-      'imageUrl',
-      2048,
-      false
-    ),
-    databases.createStringAttribute(
-      db,
-      resourcesCollection,
-      'seoDescription',
-      256,
+      'price',
+      25,
       false
     ),
     databases.createFloatAttribute(
@@ -74,60 +86,65 @@ export default async function createResourcesCollection() {
     databases.createBooleanAttribute(
       db,
       resourcesCollection,
-      'isPaid',
+      'isActive',
       true,
-      false
-    ),
-    databases.createStringAttribute(
-      db,
-      resourcesCollection,
-      'price',
-      32,
-      false
-    ),
-    databases.createStringAttribute(
-      db,
-      resourcesCollection,
-      'categoryId',
-      36,
       true
     ),
     databases.createStringAttribute(
       db,
       resourcesCollection,
-      'userId',
+      'resourceCategoryId',
       36,
       true
     ),
   ]);
 
-  console.log('Resources collection created');
+  // Indexes
+  await Promise.all([
+    databases.createIndex(
+      db,
+      resourcesCollection,
+      'slug_idx',
+      IndexType.Unique,
+      ['slug']
+    ),
+    databases.createIndex(
+      db,
+      resourcesCollection,
+      'title_desc_ft',
+      IndexType.Fulltext,
+      ['title', 'description']
+    ),
+    databases.createIndex(db, resourcesCollection, 'type_idx', IndexType.Key, [
+      'type',
+    ]),
+    databases.createIndex(
+      db,
+      resourcesCollection,
+      'featured_idx',
+      IndexType.Key,
+      ['featured']
+    ),
+    databases.createIndex(
+      db,
+      resourcesCollection,
+      'isActive_idx',
+      IndexType.Key,
+      ['isActive']
+    ),
+    databases.createIndex(
+      db,
+      resourcesCollection,
+      'categoryId_idx',
+      IndexType.Key,
+      ['resourceCategoryId']
+    ),
+    databases.createIndex(
+      db,
+      resourcesCollection,
+      'createdAt_idx',
+      IndexType.Key,
+      ['$createdAt']
+    ),
+  ]);
 }
-
-/*
-await Promise.all([
-  databases.createIndex(
-    db,
-    resourcesCollection,
-    'title_search',
-    IndexType.Fulltext,
-    ['title']
-  ),
-  databases.createIndex(
-    db,
-    resourcesCollection,
-    'category_lookup',
-    IndexType.Key,
-    ['categoryId']
-  ),
-  databases.createIndex(db, resourcesCollection, 'type_filter', IndexType.Key, [
-    'type',
-  ]),
-  databases.createIndex(
-    db,
-    resourcesCollection,
-    'featured_filter',
-    IndexType.Key,
-    ['featured']
-  ),
-]);*/
