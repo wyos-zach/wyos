@@ -1,4 +1,3 @@
-import type { Query } from 'appwrite';
 import type { PaginatedResult } from '@/types/core/knowledge';
 
 export interface IRepository<T> {
@@ -9,7 +8,7 @@ export interface IRepository<T> {
   findAll(
     filters?: Record<string, any>,
     options?: {
-      queries?: Query[];
+      queries?: string[];
       page?: number;
       pageSize?: number;
     }

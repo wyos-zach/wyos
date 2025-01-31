@@ -1,4 +1,4 @@
-import { Query } from 'appwrite'; // Ensure Query is imported
+import { Query } from 'appwrite';
 import { AppwriteBaseRepository } from '../core/appwrite-base.repository';
 import type { KnowledgeEntry, KnowledgeCategory } from '@/types/core/knowledge';
 import {
@@ -34,7 +34,7 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
     const result = await this.findAll(
       { featured: true },
       {
-        queries: [Query.orderDesc('$createdAt'), Query.limit(limit)],
+        queries: ['orderDesc($createdAt)', `limit(${limit})`],
       }
     );
     return result.documents;
@@ -65,7 +65,7 @@ export class KnowledgeCategoryRepository extends AppwriteBaseRepository<Knowledg
     const result = await this.findAll(
       { isActive: true },
       {
-        queries: [Query.orderAsc('order')],
+        queries: ['orderAsc(order)'],
       }
     );
     return result.documents;

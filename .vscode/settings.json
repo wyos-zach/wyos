@@ -15,7 +15,7 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "typescript.suggest.autoImports": true,
+
   "typescript.preferences.preferTypeOnlyAutoImports": true,
   "typescript.preferences.autoImportFileExcludePatterns": [
     "http",

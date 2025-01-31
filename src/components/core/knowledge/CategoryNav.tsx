@@ -1,4 +1,3 @@
-// components/core/knowledge/CategoryNav.tsx
 'use client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';

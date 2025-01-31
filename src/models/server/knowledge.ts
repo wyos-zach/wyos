@@ -11,8 +11,6 @@ import type {
   KnowledgeCategory,
   PaginatedResult,
 } from '@/types/core/knowledge';
-import type { equal } from 'assert';
-import type { title } from 'process';
 
 export class KnowledgeError extends Error {
   constructor(
@@ -26,6 +24,18 @@ export class KnowledgeError extends Error {
 }
 
 export const KnowledgeService = {
+  async getMainCategories(): Promise<KnowledgeCategory[]> {
+    try {
+      const response = await databases.listDocuments(
+        db,
+        mainCategoriesCollection,
+        [Query.equal('isActive', true), Query.orderAsc('order')]
+      );
+      return response.documents as unknown as KnowledgeCategory[];
+    } catch (error) {
+      throw new KnowledgeError(500, 'Failed to fetch main categories');
+    }
+  },
   async listKnowledgeEntries({
     categoryId,
     searchQuery,
@@ -99,7 +109,6 @@ export const KnowledgeService = {
     }
   },
 
-  // Fix 2: Add missing date fields to category mapping
   async getSubcategories(mainCategoryId: string): Promise<KnowledgeCategory[]> {
     try {
       const response = await databases.listDocuments(
@@ -141,7 +150,6 @@ export const KnowledgeService = {
     }
   },
 
-  // Fix 3: Update entry mapping to match type
   async getEntryBySlug(slug: string): Promise<KnowledgeEntry> {
     try {
       const response = await databases.listDocuments(db, knowledgeCollection, [
@@ -189,6 +197,27 @@ export const KnowledgeService = {
       throw new KnowledgeError(
         (error as any)?.code || 500,
         (error as any)?.message || 'Failed to fetch knowledge entry'
+      );
+    }
+  },
+
+  async listFeaturedEntries(limit: number = 3): Promise<KnowledgeEntry[]> {
+    try {
+      const response = await databases.listDocuments(db, knowledgeCollection, [
+        Query.equal('featured', true),
+        Query.orderDesc('$createdAt'),
+        Query.limit(limit),
+      ]);
+
+      if (!response.documents.length) {
+        return [];
+      }
+
+      return response.documents as unknown as KnowledgeEntry[];
+    } catch (error) {
+      throw new KnowledgeError(
+        (error as any)?.code || 500,
+        `Failed to fetch featured entries: ${(error as any)?.message}`
       );
     }
   },

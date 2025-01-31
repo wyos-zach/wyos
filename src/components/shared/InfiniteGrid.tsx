@@ -6,12 +6,12 @@ export function InfiniteGrid({
   children,
   hasMore,
   isFetching,
-  fetchNext,
+  fetchNextAction,
 }: {
   children: React.ReactNode;
   hasMore?: boolean;
   isFetching: boolean;
-  fetchNext: () => void;
+  fetchNextAction: () => void;
 }) {
   return (
     <div className='space-y-8'>
@@ -20,7 +20,7 @@ export function InfiniteGrid({
       {hasMore && (
         <div className='flex justify-center'>
           <Button
-            onClick={fetchNext}
+            onClick={fetchNextAction}
             disabled={isFetching}
             variant='outline'
             className='gap-2'

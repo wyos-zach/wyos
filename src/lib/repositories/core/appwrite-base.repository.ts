@@ -1,7 +1,8 @@
-import { ID, Query, type Models } from 'appwrite';
+import { ID, type Models } from 'appwrite';
 import { databases } from '@/models/client/config';
 import type { IRepository } from './types';
 import { DataAccessError } from './errors';
+import type { PaginatedResult } from '@/types/core/knowledge';
 
 export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
   constructor(
@@ -77,7 +78,7 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
   async findAll(
     filters: Record<string, any> = {},
     options: {
-      queries?: Query[];
+      queries?: string[];
       page?: number;
       pageSize?: number;
     } = {}
@@ -88,13 +89,13 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       const offset = (page - 1) * pageSize;
 
       const queries = [
-        Query.limit(pageSize),
-        Query.offset(offset),
+        `limit(${pageSize})`,
+        `offset(${offset})`,
         ...(options.queries || []),
       ];
 
       Object.entries(filters).forEach(([key, value]) => {
-        if (value) queries.push(Query.equal(key, value));
+        if (value) queries.push(`equal(${key}, ${value})`);
       });
 
       const response = await databases.listDocuments(
@@ -122,7 +123,7 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       const response = await databases.listDocuments(
         this.databaseId,
         this.collectionId,
-        [Query.equal('slug', slug), Query.limit(1)]
+        [`equal(slug, ${slug})`, `limit(1)`]
       );
 
       if (response.documents.length === 0) {
@@ -138,9 +139,3 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
     }
   }
 }
-import page from '@/app/(marketing)/page';
-import { PaginatedResult } from '@/types/core/knowledge';
-import { equal } from 'assert';
-import { create } from 'domain';
-import { unique } from 'next/dist/build/utils';
-import { map } from 'zod';

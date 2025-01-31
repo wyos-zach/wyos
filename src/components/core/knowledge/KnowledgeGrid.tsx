@@ -8,9 +8,6 @@ import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 import { KnowledgeService } from '@/models/server/knowledge';
 import type { KnowledgeEntry } from '@/types/core/knowledge';
 import { Skeleton } from '@/components/ui/skeleton';
-import type page from '@/app/(marketing)/page';
-import type pages from 'next/dist/build/templates/pages';
-import type { title } from 'process';
 
 interface PaginatedResponse {
   documents: Document[];
@@ -43,7 +40,7 @@ export const KnowledgeGrid = ({
   initialData,
 }: KnowledgeGridProps) => {
   const { selectedCategory, searchQuery } = useKnowledgeStore();
-
+  const categoryId = selectedCategory || undefined;
   const {
     data,
     error,
@@ -57,7 +54,7 @@ export const KnowledgeGrid = ({
     queryKey: ['knowledge', selectedCategory, searchQuery],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await KnowledgeService.listKnowledgeEntries({
-        categoryId: selectedCategory,
+        categoryId,
         searchQuery,
         page: pageParam as number,
       });

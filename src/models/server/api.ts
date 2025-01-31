@@ -1,6 +1,7 @@
 // models/server/api.ts
 import { ID, Query, type Models } from 'appwrite';
 import { databases } from '@/models/client/config';
+import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 
 export const knowledgeApi = {
   async fetchKnowledgeEntries(params: {
@@ -50,10 +51,11 @@ function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
     content: doc.content,
     categoryId: doc.categoryId,
     featured: doc.featured,
-    createdAt: new Date(doc.$createdAt),
-    updatedAt: new Date(doc.$updatedAt),
+    $createdAt: doc.$createdAt,
+    $updatedAt: doc.$updatedAt,
     imageUrl: doc.imageUrl,
     seoDescription: doc.seoDescription,
     keywords: doc.keywords,
+    $permissions: doc.$permissions,
   };
 }

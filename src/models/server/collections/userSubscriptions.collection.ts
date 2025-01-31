@@ -1,11 +1,11 @@
 import { Permission, IndexType } from 'node-appwrite';
-import { db, userSubscriptionsCollectionId } from '../../name';
+import { db, userSubscriptionsCollection } from '../../name';
 import { databases } from '../config';
 
 export default async function createUserSubscriptionsCollection() {
   await databases.createCollection(
     db,
-    userSubscriptionsCollectionId,
+    userSubscriptionsCollection,
     'User Subscriptions',
     [Permission.read('users'), Permission.write('users')]
   );
@@ -14,7 +14,7 @@ export default async function createUserSubscriptionsCollection() {
   await Promise.all([
     databases.createStringAttribute(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'userId',
       255,
       true,
@@ -23,34 +23,34 @@ export default async function createUserSubscriptionsCollection() {
     ),
     databases.createStringAttribute(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'status',
       50,
       true
     ),
     databases.createStringAttribute(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'priceId',
       255,
       true
     ),
     databases.createStringAttribute(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'subscriptionId',
       255,
       true
     ),
     databases.createDatetimeAttribute(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'currentPeriodEnd',
       true
     ),
     databases.createBooleanAttribute(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'cancelAtPeriodEnd',
       false
     ),
@@ -60,21 +60,21 @@ export default async function createUserSubscriptionsCollection() {
   await Promise.all([
     databases.createIndex(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'userId_index',
       IndexType.Key,
       ['userId']
     ),
     databases.createIndex(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'status_index',
       IndexType.Key,
       ['status']
     ),
     databases.createIndex(
       db,
-      userSubscriptionsCollectionId,
+      userSubscriptionsCollection,
       'subscriptionId_index',
       IndexType.Key,
       ['subscriptionId']

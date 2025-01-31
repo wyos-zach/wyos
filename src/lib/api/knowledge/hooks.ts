@@ -32,9 +32,9 @@ export const useKnowledgeEntries = () => {
     queryKey: ['knowledge', 'entries', selectedCategory, searchQuery],
     queryFn: ({ pageParam = 1 }) =>
       KnowledgeService.listKnowledgeEntries({
-        categoryId: selectedCategory,
-        search: searchQuery,
-        page: pageParam,
+        categoryId: selectedCategory || undefined,
+        searchQuery: searchQuery || undefined,
+        page: pageParam as number,
       }),
     getNextPageParam: (lastPage) => lastPage.nextPage,
     initialPageParam: 1,
