@@ -33,4 +33,3 @@ export function InfiniteGrid({
     </div>
   );
 }
-import { ReactNode } from 'react';

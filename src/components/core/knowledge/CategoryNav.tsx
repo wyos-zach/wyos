@@ -14,7 +14,7 @@ export const CategoryNav = () => {
     queryKey: ['knowledge', 'categories'],
     queryFn: async () => {
       const response = await KnowledgeService.getMainCategories();
-      return response; // Directly return the mapped categories array
+      return response;
     },
   });
 
