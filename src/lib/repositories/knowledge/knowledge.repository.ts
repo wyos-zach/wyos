@@ -1,6 +1,7 @@
-import { Query } from 'appwrite';
+// src/models/server/knowledge.repository.ts
+import { KnowledgeCategory } from '@/types/core/knowledge/category';
 import { AppwriteBaseRepository } from '../core/appwrite-base.repository';
-import type { KnowledgeEntry, KnowledgeCategory } from '@/types/core/knowledge';
+import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 import {
   db,
   knowledgeCollection,
@@ -19,14 +20,16 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
       slug: document.slug,
       summary: document.summary,
       content: document.content,
-      categoryId: document.categoryId,
+      // IMPORTANT:
+      // Use the attribute as defined in your new schema.
+      // Based on your PDF, in your knowledge collection the attribute is named "knowledgeCategoryId".
+      // If you want to use it locally as "categoryId", map it accordingly.
+      categoryId: document.knowledgeCategoryId ?? '',
       featured: document.featured,
       imageUrl: document.imageUrl,
-      seoDescription: document.seoDescription,
-      keywords: document.keywords,
       $createdAt: new Date(document.$createdAt).toISOString(),
       $updatedAt: new Date(document.$updatedAt).toISOString(),
-      $permissions: document.$permissions, // Added permissions
+      $permissions: document.$permissions,
     };
   }
 

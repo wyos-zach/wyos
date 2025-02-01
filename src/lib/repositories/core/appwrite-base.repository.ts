@@ -1,8 +1,9 @@
+// src/models/server/appwrite-base.repository.ts
 import { ID, type Models } from 'appwrite';
 import { databases } from '@/models/client/config';
 import type { IRepository } from './types';
 import { DataAccessError } from './errors';
-import type { PaginatedResult } from '@/types/core/knowledge';
+import type { PaginatedResult } from '@/types/core/knowledge/query';
 
 export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
   constructor(

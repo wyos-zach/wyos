@@ -1,3 +1,4 @@
+// src/types/core/knowledge/category.ts
 export interface KnowledgeCategory {
   $id: string;
   name: string;
@@ -10,9 +11,4 @@ export interface KnowledgeCategory {
   parentId?: string;
   $createdAt: string;
   $updatedAt: string;
-}
-
-export interface KnowledgeCategoryTree extends KnowledgeCategory {
-  subcategories: KnowledgeCategory[];
-  knowledgeCount: number;
 }

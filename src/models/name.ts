@@ -1,11 +1,16 @@
-export const db = 'wyos';
-export const mainCategoriesCollection = 'main-categories';
-export const knowledgeCategoriesCollection = 'knowledge-categories';
-export const resourceCategoriesCollection = 'resource-categories';
-export const knowledgeCollection = 'knowledge';
-export const resourcesCollection = 'resources';
-export const tagsCollection = 'tags';
-export const userSubscriptionsCollection = '679856d00029e5e2057e'; // This should come from env in the future
+export const db = process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!;
+export const mainCategoriesCollection =
+  process.env.NEXT_PUBLIC_APPWRITE_MAIN_CATEGORIES_COLLECTION_ID!;
+export const knowledgeCategoriesCollection =
+  process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_CATEGORIES_COLLECTION_ID!;
+export const resourceCategoriesCollection =
+  process.env.NEXT_PUBLIC_APPWRITE_RESOURCE_CATEGORIES_COLLECTION_ID!;
+export const knowledgeCollection =
+  process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID!;
+export const resourcesCollection =
+  process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_COLLECTION_ID!;
+export const tagsCollection =
+  process.env.NEXT_PUBLIC_APPWRITE_TAGS_COLLECTION_ID!;
 
 export const knowledgeAttachmentsBucket = 'knowledge-attachments';
 export const resourcesAttachmentsBucket = 'resources-attachments';

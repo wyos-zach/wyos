@@ -1,3 +1,4 @@
+// src/models/server/knowledge.ts
 import { ID, Query } from 'appwrite';
 import { databases } from '@/models/client/config';
 import {
@@ -51,7 +52,7 @@ export const KnowledgeService = {
     try {
       const queries = [];
 
-      // If your actual field is "knowledgeCategoryId" in Appwrite, filter by that:
+      // Filter by category using attribute name as defined in your knowledge collection.
       if (categoryId) {
         queries.push(Query.equal('knowledgeCategoryId', categoryId));
       }
@@ -60,7 +61,6 @@ export const KnowledgeService = {
         queries.push(Query.search('title', searchQuery));
       }
 
-      // Remove "knowledgeCategoryId" from Query.select if Appwrite won't allow selecting that field
       const response = await databases.listDocuments(db, knowledgeCollection, [
         ...queries,
         Query.orderDesc('$createdAt'),
@@ -74,8 +74,7 @@ export const KnowledgeService = {
           'content',
           'featured',
           'imageUrl',
-          'seoDescription',
-          'keywords',
+          'knowledgeCategoryId', // select this field to map category info
           '$createdAt',
           '$updatedAt',
           '$permissions',
@@ -89,12 +88,10 @@ export const KnowledgeService = {
           slug: doc.slug,
           summary: doc.summary,
           content: doc.content,
-          // Use it if the doc returns it. Otherwise this might be undefined if the field can't be selected.
+          // Map the attribute to your local property "categoryId"
           categoryId: doc.knowledgeCategoryId ?? '',
           featured: doc.featured,
           imageUrl: doc.imageUrl,
-          seoDescription: doc.seoDescription,
-          keywords: doc.keywords,
           $createdAt: doc.$createdAt,
           $updatedAt: doc.$updatedAt,
           $permissions: doc.$permissions,
@@ -118,7 +115,6 @@ export const KnowledgeService = {
         db,
         knowledgeCategoriesCollection,
         [
-          // Must match the exact attribute: if it's "mainCategoryId" in Appwrite, keep the case
           Query.equal('mainCategoryId', mainCategoryId),
           Query.equal('isActive', true),
           Query.orderAsc('order'),
@@ -127,6 +123,8 @@ export const KnowledgeService = {
             'name',
             'slug',
             'description',
+            'order',
+            'imageUrl',
             'icon',
             '$createdAt',
             '$updatedAt',
@@ -142,6 +140,7 @@ export const KnowledgeService = {
         order: doc.order,
         isActive: doc.isActive,
         icon: doc.icon,
+        imageUrl: doc.imageUrl,
         $createdAt: doc.$createdAt,
         $updatedAt: doc.$updatedAt,
       }));
@@ -156,7 +155,6 @@ export const KnowledgeService = {
 
   async getEntryBySlug(slug: string): Promise<KnowledgeEntry> {
     try {
-      // Remove "knowledgeCategoryId" if Appwrite doesn't allow it in Query.select
       const response = await databases.listDocuments(db, knowledgeCollection, [
         Query.equal('slug', slug),
         Query.limit(1),
@@ -168,8 +166,7 @@ export const KnowledgeService = {
           'content',
           'featured',
           'imageUrl',
-          'seoDescription',
-          'keywords',
+          'knowledgeCategoryId',
           '$createdAt',
           '$updatedAt',
           '$permissions',
@@ -187,12 +184,9 @@ export const KnowledgeService = {
         slug: doc.slug,
         summary: doc.summary,
         content: doc.content,
-        // Use doc.knowledgeCategoryId if Appwrite returns it, or fallback
         categoryId: doc.knowledgeCategoryId ?? '',
         featured: doc.featured,
         imageUrl: doc.imageUrl,
-        seoDescription: doc.seoDescription,
-        keywords: doc.keywords,
         $createdAt: doc.$createdAt,
         $updatedAt: doc.$updatedAt,
         $permissions: doc.$permissions,
@@ -213,9 +207,11 @@ export const KnowledgeService = {
         Query.orderDesc('$createdAt'),
         Query.limit(limit),
       ]);
+
       if (!response.documents.length) {
         return [];
       }
+
       return response.documents as unknown as KnowledgeEntry[];
     } catch (error) {
       throw new KnowledgeError(

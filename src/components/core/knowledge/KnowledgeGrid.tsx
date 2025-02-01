@@ -68,8 +68,7 @@ export const KnowledgeGrid = ({
           categoryId: doc.categoryId,
           featured: doc.featured,
           imageUrl: doc.imageUrl,
-          seoDescription: doc.seoDescription,
-          keywords: doc.keywords,
+
           $createdAt: doc.$createdAt,
           $updatedAt: doc.$updatedAt,
         })) as KnowledgeEntry[],

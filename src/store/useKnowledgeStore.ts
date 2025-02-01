@@ -1,6 +1,11 @@
+// src/store/useKnowledgeStore.ts
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { persist, type PersistStorage, type StorageValue } from 'zustand/middleware';
+import {
+  persist,
+  type PersistStorage,
+  type StorageValue,
+} from 'zustand/middleware';
 import { Query } from 'appwrite';
 
 interface KnowledgeState {
@@ -28,10 +33,9 @@ const urlStorage: PersistStorage<State> = {
     const searchParams = new URLSearchParams(window.location.search);
     const value = searchParams.get(name);
     if (!value) return null;
-
-    // Convert URL params to state shape
+    // Here we simply return an empty state if URL param is missing
     const params = new URLSearchParams(value);
-    const state = {
+    const state: State = {
       selectedCategory: params.get('selectedCategory'),
       searchQuery: params.get('searchQuery') || '',
       sortBy: (params.get('sortBy') as 'newest' | 'popular') || 'newest',
@@ -43,12 +47,8 @@ const urlStorage: PersistStorage<State> = {
       setViewMode: () => {},
       setSortBy: () => {},
       buildQuery: () => [],
-    } as State;
-
-    return {
-      state,
-      version: 0
     };
+    return { state, version: 0 };
   },
   setItem: (name: string, value: StorageValue<State>): void => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -69,13 +69,7 @@ const urlStorage: PersistStorage<State> = {
   },
 };
 
-export const useKnowledgeStore = create<
-  State,
-  [
-    ['zustand/immer', never],
-    ['zustand/persist', State],
-  ]
->(
+export const useKnowledgeStore = create<State>()(
   immer(
     persist(
       (set, get) => ({
@@ -91,15 +85,19 @@ export const useKnowledgeStore = create<
         setSortBy: (sort) => set({ sortBy: sort }),
         buildQuery: () => {
           const { selectedCategory, searchQuery, sortBy } = get();
-          return [
+          const queries = [
             ...(selectedCategory
               ? [Query.equal('categoryId', selectedCategory)]
               : []),
             ...(searchQuery ? [Query.search('title', searchQuery)] : []),
+          ];
+          // Use the new field names – for newest sort we order by '$createdAt'
+          queries.push(
             sortBy === 'newest'
               ? Query.orderDesc('$createdAt')
-              : Query.orderDesc('views'),
-          ];
+              : Query.orderDesc('views')
+          );
+          return queries;
         },
       }),
       {
@@ -107,8 +105,7 @@ export const useKnowledgeStore = create<
         storage: urlStorage,
         partialize: (state) => ({
           ...state,
-          // Only override specific fields if needed
-          isFetching: false, // Reset fetching state on rehydration
+          isFetching: false,
         }),
       }
     )

@@ -1,3 +1,4 @@
+// src/lib/api/knowledge/hooks.ts
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
@@ -27,7 +28,6 @@ export const useSubcategories = (mainCategoryId: string) => {
 
 export const useKnowledgeEntries = () => {
   const { selectedCategory, searchQuery } = useKnowledgeStore();
-
   return useInfiniteQuery<PaginatedResult<KnowledgeEntry>>({
     queryKey: ['knowledge', 'entries', selectedCategory, searchQuery],
     queryFn: ({ pageParam = 1 }) =>

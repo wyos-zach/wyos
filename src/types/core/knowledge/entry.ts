@@ -1,3 +1,4 @@
+// src/types/core/knowledge/entry.ts
 import { KnowledgeCategory } from './category';
 
 export interface KnowledgeEntry {
@@ -6,11 +7,10 @@ export interface KnowledgeEntry {
   slug: string;
   summary: string;
   content: string;
+  // This field is set from Appwrite's "knowledgeCategoryId"
   categoryId: string;
   featured: boolean;
   imageUrl?: string;
-  seoDescription: string;
-  keywords: string[];
   $createdAt: string;
   $updatedAt: string;
   $permissions: string[];
