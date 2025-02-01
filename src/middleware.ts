@@ -1,7 +1,6 @@
-// src/middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import getOrCreateDB from './models/server/dbSetup'; // Minimal DB check (create the collections manually)
+import getOrCreateDB from './models/server/dbSetup';
 import getOrCreateStorage from './models/server/storageSetup'; // Minimal storage check
 import { Account, Client } from 'node-appwrite';
 import { AppwriteException } from 'node-appwrite';

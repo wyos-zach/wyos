@@ -1,4 +1,3 @@
-// src/app/api/webhooks/appwrite/route.ts
 import { NextResponse } from 'next/server';
 import { validateRequest } from '@/lib/webhooks';
 

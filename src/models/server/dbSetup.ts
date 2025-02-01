@@ -1,4 +1,3 @@
-// src/models/server/dbSetup.ts
 import { databases } from './config';
 import { db } from '../name';
 

@@ -1,4 +1,3 @@
-// src/models/server/knowledge.repository.ts
 import { KnowledgeCategory } from '@/types/core/knowledge/category';
 import { AppwriteBaseRepository } from '../core/appwrite-base.repository';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';

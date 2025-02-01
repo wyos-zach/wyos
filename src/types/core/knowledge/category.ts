@@ -1,4 +1,3 @@
-// src/types/core/knowledge/category.ts
 export interface KnowledgeCategory {
   $id: string;
   name: string;

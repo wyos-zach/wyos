@@ -1,4 +1,3 @@
-// src/models/server/knowledge.ts
 import { ID, Query } from 'appwrite';
 import { databases } from '@/models/client/config';
 import {

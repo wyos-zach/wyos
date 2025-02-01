@@ -1,4 +1,3 @@
-// src/models/server/appwrite-base.repository.ts
 import { ID, type Models } from 'appwrite';
 import { databases } from '@/models/client/config';
 import type { IRepository } from './types';

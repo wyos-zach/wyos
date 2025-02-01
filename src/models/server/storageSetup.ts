@@ -1,4 +1,3 @@
-// src/models/server/storageSetup.ts
 import { storage } from './config';
 import {
   knowledgeAttachmentsBucket,
