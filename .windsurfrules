@@ -1,9 +1,9 @@
 ## Project Overview
 
 1. **Framework**: Next.js 15 with App Router.
-2. **Language**: TypeScript (strict mode enabled).
+2. **Language**: TypeScript (strict).
 3. **Core Libraries**:
-   - UI Framework: Tailwind CSS with ShadcN components.
+   - UI Framework: Tailwind CSS with ShadcN components and Framer Motion animations.
    - State Management: Zustand (client state) and TanStack Query (server state).
    - Validation: Zod.
    - Backend: Appwrite for authentication and database services.
@@ -76,8 +76,6 @@
    - ARIA attributes.
    - Keyboard navigation support.
    - Proper focus-visible styles.
-2. Follow WCAG 2.1 standards for color contrast and readability.
-3. Test all new features for screen reader compatibility.
 
 ### Security and Validation
 
