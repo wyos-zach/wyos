@@ -6,12 +6,17 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 import { KnowledgeService } from '@/models/server/knowledge';
-import type { KnowledgeEntry } from '@/types/core/knowledge';
+import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 import { Skeleton } from '@/components/ui/skeleton';
 
-interface PaginatedResponse {
-  documents: Document[];
-  total: number;
+interface KnowledgeGridProps {
+  categorySlug?: string;
+  initialData?: {
+    documents: KnowledgeEntry[];
+    total: number;
+    hasMore: boolean;
+    nextPage: number;
+  };
 }
 
 const KnowledgeCardSkeleton = () => (
@@ -24,16 +29,6 @@ const KnowledgeCardSkeleton = () => (
     </div>
   </div>
 );
-
-interface KnowledgeGridProps {
-  categorySlug?: string;
-  initialData?: {
-    documents: KnowledgeEntry[];
-    total: number;
-    hasMore: boolean;
-    nextPage: number;
-  };
-}
 
 export const KnowledgeGrid = ({
   categorySlug,
@@ -56,22 +51,15 @@ export const KnowledgeGrid = ({
       const response = await KnowledgeService.listKnowledgeEntries({
         categoryId,
         searchQuery,
-        page: pageParam as number,
+        page: pageParam,
       });
+      // Ensure that every mapped document includes categorySlug.
+      const mappedDocuments = response.documents.map((doc) => ({
+        ...doc,
+        categorySlug: doc.categorySlug ? doc.categorySlug : doc.categoryId,
+      }));
       return {
-        documents: response.documents.map((doc) => ({
-          $id: doc.$id,
-          title: doc.title,
-          slug: doc.slug,
-          summary: doc.summary,
-          content: doc.content,
-          categoryId: doc.categoryId,
-          featured: doc.featured,
-          imageUrl: doc.imageUrl,
-
-          $createdAt: doc.$createdAt,
-          $updatedAt: doc.$updatedAt,
-        })) as KnowledgeEntry[],
+        documents: mappedDocuments as KnowledgeEntry[],
         total: response.total,
         hasMore: response.documents.length === 9,
         nextPage: pageParam + 1,
@@ -88,6 +76,7 @@ export const KnowledgeGrid = ({
       lastPage.hasMore ? lastPage.nextPage : undefined,
   });
 
+  // Flatten all pages into a single array.
   const entries = data?.pages.flatMap((page) => page.documents) || [];
   const totalEntries = data?.pages[0]?.total ?? 0;
 

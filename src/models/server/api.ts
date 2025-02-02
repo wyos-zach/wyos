@@ -1,6 +1,7 @@
 import { ID, Query, type Models } from 'appwrite';
 import { databases } from '@/models/client/config';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
+import { knowledgeCategoriesCollection } from '@/models/name';
 
 export const knowledgeApi = {
   async fetchKnowledgeEntries(params: {
@@ -12,16 +13,24 @@ export const knowledgeApi = {
     const page = params.page || 0;
     const offset = page * limit;
 
-    // Build queries using your new field names.
     const queries = [
       Query.limit(limit),
       Query.offset(offset),
       Query.orderDesc('$createdAt'),
+      Query.select([
+        '$id',
+        'title',
+        'slug',
+        'summary',
+        'content',
+        'knowledgeCategoryIds',
+        'featured',
+        'imageUrl',
+      ]), // Explicitly select needed fields
     ];
 
-    // Use the attribute name exactly as defined in your knowledge collection
     if (params.categoryId) {
-      queries.push(Query.equal('knowledgeId', params.categoryId));
+      queries.push(Query.equal('knowledgeCategoryIds', params.categoryId));
     }
 
     if (params.searchQuery) {
@@ -34,24 +43,46 @@ export const knowledgeApi = {
       queries
     );
 
+    // Add category slug mapping logic
+    const entries = await Promise.all(
+      response.documents.map(async (doc) => {
+        const categorySlug = await this.getCategorySlug(
+          doc.knowledgeCategoryIds
+        );
+        return mapDocumentToKnowledgeEntry(doc, categorySlug);
+      })
+    );
+
     return {
-      documents: response.documents.map(mapDocumentToKnowledgeEntry),
+      documents: entries,
       total: response.total,
       hasMore: response.total > offset + limit,
       nextPage: page + 1,
     };
   },
+
+  async getCategorySlug(categoryId: string): Promise<string> {
+    const response = await databases.listDocuments(
+      process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID!,
+      knowledgeCategoriesCollection, // Make sure this is imported
+      [Query.equal('$id', categoryId), Query.select(['slug'])]
+    );
+    return response.documents[0]?.slug || 'uncategorized';
+  },
 };
 
-function mapDocumentToKnowledgeEntry(doc: Models.Document): KnowledgeEntry {
+function mapDocumentToKnowledgeEntry(
+  doc: Models.Document,
+  categorySlug: string
+): KnowledgeEntry {
   return {
     $id: doc.$id,
     title: doc.title,
     slug: doc.slug,
     summary: doc.summary,
     content: doc.content,
-    // Now we take the value from the attribute 'knowledgeId'
-    categoryId: doc.knowledgeId ?? '',
+    categoryId: doc.knowledgeCategoryIds,
+    categorySlug, // Now included in the mapping
     featured: doc.featured,
     imageUrl: doc.imageUrl,
     $createdAt: doc.$createdAt,

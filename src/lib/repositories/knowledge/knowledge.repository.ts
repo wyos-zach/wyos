@@ -19,11 +19,11 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
       slug: document.slug,
       summary: document.summary,
       content: document.content,
-      // IMPORTANT:
-      // Use the attribute as defined in your new schema.
-      // Based on your PDF, in your knowledge collection the attribute is named "knowledgeCategoryId".
-      // If you want to use it locally as "categoryId", map it accordingly.
+      // Use the attribute from your new schema.
       categoryId: document.knowledgeCategoryIds ?? '',
+      // NEW: Provide categorySlug. If no dedicated field exists, fallback to categoryId.
+      categorySlug:
+        document.knowledgeCategorySlug ?? document.knowledgeCategoryIds ?? '',
       featured: document.featured,
       imageUrl: document.imageUrl,
       $createdAt: new Date(document.$createdAt).toISOString(),

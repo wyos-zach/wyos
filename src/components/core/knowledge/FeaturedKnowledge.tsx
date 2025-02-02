@@ -3,15 +3,15 @@ import { useQuery } from '@tanstack/react-query';
 import { KnowledgeCard } from './KnowledgeCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { KnowledgeService } from '@/models/server/knowledge';
-import { KnowledgeEntry } from '@/types/core/knowledge';
+import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 
 export const FeaturedKnowledge = () => {
-  const { data, isPending } = useQuery({
+  const { data, isLoading, error } = useQuery<KnowledgeEntry[]>({
     queryKey: ['knowledge', 'featured'],
     queryFn: () => KnowledgeService.listFeaturedEntries(3),
   });
 
-  if (isPending) {
+  if (isLoading) {
     return (
       <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
         {[...Array(3)].map((_, i) => (
@@ -21,13 +21,15 @@ export const FeaturedKnowledge = () => {
     );
   }
 
+  if (error) {
+    return <p className='text-red-500'>Failed to load featured content.</p>;
+  }
+
   return (
-    <section>
-      <h2 className='mb-6 text-2xl font-bold'>Featured Content</h2>
+    <section className='space-y-6'>
+      <h2 className='text-2xl font-bold'>Featured Content</h2>
       <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-        {data?.map((entry: KnowledgeEntry) => (
-          <KnowledgeCard key={entry.$id} entry={entry} />
-        ))}
+        {data?.map((entry) => <KnowledgeCard key={entry.$id} entry={entry} />)}
       </div>
     </section>
   );
