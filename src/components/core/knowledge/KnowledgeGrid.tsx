@@ -88,10 +88,7 @@ export const KnowledgeGrid = ({
       lastPage.hasMore ? lastPage.nextPage : undefined,
   });
 
-  const entries =
-    data?.pages.flatMap(
-      (page) => page.documents as unknown as KnowledgeEntry[]
-    ) || [];
+  const entries = data?.pages.flatMap((page) => page.documents) || [];
   const totalEntries = data?.pages[0]?.total ?? 0;
 
   if (isPending) {
@@ -122,7 +119,7 @@ export const KnowledgeGrid = ({
   return (
     <div className='space-y-8'>
       <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-        {entries.map((entry) => (
+        {entries.map((entry: KnowledgeEntry) => (
           <KnowledgeCard key={entry.$id} entry={entry} />
         ))}
       </div>

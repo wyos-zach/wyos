@@ -7,6 +7,7 @@ export interface KnowledgeEntry {
   summary: string;
   content: string;
   categoryId: string;
+  categorySlug: string;
   featured: boolean;
   imageUrl?: string;
   $createdAt: string;

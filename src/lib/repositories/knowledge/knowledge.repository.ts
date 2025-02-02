@@ -23,7 +23,7 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
       // Use the attribute as defined in your new schema.
       // Based on your PDF, in your knowledge collection the attribute is named "knowledgeCategoryId".
       // If you want to use it locally as "categoryId", map it accordingly.
-      categoryId: document.knowledgeCategoryId ?? '',
+      categoryId: document.knowledgeCategoryIds ?? '',
       featured: document.featured,
       imageUrl: document.imageUrl,
       $createdAt: new Date(document.$createdAt).toISOString(),
