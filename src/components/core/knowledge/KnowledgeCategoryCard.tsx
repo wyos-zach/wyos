@@ -2,21 +2,27 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { cn } from '@/lib/utils';
 import type { KnowledgeCategory } from '@/types/core/knowledge';
 
 interface KnowledgeCategoryCardProps {
   category: KnowledgeCategory;
+  className?: string;
 }
 
 export const KnowledgeCategoryCard = ({
   category,
+  className,
 }: KnowledgeCategoryCardProps) => {
   return (
     <Link href={`/knowledge/${category.slug}`}>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className='group relative flex flex-col overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md'
+        className={cn(
+          'group relative flex flex-col overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md',
+          className
+        )}
       >
         {category.imageUrl && (
           <div className='relative aspect-video'>

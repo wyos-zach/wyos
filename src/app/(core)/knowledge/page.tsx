@@ -44,10 +44,8 @@ export default async function KnowledgePage() {
 }
 
 export async function generateStaticParams() {
-  const categories = await KnowledgeService.getMainCategories();
-  return categories
-    .filter((category) => category.isActive)
-    .map((category) => ({
-      categorySlug: category.slug,
-    }));
+  const categories = await KnowledgeService.getKnowledgeCategories();
+  return categories.map((category) => ({
+    categorySlug: category.slug,
+  }));
 }

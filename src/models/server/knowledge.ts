@@ -21,6 +21,28 @@ export class KnowledgeError extends Error {
   }
 }
 
+/**
+ * Helper to look up a category’s slug by its ID.
+ * Returns 'uncategorized' if not found.
+ */
+async function getCategorySlugById(categoryId: string): Promise<string> {
+  try {
+    const catResponse = await databases.listDocuments(
+      db,
+      knowledgeCategoriesCollection,
+      [Query.equal('$id', categoryId), Query.select(['slug']), Query.limit(1)]
+    );
+    if (catResponse.documents.length > 0) {
+      const catDoc = catResponse.documents[0] as unknown as KnowledgeCategory;
+      return catDoc.slug;
+    }
+    return 'uncategorized';
+  } catch (error) {
+    console.error('getCategorySlugById error:', error);
+    return 'uncategorized';
+  }
+}
+
 export const KnowledgeService = {
   async getMainCategories(): Promise<KnowledgeCategory[]> {
     try {
@@ -32,6 +54,59 @@ export const KnowledgeService = {
       return response.documents as unknown as KnowledgeCategory[];
     } catch (error) {
       throw new KnowledgeError(500, 'Failed to fetch main categories');
+    }
+  },
+
+  /**
+   * NEW: Fetch subcategories (i.e. knowledge categories that belong to a given main category).
+   * Uses the "maincategoryId" field in the knowledge-categories collection.
+   */
+  async getSubcategories(mainCategoryId: string): Promise<KnowledgeCategory[]> {
+    try {
+      const response = await databases.listDocuments(
+        db,
+        knowledgeCategoriesCollection,
+        [
+          Query.equal('maincategoryId', mainCategoryId),
+          Query.equal('isActive', true),
+          Query.orderAsc('order'),
+        ]
+      );
+      return response.documents as unknown as KnowledgeCategory[];
+    } catch (error) {
+      throw new KnowledgeError(500, 'Failed to fetch subcategories');
+    }
+  },
+
+  /**
+   * Fetch all knowledge categories.
+   */
+  async getKnowledgeCategories(): Promise<KnowledgeCategory[]> {
+    try {
+      const response = await databases.listDocuments(
+        db,
+        knowledgeCategoriesCollection,
+        [
+          Query.equal('isActive', true),
+          Query.orderAsc('order'),
+          Query.select([
+            '$id',
+            'name',
+            'slug',
+            'description',
+            'order',
+            'isActive',
+            'icon',
+            'imageUrl',
+            'maincategoryId',
+            '$createdAt',
+            '$updatedAt',
+          ]),
+        ]
+      );
+      return response.documents as unknown as KnowledgeCategory[];
+    } catch (error) {
+      throw new KnowledgeError(500, 'Failed to fetch knowledge categories');
     }
   },
 
@@ -54,11 +129,10 @@ export const KnowledgeService = {
       if (searchQuery) {
         queries.push(Query.search('title', searchQuery));
       }
-      const response = await databases.listDocuments(db, knowledgeCollection, [
-        ...queries,
-        Query.orderDesc('$createdAt'),
-        Query.limit(pageSize),
-        Query.offset((page - 1) * pageSize),
+      queries.push(Query.orderDesc('$createdAt'));
+      queries.push(Query.limit(pageSize));
+      queries.push(Query.offset((page - 1) * pageSize));
+      queries.push(
         Query.select([
           '$id',
           'title',
@@ -71,16 +145,20 @@ export const KnowledgeService = {
           '$createdAt',
           '$updatedAt',
           '$permissions',
-        ]),
-      ]);
+        ])
+      );
+      const response = await databases.listDocuments(
+        db,
+        knowledgeCollection,
+        queries
+      );
 
-      // Helper: extract first category ID from the array
+      // Helper to get the first category from the knowledgeCategoryIds array.
       const getFirstCategoryId = (doc: any): string =>
         Array.isArray(doc.knowledgeCategoryIds) &&
         doc.knowledgeCategoryIds.length > 0
           ? doc.knowledgeCategoryIds[0]
           : '';
-
       const categoryIds = [
         ...new Set(
           response.documents
@@ -88,23 +166,10 @@ export const KnowledgeService = {
             .filter((id): id is string => Boolean(id))
         ),
       ];
-
-      let categoryMap: Record<string, KnowledgeCategory> = {};
-      if (categoryIds.length) {
-        const catResponse = await databases.listDocuments(
-          db,
-          knowledgeCategoriesCollection,
-          [Query.equal('$id', categoryIds), Query.select(['$id', 'slug'])]
-        );
-        categoryMap = catResponse.documents.reduce(
-          (acc, doc) => {
-            acc[doc.$id] = doc as unknown as KnowledgeCategory;
-            return acc;
-          },
-          {} as Record<string, KnowledgeCategory>
-        );
+      let categoryMap: Record<string, string> = {};
+      for (const id of categoryIds) {
+        categoryMap[id] = await getCategorySlugById(id);
       }
-
       const enrichedEntries = response.documents.map((doc) => {
         const catId = getFirstCategoryId(doc);
         return {
@@ -119,10 +184,9 @@ export const KnowledgeService = {
           $updatedAt: doc.$updatedAt,
           $permissions: doc.$permissions,
           categoryId: catId,
-          categorySlug: categoryMap[catId]?.slug || 'uncategorized',
+          categorySlug: categoryMap[catId] || 'uncategorized',
         };
       });
-
       return {
         documents: enrichedEntries,
         total: response.total,
@@ -157,11 +221,9 @@ export const KnowledgeService = {
           '$permissions',
         ]),
       ]);
-
       if (response.documents.length === 0) {
         throw new KnowledgeError(404, 'Knowledge entry not found');
       }
-
       const doc = response.documents[0];
       const catId =
         Array.isArray(doc.knowledgeCategoryIds) &&
@@ -170,18 +232,8 @@ export const KnowledgeService = {
           : '';
       let categorySlug = 'uncategorized';
       if (catId) {
-        const catResponse = await databases.listDocuments(
-          db,
-          knowledgeCategoriesCollection,
-          [Query.equal('$id', [catId]), Query.select(['slug']), Query.limit(1)]
-        );
-        if (catResponse.documents.length > 0) {
-          categorySlug = (
-            catResponse.documents[0] as unknown as KnowledgeCategory
-          ).slug;
-        }
+        categorySlug = await getCategorySlugById(catId);
       }
-
       return {
         $id: doc.$id,
         title: doc.title,
@@ -212,14 +264,11 @@ export const KnowledgeService = {
         Query.orderDesc('$createdAt'),
         Query.limit(limit),
       ]);
-
-      // Enrich featured entries the same way as listKnowledgeEntries
       const getFirstCategoryId = (doc: any): string =>
         Array.isArray(doc.knowledgeCategoryIds) &&
         doc.knowledgeCategoryIds.length > 0
           ? doc.knowledgeCategoryIds[0]
           : '';
-
       const categoryIds = [
         ...new Set(
           response.documents
@@ -227,23 +276,10 @@ export const KnowledgeService = {
             .filter((id): id is string => Boolean(id))
         ),
       ];
-
-      let categoryMap: Record<string, KnowledgeCategory> = {};
-      if (categoryIds.length) {
-        const catResponse = await databases.listDocuments(
-          db,
-          knowledgeCategoriesCollection,
-          [Query.equal('$id', categoryIds), Query.select(['$id', 'slug'])]
-        );
-        categoryMap = catResponse.documents.reduce(
-          (acc, doc) => {
-            acc[doc.$id] = doc as unknown as KnowledgeCategory;
-            return acc;
-          },
-          {} as Record<string, KnowledgeCategory>
-        );
+      let categoryMap: Record<string, string> = {};
+      for (const id of categoryIds) {
+        categoryMap[id] = await getCategorySlugById(id);
       }
-
       const enrichedEntries = response.documents.map((doc) => {
         const catId = getFirstCategoryId(doc);
         return {
@@ -258,13 +294,51 @@ export const KnowledgeService = {
           $updatedAt: doc.$updatedAt,
           $permissions: doc.$permissions,
           categoryId: catId,
-          categorySlug: categoryMap[catId]?.slug || 'uncategorized',
+          categorySlug: categoryMap[catId] || 'uncategorized',
         };
       });
       return enrichedEntries;
     } catch (error) {
       console.error('Failed to fetch featured entries:', error);
-      throw new Error('Could not fetch featured entries');
+      throw new KnowledgeError(
+        (error as any)?.code || 500,
+        (error as any)?.message || 'Failed to fetch featured entries'
+      );
+    }
+  },
+
+  /**
+   * (Optional) Fetch a specific category by its slug.
+   */
+  async getCategoryBySlug(slug: string): Promise<KnowledgeCategory> {
+    try {
+      const response = await databases.listDocuments(
+        db,
+        knowledgeCategoriesCollection,
+        [
+          Query.equal('slug', slug),
+          Query.limit(1),
+          Query.select([
+            '$id',
+            'name',
+            'slug',
+            'description',
+            'order',
+            'isActive',
+            'icon',
+            'imageUrl',
+            'maincategoryId',
+            '$createdAt',
+            '$updatedAt',
+          ]),
+        ]
+      );
+      if (response.documents.length === 0) {
+        throw new KnowledgeError(404, 'Category not found');
+      }
+      return response.documents[0] as unknown as KnowledgeCategory;
+    } catch (error) {
+      throw new KnowledgeError(500, 'Failed to fetch category');
     }
   },
 };

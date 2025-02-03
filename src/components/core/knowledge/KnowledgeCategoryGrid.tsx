@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export const KnowledgeCategoryGrid = () => {
   const { data, isPending } = useQuery({
     queryKey: ['knowledge', 'categories'],
-    queryFn: () => KnowledgeService.getMainCategories(),
+    queryFn: () => KnowledgeService.getKnowledgeCategories(),
     staleTime: 60 * 1000,
   });
 

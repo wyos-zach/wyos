@@ -3,16 +3,14 @@ import { useFeaturedKnowledge } from '@/lib/api/knowledge/hooks';
 import { KnowledgeCard } from '@/components/core/knowledge/KnowledgeCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+
+// Correct imports for Swiper's CSS
 import 'swiper/css';
 import 'swiper/css/navigation';
-import dynamic from 'next/dynamic';
-
-const SwiperNavigation = dynamic(() =>
-  import('swiper').then((mod) => mod.Navigation)
-);
 
 export const FeaturedKnowledgeSwiper = () => {
-  const { data, isLoading } = useFeaturedKnowledge();
+  const { data, isLoading, error } = useFeaturedKnowledge();
 
   if (isLoading) {
     return (
@@ -20,6 +18,22 @@ export const FeaturedKnowledgeSwiper = () => {
         {[...Array(3)].map((_, i) => (
           <Skeleton key={i} className='h-64 w-full rounded-xl' />
         ))}
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='rounded-lg border border-destructive p-4 text-center text-red-500'>
+        Failed to load featured content. {error.message}
+      </div>
+    );
+  }
+
+  if (!data || data.length === 0) {
+    return (
+      <div className='p-4 text-center text-muted-foreground'>
+        No featured entries available
       </div>
     );
   }
@@ -34,17 +48,27 @@ export const FeaturedKnowledgeSwiper = () => {
           640: { slidesPerView: 2.2 },
           1024: { slidesPerView: 3.2 },
         }}
-        modules={[SwiperNavigation]}
-        navigation
-        className='!pb-12'
+        modules={[Navigation]}
+        navigation={{
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        }}
+        className='relative !pb-12'
+        aria-label='Featured knowledge entries carousel'
       >
-        {data?.map((entry) => (
+        {data.map((entry) => (
           <SwiperSlide key={entry.$id}>
-            <KnowledgeCard entry={entry} />
+            <KnowledgeCard
+              entry={entry}
+              className='h-full transition-shadow hover:shadow-lg'
+            />
           </SwiperSlide>
         ))}
+
+        {/* Custom navigation arrows */}
+        <div className='swiper-button-next !h-8 !w-8 !text-primary after:!text-xl' />
+        <div className='swiper-button-prev !h-8 !w-8 !text-primary after:!text-xl' />
       </Swiper>
     </section>
   );
 };
-import { Navigation } from 'lucide-react';
