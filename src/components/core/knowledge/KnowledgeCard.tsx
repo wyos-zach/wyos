@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { KnowledgeEntry } from '@/types/core/knowledge';
+import { type env, title } from 'process';
 
 interface KnowledgeCardProps {
   entry: KnowledgeEntry;
@@ -29,7 +30,7 @@ export const KnowledgeCard = ({ entry, className }: KnowledgeCardProps) => {
         {entry.imageUrl && (
           <div className='relative aspect-video bg-muted'>
             <Image
-              src={entry.imageUrl}
+              src={`${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_IMAGES_BUCKET_ID}/files/${entry.imageUrl}/view`}
               alt={`Cover image for ${entry.title}`}
               fill
               sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'

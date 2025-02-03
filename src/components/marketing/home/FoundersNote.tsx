@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Container } from '@/components/ui/container';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -12,7 +11,6 @@ export function FoundersNote({
   message,
   founderName,
   founderTitle,
-  imageUrl,
 }: FoundersNoteProps) {
   return (
     <Container as='section' className='relative py-24 md:py-32'>
@@ -28,18 +26,9 @@ export function FoundersNote({
 
         <div className='relative space-y-8'>
           <div className='flex items-center gap-4'>
-            {imageUrl && (
-              <div className='relative'>
-                <Image
-                  src={imageUrl}
-                  alt={founderName}
-                  width={64}
-                  height={64}
-                  className='rounded-lg grayscale'
-                />
-                <div className='absolute -inset-px rounded-lg bg-blue-500/20 blur-sm' />
-              </div>
-            )}
+            <div className='relative'>
+              <div className='absolute -inset-px rounded-lg bg-blue-500/20 blur-sm' />
+            </div>
             <div>
               <div className='font-mono text-sm text-zinc-400'>
                 From the Founder
