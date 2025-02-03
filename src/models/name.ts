@@ -28,3 +28,5 @@ export const resourcesImagesBucket =
   process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_IMAGES_BUCKET_ID!;
 export const resourcesAttachmentsBucket =
   process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_ATTACHMENTS_BUCKET_ID!;
+export const appAssetsBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_APP_ASSETS_BUCKET_ID!;
