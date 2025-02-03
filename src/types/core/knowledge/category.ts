@@ -7,7 +7,7 @@ export interface KnowledgeCategory {
   isActive: boolean;
   imageUrl?: string;
   icon?: string;
-  parentId?: string;
+  mainCategoryId?: string;
   $createdAt: string;
   $updatedAt: string;
 }

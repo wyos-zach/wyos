@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import getOrCreateDB from './models/server/dbSetup';
-import getOrCreateStorage from './models/server/storageSetup'; // Minimal storage check
 import { Account, Client } from 'node-appwrite';
 import { AppwriteException } from 'node-appwrite';
 
@@ -20,7 +19,7 @@ const account = new Account(client);
 
 export async function middleware(request: NextRequest) {
   // STEP 2: Run checks to verify DB and Storage exist.
-  await Promise.all([getOrCreateDB(), getOrCreateStorage()]);
+  await Promise.all([getOrCreateDB()]);
 
   // STEP 3: Get the current pathname and search parameters from the URL.
   const { pathname, search } = request.nextUrl;

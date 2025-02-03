@@ -12,7 +12,19 @@ export const resourcesCollection =
 export const tagsCollection =
   process.env.NEXT_PUBLIC_APPWRITE_TAGS_COLLECTION_ID!;
 
-export const knowledgeAttachmentsBucket = 'knowledge-attachments';
-export const resourcesAttachmentsBucket = 'resources-attachments';
-export const categoryImagesBucket = 'category-images';
-export const categoryIconsBucket = 'category-icons';
+export const knowledgeCategoryImagesBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_CATEGORY_IMAGES_BUCKET_ID!;
+export const knowledgeCategoryIconsBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_CATEGORY_ICONS_BUCKET_ID!;
+export const knowledgeImagesBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_IMAGES_BUCKET_ID!;
+export const knowledgeAttachmentsBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_ATTACHMENTS_BUCKET_ID!;
+export const resourcesCategoryImagesBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_CATEGORY_IMAGES_BUCKET_ID!;
+export const resourcesCategoryIconsBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_CATEGORY_ICONS_BUCKET_ID!;
+export const resourcesImagesBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_IMAGES_BUCKET_ID!;
+export const resourcesAttachmentsBucket =
+  process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_ATTACHMENTS_BUCKET_ID!;
