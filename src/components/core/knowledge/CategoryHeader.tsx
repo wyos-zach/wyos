@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import type { KnowledgeCategory } from '@/types/core/knowledge/category';
 
@@ -15,55 +16,74 @@ export const CategoryHeader = ({
   className,
 }: CategoryHeaderProps) => {
   return (
-    <header
+    <motion.header
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'relative overflow-hidden bg-gradient-to-br from-blue-900/80 to-indigo-900/50',
-        'border-b border-blue-800/30 backdrop-blur-lg',
+        'relative border-b border-border/40',
+        'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
         className
       )}
     >
-      <div className='container relative py-16 md:py-24'>
-        {/* Breadcrumb Navigation */}
-        <nav aria-label='Breadcrumb' className='mb-6 text-sm text-blue-200'>
-          <ol className='flex items-center space-x-2'>
+      <div className='container relative py-12'>
+        {/* Breadcrumb */}
+        <motion.nav
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          aria-label='Breadcrumb'
+          className='mb-8'
+        >
+          <ol className='flex items-center space-x-2 text-sm text-muted-foreground'>
             <li>
               <Link
                 href='/knowledge'
-                className='transition-colors hover:text-white'
+                className='transition-colors hover:text-foreground'
               >
                 Knowledge Hub
               </Link>
             </li>
-            <li aria-hidden='true' className='text-blue-400'>
-              /
-            </li>
-            <li className='font-medium text-white' aria-current='page'>
+            <li aria-hidden='true'>/</li>
+            <li className='font-medium text-foreground' aria-current='page'>
               {category.name}
             </li>
           </ol>
-        </nav>
+        </motion.nav>
 
-        {/* Main Header Content */}
-        <div className='max-w-3xl'>
-          <h1 className='text-4xl font-bold tracking-tight text-white md:text-5xl'>
+        {/* Content */}
+        <div className='max-w-2xl'>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className='text-4xl font-bold tracking-tight md:text-5xl'
+          >
             {category.name}
-          </h1>
+          </motion.h1>
+
           {category.description && (
-            <p className='mt-4 text-lg text-blue-100'>{category.description}</p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className='mt-4 text-lg text-muted-foreground'
+            >
+              {category.description}
+            </motion.p>
           )}
-          <div className='mt-6 flex items-center gap-4'>
-            <span className='inline-flex items-center rounded-full bg-blue-800/30 px-4 py-2 text-sm font-medium text-blue-100'>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className='mt-6'
+          >
+            <span className='inline-flex items-center rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary'>
               {totalEntries} curated entries
             </span>
-          </div>
+          </motion.div>
         </div>
-
-        {/* Gradient Overlay */}
-        <div
-          className='absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.4),transparent_60%)]'
-          aria-hidden='true'
-        />
       </div>
-    </header>
+    </motion.header>
   );
 };
