@@ -72,7 +72,7 @@ export const useAuthStore = create<IAuthStore>()(
               return;
             } catch (error) {
               if (i < 2) {
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise((resolve) => setTimeout(resolve, 1000));
                 continue;
               }
               throw error;
