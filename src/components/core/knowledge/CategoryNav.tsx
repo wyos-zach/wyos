@@ -4,32 +4,18 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 import { KnowledgeService } from '@/models/server/knowledge';
-import type { KnowledgeCategory } from '@/types/core/knowledge';
 
-interface CategoryNavProps {
-  orientation?: 'horizontal' | 'vertical';
-  showAll?: boolean;
-  className?: string;
-}
-
-export const CategoryNav = ({
-  orientation = 'horizontal',
-  showAll = true,
-  className,
-}: CategoryNavProps) => {
+export const CategoryNav = () => {
   const { selectedCategory, setCategory } = useKnowledgeStore();
-
-  const { data, isPending, isError, refetch } = useQuery<KnowledgeCategory[]>({
+  const { data: categories, isPending } = useQuery({
     queryKey: ['knowledge', 'categories'],
-    queryFn: KnowledgeService.getMainCategories,
+    queryFn: () => KnowledgeService.getKnowledgeCategories(),
     staleTime: 60 * 1000,
   });
 
   if (isPending) {
     return (
-      <div
-        className={`flex ${orientation === 'vertical' ? 'flex-col' : 'flex-row'} gap-2 ${className}`}
-      >
+      <div className='flex gap-2'>
         {[...Array(4)].map((_, i) => (
           <Skeleton key={i} className='h-10 w-24 rounded-md' />
         ))}
@@ -37,33 +23,16 @@ export const CategoryNav = ({
     );
   }
 
-  if (isError) {
-    return (
-      <div
-        className={`flex ${orientation === 'vertical' ? 'flex-col' : 'flex-row'} items-center gap-2 text-destructive ${className}`}
-      >
-        Failed to load categories
-        <Button variant='ghost' size='sm' onClick={() => refetch()}>
-          Retry
-        </Button>
-      </div>
-    );
-  }
-
   return (
-    <nav
-      className={`flex ${orientation === 'vertical' ? 'flex-col' : 'flex-row'} gap-2 overflow-x-auto ${className}`}
-    >
-      {showAll && (
-        <Button
-          variant={!selectedCategory ? 'default' : 'outline'}
-          onClick={() => setCategory(null)}
-          className='min-w-[80px]'
-        >
-          All
-        </Button>
-      )}
-      {data?.map((category) => (
+    <nav className='mb-8 flex gap-2 overflow-x-auto'>
+      <Button
+        variant={!selectedCategory ? 'default' : 'outline'}
+        onClick={() => setCategory(null)}
+        className='min-w-[80px]'
+      >
+        All
+      </Button>
+      {categories?.map((category) => (
         <Button
           key={category.$id}
           variant={selectedCategory === category.$id ? 'default' : 'outline'}
