@@ -58,7 +58,7 @@ export const KnowledgeService = {
   },
 
   /**
-   * Fetch subcategories (i.e. knowledge categories that belong to a given main category).
+   * NEW: Fetch subcategories (i.e. knowledge categories that belong to a given main category).
    * Uses the "mainCategoryId" field in the knowledge-categories collection.
    */
   async getSubcategories(mainCategoryId: string): Promise<KnowledgeCategory[]> {
@@ -78,14 +78,16 @@ export const KnowledgeService = {
     }
   },
 
-  /** Fetch all knowledge categories. */
+  /**
+   * Fetch all knowledge categories.
+   */
   async getKnowledgeCategories(): Promise<KnowledgeCategory[]> {
     try {
       const response = await databases.listDocuments(
         db,
         knowledgeCategoriesCollection,
         [
-          Query.equal('isActive', [true]),
+          Query.equal('isActive', true),
           Query.orderAsc('order'),
           Query.select([
             '$id',
@@ -104,7 +106,6 @@ export const KnowledgeService = {
       );
       return response.documents as unknown as KnowledgeCategory[];
     } catch (error) {
-      console.error('Failed to fetch knowledge categories:', error);
       throw new KnowledgeError(500, 'Failed to fetch knowledge categories');
     }
   },
@@ -121,14 +122,17 @@ export const KnowledgeService = {
     pageSize?: number;
   }): Promise<PaginatedResult<KnowledgeEntry>> {
     try {
-      const queries = [
-        ...(categoryId
-          ? [Query.equal('knowledgeCategoryIds', categoryId)]
-          : []),
-        ...(searchQuery ? [Query.search('title', searchQuery)] : []),
-        Query.orderDesc('$createdAt'),
-        Query.limit(pageSize),
-        Query.offset((page - 1) * pageSize),
+      const queries = [];
+      if (categoryId) {
+        queries.push(Query.equal('knowledgeCategoryIds', categoryId));
+      }
+      if (searchQuery) {
+        queries.push(Query.search('title', searchQuery));
+      }
+      queries.push(Query.orderDesc('$createdAt'));
+      queries.push(Query.limit(pageSize));
+      queries.push(Query.offset((page - 1) * pageSize));
+      queries.push(
         Query.select([
           '$id',
           'title',
@@ -141,36 +145,31 @@ export const KnowledgeService = {
           '$createdAt',
           '$updatedAt',
           '$permissions',
-        ]),
-      ];
-
-      // Helper to get the first category from the knowledgeCategoryIds array
-      const getFirstCategoryId = (doc: any): string =>
-        Array.isArray(doc.knowledgeCategoryIds) &&
-        doc.knowledgeCategoryIds.length > 0
-          ? doc.knowledgeCategoryIds[0]
-          : '';
-
+        ])
+      );
       const response = await databases.listDocuments(
         db,
         knowledgeCollection,
         queries
       );
 
+      // Helper to get the first category from the knowledgeCategoryIds array.
+      const getFirstCategoryId = (doc: any): string =>
+        Array.isArray(doc.knowledgeCategoryIds) &&
+        doc.knowledgeCategoryIds.length > 0
+          ? doc.knowledgeCategoryIds[0]
+          : '';
       const categoryIds = [
         ...new Set(
           response.documents
-            .map((doc) => getFirstCategoryId(doc))
-            .filter(Boolean)
+            .map(getFirstCategoryId)
+            .filter((id): id is string => Boolean(id))
         ),
       ];
-
-      const categoryMap = Object.fromEntries(
-        await Promise.all(
-          categoryIds.map(async (id) => [id, await getCategorySlugById(id)])
-        )
-      );
-
+      let categoryMap: Record<string, string> = {};
+      for (const id of categoryIds) {
+        categoryMap[id] = await getCategorySlugById(id);
+      }
       const enrichedEntries = response.documents.map((doc) => {
         const catId = getFirstCategoryId(doc);
         return {
@@ -180,12 +179,12 @@ export const KnowledgeService = {
           summary: doc.summary,
           content: doc.content,
           featured: doc.featured,
+          imageUrl: doc.imageUrl,
           $createdAt: doc.$createdAt,
           $updatedAt: doc.$updatedAt,
           $permissions: doc.$permissions,
           categoryId: catId,
           categorySlug: categoryMap[catId] || 'uncategorized',
-          imageUrl: doc.imageUrl || undefined,
         };
       });
       return {
@@ -215,6 +214,7 @@ export const KnowledgeService = {
           'summary',
           'content',
           'featured',
+          'imageUrl',
           'knowledgeCategoryIds',
           '$createdAt',
           '$updatedAt',
@@ -241,12 +241,12 @@ export const KnowledgeService = {
         summary: doc.summary,
         content: doc.content,
         featured: doc.featured,
+        imageUrl: doc.imageUrl,
         $createdAt: doc.$createdAt,
         $updatedAt: doc.$updatedAt,
         $permissions: doc.$permissions,
         categoryId: catId,
         categorySlug,
-        imageUrl: doc.imageUrl || undefined,
       };
     } catch (error) {
       console.error('KnowledgeService.getEntryBySlug failed:', error);
@@ -289,12 +289,12 @@ export const KnowledgeService = {
           summary: doc.summary,
           content: doc.content,
           featured: doc.featured,
+          imageUrl: doc.imageUrl,
           $createdAt: doc.$createdAt,
           $updatedAt: doc.$updatedAt,
           $permissions: doc.$permissions,
           categoryId: catId,
           categorySlug: categoryMap[catId] || 'uncategorized',
-          imageUrl: doc.imageUrl || undefined,
         };
       });
       return enrichedEntries;
