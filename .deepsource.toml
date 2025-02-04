@@ -5,9 +5,6 @@ name = "secrets"
 enabled = true
 
 [[analyzers]]
-name = "test-coverage"
-
-[[analyzers]]
 name = "javascript"
 
   [analyzers.meta]
