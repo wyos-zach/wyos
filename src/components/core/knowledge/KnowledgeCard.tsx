@@ -1,10 +1,9 @@
 'use client';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import type { KnowledgeEntry } from '@/types/core/knowledge';
-import { type env, title } from 'process';
 
 interface KnowledgeCardProps {
   entry: KnowledgeEntry;
@@ -28,14 +27,14 @@ export const KnowledgeCard = ({ entry, className }: KnowledgeCardProps) => {
         )}
       >
         {entry.imageUrl && (
-          <div className='relative aspect-video bg-muted'>
+          <div className='relative aspect-video'>
             <Image
-              src={`${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_IMAGES_BUCKET_ID}/files/${entry.imageUrl}/view`}
+              src={entry.imageUrl}
               alt={`Cover image for ${entry.title}`}
               fill
-              sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
               className='object-cover'
-              quality={80}
+              sizes='(max-width: 768px) 100vw, 33vw'
+              unoptimized
             />
           </div>
         )}
@@ -49,19 +48,12 @@ export const KnowledgeCard = ({ entry, className }: KnowledgeCardProps) => {
                 year: 'numeric',
               })}
             </time>
-            {entry.featured && (
-              <div className='rounded-full bg-primary px-2 py-1 text-xs font-medium text-primary-foreground'>
-                Featured
-              </div>
-            )}
           </div>
-
           <h3 className='mt-2 text-xl font-semibold tracking-tight'>
             {entry.title}
           </h3>
-
           {entry.summary && (
-            <p className='mt-2 line-clamp-3 text-sm text-muted-foreground'>
+            <p className='mt-2 line-clamp-2 text-muted-foreground'>
               {entry.summary}
             </p>
           )}

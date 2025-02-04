@@ -19,9 +19,7 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
       slug: document.slug,
       summary: document.summary,
       content: document.content,
-      // Use the attribute from your new schema.
       categoryId: document.knowledgeCategoryIds ?? '',
-      // NEW: Provide categorySlug. If no dedicated field exists, fallback to categoryId.
       categorySlug:
         document.knowledgeCategorySlug ?? document.knowledgeCategoryIds ?? '',
       featured: document.featured,
