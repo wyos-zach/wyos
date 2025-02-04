@@ -1,9 +1,11 @@
+import type { ReferrerEnum } from 'next/dist/lib/metadata/types/metadata-types';
 import { KnowledgeCategory } from './category';
 
 export interface KnowledgeEntry {
   $id: string;
   title: string;
   slug: string;
+  type: string; // Article, Video, HowTo, Infographic
   summary: string;
   content: string;
   categoryId: string;

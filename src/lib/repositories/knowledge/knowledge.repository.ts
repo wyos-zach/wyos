@@ -17,6 +17,7 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
       $id: document.$id,
       title: document.title,
       slug: document.slug,
+      type: document.type,
       summary: document.summary,
       content: document.content,
       categoryId: document.knowledgeCategoryIds ?? '',
