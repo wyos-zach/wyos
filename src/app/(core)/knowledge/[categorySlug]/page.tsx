@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { KnowledgeGrid } from '@/components/core/knowledge/KnowledgeGrid';
+import { CategoryHeader } from '@/components/core/knowledge/CategoryHeader';
 import type { KnowledgeEntry } from '@/types/core/knowledge';
 
 export default async function CategoryPage({
@@ -9,22 +10,17 @@ export default async function CategoryPage({
   params: { categorySlug: string };
 }) {
   try {
-    // First, fetch the category document using the slug.
+    // Fetch the knowledge category using its slug.
     const category = await KnowledgeService.getCategoryBySlug(
       params.categorySlug
     );
-    if (!category) {
-      return notFound();
-    }
+    if (!category) return notFound();
 
-    // Then, fetch the entries using the actual category ID.
+    // Fetch the entries for that category using its ID.
     const response = await KnowledgeService.listKnowledgeEntries({
       categoryId: category.$id,
     });
-
-    if (!response.documents.length) {
-      return notFound();
-    }
+    if (!response.documents.length) return notFound();
 
     const initialData = {
       documents: response.documents as unknown as KnowledgeEntry[],
@@ -34,13 +30,13 @@ export default async function CategoryPage({
     };
 
     return (
-      <section className='space-y-8'>
-        <h1 className='text-3xl font-bold'>{category.name}</h1>
+      <div className='space-y-12'>
+        <CategoryHeader category={category} totalEntries={response.total} />
         <KnowledgeGrid
           initialData={initialData}
           categorySlug={params.categorySlug}
         />
-      </section>
+      </div>
     );
   } catch (error) {
     return notFound();
