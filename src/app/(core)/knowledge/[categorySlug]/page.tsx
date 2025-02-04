@@ -10,13 +10,11 @@ export default async function CategoryPage({
   params: { categorySlug: string };
 }) {
   try {
-    // Fetch the knowledge category using its slug.
     const category = await KnowledgeService.getCategoryBySlug(
       params.categorySlug
     );
     if (!category) return notFound();
 
-    // Fetch the entries for that category using its ID.
     const response = await KnowledgeService.listKnowledgeEntries({
       categoryId: category.$id,
     });
@@ -30,12 +28,14 @@ export default async function CategoryPage({
     };
 
     return (
-      <div className='space-y-12'>
+      <div className='min-h-screen bg-slate-950'>
         <CategoryHeader category={category} totalEntries={response.total} />
-        <KnowledgeGrid
-          initialData={initialData}
-          categorySlug={params.categorySlug}
-        />
+        <main className='container py-12'>
+          <KnowledgeGrid
+            initialData={initialData}
+            categorySlug={params.categorySlug}
+          />
+        </main>
       </div>
     );
   } catch (error) {

@@ -17,71 +17,53 @@ export const CategoryHeader = ({
 }: CategoryHeaderProps) => {
   return (
     <motion.header
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       className={cn(
-        'relative border-b border-border/40',
-        'bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60',
+        'relative min-h-[320px] border-b border-border/10',
+        'bg-gradient-to-br from-blue-950 via-indigo-950 to-slate-950',
+        'after:bg-grid-white/[0.02] after:absolute after:inset-0',
         className
       )}
     >
-      <div className='container relative py-12'>
-        {/* Breadcrumb */}
-        <motion.nav
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          aria-label='Breadcrumb'
-          className='mb-8'
-        >
-          <ol className='flex items-center space-x-2 text-sm text-muted-foreground'>
+      <div className='container relative z-10 py-16'>
+        <nav className='mb-8'>
+          <ol className='flex items-center space-x-2 text-sm text-blue-300/80'>
             <li>
               <Link
                 href='/knowledge'
-                className='transition-colors hover:text-foreground'
+                className='transition-colors hover:text-blue-200'
               >
                 Knowledge Hub
               </Link>
             </li>
-            <li aria-hidden='true'>/</li>
-            <li className='font-medium text-foreground' aria-current='page'>
-              {category.name}
-            </li>
+            <li className='text-blue-400/50'>/</li>
+            <li className='font-medium text-blue-200'>{category.name}</li>
           </ol>
-        </motion.nav>
+        </nav>
 
-        {/* Content */}
-        <div className='max-w-2xl'>
-          <motion.h1
+        <div className='relative max-w-3xl'>
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className='text-4xl font-bold tracking-tight md:text-5xl'
+            transition={{ delay: 0.2 }}
           >
-            {category.name}
-          </motion.h1>
-
-          {category.description && (
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className='mt-4 text-lg text-muted-foreground'
-            >
-              {category.description}
-            </motion.p>
-          )}
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className='mt-6'
-          >
-            <span className='inline-flex items-center rounded-md bg-primary/10 px-4 py-2 text-sm font-medium text-primary'>
-              {totalEntries} curated entries
-            </span>
+            <h1 className='bg-gradient-to-br from-blue-200 to-blue-400 bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-6xl'>
+              {category.name}
+            </h1>
+            {category.description && (
+              <p className='mt-6 text-lg leading-relaxed text-blue-200/90'>
+                {category.description}
+              </p>
+            )}
+            <div className='mt-8 flex items-center gap-4'>
+              <span className='inline-flex items-center rounded-full bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-300 ring-1 ring-blue-500/20'>
+                {totalEntries} curated entries
+              </span>
+            </div>
           </motion.div>
+
+          <div className='absolute -right-64 top-0 h-48 w-[500px] bg-gradient-to-r from-blue-500/0 via-blue-500/10 to-purple-500/20 blur-3xl' />
         </div>
       </div>
     </motion.header>
