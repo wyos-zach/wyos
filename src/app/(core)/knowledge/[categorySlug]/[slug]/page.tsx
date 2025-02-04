@@ -52,4 +52,3 @@ export default async function KnowledgeEntryPage({
     return notFound();
   }
 }
-import { type } from 'os';
