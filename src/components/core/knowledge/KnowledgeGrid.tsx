@@ -1,13 +1,10 @@
 'use client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { KnowledgeCard } from './KnowledgeCard';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Loader2, AlertCircle } from 'lucide-react';
-import { useKnowledgeStore } from '@/store/useKnowledgeStore';
+import { Skeleton } from '@/components/ui/skeleton';
+import { InfiniteGrid } from '@/components/shared/InfiniteGrid';
 import { KnowledgeService } from '@/models/server/knowledge';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
-import { Skeleton } from '@/components/ui/skeleton';
 
 interface KnowledgeGridProps {
   categorySlug?: string;
@@ -19,38 +16,25 @@ interface KnowledgeGridProps {
   };
 }
 
-const KnowledgeCardSkeleton = () => (
-  <div className='flex flex-col gap-3 rounded-lg border p-6'>
-    <Skeleton className='h-4 w-1/2' />
-    <Skeleton className='h-6 w-3/4' />
-    <div className='space-y-2'>
-      <Skeleton className='h-4 w-full' />
-      <Skeleton className='h-4 w-2/3' />
-    </div>
-  </div>
-);
-
 export const KnowledgeGrid = ({
   categorySlug,
   initialData,
 }: KnowledgeGridProps) => {
-  const { selectedCategory, searchQuery } = useKnowledgeStore();
-  const categoryId = selectedCategory || undefined;
   const {
     data,
     error,
-    isPending,
     isError,
     isFetchingNextPage,
     hasNextPage,
     fetchNextPage,
+    status,
     refetch,
+    isPending,
   } = useInfiniteQuery({
-    queryKey: ['knowledge', selectedCategory, searchQuery],
+    queryKey: ['knowledge', categorySlug, ''],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await KnowledgeService.listKnowledgeEntries({
-        categoryId,
-        searchQuery,
+        categoryId: categorySlug,
         page: pageParam,
       });
       // Ensure that every mapped document includes categorySlug.
@@ -84,7 +68,7 @@ export const KnowledgeGrid = ({
     return (
       <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
         {[...Array(6)].map((_, i) => (
-          <KnowledgeCardSkeleton key={i} />
+          <Skeleton key={i} className='h-64 w-full rounded-xl' />
         ))}
       </div>
     );
@@ -92,55 +76,27 @@ export const KnowledgeGrid = ({
 
   if (isError) {
     return (
-      <Alert variant='destructive' className='mt-8'>
-        <AlertCircle className='h-4 w-4' />
-        <AlertTitle>Error loading knowledge</AlertTitle>
-        <AlertDescription>
-          {error.message}
-          <Button variant='ghost' className='ml-4' onClick={() => refetch()}>
-            Retry
-          </Button>
-        </AlertDescription>
-      </Alert>
+      <div className='mt-8 text-center'>
+        <p className='text-red-500'>Error loading entries: {error.message}</p>
+        <button
+          onClick={() => refetch()}
+          className='rounded bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90'
+        >
+          Retry
+        </button>
+      </div>
     );
   }
 
   return (
-    <div className='space-y-8'>
-      <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-        {entries.map((entry: KnowledgeEntry) => (
-          <KnowledgeCard key={entry.$id} entry={entry} />
-        ))}
-      </div>
-
-      {entries.length === 0 && (
-        <div className='py-12 text-center text-muted-foreground'>
-          <p>No entries found{searchQuery && ` for "${searchQuery}"`}</p>
-          {totalEntries > 0 && selectedCategory && (
-            <p className='mt-2'>Try clearing your filters</p>
-          )}
-        </div>
-      )}
-
-      {hasNextPage && (
-        <div className='flex justify-center'>
-          <Button
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-            variant='outline'
-            className='gap-2'
-          >
-            {isFetchingNextPage ? (
-              <>
-                <Loader2 className='h-4 w-4 animate-spin' />
-                Loading...
-              </>
-            ) : (
-              'Load More'
-            )}
-          </Button>
-        </div>
-      )}
-    </div>
+    <InfiniteGrid
+      hasMore={hasNextPage}
+      isFetching={isFetchingNextPage}
+      fetchNextAction={() => fetchNextPage()}
+    >
+      {entries.map((entry: KnowledgeEntry) => (
+        <KnowledgeCard key={entry.$id} entry={entry} />
+      ))}
+    </InfiniteGrid>
   );
 };

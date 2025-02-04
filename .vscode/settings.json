@@ -45,5 +45,7 @@
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "gitdoc.ai.enabled": true,
+  "gitdoc.enabled": true
 }

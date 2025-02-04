@@ -9,8 +9,17 @@ export default async function CategoryPage({
   params: { categorySlug: string };
 }) {
   try {
+    // First, fetch the category document using the slug.
+    const category = await KnowledgeService.getCategoryBySlug(
+      params.categorySlug
+    );
+    if (!category) {
+      return notFound();
+    }
+
+    // Then, fetch the entries using the actual category ID.
     const response = await KnowledgeService.listKnowledgeEntries({
-      categoryId: params.categorySlug,
+      categoryId: category.$id,
     });
 
     if (!response.documents.length) {
@@ -26,7 +35,7 @@ export default async function CategoryPage({
 
     return (
       <section className='space-y-8'>
-        <h1 className='text-3xl font-bold'>{params.categorySlug}</h1>
+        <h1 className='text-3xl font-bold'>{category.name}</h1>
         <KnowledgeGrid
           initialData={initialData}
           categorySlug={params.categorySlug}
