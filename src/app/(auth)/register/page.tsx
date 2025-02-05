@@ -19,7 +19,9 @@ export default function Register() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className={"relative overflow-hidden rounded-lg border border-zinc-800/50 bg-zinc-900/50 p-6 backdrop-blur-sm md:p-8"}
+        className={
+          'relative overflow-hidden rounded-lg border border-zinc-800/50 bg-zinc-900/50 p-6 backdrop-blur-sm md:p-8'
+        }
       >
         <div className='absolute inset-0 -z-10 bg-gradient-to-b from-blue-950/50 to-transparent' />
 
@@ -31,7 +33,9 @@ export default function Register() {
           <RippleButton
             type='submit'
             disabled={isLoading}
-            className={"w-full bg-blue-900 text-white hover:bg-blue-800 focus:ring-2 focus:ring-blue-900/50 disabled:bg-zinc-800 disabled:text-zinc-400"}
+            className={
+              'w-full bg-blue-900 text-white hover:bg-blue-800 focus:ring-2 focus:ring-blue-900/50 disabled:bg-zinc-800 disabled:text-zinc-400'
+            }
           >
             {isLoading ? (
               <span className='flex items-center justify-center gap-2'>

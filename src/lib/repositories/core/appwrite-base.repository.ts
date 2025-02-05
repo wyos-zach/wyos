@@ -123,7 +123,7 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       const response = await databases.listDocuments(
         this.databaseId,
         this.collectionId,
-        [`equal(slug, ${slug})`, "limit(1)"]
+        [`equal(slug, ${slug})`, 'limit(1)']
       );
 
       if (response.documents.length === 0) {
