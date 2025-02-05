@@ -17,6 +17,7 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
       $id: document.$id,
       title: document.title,
       slug: document.slug,
+      type: document.type,
       summary: document.summary,
       content: document.content,
       categoryId: document.knowledgeCategoryIds ?? '',
@@ -30,7 +31,7 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
     };
   }
 
-  async listFeaturedEntries(limit: number = 3): Promise<KnowledgeEntry[]> {
+  async listFeaturedEntries(limit = 3): Promise<KnowledgeEntry[]> {
     const result = await this.findAll(
       { featured: true },
       {

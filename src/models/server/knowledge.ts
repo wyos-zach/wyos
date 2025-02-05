@@ -176,6 +176,7 @@ export const KnowledgeService = {
           $id: doc.$id,
           title: doc.title,
           slug: doc.slug,
+          type: doc.type,
           summary: doc.summary,
           content: doc.content,
           featured: doc.featured,
@@ -238,6 +239,7 @@ export const KnowledgeService = {
         $id: doc.$id,
         title: doc.title,
         slug: doc.slug,
+        type: doc.type,
         summary: doc.summary,
         content: doc.content,
         featured: doc.featured,
@@ -257,7 +259,7 @@ export const KnowledgeService = {
     }
   },
 
-  async listFeaturedEntries(limit: number = 3): Promise<KnowledgeEntry[]> {
+  async listFeaturedEntries(limit = 3): Promise<KnowledgeEntry[]> {
     try {
       const response = await databases.listDocuments(db, knowledgeCollection, [
         Query.equal('featured', true),
@@ -286,6 +288,7 @@ export const KnowledgeService = {
           $id: doc.$id,
           title: doc.title,
           slug: doc.slug,
+          type: doc.type,
           summary: doc.summary,
           content: doc.content,
           featured: doc.featured,

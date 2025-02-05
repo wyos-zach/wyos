@@ -1,4 +1,4 @@
-## WYOS (Write Your Own Story)
+## WYOS (Writing Your Own Story)
 
 A subscription-based membership platform for personal and professional development built with Next.js 15, focusing on authentic guidance through curated knowledge and resources.
 

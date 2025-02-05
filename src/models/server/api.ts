@@ -79,10 +79,11 @@ function mapDocumentToKnowledgeEntry(
     $id: doc.$id,
     title: doc.title,
     slug: doc.slug,
+    type: doc.type,
     summary: doc.summary,
     content: doc.content,
     categoryId: doc.knowledgeCategoryIds,
-    categorySlug, // Now included in the mapping
+    categorySlug,
     featured: doc.featured,
     imageUrl: doc.imageUrl,
     $createdAt: doc.$createdAt,
