@@ -31,7 +31,7 @@ export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEn
     };
   }
 
-  async listFeaturedEntries(limit: number = 3): Promise<KnowledgeEntry[]> {
+  async listFeaturedEntries(limit = 3): Promise<KnowledgeEntry[]> {
     const result = await this.findAll(
       { featured: true },
       {

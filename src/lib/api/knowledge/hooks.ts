@@ -50,7 +50,7 @@ export const useKnowledgeEntry = (slug: string) => {
   });
 };
 
-export const useFeaturedKnowledge = (limit: number = 3) => {
+export const useFeaturedKnowledge = (limit = 3) => {
   return useQuery<KnowledgeEntry[]>({
     queryKey: ['knowledge', 'featured'],
     queryFn: () => KnowledgeService.listFeaturedEntries(limit),
