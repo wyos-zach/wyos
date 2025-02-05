@@ -1,5 +1,3 @@
-import { env } from 'process';
-
 export const validateRequest = async (req: Request) => {
   const headers = Object.fromEntries(req.headers.entries());
   return (
