@@ -91,11 +91,9 @@ export default async function getOrCreateStorage() {
         // The permissions must be provided as an array of strings.
         try {
           // Create bucket first
-          await storage.createBucket(
-            bucket.id,
-            bucket.name,
-            [Permission.read(Role.any())]
-          );
+          await storage.createBucket(bucket.id, bucket.name, [
+            Permission.read(Role.any()),
+          ]);
 
           // Then update its configuration
           await storage.updateBucket(
@@ -108,7 +106,7 @@ export default async function getOrCreateStorage() {
             bucket.allowedFileExtensions,
             undefined, // compression
             true, // encryption
-            true  // antivirus
+            true // antivirus
           );
           console.log(`Created bucket: ${bucket.name}`);
         } catch (error: unknown) {
