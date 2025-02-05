@@ -259,7 +259,7 @@ export const KnowledgeService = {
     }
   },
 
-  async listFeaturedEntries(limit: number = 3): Promise<KnowledgeEntry[]> {
+  async listFeaturedEntries(limit = 3): Promise<KnowledgeEntry[]> {
     try {
       const response = await databases.listDocuments(db, knowledgeCollection, [
         Query.equal('featured', true),
