@@ -5,14 +5,12 @@ import { getStaticFile, interpolate, throwIfMissing } from './utils.js';
 export default async (context) => {
   const { req, res, log, error } = context;
 
-  throwIfMissing(process.env, [
-    'STRIPE_SECRET_KEY',
-    'STRIPE_WEBHOOK_SECRET',
-  ]);
+  throwIfMissing(process.env, ['STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET']);
 
   if (req.method === 'GET') {
     const html = interpolate(getStaticFile('index.html'), {
-      APPWRITE_FUNCTION_API_ENDPOINT: process.env.APPWRITE_FUNCTION_API_ENDPOINT,
+      APPWRITE_FUNCTION_API_ENDPOINT:
+        process.env.APPWRITE_FUNCTION_API_ENDPOINT,
       APPWRITE_FUNCTION_PROJECT_ID: process.env.APPWRITE_FUNCTION_PROJECT_ID,
       APPWRITE_FUNCTION_ID: process.env.APPWRITE_FUNCTION_ID,
     });
