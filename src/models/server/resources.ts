@@ -131,6 +131,30 @@ export const ResourceService = {
     }
   },
 
+  /**
+   * Get a main category by its slug
+   */
+  async getMainCategoryBySlug(slug: string): Promise<ResourceCategory> {
+    try {
+      const response = await databases.listDocuments(
+        db,
+        mainCategoriesCollection,
+        [Query.equal('slug', slug)]
+      );
+      
+      if (response.documents.length === 0) {
+        throw new ResourceError(404, `Main category not found: ${slug}`);
+      }
+      
+      return response.documents[0] as unknown as ResourceCategory;
+    } catch (error) {
+      throw new ResourceError(500, `Failed to fetch main category: ${slug}`);
+    }
+  },
+
+  /**
+   * List resource entries, optionally filtered by main category
+   */
   async listResourceEntries({
     categoryId,
     searchQuery,
@@ -143,31 +167,41 @@ export const ResourceService = {
     pageSize?: number;
   }): Promise<PaginatedResult<ResourceEntry>> {
     try {
-      const queries = [];
+      const queries: any[] = [
+        Query.limit(pageSize),
+        Query.offset((page - 1) * pageSize),
+        Query.orderDesc('$createdAt'),
+      ];
+
+      // If we have a main category slug, get its subcategories
       if (categoryId) {
-        queries.push(Query.equal('resourcesCategoryIds', categoryId));
+        try {
+          // Get the main category
+          const mainCategory = await this.getMainCategoryBySlug(categoryId);
+          
+          // Get all subcategories for this main category
+          const subcategories = await this.getSubcategories(mainCategory.$id);
+          
+          // Add subcategory filter
+          if (subcategories.length > 0) {
+            queries.push(Query.equal('resourcesCategoryIds', subcategories.map(cat => cat.$id)));
+          }
+        } catch (error) {
+          console.error('Error getting subcategories:', error);
+          // If category not found, return empty results
+          return {
+            documents: [],
+            total: 0,
+            hasMore: false,
+            nextPage: page + 1,
+          };
+        }
       }
+
       if (searchQuery) {
         queries.push(Query.search('title', searchQuery));
       }
-      queries.push(Query.orderDesc('$createdAt'));
-      queries.push(Query.limit(pageSize));
-      queries.push(Query.offset((page - 1) * pageSize));
-      queries.push(
-        Query.select([
-          '$id',
-          'title',
-          'slug',
-          'summary',
-          'content',
-          'featured',
-          'imageUrl',
-          'resourcesCategoryIds',
-          '$createdAt',
-          '$updatedAt',
-          '$permissions',
-        ])
-      );
+
       const response = await databases.listDocuments(
         db,
         resourcesCollection,

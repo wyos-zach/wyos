@@ -1,11 +1,13 @@
 'use client';
 
-import { useInfiniteQuery, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { ResourceCard } from './ResourceCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { InfiniteGrid } from '@/components/shared/InfiniteGrid';
 import { ResourceService } from '@/models/server/resources';
 import type { ResourceEntry } from '@/types/core/resources/entry';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
 interface ResourceGridProps {
   categorySlug?: string;
@@ -34,68 +36,70 @@ export const ResourceGrid = ({
     refetch,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ['resources', categorySlug, searchQuery],
+    queryKey: ['resources', 'entries', categorySlug, searchQuery],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await ResourceService.listResourceEntries({
         categoryId: categorySlug,
         searchQuery,
         page: pageParam,
       });
-      const mappedDocuments = response.documents.map((doc) => ({
-        ...doc,
-      }));
       return {
-        documents: mappedDocuments,
+        documents: response.documents,
         total: response.total,
         hasMore: response.hasMore,
         nextPage: pageParam + 1,
       };
     },
-    initialData: initialData ? { pages: [initialData], pageParams: [1] } : undefined,
-    initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.hasMore ? lastPage.nextPage : undefined,
+    initialData: initialData ? {
+      pages: [initialData],
+      pageParams: [1],
+    } : undefined,
+    initialPageParam: 1,
   });
 
-  const entries = data?.pages.flatMap((page) => page.documents) || [];
+  if (isError) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertDescription>
+          {error instanceof Error ? error.message : 'Failed to load resources'}
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
-  // Show loading state
   if (isLoading) {
     return (
-      <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {[...Array(6)].map((_, i) => (
-          <Skeleton key={i} className='h-64 w-full rounded-xl' />
+          <Skeleton key={i} className="h-[300px] w-full rounded-lg" />
         ))}
       </div>
     );
   }
 
-  if (isError) {
+  const resources = data?.pages.flatMap((page) => page.documents) ?? [];
+
+  if (resources.length === 0) {
     return (
-      <div className='mt-8 text-center'>
-        <p className='text-red-500'>
-          Error loading entries: {(error as Error).message}
-        </p>
-        <button
-          onClick={() => refetch()}
-          className='rounded bg-primary px-4 py-2 text-primary-foreground hover:bg-primary/90'
-        >
-          Retry
-        </button>
-      </div>
+      <Alert>
+        <AlertDescription>
+          No resources found {categorySlug ? `in ${categorySlug}` : ''} {searchQuery ? `matching "${searchQuery}"` : ''}
+        </AlertDescription>
+      </Alert>
     );
   }
 
   return (
     <InfiniteGrid
-      hasMore={hasNextPage}
+      hasMore={hasNextPage ?? false}
       isFetching={isFetchingNextPage}
       fetchNextAction={fetchNextPage}
     >
-      {entries.map((entry: ResourceEntry) => (
-        <ResourceCard key={entry.$id} entry={entry} />
+      {resources.map((resource: ResourceEntry) => (
+        <ResourceCard key={resource.$id} entry={resource} />
       ))}
     </InfiniteGrid>
   );
 };
-import type page from '@/app/(marketing)/page';
-import pages from 'next/dist/build/templates/pages';

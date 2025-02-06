@@ -9,8 +9,8 @@ import { useRouter, usePathname } from 'next/navigation';
 export const CategoryNav = () => {
   const { selectedCategory, setCategory } = useResourcesStore();
   const { data: categories, isPending } = useQuery({
-    queryKey: ['resources', 'categories'],
-    queryFn: () => ResourceService.getResourceCategories(),
+    queryKey: ['resources', 'main-categories'],
+    queryFn: () => ResourceService.getMainCategories(),
     staleTime: 60 * 1000,
   });
   const router = useRouter();
@@ -54,7 +54,7 @@ export const CategoryNav = () => {
           key={category.$id}
           variant={selectedCategory === category.slug ? 'default' : 'outline'}
           onClick={() => handleCategorySelect(category.slug)}
-          className='min-w-[120px] truncate'
+          className='min-w-[80px]'
         >
           {category.name}
         </Button>
