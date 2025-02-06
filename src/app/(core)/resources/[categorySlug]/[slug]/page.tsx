@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { ResourceService } from '@/models/server/resources';
-import ResourceEntryHeader from '@/components/core/resources/ResourceEntryHeader';
+import ResourceHeader from '@/components/core/resources/ResourceHeader';
 import AppResource from '@/components/core/resources/entries/AppEntry';
 
 import DefaultResource from '@/components/core/resources/entries/DefaultEntry';
@@ -25,7 +25,7 @@ export default async function ResourceEntryPage({
     const EntryComponent = getResourceEntryComponent(entry.type);
     return (
       <article className='mx-auto max-w-3xl px-4 py-8'>
-        <ResourceEntryHeader entry={entry} />
+        <ResourceHeader entry={entry} />
         <EntryComponent entry={entry} />
       </article>
     );

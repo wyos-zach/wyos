@@ -72,4 +72,3 @@ export function UrlSyncResources() {
 
   return null;
 }
-import type { get } from 'http';

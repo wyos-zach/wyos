@@ -1,12 +1,16 @@
+export type ResourceCategoryType = 'app' | 'book' | 'course' | 'podcast' | 'software' | 'youtube';
+
 export interface ResourceCategory {
   $id: string;
   name: string;
   slug: string;
-  // Optionally, a description, icon, or image may be provided
-  description?: string;
+  order: number;
   isActive: boolean;
+  description?: string;
   imageUrl?: string;
-  icon?: string;
+  iconUrl?: string;
+  mainCategoryId: string;
+  type: ResourceCategoryType;
   $createdAt: string;
   $updatedAt: string;
 }

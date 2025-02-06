@@ -1,25 +1,40 @@
 import { Query } from 'appwrite';
 import { databases } from '@/models/client/config';
 import {
-  resourcesCollection,
+  db,
+  mainCategoriesCollection,
   resourceCategoriesCollection,
+  resourcesCollection,
 } from '@/models/name';
 import type { ResourceEntry } from '@/types/core/resources/entry';
 import type { PaginatedResult } from '@/types/core/resources/query';
 import type { ResourceCategory } from '@/types/core/resources/category';
 
-export type { ResourceCategory };
+export class ResourceError extends Error {
+  constructor(
+    public code: number,
+    message: string,
+    public type: string = 'ResourceError'
+  ) {
+    super(message);
+    this.name = 'ResourceError';
+  }
+}
 
+/**
+ * Helper to look up a category’s slug by its ID.
+ * Returns 'uncategorized' if not found.
+ */
 async function getCategorySlugById(categoryId: string): Promise<string> {
   try {
-    const response = await databases.listDocuments(
-      process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+    const catResponse = await databases.listDocuments(
+      db,
       resourceCategoriesCollection,
       [Query.equal('$id', categoryId), Query.select(['slug']), Query.limit(1)]
     );
-    if (response.documents.length > 0) {
-      const doc = response.documents[0];
-      return doc.slug || 'uncategorized';
+    if (catResponse.documents.length > 0) {
+      const catDoc = catResponse.documents[0] as unknown as ResourceCategory;
+      return catDoc.slug;
     }
     return 'uncategorized';
   } catch (error) {
@@ -29,6 +44,93 @@ async function getCategorySlugById(categoryId: string): Promise<string> {
 }
 
 export const ResourceService = {
+  async getMainCategories(): Promise<ResourceCategory[]> {
+    try {
+      const response = await databases.listDocuments(
+        db,
+        mainCategoriesCollection,
+        [Query.equal('isActive', true), Query.orderAsc('order')]
+      );
+      return response.documents as unknown as ResourceCategory[];
+    } catch (error) {
+      throw new ResourceError(500, 'Failed to fetch main categories');
+    }
+  },
+
+  /**
+   * NEW: Fetch subcategories (i.e. resource categories that belong to a given main category).
+   * Uses the "mainCategoryId" field in the resource-categories collection.
+   */
+  async getSubcategories(mainCategoryId: string): Promise<ResourceCategory[]> {
+    try {
+      const response = await databases.listDocuments(
+        db,
+        resourceCategoriesCollection,
+        [
+          Query.equal('mainCategoryId', mainCategoryId),
+          Query.equal('isActive', true),
+          Query.orderAsc('order'),
+        ]
+      );
+      return response.documents as unknown as ResourceCategory[];
+    } catch (error) {
+      throw new ResourceError(500, 'Failed to fetch subcategories');
+    }
+  },
+
+  /**
+   * Fetch all resource categories.
+   */
+  async getResourceCategories(): Promise<ResourceCategory[]> {
+    try {
+      // Debug environment variables
+      console.log('Environment Variables:', {
+        db: process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
+        resourceCategoriesCollection: process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_CATEGORIES_COLLECTION_ID,
+        actualDb: db,
+        actualCollection: resourceCategoriesCollection
+      });
+      
+      if (!db || !resourceCategoriesCollection) {
+        throw new Error('Missing required environment variables for resources categories');
+      }
+
+      console.log('Fetching from DB:', db);
+      console.log('Collection:', resourceCategoriesCollection);
+      
+      const response = await databases.listDocuments(
+        db,
+        resourceCategoriesCollection,
+        [
+          Query.equal('isActive', true),
+          Query.orderAsc('order'),
+          Query.select([
+            '$id',
+            'name',
+            'slug',
+            'order',
+            'isActive',
+            'description',
+            'imageUrl',
+            'iconUrl',
+            'mainCategoryId',
+            'type',
+            '$createdAt',
+            '$updatedAt',
+          ])
+        ]
+      );
+      
+      console.log('Response from Appwrite:', response);
+      console.log('Documents:', response.documents);
+      
+      return response.documents as unknown as ResourceCategory[];
+    } catch (error) {
+      console.error('Error details:', error);
+      throw new ResourceError(500, 'Failed to fetch resources categories');
+    }
+  },
+
   async listResourceEntries({
     categoryId,
     searchQuery,
@@ -43,7 +145,7 @@ export const ResourceService = {
     try {
       const queries = [];
       if (categoryId) {
-        queries.push(Query.equal('resourceCategoryIds', categoryId));
+        queries.push(Query.equal('resourcesCategoryIds', categoryId));
       }
       if (searchQuery) {
         queries.push(Query.search('title', searchQuery));
@@ -56,22 +158,23 @@ export const ResourceService = {
           '$id',
           'title',
           'slug',
-          'type',
           'summary',
           'content',
           'featured',
           'imageUrl',
-          'resourceCategoryIds',
+          'resourcesCategoryIds',
           '$createdAt',
           '$updatedAt',
           '$permissions',
         ])
       );
       const response = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+        db,
         resourcesCollection,
         queries
       );
+
+      // Helper to get the first category from the resourceCategoryIds array.
       const getFirstCategoryId = (doc: any): string =>
         Array.isArray(doc.resourceCategoryIds) &&
         doc.resourceCategoryIds.length > 0
@@ -79,14 +182,16 @@ export const ResourceService = {
           : '';
       const categoryIds = [
         ...new Set(
-          response.documents.map(getFirstCategoryId).filter((id) => Boolean(id))
+          response.documents
+            .map(getFirstCategoryId)
+            .filter((id): id is string => Boolean(id))
         ),
       ];
       let categoryMap: Record<string, string> = {};
       for (const id of categoryIds) {
         categoryMap[id] = await getCategorySlugById(id);
       }
-      const enrichedEntries: ResourceEntry[] = response.documents.map((doc) => {
+      const enrichedEntries = response.documents.map((doc) => {
         const catId = getFirstCategoryId(doc);
         return {
           $id: doc.$id,
@@ -111,45 +216,42 @@ export const ResourceService = {
         nextPage: page + 1,
       };
     } catch (error) {
-      console.error('ResourceService.listResourceEntries error:', error);
-      throw new Error('Failed to fetch resource entries');
+      console.error('ResourceService.listResourceEntries failed:', error);
+      throw new ResourceError(
+        (error as any)?.code || 500,
+        (error as any)?.message || 'Failed to fetch resource entries'
+      );
     }
   },
 
   async getEntryBySlug(slug: string): Promise<ResourceEntry> {
     try {
-      const response = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        resourcesCollection,
-        [
-          Query.equal('slug', slug),
-          Query.limit(1),
-          Query.select([
-            '$id',
-            'title',
-            'slug',
-            'type',
-            'summary',
-            'content',
-            'featured',
-            'imageUrl',
-            'resourceCategoryIds',
-            '$createdAt',
-            '$updatedAt',
-            '$permissions',
-          ]),
-        ]
-      );
+      const response = await databases.listDocuments(db, resourcesCollection, [
+        Query.equal('slug', slug),
+        Query.limit(1),
+        Query.select([
+          '$id',
+          'title',
+          'slug',
+          'summary',
+          'content',
+          'featured',
+          'imageUrl',
+          'resourcesCategoryIds',
+          '$createdAt',
+          '$updatedAt',
+          '$permissions',
+        ]),
+      ]);
       if (response.documents.length === 0) {
-        throw new Error('Resource entry not found');
+        throw new ResourceError(404, 'Resource entry not found');
       }
       const doc = response.documents[0];
-      const getFirstCategoryId = (doc: any): string =>
+      const catId =
         Array.isArray(doc.resourceCategoryIds) &&
         doc.resourceCategoryIds.length > 0
           ? doc.resourceCategoryIds[0]
           : '';
-      const catId = getFirstCategoryId(doc);
       let categorySlug = 'uncategorized';
       if (catId) {
         categorySlug = await getCategorySlugById(catId);
@@ -170,22 +272,21 @@ export const ResourceService = {
         categorySlug,
       };
     } catch (error) {
-      console.error('ResourceService.getEntryBySlug error:', error);
-      throw new Error('Failed to fetch resource entry');
+      console.error('ResourceService.getEntryBySlug failed:', error);
+      throw new ResourceError(
+        (error as any)?.code || 500,
+        (error as any)?.message || 'Failed to fetch resource entry'
+      );
     }
   },
 
-  async listFeaturedEntries(limit: number = 3): Promise<ResourceEntry[]> {
+  async listFeaturedEntries(limit = 3): Promise<ResourceEntry[]> {
     try {
-      const response = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        resourcesCollection,
-        [
-          Query.equal('featured', true),
-          Query.orderDesc('$createdAt'),
-          Query.limit(limit),
-        ]
-      );
+      const response = await databases.listDocuments(db, resourcesCollection, [
+        Query.equal('featured', true),
+        Query.orderDesc('$createdAt'),
+        Query.limit(limit),
+      ]);
       const getFirstCategoryId = (doc: any): string =>
         Array.isArray(doc.resourceCategoryIds) &&
         doc.resourceCategoryIds.length > 0
@@ -193,14 +294,16 @@ export const ResourceService = {
           : '';
       const categoryIds = [
         ...new Set(
-          response.documents.map(getFirstCategoryId).filter((id) => Boolean(id))
+          response.documents
+            .map(getFirstCategoryId)
+            .filter((id): id is string => Boolean(id))
         ),
       ];
       let categoryMap: Record<string, string> = {};
       for (const id of categoryIds) {
         categoryMap[id] = await getCategorySlugById(id);
       }
-      const enrichedEntries: ResourceEntry[] = response.documents.map((doc) => {
+      const enrichedEntries = response.documents.map((doc) => {
         const catId = getFirstCategoryId(doc);
         return {
           $id: doc.$id,
@@ -220,60 +323,46 @@ export const ResourceService = {
       });
       return enrichedEntries;
     } catch (error) {
-      console.error('ResourceService.listFeaturedEntries error:', error);
-      throw new Error('Failed to fetch featured resource entries');
-    }
-  },
-
-  async getResourceCategories(): Promise<ResourceCategory[]> {
-    try {
-      const response = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
-        resourceCategoriesCollection,
-        [Query.orderAsc('name'), Query.limit(100)]
+      console.error('Failed to fetch featured entries:', error);
+      throw new ResourceError(
+        (error as any)?.code || 500,
+        (error as any)?.message || 'Failed to fetch featured entries'
       );
-      return response.documents.map((doc): ResourceCategory => ({
-        $id: doc.$id,
-        name: doc.name,
-        slug: doc.slug,
-        description: doc.description,
-        isActive: doc.isActive ?? true,
-        imageUrl: doc.imageUrl,
-        icon: doc.icon,
-        $createdAt: doc.$createdAt,
-        $updatedAt: doc.$updatedAt,
-      }));
-    } catch (error) {
-      console.error('getResourceCategories error:', error);
-      throw error;
     }
   },
 
+  /**
+   * (Optional) Fetch a specific category by its slug.
+   */
   async getCategoryBySlug(slug: string): Promise<ResourceCategory> {
     try {
       const response = await databases.listDocuments(
-        process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID!,
+        db,
         resourceCategoriesCollection,
-        [Query.equal('slug', slug), Query.limit(1)]
+        [
+          Query.equal('slug', slug),
+          Query.limit(1),
+          Query.select([
+            '$id',
+            'name',
+            'slug',
+            'description',
+            'order',
+            'isActive',
+            'icon',
+            'imageUrl',
+            'mainCategoryId',
+            '$createdAt',
+            '$updatedAt',
+          ]),
+        ]
       );
       if (response.documents.length === 0) {
-        throw new Error(`Category with slug ${slug} not found`);
+        throw new ResourceError(404, 'Category not found');
       }
-      const doc = response.documents[0];
-      return {
-        $id: doc.$id,
-        name: doc.name,
-        slug: doc.slug,
-        description: doc.description,
-        isActive: doc.isActive ?? true,
-        imageUrl: doc.imageUrl,
-        icon: doc.icon,
-        $createdAt: doc.$createdAt,
-        $updatedAt: doc.$updatedAt,
-      };
+      return response.documents[0] as unknown as ResourceCategory;
     } catch (error) {
-      console.error('getCategoryBySlug error:', error);
-      throw error;
+      throw new ResourceError(500, 'Failed to fetch category');
     }
   },
 };

@@ -10,7 +10,6 @@ import { Query } from 'appwrite';
 interface ResourcesState {
   isFetching: boolean;
   selectedCategory: string | null;
-  setCategory: (categoryId: string | null) => void;
   searchQuery: string;
   viewMode: 'grid' | 'list';
   sortBy: 'newest' | 'popular';
@@ -33,6 +32,7 @@ const urlStorage: PersistStorage<State> = {
     const searchParams = new URLSearchParams(window.location.search);
     const value = searchParams.get(name);
     if (!value) return null;
+    // Here we simply return an empty state if URL param is missing
     const params = new URLSearchParams(value);
     const state: State = {
       selectedCategory: params.get('selectedCategory'),
@@ -61,7 +61,7 @@ const urlStorage: PersistStorage<State> = {
     searchParams.set(name, urlParams.toString());
     window.history.replaceState(null, '', `?${searchParams.toString()}`);
   },
-  removeItem: (name) => {
+  removeItem: (name: string) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.delete(name);
     window.history.replaceState(null, '', `?${searchParams.toString()}`);
@@ -77,7 +77,7 @@ export const useResourcesStore = create<State>()(
         searchQuery: '',
         viewMode: 'grid',
         sortBy: 'newest',
-        setFetching: (fetching) => set({ isFetching: fetching }),
+        setFetching: (state) => set({ isFetching: state }),
         setCategory: (categoryId) => set({ selectedCategory: categoryId }),
         setSearchQuery: (query) => set({ searchQuery: query }),
         setViewMode: (mode) => set({ viewMode: mode }),
@@ -90,6 +90,7 @@ export const useResourcesStore = create<State>()(
               : []),
             ...(searchQuery ? [Query.search('title', searchQuery)] : []),
           ];
+          // Use the new field names – for newest sort we order by '$createdAt'
           queries.push(
             sortBy === 'newest'
               ? Query.orderDesc('$createdAt')
@@ -101,9 +102,10 @@ export const useResourcesStore = create<State>()(
       {
         name: 'resources-store',
         storage: urlStorage,
-        partialize(state) {
-          return { ...state, isFetching: false };
-        },
+        partialize: (state) => ({
+          ...state,
+          isFetching: false,
+        }),
       }
     )
   )

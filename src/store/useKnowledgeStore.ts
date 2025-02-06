@@ -10,7 +10,6 @@ import { Query } from 'appwrite';
 interface KnowledgeState {
   isFetching: boolean;
   selectedCategory: string | null;
-  setCategory: (categoryId: string | null) => void;
   searchQuery: string;
   viewMode: 'grid' | 'list';
   sortBy: 'newest' | 'popular';

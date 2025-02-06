@@ -1,5 +1,5 @@
 import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
-import { ResourceService } from '@/models/server/resource';
+import { ResourceService } from '@/models/server/resources';
 import { useResourcesStore } from '@/store/useResourcesStore';
 import type {
   ResourceEntry,

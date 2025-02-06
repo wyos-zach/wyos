@@ -16,15 +16,17 @@ export const CategoryNav = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleCategorySelect = async (category: {
-    $id: string;
-    slug: string;
-  }) => {
-    // Update state with the internal ID (used for filtering)
-    setCategory(category.$id);
-    // Update URL with friendly slug
+  const handleCategorySelect = async (slug?: string) => {
+    // Update store with slug
+    await setCategory(slug || null);
+
+    // Update URL with slug
     const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set('category', category.slug);
+    if (slug) {
+      searchParams.set('category', slug);
+    } else {
+      searchParams.delete('category');
+    }
     router.push(`${pathname}?${searchParams.toString()}`);
   };
 
@@ -42,12 +44,7 @@ export const CategoryNav = () => {
     <nav className='mb-8 flex gap-2 overflow-x-auto'>
       <Button
         variant={!selectedCategory ? 'default' : 'outline'}
-        onClick={() => {
-          setCategory(null);
-          const searchParams = new URLSearchParams(window.location.search);
-          searchParams.delete('category');
-          router.push(`${pathname}?${searchParams.toString()}`);
-        }}
+        onClick={() => handleCategorySelect()}
         className='min-w-[80px]'
       >
         All
@@ -55,8 +52,8 @@ export const CategoryNav = () => {
       {categories?.map((category) => (
         <Button
           key={category.$id}
-          variant={selectedCategory === category.$id ? 'default' : 'outline'}
-          onClick={() => handleCategorySelect(category)}
+          variant={selectedCategory === category.slug ? 'default' : 'outline'}
+          onClick={() => handleCategorySelect(category.slug)}
           className='min-w-[120px] truncate'
         >
           {category.name}
