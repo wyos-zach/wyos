@@ -4,16 +4,27 @@ import { useQuery } from '@tanstack/react-query';
 import { ResourceService } from '@/models/server/resources';
 import { ResourceCategoryCard } from '@/components/core/resources/ResourceCategoryCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useSearchParams } from 'next/navigation';
 
 export const ResourceCategoryGrid = () => {
+  const searchParams = useSearchParams();
+  const categorySlug = searchParams.get('category');
+
   const { data, isPending, error } = useQuery({
-    queryKey: ['resources', 'categories'],
+    queryKey: ['resources', 'categories', categorySlug],
     queryFn: async () => {
       try {
-        console.log('Fetching resource categories...');
-        const categories = await ResourceService.getResourceCategories();
-        console.log('Categories fetched:', categories);
-        return categories;
+        console.log('Fetching resource categories for:', categorySlug);
+        if (categorySlug) {
+          // Get main category first
+          const mainCategory = await ResourceService.getMainCategoryBySlug(categorySlug);
+          console.log('Main category found:', mainCategory);
+          // Then get its subcategories
+          return ResourceService.getSubcategories(mainCategory.$id);
+        } else {
+          // If no category selected, get all resource categories
+          return ResourceService.getResourceCategories();
+        }
       } catch (err) {
         console.error('Error in ResourceCategoryGrid:', err);
         throw err;
@@ -47,7 +58,7 @@ export const ResourceCategoryGrid = () => {
     console.log('No categories found. Data:', data);
     return (
       <p className='text-center text-muted-foreground'>
-        No resource categories found.
+        No resource categories found {categorySlug ? `for ${categorySlug}` : ''}.
       </p>
     );
   }

@@ -63,6 +63,7 @@ export const ResourceService = {
    */
   async getSubcategories(mainCategoryId: string): Promise<ResourceCategory[]> {
     try {
+      console.log('Getting subcategories for main category:', mainCategoryId);
       const response = await databases.listDocuments(
         db,
         resourceCategoriesCollection,
@@ -72,8 +73,11 @@ export const ResourceService = {
           Query.orderAsc('order'),
         ]
       );
+      
+      console.log('Subcategories response:', response);
       return response.documents as unknown as ResourceCategory[];
     } catch (error) {
+      console.error('Error getting subcategories:', error);
       throw new ResourceError(500, 'Failed to fetch subcategories');
     }
   },
@@ -83,21 +87,25 @@ export const ResourceService = {
    */
   async getResourceCategories(): Promise<ResourceCategory[]> {
     try {
+      console.log('Getting all resource categories');
       // Debug environment variables
       console.log('Environment Variables:', {
         db: process.env.NEXT_PUBLIC_APPWRITE_DATABASE_ID,
-        resourceCategoriesCollection: process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_CATEGORIES_COLLECTION_ID,
+        resourceCategoriesCollection:
+          process.env.NEXT_PUBLIC_APPWRITE_RESOURCES_CATEGORIES_COLLECTION_ID,
         actualDb: db,
-        actualCollection: resourceCategoriesCollection
+        actualCollection: resourceCategoriesCollection,
       });
-      
+
       if (!db || !resourceCategoriesCollection) {
-        throw new Error('Missing required environment variables for resources categories');
+        throw new Error(
+          'Missing required environment variables for resources categories'
+        );
       }
 
       console.log('Fetching from DB:', db);
       console.log('Collection:', resourceCategoriesCollection);
-      
+
       const response = await databases.listDocuments(
         db,
         resourceCategoriesCollection,
@@ -117,17 +125,17 @@ export const ResourceService = {
             'type',
             '$createdAt',
             '$updatedAt',
-          ])
+          ]),
         ]
       );
-      
-      console.log('Response from Appwrite:', response);
+
+      console.log('All categories response:', response);
       console.log('Documents:', response.documents);
-      
+
       return response.documents as unknown as ResourceCategory[];
     } catch (error) {
-      console.error('Error details:', error);
-      throw new ResourceError(500, 'Failed to fetch resources categories');
+      console.error('Error getting all categories:', error);
+      throw new ResourceError(500, 'Failed to fetch resource categories');
     }
   },
 
@@ -136,18 +144,22 @@ export const ResourceService = {
    */
   async getMainCategoryBySlug(slug: string): Promise<ResourceCategory> {
     try {
+      console.log('Getting main category by slug:', slug);
       const response = await databases.listDocuments(
         db,
         mainCategoriesCollection,
         [Query.equal('slug', slug)]
       );
       
+      console.log('Main category response:', response);
+      
       if (response.documents.length === 0) {
         throw new ResourceError(404, `Main category not found: ${slug}`);
       }
-      
+
       return response.documents[0] as unknown as ResourceCategory;
     } catch (error) {
+      console.error('Error getting main category:', error);
       throw new ResourceError(500, `Failed to fetch main category: ${slug}`);
     }
   },
@@ -178,13 +190,18 @@ export const ResourceService = {
         try {
           // Get the main category
           const mainCategory = await this.getMainCategoryBySlug(categoryId);
-          
+
           // Get all subcategories for this main category
           const subcategories = await this.getSubcategories(mainCategory.$id);
-          
+
           // Add subcategory filter
           if (subcategories.length > 0) {
-            queries.push(Query.equal('resourcesCategoryIds', subcategories.map(cat => cat.$id)));
+            queries.push(
+              Query.equal(
+                'resourcesCategoryIds',
+                subcategories.map((cat) => cat.$id)
+              )
+            );
           }
         } catch (error) {
           console.error('Error getting subcategories:', error);

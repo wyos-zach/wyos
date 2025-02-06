@@ -1,33 +1,51 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useResourcesStore } from '@/store/useResourcesStore';
 import { ResourceService } from '@/models/server/resources';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export const CategoryNav = () => {
   const { selectedCategory, setCategory } = useResourcesStore();
   const { data: categories, isPending } = useQuery({
     queryKey: ['resources', 'main-categories'],
     queryFn: () => ResourceService.getMainCategories(),
-    staleTime: 60 * 1000,
   });
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
 
-  const handleCategorySelect = async (slug?: string) => {
-    // Update store with slug
-    await setCategory(slug || null);
-
-    // Update URL with slug
-    const searchParams = new URLSearchParams(window.location.search);
-    if (slug) {
-      searchParams.set('category', slug);
-    } else {
-      searchParams.delete('category');
+  // Sync URL with store on mount
+  useEffect(() => {
+    const urlCategory = searchParams.get('category');
+    if (urlCategory && urlCategory !== selectedCategory) {
+      setCategory(urlCategory);
     }
-    router.push(`${pathname}?${searchParams.toString()}`);
+  }, []);
+
+  const handleCategorySelect = (slug?: string) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+
+    if (slug) {
+      newSearchParams.set('category', slug);
+    } else {
+      newSearchParams.delete('category');
+    }
+
+    // Clear other store-related params
+    newSearchParams.delete('resources-store');
+    newSearchParams.delete('sortBy');
+    newSearchParams.delete('viewMode');
+
+    setCategory(slug || null);
+    queryClient.invalidateQueries({
+      queryKey: ['resources', 'entries'],
+      refetchType: 'active',
+    });
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   if (isPending) {
