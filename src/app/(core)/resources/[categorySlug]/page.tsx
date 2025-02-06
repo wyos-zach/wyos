@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { ResourceService } from '@/models/server/resources';
 import { ResourceGrid } from '@/components/core/resources/ResourceGrid';
 import type { ResourceEntry } from '@/types/core/resources/entry';
+import { PageHeader } from '@/components/shared/layout/PageHeader';
 
 export default async function ResourceCategoryPage({
   params,
@@ -9,26 +10,38 @@ export default async function ResourceCategoryPage({
   params: { categorySlug: string };
 }) {
   try {
+    // Fetch the resource category using its slug.
+    const category = await ResourceService.getCategoryBySlug(params.categorySlug);
+    if (!category) return notFound();
+
+    // Find entries that have this resource category ID in their resourcesCategoryIds array
     const response = await ResourceService.listResourceEntries({
-      categoryId: params.categorySlug,
+      categoryId: category.$id,
     });
-    if (!response.documents.length) return notFound();
+
     const initialData = {
       documents: response.documents as ResourceEntry[],
       total: response.total,
-      hasMore: response.documents.length === 9,
+      hasMore: response.total > 1 * 9,
       nextPage: 2,
     };
+
     return (
-      <section className='space-y-8'>
-        <h1 className='text-3xl font-bold'>{params.categorySlug}</h1>
-        <ResourceGrid
-          initialData={initialData}
-          categorySlug={params.categorySlug}
+      <div className="space-y-12">
+        <PageHeader
+          title={category.name}
+          description={category.description}
+          pattern='dots'
+          align='left'
         />
-      </section>
+        <ResourceGrid
+          categorySlug={params.categorySlug}
+          initialData={initialData}
+        />
+      </div>
     );
   } catch (error) {
-    return notFound();
+    console.error('Error in ResourceCategoryPage:', error);
+    throw error;
   }
 }

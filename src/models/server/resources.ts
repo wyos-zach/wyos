@@ -73,7 +73,7 @@ export const ResourceService = {
           Query.orderAsc('order'),
         ]
       );
-      
+
       console.log('Subcategories response:', response);
       return response.documents as unknown as ResourceCategory[];
     } catch (error) {
@@ -150,9 +150,9 @@ export const ResourceService = {
         mainCategoriesCollection,
         [Query.equal('slug', slug)]
       );
-      
+
       console.log('Main category response:', response);
-      
+
       if (response.documents.length === 0) {
         throw new ResourceError(404, `Main category not found: ${slug}`);
       }
@@ -179,99 +179,78 @@ export const ResourceService = {
     pageSize?: number;
   }): Promise<PaginatedResult<ResourceEntry>> {
     try {
-      const queries: any[] = [
-        Query.limit(pageSize),
-        Query.offset((page - 1) * pageSize),
-        Query.orderDesc('$createdAt'),
-      ];
+      console.log('Listing resource entries with categoryId:', categoryId);
+      
+      // First let's see all entries and their category IDs
+      const allEntries = await databases.listDocuments(
+        db,
+        resourcesCollection,
+        [
+          Query.select(['$id', 'title', 'resourcesCategoryIds']),
+          Query.limit(100)
+        ]
+      );
+      console.log('All entries and their resourcesCategoryIds:', 
+        allEntries.documents.map(d => ({
+          id: d.$id,
+          title: d.title,
+          resourcesCategoryIds: d.resourcesCategoryIds
+        }))
+      );
+      
+      const queries = [];
 
-      // If we have a main category slug, get its subcategories
       if (categoryId) {
-        try {
-          // Get the main category
-          const mainCategory = await this.getMainCategoryBySlug(categoryId);
-
-          // Get all subcategories for this main category
-          const subcategories = await this.getSubcategories(mainCategory.$id);
-
-          // Add subcategory filter
-          if (subcategories.length > 0) {
-            queries.push(
-              Query.equal(
-                'resourcesCategoryIds',
-                subcategories.map((cat) => cat.$id)
-              )
-            );
-          }
-        } catch (error) {
-          console.error('Error getting subcategories:', error);
-          // If category not found, return empty results
-          return {
-            documents: [],
-            total: 0,
-            hasMore: false,
-            nextPage: page + 1,
-          };
-        }
+        console.log('Adding category filter for:', categoryId);
+        queries.push(Query.equal('resourcesCategoryIds', categoryId));
       }
 
       if (searchQuery) {
         queries.push(Query.search('title', searchQuery));
       }
 
+      queries.push(Query.orderDesc('$createdAt'));
+      queries.push(Query.limit(pageSize));
+      queries.push(Query.offset((page - 1) * pageSize));
+      queries.push(
+        Query.select([
+          '$id',
+          'title',
+          'slug',
+          'summary',
+          'content',
+          'featured',
+          'imageUrl',
+          'mainCategoryId',
+          'resourcesCategoryIds',
+          '$createdAt',
+          '$updatedAt',
+          '$permissions',
+        ])
+      );
+
+      console.log('Final queries:', queries);
       const response = await databases.listDocuments(
         db,
         resourcesCollection,
         queries
       );
+      console.log('Response:', response);
 
-      // Helper to get the first category from the resourceCategoryIds array.
-      const getFirstCategoryId = (doc: any): string =>
-        Array.isArray(doc.resourceCategoryIds) &&
-        doc.resourceCategoryIds.length > 0
-          ? doc.resourceCategoryIds[0]
-          : '';
-      const categoryIds = [
-        ...new Set(
-          response.documents
-            .map(getFirstCategoryId)
-            .filter((id): id is string => Boolean(id))
-        ),
-      ];
-      let categoryMap: Record<string, string> = {};
-      for (const id of categoryIds) {
-        categoryMap[id] = await getCategorySlugById(id);
-      }
-      const enrichedEntries = response.documents.map((doc) => {
-        const catId = getFirstCategoryId(doc);
-        return {
-          $id: doc.$id,
-          title: doc.title,
-          slug: doc.slug,
-          type: doc.type,
-          summary: doc.summary,
-          content: doc.content,
-          featured: doc.featured,
-          imageUrl: doc.imageUrl,
-          $createdAt: doc.$createdAt,
-          $updatedAt: doc.$updatedAt,
-          $permissions: doc.$permissions,
-          categoryId: catId,
-          categorySlug: categoryMap[catId] || 'uncategorized',
-        };
-      });
+      console.log('Documents:', response.documents);
+      console.log('Total:', response.total);
+      console.log('Has more:', response.total > page * pageSize);
+      console.log('Next page:', page + 1);
+
       return {
-        documents: enrichedEntries,
+        documents: response.documents as unknown as ResourceEntry[],
         total: response.total,
         hasMore: response.total > page * pageSize,
         nextPage: page + 1,
       };
     } catch (error) {
-      console.error('ResourceService.listResourceEntries failed:', error);
-      throw new ResourceError(
-        (error as any)?.code || 500,
-        (error as any)?.message || 'Failed to fetch resource entries'
-      );
+      console.error('Error listing resource entries:', error);
+      throw new ResourceError(500, 'Failed to list resource entries');
     }
   },
 
@@ -299,9 +278,9 @@ export const ResourceService = {
       }
       const doc = response.documents[0];
       const catId =
-        Array.isArray(doc.resourceCategoryIds) &&
-        doc.resourceCategoryIds.length > 0
-          ? doc.resourceCategoryIds[0]
+        Array.isArray(doc.resourcesCategoryIds) &&
+        doc.resourcesCategoryIds.length > 0
+          ? doc.resourcesCategoryIds[0]
           : '';
       let categorySlug = 'uncategorized';
       if (catId) {
@@ -339,9 +318,9 @@ export const ResourceService = {
         Query.limit(limit),
       ]);
       const getFirstCategoryId = (doc: any): string =>
-        Array.isArray(doc.resourceCategoryIds) &&
-        doc.resourceCategoryIds.length > 0
-          ? doc.resourceCategoryIds[0]
+        Array.isArray(doc.resourcesCategoryIds) &&
+        doc.resourcesCategoryIds.length > 0
+          ? doc.resourcesCategoryIds[0]
           : '';
       const categoryIds = [
         ...new Set(
@@ -387,11 +366,13 @@ export const ResourceService = {
    */
   async getCategoryBySlug(slug: string): Promise<ResourceCategory> {
     try {
+      console.log('Getting category by slug:', slug);
       const response = await databases.listDocuments(
         db,
         resourceCategoriesCollection,
         [
           Query.equal('slug', slug),
+          Query.equal('isActive', true),
           Query.limit(1),
           Query.select([
             '$id',
@@ -400,7 +381,7 @@ export const ResourceService = {
             'description',
             'order',
             'isActive',
-            'icon',
+            'iconUrl',
             'imageUrl',
             'mainCategoryId',
             '$createdAt',
@@ -408,11 +389,13 @@ export const ResourceService = {
           ]),
         ]
       );
+      console.log('Category response:', response);
       if (response.documents.length === 0) {
         throw new ResourceError(404, 'Category not found');
       }
       return response.documents[0] as unknown as ResourceCategory;
     } catch (error) {
+      console.error('Error getting category:', error);
       throw new ResourceError(500, 'Failed to fetch category');
     }
   },
