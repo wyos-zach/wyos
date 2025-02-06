@@ -1,33 +1,48 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 import { KnowledgeService } from '@/models/server/knowledge';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export const CategoryNav = () => {
   const { selectedCategory, setCategory } = useKnowledgeStore();
   const { data: categories, isPending } = useQuery({
-    queryKey: ['knowledge', 'categories'],
-    queryFn: () => KnowledgeService.getKnowledgeCategories(),
-    staleTime: 60 * 1000,
+    queryKey: ['knowledge', 'main-categories'],
+    queryFn: async () => {
+      console.log('Fetching main categories...');
+      const cats = await KnowledgeService.getMainCategories();
+      console.log('Main categories:', cats);
+      return cats;
+    },
   });
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
 
-  const handleCategorySelect = async (slug?: string) => {
-    // Update store with slug
-    await setCategory(slug || null);
-
-    // Update URL with slug
-    const searchParams = new URLSearchParams(window.location.search);
+  const handleCategorySelect = (slug?: string) => {
+    console.log('Selecting category:', slug);
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    
     if (slug) {
-      searchParams.set('category', slug);
+      newSearchParams.set('category', slug);
     } else {
-      searchParams.delete('category');
+      newSearchParams.delete('category');
     }
-    router.push(`${pathname}?${searchParams.toString()}`);
+
+    // Clear other store-related params
+    newSearchParams.delete('knowledge-store');
+    newSearchParams.delete('sortBy');
+    newSearchParams.delete('viewMode');
+
+    setCategory(slug || null);
+    queryClient.invalidateQueries({
+      queryKey: ['knowledge', 'categories'],
+      refetchType: 'active',
+    });
+    router.push(`${pathname}?${newSearchParams.toString()}`);
   };
 
   if (isPending) {
@@ -54,7 +69,7 @@ export const CategoryNav = () => {
           key={category.$id}
           variant={selectedCategory === category.slug ? 'default' : 'outline'}
           onClick={() => handleCategorySelect(category.slug)}
-          className='min-w-[120px] truncate'
+          className='min-w-[80px]'
         >
           {category.name}
         </Button>

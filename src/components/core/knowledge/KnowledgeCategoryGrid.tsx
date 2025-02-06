@@ -4,21 +4,46 @@ import { useQuery } from '@tanstack/react-query';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { KnowledgeCategoryCard } from '@/components/core/knowledge/KnowledgeCategoryCard';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useKnowledgeStore } from '@/store/useKnowledgeStore';
+import { useSearchParams } from 'next/navigation';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
 export const KnowledgeCategoryGrid = () => {
-  const { data, isPending } = useQuery({
-    queryKey: ['knowledge', 'categories'],
-    queryFn: () => KnowledgeService.getKnowledgeCategories(),
-    staleTime: 60 * 1000,
+  const searchParams = useSearchParams();
+  const categorySlug = searchParams.get('category');
+
+  const { data: categories, isPending, error, isError } = useQuery({
+    queryKey: ['knowledge', 'categories', categorySlug],
+    queryFn: async () => {
+      try {
+        console.log('Fetching knowledge categories for:', categorySlug);
+        if (categorySlug) {
+          // Get main category first
+          const mainCategory = await KnowledgeService.getMainCategoryBySlug(categorySlug);
+          console.log('Main category found:', mainCategory);
+          // Then get its subcategories
+          return KnowledgeService.getSubcategories(mainCategory.$id);
+        } else {
+          // If no category selected, get all knowledge categories
+          return KnowledgeService.getKnowledgeCategories();
+        }
+      } catch (err) {
+        console.error('Error in KnowledgeCategoryGrid:', err);
+        throw err;
+      }
+    },
   });
 
-  const { selectedCategory } = useKnowledgeStore();
-
-  // If a category is selected, only display that one; otherwise show all.
-  const filteredCategories = selectedCategory
-    ? data?.filter((category) => category.$id === selectedCategory)
-    : data;
+  if (isError) {
+    return (
+      <Alert variant='destructive'>
+        <AlertCircle className='h-4 w-4' />
+        <AlertDescription>
+          {error instanceof Error ? error.message : 'Failed to load knowledge categories'}
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   if (isPending) {
     return (
@@ -30,10 +55,10 @@ export const KnowledgeCategoryGrid = () => {
     );
   }
 
-  if (!filteredCategories || filteredCategories.length === 0) {
+  if (!categories || categories.length === 0) {
     return (
       <p className='text-center text-muted-foreground'>
-        No knowledge categories found.
+        No knowledge categories found {categorySlug ? `for ${categorySlug}` : ''}.
       </p>
     );
   }
@@ -42,7 +67,7 @@ export const KnowledgeCategoryGrid = () => {
     <section>
       <h2 className='sr-only'>Knowledge Categories</h2>
       <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-        {filteredCategories.map((category) => (
+        {categories.map((category) => (
           <KnowledgeCategoryCard
             key={category.$id}
             category={category}

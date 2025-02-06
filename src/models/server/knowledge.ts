@@ -311,6 +311,34 @@ export const KnowledgeService = {
   },
 
   /**
+   * Get a main category by its slug
+   */
+  async getMainCategoryBySlug(slug: string): Promise<KnowledgeCategory> {
+    try {
+      console.log('Getting main category by slug:', slug);
+      const response = await databases.listDocuments(
+        db,
+        mainCategoriesCollection,
+        [
+          Query.equal('slug', slug),
+          Query.equal('isActive', true)
+        ]
+      );
+      
+      console.log('Main category response:', response);
+      
+      if (response.documents.length === 0) {
+        throw new KnowledgeError(404, `Main category not found: ${slug}`);
+      }
+      
+      return response.documents[0] as unknown as KnowledgeCategory;
+    } catch (error) {
+      console.error('Error getting main category:', error);
+      throw new KnowledgeError(500, `Failed to fetch main category: ${slug}`);
+    }
+  },
+
+  /**
    * (Optional) Fetch a specific category by its slug.
    */
   async getCategoryBySlug(slug: string): Promise<KnowledgeCategory> {
