@@ -7,7 +7,7 @@ import {
 } from 'zustand/middleware';
 import { Query } from 'appwrite';
 
-interface KnowledgeState {
+interface ResourcesState {
   isFetching: boolean;
   selectedCategory: string | null;
   setCategory: (categoryId: string | null) => void;
@@ -16,7 +16,7 @@ interface KnowledgeState {
   sortBy: 'newest' | 'popular';
 }
 
-interface KnowledgeActions {
+interface ResourcesActions {
   setFetching: (state: boolean) => void;
   setCategory: (categoryId: string | null) => void;
   setSearchQuery: (query: string) => void;
@@ -25,7 +25,7 @@ interface KnowledgeActions {
   buildQuery: () => string[];
 }
 
-type State = KnowledgeState & KnowledgeActions;
+type State = ResourcesState & ResourcesActions;
 
 const urlStorage: PersistStorage<State> = {
   getItem: (name: string): StorageValue<State> | null => {
@@ -33,7 +33,6 @@ const urlStorage: PersistStorage<State> = {
     const searchParams = new URLSearchParams(window.location.search);
     const value = searchParams.get(name);
     if (!value) return null;
-    // Here we simply return an empty state if URL param is missing
     const params = new URLSearchParams(value);
     const state: State = {
       selectedCategory: params.get('selectedCategory'),
@@ -62,14 +61,14 @@ const urlStorage: PersistStorage<State> = {
     searchParams.set(name, urlParams.toString());
     window.history.replaceState(null, '', `?${searchParams.toString()}`);
   },
-  removeItem: (name: string) => {
+  removeItem: (name) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.delete(name);
     window.history.replaceState(null, '', `?${searchParams.toString()}`);
   },
 };
 
-export const useKnowledgeStore = create<State>()(
+export const useResourcesStore = create<State>()(
   immer(
     persist(
       (set, get) => ({
@@ -78,7 +77,7 @@ export const useKnowledgeStore = create<State>()(
         searchQuery: '',
         viewMode: 'grid',
         sortBy: 'newest',
-        setFetching: (state) => set({ isFetching: state }),
+        setFetching: (fetching) => set({ isFetching: fetching }),
         setCategory: (categoryId) => set({ selectedCategory: categoryId }),
         setSearchQuery: (query) => set({ searchQuery: query }),
         setViewMode: (mode) => set({ viewMode: mode }),
@@ -91,7 +90,6 @@ export const useKnowledgeStore = create<State>()(
               : []),
             ...(searchQuery ? [Query.search('title', searchQuery)] : []),
           ];
-          // Use the new field names – for newest sort we order by '$createdAt'
           queries.push(
             sortBy === 'newest'
               ? Query.orderDesc('$createdAt')
@@ -101,12 +99,11 @@ export const useKnowledgeStore = create<State>()(
         },
       }),
       {
-        name: 'knowledge-store',
+        name: 'resources-store',
         storage: urlStorage,
-        partialize: (state) => ({
-          ...state,
-          isFetching: false,
-        }),
+        partialize(state) {
+          return { ...state, isFetching: false };
+        },
       }
     )
   )

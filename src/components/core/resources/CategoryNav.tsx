@@ -2,27 +2,22 @@
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useKnowledgeStore } from '@/store/useKnowledgeStore';
-import { KnowledgeService } from '@/models/server/knowledge';
+import { useResourcesStore } from '@/store/useResourcesStore';
+import { ResourceService } from '@/models/server/resources';
 import { useRouter, usePathname } from 'next/navigation';
 
 export const CategoryNav = () => {
-  const { selectedCategory, setCategory } = useKnowledgeStore();
+  const { selectedCategory, setCategory } = useResourcesStore();
   const { data: categories, isPending } = useQuery({
-    queryKey: ['knowledge', 'categories'],
-    queryFn: () => KnowledgeService.getKnowledgeCategories(),
+    queryKey: ['resources', 'categories'],
+    queryFn: () => ResourceService.getResourceCategories(),
     staleTime: 60 * 1000,
   });
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleCategorySelect = async (category: {
-    $id: string;
-    slug: string;
-  }) => {
-    // Update state with the internal ID (used for filtering)
+  const handleCategorySelect = (category: { $id: string; slug: string }) => {
     setCategory(category.$id);
-    // Update URL with friendly slug
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('category', category.slug);
     router.push(`${pathname}?${searchParams.toString()}`);

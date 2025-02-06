@@ -1,71 +1,63 @@
 'use client';
 
+import Link from 'next/link';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { formatDate } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { FileIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import type { ResourceEntry } from '@/types/core/resources/entry';
 
 interface ResourceCardProps {
-  title: string;
-  summary: string;
-  categoryId: string;
-  metadata: {
-    featured: boolean;
-    publishedAt: Date;
-    imageUrl?: string;
-    downloadUrl?: string;
-    fileType?: string;
-  };
-  onClick?: () => void;
+  entry: ResourceEntry;
+  className?: string;
 }
 
-export function ResourceCard({
-  title,
-  summary,
-  metadata,
-  onClick,
-}: ResourceCardProps) {
+export const ResourceCard = ({ entry, className }: ResourceCardProps) => {
   return (
-    <Card
-      onClick={onClick}
-      className='group relative flex h-full cursor-pointer flex-col transition-shadow hover:shadow-lg'
-      role='article'
-      tabIndex={0}
-      onKeyDown={(e) => e.key === 'Enter' && onClick?.()}
+    <Link
+      href={`/resources/${entry.categorySlug}/${entry.slug}`}
+      aria-label={`View ${entry.title} resource`}
+      className='group block'
     >
-      {metadata.imageUrl ? (
-        <div className='relative aspect-video overflow-hidden'>
-          <Image
-            src={metadata.imageUrl}
-            alt=''
-            fill
-            className='object-cover transition-transform group-hover:scale-105'
-            sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-          />
-        </div>
-      ) : (
-        <div className='flex aspect-video items-center justify-center bg-muted'>
-          <FileIcon className='h-12 w-12 text-muted-foreground' />
-        </div>
-      )}
-      <CardHeader className='space-y-2'>
-        {metadata.featured && (
-          <Badge variant='secondary' className='w-fit'>
-            Featured
-          </Badge>
+      <motion.article
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className={cn(
+          'relative flex h-full flex-col overflow-hidden rounded-lg border bg-card shadow-sm transition-all hover:shadow-md group-hover:border-primary',
+          className
         )}
-        <h3 className='line-clamp-2 text-xl font-semibold'>{title}</h3>
-      </CardHeader>
-      <CardContent className='flex-1 space-y-2'>
-        <p className='line-clamp-3 text-sm text-muted-foreground'>{summary}</p>
-        <time
-          dateTime={metadata.publishedAt.toISOString()}
-          className='text-xs text-muted-foreground'
-        >
-          {formatDate(metadata.publishedAt)}
-        </time>
-      </CardContent>
-    </Card>
+      >
+        {entry.imageUrl && (
+          <div className='relative aspect-video'>
+            <Image
+              src={entry.imageUrl}
+              alt={`Cover image for ${entry.title}`}
+              fill
+              className='object-cover'
+              sizes='(max-width: 768px) 100vw, 33vw'
+              unoptimized
+            />
+          </div>
+        )}
+        <div className='flex flex-1 flex-col p-6'>
+          <div className='flex items-center justify-between gap-2 text-sm text-muted-foreground'>
+            <time dateTime={entry.$createdAt}>
+              {new Date(entry.$createdAt).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </time>
+          </div>
+          <h3 className='mt-2 text-xl font-semibold tracking-tight'>
+            {entry.title}
+          </h3>
+          {entry.summary && (
+            <p className='mt-2 line-clamp-2 text-muted-foreground'>
+              {entry.summary}
+            </p>
+          )}
+        </div>
+      </motion.article>
+    </Link>
   );
-}
+};
