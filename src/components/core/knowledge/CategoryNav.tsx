@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 import { KnowledgeService } from '@/models/server/knowledge';
+import { useRouter, usePathname } from 'next/navigation';
 
 export const CategoryNav = () => {
   const { selectedCategory, setCategory } = useKnowledgeStore();
@@ -12,6 +13,22 @@ export const CategoryNav = () => {
     queryFn: () => KnowledgeService.getKnowledgeCategories(),
     staleTime: 60 * 1000,
   });
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Handler to update both state and URL
+  const handleCategorySelect = (categoryId: string | null) => {
+    setCategory(categoryId);
+    // Build a new URL query string
+    const searchParams = new URLSearchParams(window.location.search);
+    if (categoryId) {
+      searchParams.set('category', categoryId);
+    } else {
+      searchParams.delete('category');
+    }
+    // Push the new URL without a full page reload
+    router.push(`${pathname}?${searchParams.toString()}`);
+  };
 
   if (isPending) {
     return (
@@ -27,7 +44,7 @@ export const CategoryNav = () => {
     <nav className='mb-8 flex gap-2 overflow-x-auto'>
       <Button
         variant={!selectedCategory ? 'default' : 'outline'}
-        onClick={() => setCategory(null)}
+        onClick={() => handleCategorySelect(null)}
         className='min-w-[80px]'
       >
         All
@@ -36,7 +53,7 @@ export const CategoryNav = () => {
         <Button
           key={category.$id}
           variant={selectedCategory === category.$id ? 'default' : 'outline'}
-          onClick={() => setCategory(category.$id)}
+          onClick={() => handleCategorySelect(category.$id)}
           className='min-w-[120px] truncate'
         >
           {category.name}
