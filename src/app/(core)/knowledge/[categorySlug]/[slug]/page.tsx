@@ -6,9 +6,17 @@ import VideoEntry from '@/components/core/knowledge/entries/VideoEntry';
 import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
 import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
 import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
+import type { KnowledgeEntry } from '@/types/core/knowledge';
 
-export default async function KnowledgeEntryPage(props: any) {
-  const { slug, categorySlug } = props.params;
+interface Props {
+  params: {
+    slug: string;
+    categorySlug: string;
+  };
+}
+
+export default async function Page({ params }: Props) {
+  const { slug } = params;
 
   function getEntryComponent(type: string) {
     switch (type) {
@@ -29,7 +37,7 @@ export default async function KnowledgeEntryPage(props: any) {
     const entry = await KnowledgeService.getEntryBySlug(slug);
     if (!entry) return notFound();
 
-    const EntryComponent = getEntryComponent((entry as any).type);
+    const EntryComponent = getEntryComponent(entry.type as string);
 
     return (
       <article className="mx-auto max-w-3xl px-4 py-8">

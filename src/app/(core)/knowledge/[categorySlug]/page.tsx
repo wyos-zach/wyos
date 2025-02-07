@@ -4,16 +4,18 @@ import { KnowledgeGrid } from '@/components/core/knowledge/KnowledgeGrid';
 import { CategoryHeader } from '@/components/core/knowledge/CategoryHeader';
 import type { KnowledgeEntry } from '@/types/core/knowledge';
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { categorySlug: string };
-}) {
+interface Props {
+  params: {
+    categorySlug: string;
+  };
+}
+
+export default async function CategoryPage({ params }: Props) {
+  const { categorySlug } = params;
+
   try {
     // Fetch the knowledge category using its slug.
-    const category = await KnowledgeService.getCategoryBySlug(
-      params.categorySlug
-    );
+    const category = await KnowledgeService.getCategoryBySlug(categorySlug);
     if (!category) return notFound();
 
     // Fetch the entries for that category using its ID.
@@ -23,7 +25,7 @@ export default async function CategoryPage({
     if (!response.documents.length) return notFound();
 
     const initialData = {
-      documents: response.documents as unknown as KnowledgeEntry[],
+      documents: response.documents as KnowledgeEntry[],
       total: response.total,
       hasMore: response.documents.length === 9,
       nextPage: 2,
@@ -34,7 +36,7 @@ export default async function CategoryPage({
         <CategoryHeader category={category} totalEntries={response.total} />
         <KnowledgeGrid
           initialData={initialData}
-          categorySlug={params.categorySlug}
+          categorySlug={categorySlug}
         />
       </div>
     );
