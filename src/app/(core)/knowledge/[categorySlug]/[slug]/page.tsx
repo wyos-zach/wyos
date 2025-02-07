@@ -6,14 +6,21 @@ import VideoEntry from '@/components/core/knowledge/entries/VideoEntry';
 import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
 import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
 import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
+import type { JSX } from 'react';
 
 export default async function Page({
   params,
 }: {
-  params: { slug: string; categorySlug: string };
-}) {
-  // Await the params to satisfy Next.js’s thenable requirement.
-  const { slug, categorySlug } = await Promise.resolve(params);
+  // We allow params to be either a plain object or a promise.
+  params:
+    | { slug: string; categorySlug: string }
+    | Promise<{ slug: string; categorySlug: string }>;
+}): Promise<JSX.Element> {
+  // Force the params to behave like a promise.
+  const resolvedParams = await Promise.resolve(
+    params as { slug: string; categorySlug: string }
+  );
+  const { slug, categorySlug } = resolvedParams;
 
   function getEntryComponent(type: string) {
     switch (type) {
@@ -34,6 +41,7 @@ export default async function Page({
     const entry = await KnowledgeService.getEntryBySlug(slug);
     if (!entry) return notFound();
 
+    // Determine which layout component to use.
     const EntryComponent = getEntryComponent((entry as any).type);
 
     return (

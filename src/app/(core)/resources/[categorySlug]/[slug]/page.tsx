@@ -3,14 +3,21 @@ import { ResourceService } from '@/models/server/resources';
 import ResourceHeader from '@/components/core/resources/ResourceHeader';
 import AppResource from '@/components/core/resources/entries/AppEntry';
 import DefaultResource from '@/components/core/resources/entries/DefaultEntry';
+import type { JSX } from 'react';
 
 export default async function Page({
   params,
 }: {
-  params: { slug: string; categorySlug: string };
-}) {
-  // Await params to ensure it meets Next.js’s expected type.
-  const { slug, categorySlug } = await Promise.resolve(params);
+  // Allow params to be given as an object or a promise.
+  params:
+    | { slug: string; categorySlug: string }
+    | Promise<{ slug: string; categorySlug: string }>;
+}): Promise<JSX.Element> {
+  // Ensure params is treated as a promise.
+  const resolvedParams = await Promise.resolve(
+    params as { slug: string; categorySlug: string }
+  );
+  const { slug, categorySlug } = resolvedParams;
 
   function getResourceEntryComponent(type: string) {
     switch (type) {
@@ -24,6 +31,7 @@ export default async function Page({
   try {
     const entry = await ResourceService.getEntryBySlug(slug);
     if (!entry) return notFound();
+
     const EntryComponent = getResourceEntryComponent(entry.type);
     return (
       <article className='mx-auto max-w-3xl px-4 py-8'>

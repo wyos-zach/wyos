@@ -21,7 +21,6 @@ export default [
     rules: {
       // TanStack Query rules:
       '@tanstack/query/exhaustive-deps': 'error',
-      '@tanstack/query/prefer-query-object': 'error',
       '@tanstack/query/stable-query-client': 'error',
 
       // TypeScript rules:
