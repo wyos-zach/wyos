@@ -196,6 +196,7 @@ export const KnowledgeService = {
   },
 
   async getCategoryBySlug(slug: string): Promise<KnowledgeCategory | null> {
+    console.log('Knowledge service: Getting category by slug:', slug);
     try {
       const response = await databases.listDocuments<KnowledgeCategoryDocument>(
         db,
@@ -219,12 +220,15 @@ export const KnowledgeService = {
           ]),
         ]
       );
+      console.log('Knowledge service: Category response:', response);
       if (response.documents.length === 0) {
+        console.log('Knowledge service: No category found');
         return null;
       }
+      console.log('Knowledge service: Found category:', response.documents[0]);
       return response.documents[0];
     } catch (error: unknown) {
-      console.error('Failed to fetch knowledge category:', error);
+      console.error('Knowledge service: Failed to fetch category:', error);
       return null;
     }
   },

@@ -12,17 +12,26 @@ interface Props {
 
 export default async function CategoryPage({ params }: Props) {
   const { categorySlug } = params;
+  console.log('Fetching category for slug:', categorySlug);
 
   try {
     // Fetch the knowledge category using its slug.
     const category = await KnowledgeService.getCategoryBySlug(categorySlug);
-    if (!category) return notFound();
+    console.log('Category result:', category);
+    if (!category) {
+      console.log('Category not found, returning 404');
+      return notFound();
+    }
 
     // Fetch the entries for that category using its ID.
     const response = await KnowledgeService.listKnowledgeEntries({
       categoryId: category.$id,
     });
-    if (!response.documents.length) return notFound();
+    console.log('Entries response:', response);
+    if (!response.documents.length) {
+      console.log('No entries found, returning 404');
+      return notFound();
+    }
 
     const initialData = {
       documents: response.documents as KnowledgeEntry[],
@@ -40,7 +49,8 @@ export default async function CategoryPage({ params }: Props) {
         />
       </div>
     );
-  } catch {
+  } catch (error) {
+    console.error('Category page error:', error);
     return notFound();
   }
 }
