@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import type { ImageProps } from 'next/image';
 import Image from 'next/image';
-import { useOutsideClick } from '@/hooks/use-outside-click';
+import { useOutsideClick } from '@/lib/hooks/shared/useOutsideClick';
 
 interface CarouselProps {
   items: React.ReactElement[];
@@ -166,9 +166,13 @@ export const Card = ({
 }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { onCardClose, currentIndex: _currentIndex } = useContext(CarouselContext);
+  const { onCardClose, currentIndex: _currentIndex } =
+    useContext(CarouselContext);
 
-  const handleClose = useCallback(() => onCardClose(index), [onCardClose, index]);
+  const handleClose = useCallback(
+    () => onCardClose(index),
+    [onCardClose, index]
+  );
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {

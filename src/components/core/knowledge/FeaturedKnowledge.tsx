@@ -8,7 +8,7 @@ import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 export const FeaturedKnowledge = () => {
   const { data, isLoading, error } = useQuery<KnowledgeEntry[]>({
     queryKey: ['knowledge', 'featured'],
-    queryFn: () => KnowledgeService.listFeaturedEntries(3),
+    queryFn: () => KnowledgeService.listFeaturedEntries(),
   });
 
   if (isLoading) {

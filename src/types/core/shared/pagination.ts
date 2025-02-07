@@ -4,3 +4,9 @@ export interface PaginatedResult<T> {
   hasMore: boolean;
   nextPage: number;
 }
+
+export interface QueryFilters {
+  categoryId?: string;
+  searchQuery?: string;
+  featuredOnly?: boolean;
+}
