@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 
 export default async function KnowledgeEntryPage({
   params,
-  searchParams,
+  searchParams: _searchParams,
 }: {
   params: { categorySlug: string; slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
