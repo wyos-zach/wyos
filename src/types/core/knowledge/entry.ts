@@ -1,4 +1,3 @@
-import type { ReferrerEnum } from 'next/dist/lib/metadata/types/metadata-types';
 import { KnowledgeCategory } from './category';
 
 export interface KnowledgeEntry {

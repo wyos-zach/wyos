@@ -34,10 +34,7 @@ export default async function ResourceCategoryPage({
           pattern='dots'
           align='left'
         />
-        <ResourceGrid
-          categorySlug={params.categorySlug}
-          initialData={initialData}
-        />
+        <ResourceGrid initialData={initialData} />
       </div>
     );
   } catch (error) {

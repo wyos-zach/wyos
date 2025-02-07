@@ -36,17 +36,19 @@ export function UrlSyncResources() {
     };
 
     const syncState = async () => {
+      // Only update if params differ from current state
       if (params.search !== searchQuery) {
         setSearchQuery(params.search || '');
       }
 
       if (
         params.sort !== sortBy &&
-        (params.sort === 'newest' || params.sort === 'popular')
+        (params.sort === 'latest' || params.sort === 'popular')
       ) {
         setSortBy(params.sort);
       }
 
+      // Handle category slug to ID conversion
       if (params.categorySlug) {
         const categoryId = await getCategoryIdBySlug(params.categorySlug);
         if (isActive && categoryId && categoryId !== selectedCategory) {
@@ -60,10 +62,13 @@ export function UrlSyncResources() {
     syncState();
 
     return () => {
-      isActive = false; // Prevent state updates after unmount
+      isActive = false;
     };
   }, [
     searchParams,
+    setCategory,
+    setSearchQuery,
+    setSortBy,
     selectedCategory,
     searchQuery,
     sortBy,

@@ -55,7 +55,7 @@ export class KnowledgeCategoryRepository extends AppwriteBaseRepository<Knowledg
       description: document.description,
       order: document.order,
       isActive: document.isActive,
-      icon: document.icon,
+      iconUrl: document.iconUrl,
       imageUrl: document.imageUrl,
       $createdAt: new Date(document.$createdAt).toISOString(),
       $updatedAt: new Date(document.$updatedAt).toISOString(),

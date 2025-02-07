@@ -42,7 +42,7 @@ export function UrlSync() {
 
       if (
         params.sort !== sortBy &&
-        (params.sort === 'newest' || params.sort === 'popular')
+        (params.sort === 'latest' || params.sort === 'popular')
       ) {
         setSortBy(params.sort);
       }
@@ -61,10 +61,13 @@ export function UrlSync() {
     syncState();
 
     return () => {
-      isActive = false; // Prevent state updates after unmount
+      isActive = false;
     };
   }, [
     searchParams,
+    setCategory,
+    setSearchQuery,
+    setSortBy,
     selectedCategory,
     searchQuery,
     sortBy,

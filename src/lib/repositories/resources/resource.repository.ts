@@ -57,9 +57,12 @@ export class ResourceCategoryRepository extends AppwriteBaseRepository<ResourceC
       name: document.name,
       slug: document.slug,
       description: document.description,
+      order: document.order,
       isActive: document.isActive,
+      iconUrl: document.iconUrl,
       imageUrl: document.imageUrl,
-      icon: document.icon,
+      mainCategoryId: document.mainCategoryId,
+      type: document.type,
       $createdAt: new Date(document.$createdAt).toISOString(),
       $updatedAt: new Date(document.$updatedAt).toISOString(),
     };

@@ -1,21 +1,19 @@
 'use client';
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { ResourceCard } from './ResourceCard';
-import { ResourceCategoryCard } from './ResourceCategoryCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useQuery } from '@tanstack/react-query';
 import { ResourceService } from '@/models/server/resources';
-import type { ResourceCategory } from '@/types/core/resources/category';
-import type { ResourceEntry } from '@/types/core/resources/entry';
+import { ResourceCard } from './ResourceCard';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useSearchParams } from 'next/navigation';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
-import { InfiniteGrid } from '@/components/shared/InfiniteGrid';
+import { useResourcesStore } from '@/store/useResourcesStore';
+import { useEffect } from 'react';
+import type { ResourceEntry } from '@/types/core/resources/entry';
 
 interface ResourceGridProps {
-  categorySlug?: string;
   initialData?: {
     documents?: ResourceEntry[];
-    categories?: ResourceCategory[];
     total?: number;
     hasMore?: boolean;
     nextPage?: number;
@@ -25,47 +23,48 @@ interface ResourceGridProps {
 
 export const ResourceGrid = ({
   initialData,
-  categorySlug,
   searchQuery,
 }: ResourceGridProps) => {
-  const {
-    data,
-    error,
-    isError,
-    isFetchingNextPage,
-    hasNextPage,
-    fetchNextPage,
-    status,
-    refetch,
-    isPending,
-  } = useInfiniteQuery({
-    queryKey: ['resources', categorySlug, searchQuery],
-    queryFn: async ({ pageParam = 1 }) => {
-      if (!categorySlug) {
-        throw new Error('Category slug is required');
+  const searchParams = useSearchParams();
+  const categorySlug = searchParams.get('category');
+  const setIsFetching = useResourcesStore((state) => state.setIsFetching);
+
+  const { data: resources, isPending, error, isError } = useQuery({
+    queryKey: ['resources', 'entries', categorySlug, searchQuery],
+    queryFn: async () => {
+      try {
+        console.log('Fetching resource entries for:', categorySlug);
+        if (categorySlug) {
+          // Get category first
+          const category = await ResourceService.getCategoryBySlug(categorySlug);
+          console.log('Category found:', category);
+          // Then get its entries
+          return ResourceService.listResourceEntries({
+            categoryId: category.$id,
+          });
+        } else {
+          // If no category selected, get all resources
+          return ResourceService.listResourceEntries({});
+        }
+      } catch (err) {
+        console.error('Error in ResourceGrid:', err);
+        throw err;
       }
-      const response = await ResourceService.listResourceEntries({
-        categoryId: categorySlug,
-        page: pageParam,
-      });
-      return {
-        documents: response.documents as ResourceEntry[],
-        total: response.total,
-        hasMore: response.documents.length === 9,
-        nextPage: pageParam + 1,
-      };
     },
     initialData: initialData?.documents
       ? {
-          pages: [initialData],
-          pageParams: [1],
+          documents: initialData.documents,
+          total: initialData.total,
+          hasMore: initialData.hasMore,
+          nextPage: initialData.nextPage,
         }
       : undefined,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasMore ? lastPage.nextPage : undefined,
-    enabled: !!categorySlug, // Only run query if categorySlug is provided
   });
+
+  // Update isFetching state in store
+  useEffect(() => {
+    setIsFetching(isPending);
+  }, [isPending, setIsFetching]);
 
   if (isError) {
     return (
@@ -78,9 +77,17 @@ export const ResourceGrid = ({
     );
   }
 
-  const entries = data?.pages.flatMap((page) => page.documents) || [];
+  if (isPending) {
+    return (
+      <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
+        {[...Array(3)].map((_, i) => (
+          <Skeleton key={i} className='h-64 w-full rounded-xl' />
+        ))}
+      </div>
+    );
+  }
 
-  if (status === 'success' && entries.length === 0) {
+  if (!resources?.documents.length) {
     return (
       <Alert>
         <AlertDescription>
@@ -91,14 +98,10 @@ export const ResourceGrid = ({
   }
 
   return (
-    <InfiniteGrid
-      hasMore={hasNextPage}
-      isFetching={isFetchingNextPage}
-      fetchNextAction={() => fetchNextPage()}
-    >
-      {entries.filter((entry): entry is ResourceEntry => entry !== undefined).map((entry) => (
-        <ResourceCard key={entry.$id} entry={entry} />
+    <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+      {resources.documents.map((resource) => (
+        <ResourceCard key={resource.$id} entry={resource} />
       ))}
-    </InfiniteGrid>
+    </div>
   );
 };
