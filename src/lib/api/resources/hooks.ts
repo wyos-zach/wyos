@@ -41,10 +41,14 @@ export const useResourceEntries = () => {
   });
 };
 
-export const useResourceEntry = (slug: string) => {
-  return useQuery<ResourceEntry>({
+export function useResourceEntry(slug: string) {
+  return useQuery({
     queryKey: ['resources', 'entry', slug],
-    queryFn: () => ResourceService.getEntryBySlug(slug),
+    queryFn: async () => {
+      const entry = await ResourceService.getEntryBySlug(slug);
+      if (!entry) throw new Error('Resource not found');
+      return entry;
+    },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
@@ -52,7 +56,7 @@ export const useResourceEntry = (slug: string) => {
 
 export const useFeaturedResources = (limit = 3) => {
   return useQuery<ResourceEntry[]>({
-    queryKey: ['resources', 'featured'],
+    queryKey: ['resources', 'featured', limit],
     queryFn: () => ResourceService.listFeaturedEntries(limit),
     select: (data) => data.slice(0, limit),
     staleTime: 5 * 60 * 1000, // 5 minutes

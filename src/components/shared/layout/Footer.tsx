@@ -42,7 +42,7 @@ export function Footer() {
 
       <Container className='relative'>
         <div className='grid grid-cols-1 gap-12 py-16 md:grid-cols-3'>
-          {footerLinks.map((section, idx) => (
+          {footerLinks.map((section, _idx) => (
             <div key={section.title} className='space-y-6'>
               <motion.p
                 initial={{ opacity: 0 }}

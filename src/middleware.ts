@@ -9,11 +9,23 @@ const protectedPaths = ['/(subscription)', '/(core)'];
 // Public paths that never require login.
 const publicPaths = ['/login', '/register', '/reset-password', '/verify-email'];
 
+if (!process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) {
+  throw new Error('Missing NEXT_PUBLIC_APPWRITE_ENDPOINT environment variable');
+}
+
+if (!process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID) {
+  throw new Error('Missing NEXT_PUBLIC_APPWRITE_PROJECT_ID environment variable');
+}
+
+if (!process.env.APPWRITE_API_KEY) {
+  throw new Error('Missing APPWRITE_API_KEY environment variable');
+}
+
 // Create a new Appwrite client and account instance.
 const client = new Client()
-  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!)
-  .setKey(process.env.APPWRITE_API_KEY!);
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID)
+  .setKey(process.env.APPWRITE_API_KEY);
 
 const account = new Account(client);
 

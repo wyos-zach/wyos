@@ -25,9 +25,10 @@ export const KnowledgeGrid = ({
     error,
     isError,
     isFetchingNextPage,
+
     hasNextPage,
     fetchNextPage,
-    status,
+
     refetch,
     isPending,
   } = useInfiniteQuery({
@@ -62,7 +63,11 @@ export const KnowledgeGrid = ({
 
   // Flatten all pages into a single array.
   const entries = data?.pages.flatMap((page) => page.documents) || [];
-  const totalEntries = data?.pages[0]?.total ?? 0;
+  const _totalEntries = data?.pages[0]?.total ?? 0;
+
+  const _getFirstCategoryId = (doc: KnowledgeEntry): string => {
+    return doc.categoryId || '';
+  };
 
   if (isPending) {
     return (

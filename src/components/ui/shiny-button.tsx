@@ -1,7 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion, MotionProps, type AnimationProps } from "motion/react";
+import type { MotionProps} from "motion/react";
+import { motion, type AnimationProps } from "motion/react";
 import React from "react";
 
 const animationProps = {

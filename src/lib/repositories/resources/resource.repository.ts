@@ -1,80 +1,74 @@
 import type { ResourceEntry } from '@/types/core/resources/entry';
-import {
-  resourcesCollection,
-  resourceCategoriesCollection,
-  db,
-} from '@/models/name';
-import { AppwriteBaseRepository } from '@/lib/repositories/core/appwrite-base.repository';
 import type { ResourceCategory } from '@/types/core/resources/category';
+import { db, resourcesCollection, resourceCategoriesCollection } from '@/models/name';
+import { AppwriteBaseRepository } from '@/lib/repositories/core/appwrite-base.repository';
+import type { Models } from 'appwrite';
+import { Query } from 'appwrite';
 
-export class ResourceEntryRepository extends AppwriteBaseRepository<ResourceEntry> {
+export class ResourceRepository extends AppwriteBaseRepository<ResourceEntry> {
   constructor() {
     super(db, resourcesCollection);
   }
 
-  protected mapDocument(document: any): ResourceEntry {
+  protected mapDocument(document: Models.Document): ResourceEntry {
     return {
       $id: document.$id,
       title: document.title,
       slug: document.slug,
-      type: document.type, // e.g. 'app', 'book', etc.
+      type: document.type,
       summary: document.summary,
       content: document.content,
-      featured: document.featured,
       imageUrl: document.imageUrl,
-      // Assume resource categories are stored as an array; we take the first element
-      categoryId:
-        Array.isArray(document.resourceCategoryIds) &&
-        document.resourceCategoryIds.length > 0
-          ? document.resourceCategoryIds[0]
-          : '',
-      // categorySlug will be enriched via the service
-      categorySlug: document.resourceCategorySlug || '',
-      $createdAt: new Date(document.$createdAt).toISOString(),
-      $updatedAt: new Date(document.$updatedAt).toISOString(),
+      featured: document.featured,
+      categoryId: document.categoryId,
+      categorySlug: document.categorySlug,
+      $createdAt: document.$createdAt,
+      $updatedAt: document.$updatedAt,
       $permissions: document.$permissions,
     };
   }
 
   async listFeaturedEntries(limit: number = 3): Promise<ResourceEntry[]> {
-    const result = await this.findAll(
-      { featured: true },
-      {
-        queries: ['orderDesc($createdAt)', `limit(${limit})`],
-      }
-    );
+    const result = await this.findAll({
+      queries: [
+        Query.equal('featured', true),
+        Query.orderDesc('$createdAt'),
+        Query.limit(limit)
+      ]
+    });
     return result.documents;
   }
 }
+
 export class ResourceCategoryRepository extends AppwriteBaseRepository<ResourceCategory> {
   constructor() {
     super(db, resourceCategoriesCollection);
   }
 
-  protected mapDocument(document: any): ResourceCategory {
+  protected mapDocument(document: Models.Document): ResourceCategory {
     return {
       $id: document.$id,
       name: document.name,
       slug: document.slug,
       description: document.description,
+      imageUrl: document.imageUrl,
+      iconUrl: document.iconUrl,
+      mainCategoryId: document.mainCategoryId,
       order: document.order,
       isActive: document.isActive,
-      iconUrl: document.iconUrl,
-      imageUrl: document.imageUrl,
-      mainCategoryId: document.mainCategoryId,
       type: document.type,
-      $createdAt: new Date(document.$createdAt).toISOString(),
-      $updatedAt: new Date(document.$updatedAt).toISOString(),
+      $createdAt: document.$createdAt,
+      $updatedAt: document.$updatedAt,
     };
   }
 
   async listActiveCategories(): Promise<ResourceCategory[]> {
-    const result = await this.findAll(
-      { isActive: true },
-      {
-        queries: ['orderAsc(name)'],
-      }
-    );
+    const result = await this.findAll({
+      queries: [
+        Query.equal('isActive', true),
+        Query.orderAsc('order')
+      ]
+    });
     return result.documents;
   }
 }

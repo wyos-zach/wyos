@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { PricingSection } from '@/components/marketing/pricing/PricingSection';
 import { PricingFaq } from '@/components/marketing/pricing/PricingFAQ';
 

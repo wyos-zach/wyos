@@ -1,11 +1,12 @@
-import {
+import type {
   BenefitItem,
   FaqItem,
-  PricingPlan,
+  PricingPlan} from '@/types/marketing/pricing';
+import {
   type StripePriceId,
 } from '@/types/marketing/pricing';
 
-const STRIPE_PRICES = {
+const _STRIPE_PRICES = {
   MONTHLY: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY,
   ANNUAL: process.env.NEXT_PUBLIC_STRIPE_PRICE_ANNUAL,
 } as const;

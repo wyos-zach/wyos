@@ -11,9 +11,8 @@ export const CategoryNav = () => {
   const { data: categories, isPending } = useQuery({
     queryKey: ['knowledge', 'main-categories'],
     queryFn: async () => {
-      console.log('Fetching main categories...');
       const cats = await KnowledgeService.getMainCategories();
-      console.log('Main categories:', cats);
+
       return cats;
     },
   });
@@ -23,9 +22,8 @@ export const CategoryNav = () => {
   const queryClient = useQueryClient();
 
   const handleCategorySelect = (slug?: string) => {
-    console.log('Selecting category:', slug);
     const newSearchParams = new URLSearchParams(searchParams.toString());
-    
+
     if (slug) {
       newSearchParams.set('category', slug);
     } else {

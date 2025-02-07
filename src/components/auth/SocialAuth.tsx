@@ -5,17 +5,21 @@ import { useAuthStore } from '@/store/Auth';
 import { OAuthProvider } from 'appwrite';
 
 interface OAuthButtonProps {
-  provider: 'google';
+  provider: OAuthProvider;
   label: string;
   disabled: boolean;
 }
 
-function OAuthButton({ provider, label, disabled }: OAuthButtonProps) {
+function OAuthButton({
+  provider,
+  label,
+  disabled,
+}: OAuthButtonProps) {
   const { createOAuthSession } = useAuthStore();
 
   const handleOAuthLogin = async () => {
     try {
-      await createOAuthSession(OAuthProvider.Google);
+      await createOAuthSession(provider);
     } catch (error) {
       console.error('OAuth error:', error);
     }
@@ -43,9 +47,9 @@ export function SocialAuth({ isLoading }: { isLoading: boolean }) {
   return (
     <>
       <div className='my-8 h-[1px] w-full bg-gradient-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700' />
-      <div className='flex flex-col space-y-4'>
+      <div className='space-y-3'>
         <OAuthButton
-          provider='google'
+          provider={OAuthProvider.Google}
           label='Continue with Google'
           disabled={isLoading}
         />

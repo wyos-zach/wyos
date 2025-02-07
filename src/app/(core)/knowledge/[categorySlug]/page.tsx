@@ -38,7 +38,7 @@ export default async function CategoryPage({
         />
       </div>
     );
-  } catch (error) {
+  } catch {
     return notFound();
   }
 }

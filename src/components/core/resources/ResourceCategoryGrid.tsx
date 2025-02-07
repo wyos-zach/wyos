@@ -14,11 +14,11 @@ export const ResourceCategoryGrid = () => {
     queryKey: ['resources', 'categories', categorySlug],
     queryFn: async () => {
       try {
-        console.log('Fetching resource categories for:', categorySlug);
         if (categorySlug) {
           // Get main category first
-          const mainCategory = await ResourceService.getMainCategoryBySlug(categorySlug);
-          console.log('Main category found:', mainCategory);
+          const mainCategory =
+            await ResourceService.getMainCategoryBySlug(categorySlug);
+
           // Then get its subcategories
           return ResourceService.getSubcategories(mainCategory.$id);
         } else {
@@ -32,8 +32,6 @@ export const ResourceCategoryGrid = () => {
     },
     staleTime: 60 * 1000,
   });
-
-  console.log('Query state:', { isPending, error, dataLength: data?.length });
 
   if (isPending) {
     return (
@@ -55,10 +53,10 @@ export const ResourceCategoryGrid = () => {
   }
 
   if (!data || data.length === 0) {
-    console.log('No categories found. Data:', data);
     return (
       <p className='text-center text-muted-foreground'>
-        No resource categories found {categorySlug ? `for ${categorySlug}` : ''}.
+        No resource categories found {categorySlug ? `for ${categorySlug}` : ''}
+        .
       </p>
     );
   }

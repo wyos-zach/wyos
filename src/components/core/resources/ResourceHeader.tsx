@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { BookOpen, Share2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import type { ResourceEntry } from '@/types/core/resources/entry';
 
 interface ResourceEntryHeaderProps {

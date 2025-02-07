@@ -1,4 +1,4 @@
-import { KnowledgeCategory } from './category';
+import type { KnowledgeCategory } from './category';
 
 export interface KnowledgeEntry {
   $id: string;

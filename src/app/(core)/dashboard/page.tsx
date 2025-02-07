@@ -1,13 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/Auth';
-
-interface User {
-  email: string;
-  name: string;
-}
 
 export default function DashboardPage() {
   const { user, session } = useAuthStore();

@@ -10,7 +10,7 @@ export type AttributeConfig = {
   type: 'string' | 'boolean' | 'integer' | 'float' | 'enum';
   size?: number;
   required: boolean;
-  default?: any;
+  default?: unknown;
 };
 
 export type IndexConfig = {

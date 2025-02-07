@@ -28,9 +28,7 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
   const isPopular = plan.isPopular;
 
   // Log plan details for debugging
-  useEffect(() => {
-    console.log(`Plan ${plan.name} details:`, plan);
-  }, [plan]);
+  useEffect(() => {}, [plan]);
 
   const handleSubscriptionAction = async () => {
     setIsLoading(true);

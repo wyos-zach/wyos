@@ -1,4 +1,4 @@
-import { ResourceCategory } from './category';
+import type { ResourceCategory } from './category';
 
 export interface ResourceEntry {
   $id: string;

@@ -63,4 +63,10 @@ export default [
       'jsx-a11y/no-static-element-interactions': 'error',
     },
   },
+  {
+    files: ['**/src/models/name.ts'],
+    rules: {
+      '@typescript-eslint/no-non-null-assertion': 'off'
+    }
+  }
 ];

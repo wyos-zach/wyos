@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { persist } from 'zustand/middleware';
-import { AppwriteException, ID, type Models, OAuthProvider } from 'appwrite';
+import type { OAuthProvider } from 'appwrite';
+import { AppwriteException, ID, type Models } from 'appwrite';
 import { account } from '@/models/client/config';
 
 export interface UserPrefs {

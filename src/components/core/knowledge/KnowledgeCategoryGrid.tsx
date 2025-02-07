@@ -15,15 +15,20 @@ export const KnowledgeCategoryGrid = () => {
   const categorySlug = searchParams.get('category');
   const setIsFetching = useKnowledgeStore((state) => state.setIsFetching);
 
-  const { data: categories, isPending, error, isError } = useQuery({
+  const {
+    data: categories,
+    isPending,
+    error,
+    isError,
+  } = useQuery({
     queryKey: ['knowledge', 'categories', categorySlug],
     queryFn: async () => {
       try {
-        console.log('Fetching knowledge categories for:', categorySlug);
         if (categorySlug) {
           // Get main category first
-          const mainCategory = await KnowledgeService.getMainCategoryBySlug(categorySlug);
-          console.log('Main category found:', mainCategory);
+          const mainCategory =
+            await KnowledgeService.getMainCategoryBySlug(categorySlug);
+
           // Then get its subcategories
           return KnowledgeService.getSubcategories(mainCategory.$id);
         } else {
@@ -47,7 +52,9 @@ export const KnowledgeCategoryGrid = () => {
       <Alert variant='destructive'>
         <AlertCircle className='h-4 w-4' />
         <AlertDescription>
-          {error instanceof Error ? error.message : 'Failed to load knowledge categories'}
+          {error instanceof Error
+            ? error.message
+            : 'Failed to load knowledge categories'}
         </AlertDescription>
       </Alert>
     );

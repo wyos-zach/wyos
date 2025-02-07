@@ -24,7 +24,7 @@ export const CategoryNav = () => {
     if (urlCategory && urlCategory !== selectedCategory) {
       setCategory(urlCategory);
     }
-  }, []);
+  });
 
   const handleCategorySelect = (slug?: string) => {
     const newSearchParams = new URLSearchParams(searchParams.toString());

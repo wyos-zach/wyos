@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
 import { ResourceService } from '@/models/server/resources';
-import type { ResourceCategory } from '@/types/core/resources/category';
 import { PageHeader } from '@/components/shared/layout/PageHeader';
 import { ResourceCategoryGrid } from '@/components/core/resources/ResourceCategoryGrid';
 import { FeaturedResources } from '@/components/core/resources/FeaturedResources';

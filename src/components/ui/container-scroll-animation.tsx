@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef } from "react";
-import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
+import { useScroll, useTransform, motion } from "framer-motion";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -9,10 +9,7 @@ export const ContainerScroll = ({
   titleComponent: string | React.ReactNode;
   children: React.ReactNode;
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-  });
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
@@ -26,14 +23,6 @@ export const ContainerScroll = ({
     };
   }, []);
 
-  const scaleDimensions = () => {
-    return isMobile ? [0.7, 0.9] : [1.05, 1];
-  };
-
-  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
-
   return (
     <div
       className="h-[60rem] md:h-[80rem] flex items-center justify-center relative p-2 md:p-20"
@@ -45,8 +34,14 @@ export const ContainerScroll = ({
           perspective: "1000px",
         }}
       >
-        <Header translate={translate} titleComponent={titleComponent} />
-        <Card rotate={rotate} translate={translate} scale={scale}>
+        <Header 
+          containerRef={containerRef} 
+          titleComponent={titleComponent} 
+        />
+        <Card 
+          containerRef={containerRef}
+          isMobile={isMobile}
+        >
           {children}
         </Card>
       </div>
@@ -54,7 +49,18 @@ export const ContainerScroll = ({
   );
 };
 
-export const Header = ({ translate, titleComponent }: any) => {
+interface HeaderProps {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  titleComponent: string | React.ReactNode;
+}
+
+export const Header = ({ containerRef, titleComponent }: HeaderProps) => {
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  
   return (
     <motion.div
       style={{
@@ -67,21 +73,32 @@ export const Header = ({ translate, titleComponent }: any) => {
   );
 };
 
-export const Card = ({
-  rotate,
-  scale,
-  children,
-}: {
-  rotate: MotionValue<number>;
-  scale: MotionValue<number>;
-  translate: MotionValue<number>;
+interface CardProps {
+  containerRef: React.RefObject<HTMLDivElement | null>;
+  isMobile: boolean;
   children: React.ReactNode;
-}) => {
+}
+
+export const Card = ({
+  containerRef,
+  isMobile,
+  children,
+}: CardProps) => {
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  
+  const rotate = useTransform(scrollYProgress, [0, 1], [20, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], isMobile ? [0.7, 0.9] : [1.05, 1]);
+  const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
   return (
     <motion.div
       style={{
         rotateX: rotate,
         scale,
+        translateY: translate,
         boxShadow:
           "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
