@@ -1,13 +1,13 @@
 import { KnowledgeService } from '@/models/server/knowledge';
 import { notFound } from 'next/navigation';
-import type { JSX } from 'react';
 
-export default async function KnowledgeEntryPage({
-  params,
-}: {
+interface PageProps {
   params: { categorySlug: string; slug: string };
-}): Promise<JSX.Element> {
-  const entry = await KnowledgeService.getEntryBySlug(params.slug);
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
+
+export default async function KnowledgeEntryPage(props: PageProps) {
+  const entry = await KnowledgeService.getEntryBySlug(props.params.slug);
 
   if (!entry) {
     return notFound();
