@@ -200,13 +200,31 @@ export const KnowledgeService = {
       const response = await databases.listDocuments<KnowledgeCategoryDocument>(
         db,
         knowledgeCategoriesCollection,
-        [Query.equal('slug', slug), Query.limit(1)]
+        [
+          Query.equal('slug', slug),
+          Query.equal('isActive', true),
+          Query.limit(1),
+          Query.select([
+            '$id',
+            'name',
+            'slug',
+            'description',
+            'order',
+            'isActive',
+            'iconUrl',
+            'imageUrl',
+            'mainCategoryId',
+            '$createdAt',
+            '$updatedAt',
+          ]),
+        ]
       );
       if (response.documents.length === 0) {
         return null;
       }
-      return response.documents[0] as unknown as KnowledgeCategory;
-    } catch {
+      return response.documents[0];
+    } catch (error: unknown) {
+      console.error('Failed to fetch knowledge category:', error);
       return null;
     }
   },

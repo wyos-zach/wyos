@@ -6,7 +6,6 @@ import VideoEntry from '@/components/core/knowledge/entries/VideoEntry';
 import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
 import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
 import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
-import type { KnowledgeEntry } from '@/types/core/knowledge';
 
 interface Props {
   params: {
