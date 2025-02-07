@@ -18,10 +18,6 @@ export default [
   ),
   eslintConfigPrettier,
   {
-    // Updated plugins: use an object, not an array
-    plugins: {
-      '@tanstack/query': {},
-    },
     rules: {
       // TanStack Query rules:
       '@tanstack/query/exhaustive-deps': 'error',

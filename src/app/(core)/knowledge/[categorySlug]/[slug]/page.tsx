@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { KnowledgeService } from '@/models/server/knowledge';
-// Import entry header and layout components for different content types
 import KnowledgeEntryHeader from '@/components/core/knowledge/KnowledgeEntryHeader';
 import ArticleEntry from '@/components/core/knowledge/entries/ArticleEntry';
 import VideoEntry from '@/components/core/knowledge/entries/VideoEntry';
@@ -8,15 +7,14 @@ import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
 import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
 import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
 
-type PageProps = {
-  params: {
-    slug: string;
-    categorySlug: string;
-  };
-};
+export default async function Page({
+  params,
+}: {
+  params: { slug: string; categorySlug: string };
+}) {
+  // Await the params to satisfy Next.js’s thenable requirement.
+  const { slug, categorySlug } = await Promise.resolve(params);
 
-export default async function Page({ params }: PageProps) {
-  // Resolves which layout component to use based on entry type
   function getEntryComponent(type: string) {
     switch (type) {
       case 'article':
@@ -33,20 +31,14 @@ export default async function Page({ params }: PageProps) {
   }
 
   try {
-    // Fetch entry by slug (the service adds the computed "categorySlug")
-    const entry = await KnowledgeService.getEntryBySlug(params.slug);
+    const entry = await KnowledgeService.getEntryBySlug(slug);
     if (!entry) return notFound();
 
-    // Choose a layout according to the entry type.
-    // (Ensure your Knowledge entries have a "type" field in Appwrite.)
     const EntryComponent = getEntryComponent((entry as any).type);
 
     return (
       <article className='mx-auto max-w-3xl px-4 py-8'>
-        {/* Header with title, breadcrumb, badge, date, share/bookmark buttons */}
         <KnowledgeEntryHeader entry={entry} />
-
-        {/* Content area: delegated to a type-specific layout component */}
         <EntryComponent entry={entry} />
       </article>
     );
