@@ -1,23 +1,44 @@
-import { KnowledgeService } from '@/models/server/knowledge';
 import { notFound } from 'next/navigation';
+import { KnowledgeService } from '@/models/server/knowledge';
+import KnowledgeEntryHeader from '@/components/core/knowledge/KnowledgeEntryHeader';
+import ArticleEntry from '@/components/core/knowledge/entries/ArticleEntry';
+import VideoEntry from '@/components/core/knowledge/entries/VideoEntry';
+import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
+import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
+import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
 
-export default async function KnowledgeEntryPage({
-  params,
-  searchParams: _searchParams,
-}: {
-  params: { categorySlug: string; slug: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
-  const entry = await KnowledgeService.getEntryBySlug(params.slug);
+export default async function KnowledgeEntryPage(props: any) {
+  const { slug, categorySlug } = props.params;
 
-  if (!entry) {
-    return notFound();
+  function getEntryComponent(type: string) {
+    switch (type) {
+      case 'article':
+        return ArticleEntry;
+      case 'video':
+        return VideoEntry;
+      case 'how-to':
+        return HowToEntry;
+      case 'infographic':
+        return InfographicEntry;
+      default:
+        return DefaultEntry;
+    }
   }
 
-  return (
-    <div>
-      <h1>{entry.title}</h1>
-      <div>{entry.content}</div>
-    </div>
-  );
+  try {
+    const entry = await KnowledgeService.getEntryBySlug(slug);
+    if (!entry) return notFound();
+
+    const EntryComponent = getEntryComponent((entry as any).type);
+
+    return (
+      <article className="mx-auto max-w-3xl px-4 py-8">
+        <KnowledgeEntryHeader entry={entry} />
+        <EntryComponent entry={entry} />
+      </article>
+    );
+  } catch (error) {
+    console.error('Knowledge entry page error:', error);
+    return notFound();
+  }
 }
