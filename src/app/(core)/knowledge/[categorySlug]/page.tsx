@@ -16,24 +16,17 @@ export default async function CategoryPage({ params }: Props) {
   try {
     // Fetch the knowledge category using its slug.
     const category = await KnowledgeService.getCategoryBySlug(categorySlug);
-
-    if (!category) {
-      return notFound();
-    }
+    if (!category) return notFound();
 
     // Fetch the entries for that category using its ID.
     const response = await KnowledgeService.listKnowledgeEntries({
       categoryId: category.$id,
     });
 
-    if (!response.documents.length) {
-      return notFound();
-    }
-
     const initialData = {
       documents: response.documents as KnowledgeEntry[],
       total: response.total,
-      hasMore: response.documents.length === 9,
+      hasMore: response.total > 1 * 9,
       nextPage: 2,
     };
 
@@ -44,7 +37,7 @@ export default async function CategoryPage({ params }: Props) {
       </div>
     );
   } catch (error) {
-    console.error('Category page error:', error);
-    return notFound();
+    console.error('Error in KnowledgeCategoryPage:', error);
+    throw error;
   }
 }

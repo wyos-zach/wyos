@@ -1,4 +1,4 @@
-import { Query, type Models } from 'appwrite';
+import { Query, type Models, AppwriteException } from 'appwrite'; // <-- added AppwriteException here
 import { databases } from '@/models/client/config';
 import {
   db,
@@ -225,8 +225,15 @@ export const KnowledgeService = {
       }
 
       return response.documents[0];
-    } catch {
-      return null;
+    } catch (error: unknown) {
+      if (error instanceof AppwriteException) {
+        console.error('Appwrite error:', error.message);
+      } else if (error instanceof Error) {
+        console.error('Unknown error:', error.message);
+      } else {
+        console.error('Unknown error:', error);
+      }
+      throw new KnowledgeError(500, 'Failed to fetch knowledge category');
     }
   },
 

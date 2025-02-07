@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { notFound } from 'next/navigation';
 import { KnowledgeService } from '@/models/server/knowledge';
 import KnowledgeEntryHeader from '@/components/core/knowledge/KnowledgeEntryHeader';
@@ -16,8 +15,9 @@ export default async function Page({
     | { slug: string; categorySlug: string }
     | Promise<{ slug: string; categorySlug: string }>;
 }): Promise<JSX.Element> {
-  // Await params so that whether it’s a plain object or a promise it’s resolved.
-  const { slug, categorySlug } = await params;
+  // Rename categorySlug to _unusedCategorySlug if you don't need it
+  const { slug, categorySlug: _unusedCategorySlug } =
+    await Promise.resolve(params);
 
   function getEntryComponent(type: string) {
     switch (type) {
