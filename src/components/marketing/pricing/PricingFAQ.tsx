@@ -9,7 +9,7 @@ import {
 import { defaultPricingConfig } from '@/lib/config/site/pricing';
 import type { PricingFaqProps } from '@/types/marketing/pricing';
 
-export default function PricingFaq({
+export function PricingFaq({
   faqs = defaultPricingConfig.faqs,
   className = '',
 }: PricingFaqProps) {
