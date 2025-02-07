@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { notFound } from 'next/navigation';
 import { KnowledgeService } from '@/models/server/knowledge';
 import KnowledgeEntryHeader from '@/components/core/knowledge/KnowledgeEntryHeader';
@@ -6,16 +7,17 @@ import VideoEntry from '@/components/core/knowledge/entries/VideoEntry';
 import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
 import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
 import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
+import type { JSX } from 'react';
 
-interface Props {
-  params: {
-    slug: string;
-    categorySlug: string;
-  };
-}
-
-export default async function Page({ params }: Props) {
-  const { slug } = params;
+export default async function Page({
+  params,
+}: {
+  params:
+    | { slug: string; categorySlug: string }
+    | Promise<{ slug: string; categorySlug: string }>;
+}): Promise<JSX.Element> {
+  // Await params so that whether it’s a plain object or a promise it’s resolved.
+  const { slug, categorySlug } = await params;
 
   function getEntryComponent(type: string) {
     switch (type) {
@@ -39,7 +41,7 @@ export default async function Page({ params }: Props) {
     const EntryComponent = getEntryComponent(entry.type as string);
 
     return (
-      <article className="mx-auto max-w-3xl px-4 py-8">
+      <article className='mx-auto max-w-3xl px-4 py-8'>
         <KnowledgeEntryHeader entry={entry} />
         <EntryComponent entry={entry} />
       </article>
