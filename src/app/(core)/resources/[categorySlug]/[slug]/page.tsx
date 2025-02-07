@@ -4,14 +4,14 @@ import ResourceHeader from '@/components/core/resources/ResourceHeader';
 import AppResource from '@/components/core/resources/entries/AppEntry';
 import DefaultResource from '@/components/core/resources/entries/DefaultEntry';
 
-type PageProps = {
-  params: {
-    slug: string;
-    categorySlug: string;
-  };
-};
+export default async function Page({
+  params,
+}: {
+  params: { slug: string; categorySlug: string };
+}) {
+  // Await params to ensure it meets Next.js’s expected type.
+  const { slug, categorySlug } = await Promise.resolve(params);
 
-export default async function Page({ params }: PageProps) {
   function getResourceEntryComponent(type: string) {
     switch (type) {
       case 'article':
@@ -22,7 +22,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   try {
-    const entry = await ResourceService.getEntryBySlug(params.slug);
+    const entry = await ResourceService.getEntryBySlug(slug);
     if (!entry) return notFound();
     const EntryComponent = getResourceEntryComponent(entry.type);
     return (
