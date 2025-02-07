@@ -8,27 +8,30 @@ import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
 import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
 import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
 
-// Resolves which layout component to use based on entry type
-function getEntryComponent(type: string) {
-  switch (type) {
-    case 'article':
-      return ArticleEntry;
-    case 'video':
-      return VideoEntry;
-    case 'how-to':
-      return HowToEntry;
-    case 'infographic':
-      return InfographicEntry;
-    default:
-      return DefaultEntry;
-  }
-}
+type PageProps = {
+  params: {
+    slug: string;
+    categorySlug: string;
+  };
+};
 
-export default async function KnowledgeEntryPage({
-  params,
-}: {
-  params: { slug: string; categorySlug: string };
-}) {
+export default async function Page({ params }: PageProps) {
+  // Resolves which layout component to use based on entry type
+  function getEntryComponent(type: string) {
+    switch (type) {
+      case 'article':
+        return ArticleEntry;
+      case 'video':
+        return VideoEntry;
+      case 'how-to':
+        return HowToEntry;
+      case 'infographic':
+        return InfographicEntry;
+      default:
+        return DefaultEntry;
+    }
+  }
+
   try {
     // Fetch entry by slug (the service adds the computed "categorySlug")
     const entry = await KnowledgeService.getEntryBySlug(params.slug);

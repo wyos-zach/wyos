@@ -2,23 +2,25 @@ import { notFound } from 'next/navigation';
 import { ResourceService } from '@/models/server/resources';
 import ResourceHeader from '@/components/core/resources/ResourceHeader';
 import AppResource from '@/components/core/resources/entries/AppEntry';
-
 import DefaultResource from '@/components/core/resources/entries/DefaultEntry';
 
-function getResourceEntryComponent(type: string) {
-  switch (type) {
-    case 'article':
-      return AppResource;
-    default:
-      return DefaultResource;
-  }
-}
+type PageProps = {
+  params: {
+    slug: string;
+    categorySlug: string;
+  };
+};
 
-export default async function ResourceEntryPage({
-  params,
-}: {
-  params: { slug: string; categorySlug: string };
-}) {
+export default async function Page({ params }: PageProps) {
+  function getResourceEntryComponent(type: string) {
+    switch (type) {
+      case 'article':
+        return AppResource;
+      default:
+        return DefaultResource;
+    }
+  }
+
   try {
     const entry = await ResourceService.getEntryBySlug(params.slug);
     if (!entry) return notFound();
