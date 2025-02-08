@@ -113,7 +113,9 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       );
 
       return {
-        documents: response.documents.map(this.mapDocument),
+        documents: response.documents.map((document) =>
+          this.mapDocument(document)
+        ),
         total: response.total,
         hasMore: response.total > offset + pageSize,
         nextPage: page + 1,
