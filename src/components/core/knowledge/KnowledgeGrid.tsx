@@ -34,10 +34,16 @@ export const KnowledgeGrid = ({
   } = useInfiniteQuery({
     queryKey: ['knowledge', categorySlug, ''],
     queryFn: async ({ pageParam = 1 }) => {
+      // First get the category by slug to get its ID
+      const category = categorySlug 
+        ? await KnowledgeService.getCategoryBySlug(categorySlug)
+        : null;
+
       const response = await KnowledgeService.listKnowledgeEntries({
-        categoryId: categorySlug,
+        categoryId: category?.$id,
         page: pageParam,
       });
+
       // Ensure that every mapped document includes categorySlug.
       const mappedDocuments = response.documents.map((doc) => ({
         ...doc,
@@ -50,15 +56,15 @@ export const KnowledgeGrid = ({
         nextPage: pageParam + 1,
       };
     },
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) =>
+      lastPage.hasMore ? lastPage.nextPage : undefined,
     initialData: initialData
       ? {
           pages: [initialData],
           pageParams: [1],
         }
       : undefined,
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) =>
-      lastPage.hasMore ? lastPage.nextPage : undefined,
   });
 
   // Flatten all pages into a single array.

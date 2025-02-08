@@ -37,7 +37,7 @@ export const CategoryNav = () => {
 
     setCategory(slug || null);
     queryClient.invalidateQueries({
-      queryKey: ['knowledge', 'categories'],
+      queryKey: ['knowledge', 'categories', slug || null],
       refetchType: 'active',
     });
     router.push(`${pathname}?${newSearchParams.toString()}`);

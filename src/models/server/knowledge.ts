@@ -74,6 +74,13 @@ export const KnowledgeService = {
 
   async getKnowledgeCategories(): Promise<KnowledgeCategory[]> {
     try {
+      if (!db || !knowledgeCategoriesCollection) {
+        throw new KnowledgeError(
+          500,
+          'Missing required environment variables for knowledge categories'
+        );
+      }
+
       const response = await databases.listDocuments<KnowledgeCategoryDocument>(
         db,
         knowledgeCategoriesCollection,
@@ -87,7 +94,7 @@ export const KnowledgeService = {
             'description',
             'order',
             'isActive',
-            'icon',
+            'iconUrl',
             'imageUrl',
             'mainCategoryId',
             '$createdAt',
@@ -96,8 +103,9 @@ export const KnowledgeService = {
         ]
       );
       return response.documents;
-    } catch {
-      return [];
+    } catch (error) {
+      console.error('Error fetching knowledge categories:', error);
+      throw new KnowledgeError(500, 'Failed to fetch knowledge categories');
     }
   },
 
@@ -116,15 +124,32 @@ export const KnowledgeService = {
       const queries = [];
 
       if (categoryId) {
-        queries.push(Query.equal('categoryId', categoryId));
+        queries.push(Query.equal('knowledgeCategoryIds', [categoryId]));
       }
 
       if (searchQuery) {
         queries.push(Query.search('title', searchQuery));
       }
 
+      queries.push(Query.orderDesc('$createdAt'));
       queries.push(Query.limit(pageSize));
       queries.push(Query.offset((page - 1) * pageSize));
+      queries.push(
+        Query.select([
+          '$id',
+          'title',
+          'slug',
+          'summary',
+          'content',
+          'featured',
+          'imageUrl',
+          'mainCategoryId',
+          'knowledgeCategoryIds',
+          '$createdAt',
+          '$updatedAt',
+          '$permissions',
+        ])
+      );
 
       const response = await databases.listDocuments<KnowledgeDocument>(
         db,
@@ -138,7 +163,8 @@ export const KnowledgeService = {
         hasMore: response.total > page * pageSize,
         nextPage: page + 1,
       };
-    } catch {
+    } catch (error) {
+      console.error('Error in listKnowledgeEntries:', error);
       return {
         documents: [],
         total: 0,
