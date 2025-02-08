@@ -1,6 +1,10 @@
 import type { ResourceEntry } from '@/types/core/resources/entry';
 import type { ResourceCategory } from '@/types/core/resources/category';
-import { db, resourcesCollection, resourceCategoriesCollection } from '@/models/name';
+import {
+  db,
+  resourcesCollection,
+  resourceCategoriesCollection,
+} from '@/models/name';
 import { AppwriteBaseRepository } from '@/lib/repositories/core/appwrite-base.repository';
 import type { Models } from 'appwrite';
 import { Query } from 'appwrite';
@@ -28,13 +32,13 @@ export class ResourceRepository extends AppwriteBaseRepository<ResourceEntry> {
     };
   }
 
-  async listFeaturedEntries(limit: number = 3): Promise<ResourceEntry[]> {
+  async listFeaturedEntries(limit = 3): Promise<ResourceEntry[]> {
     const result = await this.findAll({
       queries: [
         Query.equal('featured', true),
         Query.orderDesc('$createdAt'),
-        Query.limit(limit)
-      ]
+        Query.limit(limit),
+      ],
     });
     return result.documents;
   }
@@ -64,10 +68,7 @@ export class ResourceCategoryRepository extends AppwriteBaseRepository<ResourceC
 
   async listActiveCategories(): Promise<ResourceCategory[]> {
     const result = await this.findAll({
-      queries: [
-        Query.equal('isActive', true),
-        Query.orderAsc('order')
-      ]
+      queries: [Query.equal('isActive', true), Query.orderAsc('order')],
     });
     return result.documents;
   }
