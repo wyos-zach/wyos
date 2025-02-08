@@ -17,18 +17,27 @@ interface ResourceGridProps {
   categoryId?: string;
 }
 
-export function ResourceGrid({ initialData, searchQuery, categoryId }: ResourceGridProps) {
-  const { data: resources, isLoading, error } = useQuery({
+export function ResourceGrid({
+  initialData,
+  searchQuery,
+  categoryId,
+}: ResourceGridProps) {
+  const {
+    data: resources,
+    isLoading,
+    error,
+  } = useQuery({
     queryKey: ['resources', 'entries', categoryId, searchQuery],
-    queryFn: () => ResourceService.listResourceEntries({ categoryId, searchQuery }),
-    initialData
+    queryFn: () =>
+      ResourceService.listResourceEntries({ categoryId, searchQuery }),
+    initialData,
   });
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
         {[...Array(6)].map((_, i) => (
-          <Skeleton key={i} className="h-48 rounded-lg" />
+          <Skeleton key={i} className='h-48 rounded-lg' />
         ))}
       </div>
     );
@@ -36,22 +45,22 @@ export function ResourceGrid({ initialData, searchQuery, categoryId }: ResourceG
 
   if (error) {
     return (
-      <div className="text-center">
-        <p className="text-destructive">Failed to load resources</p>
+      <div className='text-center'>
+        <p className='text-destructive'>Failed to load resources</p>
       </div>
     );
   }
 
   if (!resources?.documents.length) {
     return (
-      <div className="text-center">
-        <p className="text-muted-foreground">No resources found</p>
+      <div className='text-center'>
+        <p className='text-muted-foreground'>No resources found</p>
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
       {resources.documents.map((resource: ResourceEntry) => (
         <ResourceCard key={resource.$id} entry={resource} />
       ))}
