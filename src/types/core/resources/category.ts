@@ -1,4 +1,10 @@
-export type ResourceCategoryType = 'app' | 'book' | 'course' | 'podcast' | 'software' | 'youtube';
+export type ResourceCategoryType =
+  | 'app'
+  | 'book'
+  | 'course'
+  | 'podcast'
+  | 'software'
+  | 'youtube';
 
 export interface ResourceCategory {
   $id: string;

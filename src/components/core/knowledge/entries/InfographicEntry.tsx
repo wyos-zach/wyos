@@ -34,7 +34,10 @@ export default function InfographicEntry({ entry }: InfographicEntryProps) {
           }`}
           sizes='(max-width: 768px) 100vw, 800px'
         />
-        <p className='mt-2 text-center text-sm text-gray-500' aria-hidden='true'>
+        <p
+          className='mt-2 text-center text-sm text-gray-500'
+          aria-hidden='true'
+        >
           {zoomed ? 'Click to zoom out' : 'Click to zoom in'}
         </p>
       </button>

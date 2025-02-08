@@ -25,7 +25,9 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response);
     } catch (error) {
       throw new DataAccessError(
-        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error && 'code' in error
+          ? (error.code as number)
+          : 500,
         error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
@@ -42,7 +44,9 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response);
     } catch (error) {
       throw new DataAccessError(
-        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error && 'code' in error
+          ? (error.code as number)
+          : 500,
         error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
@@ -53,7 +57,9 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       await databases.deleteDocument(this.databaseId, this.collectionId, id);
     } catch (error) {
       throw new DataAccessError(
-        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error && 'code' in error
+          ? (error.code as number)
+          : 500,
         error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
@@ -69,7 +75,9 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response);
     } catch (error) {
       throw new DataAccessError(
-        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error && 'code' in error
+          ? (error.code as number)
+          : 500,
         error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
@@ -112,7 +120,9 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       };
     } catch (error) {
       throw new DataAccessError(
-        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error && 'code' in error
+          ? (error.code as number)
+          : 500,
         error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
@@ -133,7 +143,9 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response.documents[0]);
     } catch (error) {
       throw new DataAccessError(
-        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error && 'code' in error
+          ? (error.code as number)
+          : 500,
         error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }

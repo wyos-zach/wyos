@@ -9,7 +9,10 @@ export async function GET(request: Request) {
     const fileId = searchParams.get('fileId');
 
     if (!bucketId || !fileId) {
-      return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Missing parameters' },
+        { status: 400 }
+      );
     }
 
     const storage = new Storage(client);

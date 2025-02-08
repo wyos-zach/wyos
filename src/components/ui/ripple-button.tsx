@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import type { MouseEvent} from 'react';
+import type { MouseEvent } from 'react';
 import React, { useEffect, useState } from 'react';
 
 interface RippleButtonProps
