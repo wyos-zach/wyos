@@ -1,9 +1,9 @@
-import { KnowledgeService } from '@/models/server/knowledge';
-import { KnowledgeGrid } from '@/components/core/knowledge/KnowledgeGrid';
-import { CategoryHeader } from '@/components/core/knowledge/CategoryHeader';
-import type { KnowledgeEntry } from '@/types/core/knowledge';
+import { ResourceService } from '@/models/server/resources';
+import { ResourceGrid } from '@/components/core/resources/ResourceGrid';
+import { CategoryHeader } from '@/components/core/resources/CategoryHeader';
+import type { ResourceEntry } from '@/types/core/resources/entry';
 
-export default async function KnowledgeCategoryPage({
+export default async function ResourceCategoryPage({
   params,
 }: {
   params: Promise<{ categorySlug: string }>;
@@ -12,7 +12,7 @@ export default async function KnowledgeCategoryPage({
 
   try {
     // Fetch the category using its slug.
-    const category = await KnowledgeService.getCategoryBySlug(categorySlug);
+    const category = await ResourceService.getCategoryBySlug(categorySlug);
     if (!category) {
       return (
         <div className='mx-auto max-w-3xl px-4 py-8'>
@@ -25,8 +25,8 @@ export default async function KnowledgeCategoryPage({
       );
     }
 
-    // Fetch the knowledge entries that belong to this category using its $id.
-    const response = await KnowledgeService.listKnowledgeEntries({
+    // Fetch the resource entries that belong to this category using its $id.
+    const response = await ResourceService.listResourceEntries({
       categoryId: category.$id,
     });
 
@@ -36,7 +36,7 @@ export default async function KnowledgeCategoryPage({
         <div className='mx-auto max-w-3xl px-4 py-8'>
           <h1>No Entries Found</h1>
           <p>
-            There are no knowledge entries in the category:{' '}
+            There are no resource entries in the category:{' '}
             <strong>{category.name}</strong>.
           </p>
         </div>
@@ -44,7 +44,7 @@ export default async function KnowledgeCategoryPage({
     }
 
     const initialData = {
-      documents: response.documents as KnowledgeEntry[],
+      documents: response.documents as ResourceEntry[],
       total: response.total,
       hasMore: response.total > 9,
       nextPage: 2,
@@ -53,11 +53,11 @@ export default async function KnowledgeCategoryPage({
     return (
       <div className='space-y-12'>
         <CategoryHeader category={category} totalEntries={response.total} />
-        <KnowledgeGrid initialData={initialData} categorySlug={categorySlug} />
+        <ResourceGrid initialData={initialData} categorySlug={categorySlug} />
       </div>
     );
   } catch (error) {
-    console.error('Error in KnowledgeCategoryPage:', error);
+    console.error('Error in ResourceCategoryPage:', error);
     return (
       <div className='mx-auto max-w-3xl px-4 py-8'>
         <h1>Error Loading Category</h1>
