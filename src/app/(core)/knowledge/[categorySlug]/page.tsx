@@ -1,7 +1,7 @@
-import { notFound } from 'next/navigation';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { KnowledgeGrid } from '@/components/core/knowledge/KnowledgeGrid';
 import { CategoryHeader } from '@/components/core/knowledge/CategoryHeader';
+import type { KnowledgeEntry } from '@/types/core/knowledge';
 
 // Declare that params is a Promise carrying our URL parameter.
 export default async function CategoryPage({
@@ -13,14 +13,24 @@ export default async function CategoryPage({
 
   try {
     const category = await KnowledgeService.getCategoryBySlug(categorySlug);
-    if (!category) return notFound();
+    if (!category) {
+      return (
+        <div className='mx-auto max-w-3xl px-4 py-8'>
+          <h1>Category Not Found</h1>
+          <p>
+            We couldn&apos;t find any information for the category "
+            {categorySlug}".
+          </p>
+        </div>
+      );
+    }
 
     const response = await KnowledgeService.listKnowledgeEntries({
       categoryId: category.$id,
     });
 
     const initialData = {
-      documents: response.documents,
+      documents: response.documents as KnowledgeEntry[],
       total: response.total,
       hasMore: response.total > 9,
       nextPage: 2,
@@ -34,6 +44,11 @@ export default async function CategoryPage({
     );
   } catch (error) {
     console.error('Error in KnowledgeCategoryPage:', error);
-    throw error;
+    return (
+      <div className='mx-auto max-w-3xl px-4 py-8'>
+        <h1>Error Loading Category</h1>
+        <p>There was an error loading this category. Please try again later.</p>
+      </div>
+    );
   }
 }
