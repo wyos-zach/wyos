@@ -16,7 +16,9 @@ if (!process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID) {
 }
 
 if (!process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID) {
-  throw new Error('NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID is not defined');
+  throw new Error(
+    'NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID is not defined'
+  );
 }
 
 export const client = new Client()
@@ -49,18 +51,22 @@ export const knowledgeApi = {
 
     queries.push(Query.limit(limit));
     queries.push(Query.offset((page - 1) * limit));
-    queries.push(Query.select([
-      '$id',
-      'title',
-      'slug',
-      'summary',
-      'content',
-      'knowledgeCategoryIds',
-      'featured',
-      'imageUrl',
-    ]));
+    queries.push(
+      Query.select([
+        '$id',
+        'title',
+        'slug',
+        'summary',
+        'content',
+        'knowledgeCategoryIds',
+        'featured',
+        'imageUrl',
+      ])
+    );
 
-    const response = await databases.listDocuments<Models.Document & KnowledgeEntry>(
+    const response = await databases.listDocuments<
+      Models.Document & KnowledgeEntry
+    >(
       process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_DATABASE_ID || '',
       process.env.NEXT_PUBLIC_APPWRITE_KNOWLEDGE_COLLECTION_ID || '',
       queries

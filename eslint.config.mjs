@@ -66,9 +66,9 @@ const config = [
   {
     files: ['**/src/models/name.ts'],
     rules: {
-      '@typescript-eslint/no-non-null-assertion': 'off'
-    }
-  }
+      '@typescript-eslint/no-non-null-assertion': 'off',
+    },
+  },
 ];
 
 export default config;

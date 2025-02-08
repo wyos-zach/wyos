@@ -52,7 +52,7 @@ export function useKnowledgeEntry(slug: string) {
     enabled: !!slug,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
-};
+}
 
 export const useFeaturedKnowledge = (_limit = 3) => {
   return useQuery({

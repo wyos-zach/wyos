@@ -6,12 +6,8 @@ import { KnowledgeService } from '@/models/server/knowledge';
 
 export function UrlSync() {
   const searchParams = useSearchParams();
-  const {
-    setCategory,
-    setSearchQuery,
-    setSortBy,
-    selectedCategory,
-  } = useKnowledgeStore();
+  const { setCategory, setSearchQuery, setSortBy, selectedCategory } =
+    useKnowledgeStore();
 
   // Fetch category by slug
   useEffect(() => {
@@ -28,7 +24,7 @@ export function UrlSync() {
   // Update URL when store changes
   useEffect(() => {
     if (!selectedCategory) return;
-    
+
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set('category', selectedCategory);
     window.history.replaceState({}, '', newUrl.toString());
