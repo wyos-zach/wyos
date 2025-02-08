@@ -14,12 +14,13 @@ interface ResourceGridProps {
     nextPage: number;
   };
   searchQuery?: string;
+  categoryId?: string;
 }
 
-export function ResourceGrid({ initialData, searchQuery }: ResourceGridProps) {
+export function ResourceGrid({ initialData, searchQuery, categoryId }: ResourceGridProps) {
   const { data: resources, isLoading, error } = useQuery({
-    queryKey: ['resources', 'entries', searchQuery],
-    queryFn: () => ResourceService.listResourceEntries({}),
+    queryKey: ['resources', 'entries', categoryId, searchQuery],
+    queryFn: () => ResourceService.listResourceEntries({ categoryId, searchQuery }),
     initialData
   });
 

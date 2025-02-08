@@ -53,7 +53,7 @@ export default async function ResourceCategoryPage({
     return (
       <div className='space-y-12'>
         <CategoryHeader category={category} totalEntries={response.total} />
-        <ResourceGrid initialData={initialData} categorySlug={categorySlug} />
+        <ResourceGrid initialData={initialData} categoryId={category.$id} />
       </div>
     );
   } catch (error) {
