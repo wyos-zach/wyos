@@ -35,7 +35,7 @@ export const KnowledgeGrid = ({
     queryKey: ['knowledge', categorySlug, ''],
     queryFn: async ({ pageParam = 1 }) => {
       // First get the category by slug to get its ID
-      const category = categorySlug 
+      const category = categorySlug
         ? await KnowledgeService.getCategoryBySlug(categorySlug)
         : null;
 

@@ -1,5 +1,10 @@
 import { databases } from '@/models/client/config';
-import { db, resourcesCollection, resourceCategoriesCollection, mainCategoriesCollection } from '@/models/name';
+import {
+  db,
+  resourcesCollection,
+  resourceCategoriesCollection,
+  mainCategoriesCollection,
+} from '@/models/name';
 import { Query, type Models, AppwriteException } from 'appwrite';
 import type { ResourceEntry } from '@/types/core/resources/entry';
 import type { ResourceCategory } from '@/types/core/resources/category';
@@ -231,23 +236,27 @@ export const ResourceService = {
 
   async getEntryBySlug(slug: string): Promise<ResourceEntry | null> {
     try {
-      const response = await databases.listDocuments<ResourceDocument>(db, resourcesCollection, [
-        Query.equal('slug', slug),
-        Query.limit(1),
-        Query.select([
-          '$id',
-          'title',
-          'slug',
-          'summary',
-          'content',
-          'featured',
-          'imageUrl',
-          'resourcesCategoryIds',
-          '$createdAt',
-          '$updatedAt',
-          '$permissions',
-        ]),
-      ]);
+      const response = await databases.listDocuments<ResourceDocument>(
+        db,
+        resourcesCollection,
+        [
+          Query.equal('slug', slug),
+          Query.limit(1),
+          Query.select([
+            '$id',
+            'title',
+            'slug',
+            'summary',
+            'content',
+            'featured',
+            'imageUrl',
+            'resourcesCategoryIds',
+            '$createdAt',
+            '$updatedAt',
+            '$permissions',
+          ]),
+        ]
+      );
       if (response.documents.length === 0) {
         throw new ResourceError(404, 'Resource entry not found');
       }
@@ -288,13 +297,18 @@ export const ResourceService = {
 
   async listFeaturedEntries(limit = 3): Promise<ResourceEntry[]> {
     try {
-      const response = await databases.listDocuments<ResourceDocument>(db, resourcesCollection, [
-        Query.equal('featured', true),
-        Query.orderDesc('$createdAt'),
-        Query.limit(limit),
-      ]);
+      const response = await databases.listDocuments<ResourceDocument>(
+        db,
+        resourcesCollection,
+        [
+          Query.equal('featured', true),
+          Query.orderDesc('$createdAt'),
+          Query.limit(limit),
+        ]
+      );
       const getFirstCategoryId = (doc: ResourceDocument): string =>
-        Array.isArray(doc.resourcesCategoryIds) && doc.resourcesCategoryIds.length > 0
+        Array.isArray(doc.resourcesCategoryIds) &&
+        doc.resourcesCategoryIds.length > 0
           ? doc.resourcesCategoryIds[0]
           : '';
 
@@ -338,24 +352,28 @@ export const ResourceService = {
    */
   async getCategoryBySlug(slug: string): Promise<ResourceCategory | null> {
     try {
-      const response = await databases.listDocuments<ResourceCategoryDocument>(db, resourceCategoriesCollection, [
-        Query.equal('slug', slug),
-        Query.equal('isActive', true),
-        Query.limit(1),
-        Query.select([
-          '$id',
-          'name',
-          'slug',
-          'description',
-          'order',
-          'isActive',
-          'iconUrl',
-          'imageUrl',
-          'mainCategoryId',
-          '$createdAt',
-          '$updatedAt',
-        ]),
-      ]);
+      const response = await databases.listDocuments<ResourceCategoryDocument>(
+        db,
+        resourceCategoriesCollection,
+        [
+          Query.equal('slug', slug),
+          Query.equal('isActive', true),
+          Query.limit(1),
+          Query.select([
+            '$id',
+            'name',
+            'slug',
+            'description',
+            'order',
+            'isActive',
+            'iconUrl',
+            'imageUrl',
+            'mainCategoryId',
+            '$createdAt',
+            '$updatedAt',
+          ]),
+        ]
+      );
 
       if (response.documents.length === 0) {
         return null;
@@ -373,9 +391,11 @@ export const ResourceService = {
 
   async getResourceEntry(slug: string): Promise<ResourceEntry | null> {
     try {
-      const response = await databases.listDocuments<ResourceDocument>(db, resourcesCollection, [
-        Query.equal('slug', slug),
-      ]);
+      const response = await databases.listDocuments<ResourceDocument>(
+        db,
+        resourcesCollection,
+        [Query.equal('slug', slug)]
+      );
       if (response.documents.length === 0) {
         return null;
       }

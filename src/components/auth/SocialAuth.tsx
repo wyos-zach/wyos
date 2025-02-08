@@ -10,11 +10,7 @@ interface OAuthButtonProps {
   disabled: boolean;
 }
 
-function OAuthButton({
-  provider,
-  label,
-  disabled,
-}: OAuthButtonProps) {
+function OAuthButton({ provider, label, disabled }: OAuthButtonProps) {
   const { createOAuthSession } = useAuthStore();
 
   const handleOAuthLogin = async () => {

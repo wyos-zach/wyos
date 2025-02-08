@@ -14,7 +14,9 @@ if (!process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT) {
 }
 
 if (!process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID) {
-  throw new Error('Missing NEXT_PUBLIC_APPWRITE_PROJECT_ID environment variable');
+  throw new Error(
+    'Missing NEXT_PUBLIC_APPWRITE_PROJECT_ID environment variable'
+  );
 }
 
 if (!process.env.APPWRITE_API_KEY) {
