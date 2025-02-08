@@ -11,14 +11,21 @@ export function UrlSync() {
 
   // Fetch category by slug
   useEffect(() => {
-    const categorySlug = searchParams.get('category');
-    if (!categorySlug) return;
+    async function fetchCategory() {
+      const categorySlug = searchParams.get('category');
+      if (!categorySlug) return;
 
-    KnowledgeService.getCategoryBySlug(categorySlug).then((category) => {
-      if (category) {
-        setCategory(category.$id);
+      try {
+        const category = await KnowledgeService.getCategoryBySlug(categorySlug);
+        if (category) {
+          setCategory(category.$id);
+        }
+      } catch (error) {
+        console.error('Error fetching category:', error);
       }
-    });
+    }
+
+    fetchCategory();
   }, [searchParams, setCategory]);
 
   // Update URL when store changes
