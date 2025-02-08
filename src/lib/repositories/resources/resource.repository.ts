@@ -28,7 +28,7 @@ export class ResourceRepository extends AppwriteBaseRepository<ResourceEntry> {
     };
   }
 
-  async listFeaturedEntries(limit: number = 3): Promise<ResourceEntry[]> {
+  async listFeaturedEntries(limit = 3): Promise<ResourceEntry[]> {
     const result = await this.findAll({
       queries: [
         Query.equal('featured', true),
