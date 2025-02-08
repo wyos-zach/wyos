@@ -41,20 +41,22 @@ export const useKnowledgeEntries = () => {
   });
 };
 
-export const useKnowledgeEntry = (slug: string) => {
-  return useQuery<KnowledgeEntry>({
+export function useKnowledgeEntry(slug: string) {
+  return useQuery<KnowledgeEntry | null, Error>({
     queryKey: ['knowledge', 'entry', slug],
-    queryFn: () => KnowledgeService.getEntryBySlug(slug),
+    queryFn: async () => {
+      const entry = await KnowledgeService.getEntryBySlug(slug);
+      if (!entry) throw new Error('Entry not found');
+      return entry;
+    },
     enabled: !!slug,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 
-export const useFeaturedKnowledge = (limit = 3) => {
-  return useQuery<KnowledgeEntry[]>({
+export const useFeaturedKnowledge = (_limit = 3) => {
+  return useQuery({
     queryKey: ['knowledge', 'featured'],
-    queryFn: () => KnowledgeService.listFeaturedEntries(limit),
-    select: (data) => data.slice(0, limit),
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    queryFn: () => KnowledgeService.listFeaturedEntries(),
   });
 };

@@ -6,7 +6,7 @@ export interface IRepository<T> {
   delete(id: string): Promise<void>;
   findById(id: string): Promise<T>;
   findAll(
-    filters?: Record<string, any>,
+    filters?: Record<string, unknown>,
     options?: {
       queries?: string[];
       page?: number;

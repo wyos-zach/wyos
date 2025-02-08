@@ -1,7 +1,6 @@
 'use client';
 import Link from 'next/link';
 import { BookOpen, Share2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 
 interface KnowledgeEntryHeaderProps {

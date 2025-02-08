@@ -6,11 +6,19 @@ import {
   knowledgeCategoryIconsBucket,
 } from '../name';
 
-// Initialize Appwrite Client (adjust if you have a separate config file)
-const client = new Client()
-  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!) // e.g. "https://cloud.appwrite.io/v1"
-  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!) // Your project ID
-  .setKey(process.env.APPWRITE_API_KEY!); // Server API key
+// Initialize Appwrite Client
+const client = new Client();
+
+if (!process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || 
+    !process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || 
+    !process.env.APPWRITE_API_KEY) {
+  throw new Error('Missing required Appwrite environment variables');
+}
+
+client
+  .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT)
+  .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID)
+  .setKey(process.env.APPWRITE_API_KEY);
 
 const storage = new Storage(client);
 
@@ -86,7 +94,7 @@ export default async function getOrCreateStorage() {
     for (const bucket of buckets) {
       try {
         await storage.getBucket(bucket.id);
-      } catch (e: unknown) {
+      } catch {
         // If bucket does not exist, create it.
         // The permissions must be provided as an array of strings.
         try {
@@ -108,15 +116,15 @@ export default async function getOrCreateStorage() {
             true, // encryption
             true // antivirus
           );
-          console.log(`Created bucket: ${bucket.name}`);
-        } catch (error: unknown) {
+          console.warn(`Created bucket: ${bucket.name}`);
+        } catch (error) {
           console.error(`Error creating bucket ${bucket.name}:`, error);
         }
       }
     }
 
     isStorageInitialized = true;
-  } catch (error: unknown) {
+  } catch (error) {
     console.error('Error setting up storage:', error);
     throw error;
   }

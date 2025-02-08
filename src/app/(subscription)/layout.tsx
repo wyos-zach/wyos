@@ -1,17 +1,21 @@
 'use client';
 
-import SubscriptionLoading from './loading';
+import { type ReactNode } from 'react';
 
 interface SubscriptionLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-export default function SubscriptionLayout({
-  children,
-}: SubscriptionLayoutProps) {
+export default function SubscriptionLayout({ children }: SubscriptionLayoutProps) {
   return (
-    <div className='container mx-auto px-4 py-8 min-h-[calc(100vh-4rem)]'>
-      <div className='max-w-2xl mx-auto space-y-8'>{children}</div>
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-2xl mx-auto space-y-8">
+            {children}
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

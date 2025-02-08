@@ -4,21 +4,65 @@ import { useQuery } from '@tanstack/react-query';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { KnowledgeCategoryCard } from '@/components/core/knowledge/KnowledgeCategoryCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useSearchParams } from 'next/navigation';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
+import { useEffect } from 'react';
 
 export const KnowledgeCategoryGrid = () => {
-  const { data, isPending } = useQuery({
-    queryKey: ['knowledge', 'categories'],
-    queryFn: () => KnowledgeService.getKnowledgeCategories(),
-    staleTime: 60 * 1000,
+  const searchParams = useSearchParams();
+  const categorySlug = searchParams.get('category');
+  const setIsFetching = useKnowledgeStore((state) => state.setIsFetching);
+
+  const {
+    data: categories,
+    isPending,
+    error,
+    isError,
+  } = useQuery({
+    queryKey: ['knowledge', 'categories', categorySlug],
+    queryFn: async () => {
+      try {
+        if (categorySlug) {
+          // Get main category first
+          const mainCategory =
+            await KnowledgeService.getMainCategoryBySlug(categorySlug);
+
+          // Then get its subcategories
+          const subcategories = await KnowledgeService.getSubcategories(
+            mainCategory.$id
+          );
+          return subcategories;
+        } else {
+          // If no category selected, get all knowledge categories
+          const allCategories = await KnowledgeService.getKnowledgeCategories();
+          return allCategories;
+        }
+      } catch (err) {
+        console.error('Error in KnowledgeCategoryGrid:', err);
+        throw err;
+      }
+    },
   });
 
-  const { selectedCategory } = useKnowledgeStore();
+  // Update isFetching state in store
+  useEffect(() => {
+    setIsFetching(isPending);
+  }, [isPending, setIsFetching]);
 
-  // If a category is selected, only display that one; otherwise show all.
-  const filteredCategories = selectedCategory
-    ? data?.filter((category) => category.$id === selectedCategory)
-    : data;
+  if (isError) {
+    return (
+      <Alert variant='destructive'>
+        <AlertCircle className='h-4 w-4' />
+        <AlertDescription>
+          {error instanceof Error
+            ? error.message
+            : 'Failed to load knowledge categories'}
+        </AlertDescription>
+      </Alert>
+    );
+  }
 
   if (isPending) {
     return (
@@ -30,26 +74,19 @@ export const KnowledgeCategoryGrid = () => {
     );
   }
 
-  if (!filteredCategories || filteredCategories.length === 0) {
+  if (!categories?.length) {
     return (
-      <p className='text-center text-muted-foreground'>
-        No knowledge categories found.
-      </p>
+      <Alert>
+        <AlertDescription>No knowledge categories found</AlertDescription>
+      </Alert>
     );
   }
 
   return (
-    <section>
-      <h2 className='sr-only'>Knowledge Categories</h2>
-      <div className='grid gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-        {filteredCategories.map((category) => (
-          <KnowledgeCategoryCard
-            key={category.$id}
-            category={category}
-            className='transition-shadow hover:shadow-lg'
-          />
-        ))}
-      </div>
-    </section>
+    <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3'>
+      {categories.map((category) => (
+        <KnowledgeCategoryCard key={category.$id} category={category} />
+      ))}
+    </div>
   );
 };

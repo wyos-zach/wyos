@@ -1,5 +1,3 @@
-import type { benefits } from '@/lib/config/site/pricing';
-
 /**
  * Represents a billing interval for a pricing plan
  */

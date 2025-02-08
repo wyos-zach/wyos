@@ -1,18 +1,19 @@
-import { KnowledgeCategory } from '@/types/core/knowledge/category';
-import { AppwriteBaseRepository } from '../core/appwrite-base.repository';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
+import type { KnowledgeCategory } from '@/types/core/knowledge/category';
 import {
   db,
   knowledgeCollection,
   knowledgeCategoriesCollection,
 } from '@/models/name';
+import { AppwriteBaseRepository } from '../core/appwrite-base.repository';
+import type { Models } from 'appwrite';
 
 export class KnowledgeEntryRepository extends AppwriteBaseRepository<KnowledgeEntry> {
   constructor() {
     super(db, knowledgeCollection);
   }
 
-  protected mapDocument(document: any): KnowledgeEntry {
+  protected mapDocument(document: Models.Document): KnowledgeEntry {
     return {
       $id: document.$id,
       title: document.title,
@@ -47,7 +48,7 @@ export class KnowledgeCategoryRepository extends AppwriteBaseRepository<Knowledg
     super(db, knowledgeCategoriesCollection);
   }
 
-  protected mapDocument(document: any): KnowledgeCategory {
+  protected mapDocument(document: Models.Document): KnowledgeCategory {
     return {
       $id: document.$id,
       name: document.name,
@@ -55,7 +56,7 @@ export class KnowledgeCategoryRepository extends AppwriteBaseRepository<Knowledg
       description: document.description,
       order: document.order,
       isActive: document.isActive,
-      icon: document.icon,
+      iconUrl: document.iconUrl,
       imageUrl: document.imageUrl,
       $createdAt: new Date(document.$createdAt).toISOString(),
       $updatedAt: new Date(document.$updatedAt).toISOString(),

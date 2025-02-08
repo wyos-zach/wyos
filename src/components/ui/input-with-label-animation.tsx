@@ -13,7 +13,8 @@ interface InputAnimationProps
 
 const InputAnimation = React.forwardRef<HTMLInputElement, InputAnimationProps>(
   ({ label, error, className, id, ...props }, ref) => {
-    const inputId = id || React.useId();
+    const generatedId = React.useId();
+    const inputId = id || generatedId;
 
     return (
       <div className='group relative w-full'>

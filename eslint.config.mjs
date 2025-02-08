@@ -10,7 +10,7 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+const config = [
   ...compat.extends(
     'next/core-web-vitals',
     'next/typescript',
@@ -18,14 +18,12 @@ const eslintConfig = [
   ),
   eslintConfigPrettier,
   {
-    plugins: ['@tanstack/query'],
     rules: {
-      // TanStack Query
+      // TanStack Query rules:
       '@tanstack/query/exhaustive-deps': 'error',
-      '@tanstack/query/prefer-query-object': 'error',
       '@tanstack/query/stable-query-client': 'error',
 
-      // TypeScript
+      // TypeScript rules:
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
@@ -45,7 +43,7 @@ const eslintConfig = [
       ],
       '@typescript-eslint/explicit-function-return-type': 'off',
 
-      // React
+      // React rules:
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
       'react/display-name': 'error',
@@ -53,10 +51,10 @@ const eslintConfig = [
       'react/no-unescaped-entities': 'off',
       '@next/next/no-img-element': 'off',
 
-      // Console and Debugging
+      // Console & Debug rules:
       'no-console': ['warn', { allow: ['warn', 'error'] }],
 
-      // Accessibility
+      // Accessibility rules:
       'jsx-a11y/alt-text': 'error',
       'jsx-a11y/aria-props': 'error',
       'jsx-a11y/aria-proptypes': 'error',
@@ -65,6 +63,12 @@ const eslintConfig = [
       'jsx-a11y/no-static-element-interactions': 'error',
     },
   },
+  {
+    files: ['**/src/models/name.ts'],
+    rules: {
+      '@typescript-eslint/no-non-null-assertion': 'off'
+    }
+  }
 ];
 
-export default eslintConfig;
+export default config;

@@ -1,17 +1,47 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 import { KnowledgeService } from '@/models/server/knowledge';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export const CategoryNav = () => {
   const { selectedCategory, setCategory } = useKnowledgeStore();
   const { data: categories, isPending } = useQuery({
-    queryKey: ['knowledge', 'categories'],
-    queryFn: () => KnowledgeService.getKnowledgeCategories(),
-    staleTime: 60 * 1000,
+    queryKey: ['knowledge', 'main-categories'],
+    queryFn: async () => {
+      const cats = await KnowledgeService.getMainCategories();
+
+      return cats;
+    },
   });
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
+
+  const handleCategorySelect = (slug?: string) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+
+    if (slug) {
+      newSearchParams.set('category', slug);
+    } else {
+      newSearchParams.delete('category');
+    }
+
+    // Clear other store-related params
+    newSearchParams.delete('knowledge-store');
+    newSearchParams.delete('sortBy');
+    newSearchParams.delete('viewMode');
+
+    setCategory(slug || null);
+    queryClient.invalidateQueries({
+      queryKey: ['knowledge', 'categories', slug || null],
+      refetchType: 'active',
+    });
+    router.push(`${pathname}?${newSearchParams.toString()}`);
+  };
 
   if (isPending) {
     return (
@@ -27,7 +57,7 @@ export const CategoryNav = () => {
     <nav className='mb-8 flex gap-2 overflow-x-auto'>
       <Button
         variant={!selectedCategory ? 'default' : 'outline'}
-        onClick={() => setCategory(null)}
+        onClick={() => handleCategorySelect()}
         className='min-w-[80px]'
       >
         All
@@ -35,9 +65,9 @@ export const CategoryNav = () => {
       {categories?.map((category) => (
         <Button
           key={category.$id}
-          variant={selectedCategory === category.$id ? 'default' : 'outline'}
-          onClick={() => setCategory(category.$id)}
-          className='min-w-[120px] truncate'
+          variant={selectedCategory === category.slug ? 'default' : 'outline'}
+          onClick={() => handleCategorySelect(category.slug)}
+          className='min-w-[80px]'
         >
           {category.name}
         </Button>

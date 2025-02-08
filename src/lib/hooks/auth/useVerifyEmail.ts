@@ -17,7 +17,7 @@ export function useVerifyEmailForm(userId: string, secret: string) {
           setSuccess(true);
         }
       } catch (err) {
-        setError('Failed to verify email. Please try again.');
+        setError(err instanceof Error ? err.message : 'Failed to verify email. Please try again.');
       } finally {
         setIsLoading(false);
       }

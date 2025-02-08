@@ -4,6 +4,7 @@ import { KnowledgeCard } from '@/components/core/knowledge/KnowledgeCard';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 
 // Correct imports for Swiper's CSS
 import 'swiper/css';
@@ -56,7 +57,7 @@ export const FeaturedKnowledgeSwiper = () => {
         className='relative !pb-12'
         aria-label='Featured knowledge entries carousel'
       >
-        {data.map((entry) => (
+        {data.map((entry: KnowledgeEntry) => (
           <SwiperSlide key={entry.$id}>
             <KnowledgeCard
               entry={entry}

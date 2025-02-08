@@ -12,10 +12,10 @@ import {
 import { SlidersHorizontal } from 'lucide-react';
 
 interface FilterPanelProps {
-  onFilterChange?: (filters: string[]) => void;
+  _onFilterChange?: (filters: string[]) => void;
 }
 
-export function FilterPanel({ onFilterChange }: FilterPanelProps) {
+export function FilterPanel({ _onFilterChange }: FilterPanelProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

@@ -25,8 +25,8 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response);
     } catch (error) {
       throw new DataAccessError(
-        (error as any)?.code || 500,
-        `Failed to create document: ${(error as any)?.message}`
+        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
   }
@@ -42,8 +42,8 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response);
     } catch (error) {
       throw new DataAccessError(
-        (error as any)?.code || 500,
-        `Failed to update document ${id}: ${(error as any)?.message}`
+        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
   }
@@ -53,8 +53,8 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       await databases.deleteDocument(this.databaseId, this.collectionId, id);
     } catch (error) {
       throw new DataAccessError(
-        (error as any)?.code || 500,
-        `Failed to delete document ${id}: ${(error as any)?.message}`
+        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
   }
@@ -69,14 +69,14 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response);
     } catch (error) {
       throw new DataAccessError(
-        (error as any)?.code || 500,
-        `Document ${id} not found: ${(error as any)?.message}`
+        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
   }
 
   async findAll(
-    filters: Record<string, any> = {},
+    filters: Record<string, unknown> = {},
     options: {
       queries?: string[];
       page?: number;
@@ -112,8 +112,8 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       };
     } catch (error) {
       throw new DataAccessError(
-        (error as any)?.code || 500,
-        `Failed to list documents: ${(error as any)?.message}`
+        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
   }
@@ -133,8 +133,8 @@ export abstract class AppwriteBaseRepository<T> implements IRepository<T> {
       return this.mapDocument(response.documents[0]);
     } catch (error) {
       throw new DataAccessError(
-        (error as any)?.code || 500,
-        `Failed to find document by slug ${slug}: ${(error as any)?.message}`
+        error instanceof Error && 'code' in error ? (error.code as number) : 500,
+        error instanceof Error ? error.message : 'Unknown error occurred'
       );
     }
   }
