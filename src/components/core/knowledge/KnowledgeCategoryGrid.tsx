@@ -23,23 +23,20 @@ export const KnowledgeCategoryGrid = () => {
   } = useQuery({
     queryKey: ['knowledge', 'categories', categorySlug],
     queryFn: async () => {
-      console.log('KnowledgeCategoryGrid queryFn called with categorySlug:', categorySlug);
       try {
         if (categorySlug) {
           // Get main category first
           const mainCategory =
             await KnowledgeService.getMainCategoryBySlug(categorySlug);
-          console.log('Found main category:', mainCategory);
 
           // Then get its subcategories
-          const subcategories = await KnowledgeService.getSubcategories(mainCategory.$id);
-          console.log('Found subcategories:', subcategories);
+          const subcategories = await KnowledgeService.getSubcategories(
+            mainCategory.$id
+          );
           return subcategories;
         } else {
           // If no category selected, get all knowledge categories
-          console.log('No category selected, getting all categories');
           const allCategories = await KnowledgeService.getKnowledgeCategories();
-          console.log('Found all categories:', allCategories);
           return allCategories;
         }
       } catch (err) {
