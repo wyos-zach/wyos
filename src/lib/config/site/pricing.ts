@@ -63,7 +63,7 @@ export const pricingPlans: PricingPlan[] = [
     interval: 'monthly',
     price: 29.99,
     priceDisplay: '$29.99',
-    benefits: benefits,
+    benefits,
     stripePriceId: (stripeConfig.prices.monthly ??
       'price_placeholder') as StripePriceId,
   },
@@ -76,7 +76,7 @@ export const pricingPlans: PricingPlan[] = [
     priceDisplay: '$240',
     secondaryPriceDisplay: '$20/month, billed annually',
     isPopular: true,
-    benefits: benefits,
+    benefits,
     stripePriceId: (stripeConfig.prices.annual ??
       'price_placeholder') as StripePriceId,
   },
