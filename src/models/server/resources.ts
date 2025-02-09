@@ -326,7 +326,7 @@ export const ResourceService = {
       }
 
       const enrichedEntries = await Promise.all(
-        response.documents.map(async (doc) => {
+        response.documents.map((doc) => {
           const catId = getFirstCategoryId(doc);
           return {
             ...doc,
