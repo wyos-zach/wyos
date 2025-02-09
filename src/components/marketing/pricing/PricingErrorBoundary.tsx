@@ -33,7 +33,7 @@ export class PricingErrorBoundary extends Component<Props, State> {
     console.error('Pricing error:', error, errorInfo);
   }
 
-  private handleRetry = () => {
+  private readonly handleRetry = () => {
     this.setState({ hasError: false, error: null });
   };
 
