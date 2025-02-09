@@ -17,7 +17,7 @@ import type {
 } from '@/types/marketing/pricing';
 import { useToast } from '@/lib/hooks/shared/useToast';
 import { PricingErrorBoundary } from './PricingErrorBoundary';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 // Function domain constant
 const FUNCTION_DOMAIN = 'https://67995290e7d65c0017dd.appwrite.global';
@@ -26,9 +26,6 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const isPopular = plan.isPopular;
-
-  // Log plan details for debugging
-  useEffect(() => {}, [plan]);
 
   const handleSubscriptionAction = async () => {
     setIsLoading(true);
