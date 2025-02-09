@@ -27,7 +27,7 @@ function PricingCard({ plan, className = '' }: PricingCardProps) {
   const [isLoading, setIsLoading] = useState(false);
   const isPopular = plan.isPopular;
 
-  const handleSubscriptionAction = async () => {
+  const handleSubscriptionAction = () => {
     setIsLoading(true);
 
     try {

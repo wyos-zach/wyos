@@ -7,7 +7,7 @@ import { IntroductionSection } from '@/components/core/knowledge/IntroductionSec
 import { CategoryNav } from '@/components/core/knowledge/CategoryNav';
 import KnowledgeLoading from './loading';
 
-export default async function KnowledgePage() {
+export default function KnowledgePage() {
   return (
     <>
       <PageHeader

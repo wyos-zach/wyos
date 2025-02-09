@@ -5,7 +5,7 @@ import crypto from 'crypto';
 const DISCOURSE_SSO_SECRET =
   process.env.DISCOURSE_SSO_SECRET || 'your-secret-key';
 
-export async function POST(req: NextRequest) {
+export function POST(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const sso = searchParams.get('sso');
   const sig = searchParams.get('sig');

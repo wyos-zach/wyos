@@ -6,7 +6,7 @@ import { FeaturedResources } from '@/components/core/resources/FeaturedResources
 import { CategoryNav } from '@/components/core/resources/CategoryNav';
 import ResourceLoading from './loading';
 
-export default async function ResourcesPage() {
+export default function ResourcesPage() {
   return (
     <>
       <PageHeader
