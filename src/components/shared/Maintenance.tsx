@@ -6,8 +6,8 @@ export default function Maintenance() {
           Coming Soon
         </h1>
         <p className='mx-auto max-w-2xl text-lg text-muted-foreground'>
-          We're working hard to bring you something amazing. The site will be
-          available soon.
+          We&apos;re working hard to bring you something amazing. The site will
+          be available soon.
         </p>
       </div>
     </div>
