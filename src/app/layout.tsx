@@ -5,6 +5,7 @@ import './globals.css';
 import { Navbar } from '@/components/shared/layout/Navbar';
 import { Footer } from '@/components/shared/layout/Footer';
 import { QueryProvider } from '@/lib/providers/query-provider';
+import Maintenance from '@/components/shared/Maintenance';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,6 +34,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+
+  if (isMaintenanceMode) {
+    return (
+      <html lang='en' className='dark'>
+        <body
+          className={cn(
+            'min-h-screen bg-background font-sans antialiased',
+            geistSans.variable,
+            geistMono.variable
+          )}
+        >
+          <Maintenance />
+        </body>
+      </html>
+    );
+  }
+
   return (
     <html lang='en' className='dark'>
       <body
