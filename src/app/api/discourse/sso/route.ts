@@ -4,14 +4,13 @@ import crypto from 'crypto';
 
 const DISCOURSE_SSO_SECRET = process.env.DISCOURSE_SSO_SECRET;
 
-export async function GET(req: NextRequest) {
+export function GET(req: NextRequest) {
   if (!DISCOURSE_SSO_SECRET) {
     return NextResponse.json(
       { error: 'SSO secret not configured' },
       { status: 500 }
     );
   }
-
   const { searchParams } = new URL(req.url);
   const sso = searchParams.get('sso');
   const sig = searchParams.get('sig');
@@ -63,7 +62,6 @@ export async function GET(req: NextRequest) {
   // Sign the return payload
   const returnPayloadString = returnPayload.toString();
   const returnSSOPayload = Buffer.from(returnPayloadString).toString('base64');
-
   const returnHmac = crypto.createHmac('sha256', DISCOURSE_SSO_SECRET);
   returnHmac.update(returnPayloadString);
   const returnSig = returnHmac.digest('hex');
