@@ -5,6 +5,11 @@ import crypto from 'crypto';
 const DISCOURSE_SSO_SECRET = process.env.DISCOURSE_SSO_SECRET;
 
 export function GET(req: NextRequest) {
+  const _headers = new Headers({
+    'Access-Control-Allow-Origin': 'https://community.writingyourownstory.com',
+    'Access-Control-Allow-Methods': 'GET, POST',
+    'Access-Control-Allow-Headers': 'Content-Type, x-appwrite-user-jwt',
+  });
   if (!DISCOURSE_SSO_SECRET) {
     return NextResponse.json(
       { error: 'SSO secret not configured' },
