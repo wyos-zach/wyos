@@ -5,50 +5,36 @@ import crypto from 'crypto';
 
 const DISCOURSE_SSO_SECRET = process.env.DISCOURSE_SSO_SECRET;
 
-// Initialize Appwrite client
-const client = new Client();
-client
-  .setEndpoint(process.env.APPWRITE_ENDPOINT || '') // Your Appwrite endpoint
-  .setProject(process.env.APPWRITE_PROJECT_ID || ''); // Your project ID
-
 export async function GET(req: NextRequest) {
-  const headers = new Headers({
-    'Access-Control-Allow-Origin': 'https://community.writingyourownstory.com',
-    'Access-Control-Allow-Methods': 'GET, POST',
-    'Access-Control-Allow-Headers': 'Content-Type, x-appwrite-user-jwt',
-  });
-
+  // Check if the SSO secret is configured
   if (!DISCOURSE_SSO_SECRET) {
     return NextResponse.json(
       { error: 'SSO secret not configured' },
-      { status: 500, headers }
+      { status: 500 }
     );
   }
 
   const { searchParams } = new URL(req.url);
   const sso = searchParams.get('sso');
   const sig = searchParams.get('sig');
+  const jwt = searchParams.get('jwt'); // Get JWT from query parameter
 
-  if (!sso || !sig) {
+  if (!sso || !sig || !jwt) {
     return NextResponse.json(
-      { error: 'Missing SSO parameters' },
-      { status: 400, headers }
+      { error: 'Missing required parameters' },
+      { status: 400 }
     );
   }
 
-  // Verify the signature
+  // Verify SSO signature
   const hmac = crypto.createHmac('sha256', DISCOURSE_SSO_SECRET);
   hmac.update(sso);
   const computedSig = hmac.digest('hex');
-
   if (computedSig !== sig) {
-    return NextResponse.json(
-      { error: 'Invalid signature' },
-      { status: 400, headers }
-    );
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  // Decode the payload
+  // Decode SSO payload
   const decodedPayload = Buffer.from(sso, 'base64').toString();
   const params = new URLSearchParams(decodedPayload);
   const nonce = params.get('nonce');
@@ -57,53 +43,43 @@ export async function GET(req: NextRequest) {
   if (!nonce || !returnUrl) {
     return NextResponse.json(
       { error: 'Missing required SSO parameters in payload' },
-      { status: 400, headers }
-    );
-  }
-
-  // Fetch authenticated user data from Appwrite
-  const jwt = req.headers.get('x-appwrite-user-jwt');
-  if (!jwt) {
-    return NextResponse.json(
-      { error: 'Missing Appwrite JWT token' },
-      { status: 401, headers }
+      { status: 400 }
     );
   }
 
   try {
-    const account = new Account(client);
+    // Set JWT token and fetch user data from Appwrite
+    const client = new Client()
+      .setEndpoint(process.env.APPWRITE_ENDPOINT || '')
+      .setProject(process.env.APPWRITE_PROJECT_ID || '');
     client.setJWT(jwt);
-
-    // Get the authenticated user's data
+    const account = new Account(client);
     const user = await account.get();
 
-    // Build the return payload using real user data
+    // Build return payload using real user data
     const returnPayload = new URLSearchParams({
       nonce,
       external_id: user.$id,
       email: user.email,
-      username: user.name || user.email.split('@')[0], // Use name or fallback to email prefix
+      username: user.name || user.email.split('@')[0],
     });
 
-    // Sign the return payload
     const returnPayloadString = returnPayload.toString();
     const returnSSOPayload =
       Buffer.from(returnPayloadString).toString('base64');
-
     const returnHmac = crypto.createHmac('sha256', DISCOURSE_SSO_SECRET);
     returnHmac.update(returnPayloadString);
     const returnSig = returnHmac.digest('hex');
 
-    // Redirect back to Discourse with signed payload
+    // Redirect back to Discourse with the signed payload
     return NextResponse.redirect(
-      `${returnUrl}?sso=${returnSSOPayload}&sig=${returnSig}`,
-      { headers }
+      `${returnUrl}?sso=${returnSSOPayload}&sig=${returnSig}`
     );
   } catch (error) {
     console.error('Error fetching user data:', error);
     return NextResponse.json(
       { error: 'Failed to fetch user data' },
-      { status: 500, headers }
+      { status: 500 }
     );
   }
 }

@@ -11,15 +11,9 @@ import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/Auth';
 import { useRouter } from 'next/navigation';
 
-const navigationLinks = [
-  { href: '/about', label: 'About' },
-  { href: '/knowledge', label: 'Knowledge' },
-  { href: '/resources', label: 'Resources' },
-  { href: '/community', label: 'Community' },
-];
-
 export function Navbar() {
-  const { session, user, logout } = useAuthStore();
+  // Destructure session, user, jwt, and logout from your Zustand auth store.
+  const { session, user, jwt, logout } = useAuthStore();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +30,21 @@ export function Navbar() {
     router.push('/');
     setIsOpen(false);
   };
+
+  // Compute the Community link dynamically.
+  // If a session exists and a JWT token is available, build the full URL; otherwise, fall back to '/community'.
+  const communityHref =
+    session && jwt
+      ? `https://community.writingyourownstory.com/session/sso_login?jwt=${encodeURIComponent(jwt)}`
+      : '/community';
+
+  // Build the navigation links array dynamically.
+  const navigationLinks = [
+    { href: '/about', label: 'About' },
+    { href: '/knowledge', label: 'Knowledge' },
+    { href: '/resources', label: 'Resources' },
+    { href: communityHref, label: 'Community' },
+  ];
 
   const AuthButtons = () => {
     if (session) {
@@ -130,7 +139,7 @@ export function Navbar() {
     >
       <div className='container mx-auto px-4'>
         <nav className='flex h-20 items-center justify-between'>
-          {/* Logo section remains unchanged */}
+          {/* Logo Section */}
           <Link href='/' className='group relative'>
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -142,7 +151,7 @@ export function Navbar() {
             </motion.div>
           </Link>
 
-          {/* Desktop Navigation remains unchanged */}
+          {/* Desktop Navigation */}
           <div className='hidden md:flex md:items-center md:gap-10'>
             <AnimatePresence>
               {navigationLinks.map((link) => (
@@ -171,12 +180,12 @@ export function Navbar() {
             </AnimatePresence>
           </div>
 
-          {/* Updated Auth Buttons */}
+          {/* Desktop Auth Buttons */}
           <div className='hidden md:flex md:items-center md:gap-4'>
             <AuthButtons />
           </div>
 
-          {/* Updated Mobile Menu */}
+          {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className='md:hidden'>
               <Button
