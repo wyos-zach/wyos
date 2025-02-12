@@ -31,9 +31,8 @@ export function Navbar() {
     setIsOpen(false);
   };
 
-  // Compute the Community link dynamically
   const communityHref = session
-    ? 'https://community.writingyourownstory.com' // Direct link to Discourse
+    ? '/community' // Link to our embedded page
     : '/login?redirect=/community';
 
   // Build the navigation links array dynamically
