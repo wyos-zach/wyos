@@ -7,7 +7,7 @@ export default function CommunityPage() {
         src='https://community.writingyourownstory.com'
         title='WYOS Community'
         className='h-[calc(100vh-64px)] w-full border-none'
-        sandbox='allow-same-origin allow-scripts allow-forms allow-popups allow-downloads'
+        sandbox='allow-scripts allow-forms allow-popups'
       />
     </main>
   );
