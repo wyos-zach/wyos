@@ -3,10 +3,22 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 
+// Make sure the SSO secret is set
 const DISCOURSE_SSO_SECRET = process.env.DISCOURSE_SSO_SECRET;
+if (!DISCOURSE_SSO_SECRET) {
+  throw new Error('DISCOURSE_SSO_SECRET is not configured.');
+}
+
+// Helper for URL-safe Base64 encoding
+function base64URLEncode(str: string): string {
+  return Buffer.from(str)
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+}
 
 export async function GET(req: NextRequest) {
-  // Check if the SSO secret is configured
   if (!DISCOURSE_SSO_SECRET) {
     return NextResponse.json(
       { error: 'SSO secret not configured' },
@@ -17,69 +29,87 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const sso = searchParams.get('sso');
   const sig = searchParams.get('sig');
-  const jwt = searchParams.get('jwt'); // Get JWT from query parameter
 
-  if (!sso || !sig || !jwt) {
+  if (!sso || !sig) {
     return NextResponse.json(
-      { error: 'Missing required parameters' },
+      { error: 'Missing SSO parameters' },
       { status: 400 }
     );
   }
 
-  // Verify SSO signature
+  // Verify the SSO request from Discourse
   const hmac = crypto.createHmac('sha256', DISCOURSE_SSO_SECRET);
   hmac.update(sso);
   const computedSig = hmac.digest('hex');
-  if (computedSig !== sig) {
+
+  // Use timingSafeEqual to prevent timing attacks.
+  if (!crypto.timingSafeEqual(Buffer.from(computedSig), Buffer.from(sig))) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  // Decode SSO payload
-  const decodedPayload = Buffer.from(sso, 'base64').toString();
-  const params = new URLSearchParams(decodedPayload);
-  const nonce = params.get('nonce');
-  const returnUrl = params.get('return_sso_url');
-
-  if (!nonce || !returnUrl) {
-    return NextResponse.json(
-      { error: 'Missing required SSO parameters in payload' },
-      { status: 400 }
-    );
-  }
-
   try {
-    // Set JWT token and fetch user data from Appwrite
+    // Look for the Appwrite session cookie (named "a_session_")
+    const sessionCookie = req.cookies.get('a_session_');
+    if (!sessionCookie?.value) {
+      // No session present: redirect to your main login page with a redirect back.
+      const loginUrl = new URL('/login', req.url);
+      loginUrl.searchParams.set('redirect', '/community');
+      return NextResponse.redirect(loginUrl.toString());
+    }
+
+    // Initialize Appwrite client using your environment variables.
     const client = new Client()
-      .setEndpoint(process.env.APPWRITE_ENDPOINT || '')
-      .setProject(process.env.APPWRITE_PROJECT_ID || '');
-    client.setJWT(jwt);
+      .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT || '')
+      .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID || '');
+    // Use the session cookie value for authentication.
+    client.setSession(sessionCookie.value);
+
     const account = new Account(client);
     const user = await account.get();
 
-    // Build return payload using real user data
-    const returnPayload = new URLSearchParams({
+    // Decode the SSO payload sent by Discourse
+    const decodedPayload = Buffer.from(sso, 'base64').toString();
+    const params = new URLSearchParams(decodedPayload);
+    const nonce = params.get('nonce');
+    const returnUrl = params.get('return_sso_url');
+
+    if (!nonce || !returnUrl) {
+      return NextResponse.json(
+        { error: 'Invalid SSO payload' },
+        { status: 400 }
+      );
+    }
+
+    // Build the payload for Discourse with user data.
+    const payload = new URLSearchParams({
       nonce,
       external_id: user.$id,
       email: user.email,
       username: user.name || user.email.split('@')[0],
-    });
+      name: user.name || '',
+      avatar_url: user.prefs?.avatarUrl || '', // adjust based on your Appwrite user model
+      admin: user.prefs?.isAdmin === true ? 'true' : 'false',
+    }).toString();
 
-    const returnPayloadString = returnPayload.toString();
-    const returnSSOPayload =
-      Buffer.from(returnPayloadString).toString('base64');
+    // Base64 encode the payload (URL-safe)
+    const base64Payload = base64URLEncode(payload);
+
+    // Sign the payload using HMAC-SHA256
     const returnHmac = crypto.createHmac('sha256', DISCOURSE_SSO_SECRET);
-    returnHmac.update(returnPayloadString);
+    returnHmac.update(base64Payload);
     const returnSig = returnHmac.digest('hex');
 
-    // Redirect back to Discourse with the signed payload
-    return NextResponse.redirect(
-      `${returnUrl}?sso=${returnSSOPayload}&sig=${returnSig}`
-    );
+    // Build the final URL to redirect back to Discourse.
+    const finalUrl = new URL(returnUrl);
+    finalUrl.searchParams.set('sso', base64Payload);
+    finalUrl.searchParams.set('sig', returnSig);
+
+    return NextResponse.redirect(finalUrl.toString());
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error('Error in Discourse SSO:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch user data' },
-      { status: 500 }
+      { error: 'Authentication failed' },
+      { status: 401 }
     );
   }
 }

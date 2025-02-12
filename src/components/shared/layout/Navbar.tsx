@@ -12,8 +12,8 @@ import { useAuthStore } from '@/store/Auth';
 import { useRouter } from 'next/navigation';
 
 export function Navbar() {
-  // Destructure session, user, jwt, and logout from your Zustand auth store.
-  const { session, user, jwt, logout } = useAuthStore();
+  // Destructure session, user, and logout from your Zustand auth store.
+  const { session, user, logout } = useAuthStore();
   const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -31,14 +31,12 @@ export function Navbar() {
     setIsOpen(false);
   };
 
-  // Compute the Community link dynamically.
-  // If a session exists and a JWT token is available, build the full URL; otherwise, fall back to '/community'.
-  const communityHref =
-    session && jwt
-      ? `https://community.writingyourownstory.com/session/sso_login?jwt=${encodeURIComponent(jwt)}`
-      : '/community';
+  // Compute the Community link dynamically
+  const communityHref = session
+    ? 'https://community.writingyourownstory.com' // Direct link to Discourse
+    : '/login?redirect=/community';
 
-  // Build the navigation links array dynamically.
+  // Build the navigation links array dynamically
   const navigationLinks = [
     { href: '/about', label: 'About' },
     { href: '/knowledge', label: 'Knowledge' },
