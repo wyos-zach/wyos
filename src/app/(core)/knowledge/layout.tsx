@@ -1,28 +1,36 @@
-import type { Metadata } from 'next';
-import { Container } from '@/components/ui/container';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Knowledge Hub - WYOS',
-  description: 'Curated practical knowledge for personal growth',
-  openGraph: {
-    images: [
-      {
-        url: '/og-knowledge.jpg',
-        width: 1200,
-        height: 630,
-      },
-    ],
-  },
-};
+import { Container } from '@/components/ui/container';
+import { useAuthStore } from '@/store/Auth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 export default function KnowledgeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { session, hydrated } = useAuthStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (hydrated && !session) {
+      router.push('/login?redirect=/knowledge');
+    }
+  }, [hydrated, session, router]);
+
+  if (!hydrated || !session) {
+    return (
+      <div className='flex min-h-screen items-center justify-center'>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   return (
     <div className='relative flex min-h-screen flex-col'>
-      <Container as='main' className='flex-1 space-y-16 py-8 md:py-12 lg:py-16'>
+      <Container as='main' className='flex-1 py-8 md:py-12 lg:py-16'>
         {children}
       </Container>
     </div>

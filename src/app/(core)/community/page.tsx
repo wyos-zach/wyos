@@ -1,14 +1,25 @@
-import React from 'react';
+import { Suspense } from 'react';
+import { PageHeader } from '@/components/shared/layout/PageHeader';
+import { CommunityIntro } from '@/components/core/community/CommunityIntro';
+import { CommunityCTA } from '@/components/core/community/CommunityCTA';
+import CommunityLoading from './loading';
 
 export default function CommunityPage() {
   return (
-    <main className='flex h-full w-full flex-col items-center justify-center'>
-      <iframe
-        src='https://community.writingyourownstory.com'
+    <>
+      <PageHeader
         title='WYOS Community'
-        className='h-[calc(100vh-64px)] w-full border-none'
-        sandbox='allow-scripts allow-same-origin allow-forms allow-popups'
+        description='Real conversations with people committed to growth'
+        pattern='dots'
+        size='large'
+        align='center'
       />
-    </main>
+      <Suspense fallback={<CommunityLoading />}>
+        <div className='space-y-12'>
+          <CommunityIntro />
+          <CommunityCTA />
+        </div>
+      </Suspense>
+    </>
   );
 }
