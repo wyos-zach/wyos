@@ -16,7 +16,7 @@ export function CommunityCTA() {
     }
 
     // If logged in, redirect to Discourse's SSO endpoint
-    window.location.href = 'https://writingyourownstory.com/api/discourse/sso';
+    window.location.href = 'https://community.writingyourownstory.com';
   };
 
   return (
