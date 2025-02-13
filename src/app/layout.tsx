@@ -30,24 +30,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const isMaintenanceMode = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
-
-  if (isMaintenanceMode) {
-    return (
-      <html lang='en' className='dark'>
-        <body
-          className={cn(
-            'min-h-screen bg-background font-sans antialiased',
-            geistSans.variable,
-            geistMono.variable
-          )}
-        ></body>
-      </html>
-    );
-  }
+}) {
   return (
     <html lang='en' className='dark'>
       <body
