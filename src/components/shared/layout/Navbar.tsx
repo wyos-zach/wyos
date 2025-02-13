@@ -31,16 +31,12 @@ export function Navbar() {
     setIsOpen(false);
   };
 
-  const communityHref = session
-    ? '/community' // Link to our embedded page
-    : '/login?redirect=/community';
-
   // Build the navigation links array dynamically
   const navigationLinks = [
     { href: '/about', label: 'About' },
     { href: '/knowledge', label: 'Knowledge' },
     { href: '/resources', label: 'Resources' },
-    { href: communityHref, label: 'Community' },
+    { href: '/community', label: 'Community' },
   ];
 
   const AuthButtons = () => {
