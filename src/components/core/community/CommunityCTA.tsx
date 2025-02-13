@@ -10,12 +10,11 @@ export function CommunityCTA() {
 
   const handleCommunityAccess = () => {
     if (!session) {
-      // If not logged in, redirect to login with return URL
       router.push('/login?redirect=/community');
       return;
     }
 
-    // If logged in, redirect to Discourse with SSO
+    // Redirect to Discourse's SSO endpoint which will then redirect back to our SSO endpoint
     window.location.href =
       'https://community.writingyourownstory.com/session/sso';
   };
