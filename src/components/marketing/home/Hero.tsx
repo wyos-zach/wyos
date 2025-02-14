@@ -1,97 +1,74 @@
 'use client';
 
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ShinyButton } from '@/components/ui/shiny-button';
-import { Container } from '@/components/ui/container';
-import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { Spotlight } from '@/components/ui/spotlight-new';
+import { HoverButton } from '@/components/ui/hover-button';
 
-interface HeroProps {
-  headline: string;
-  subheadline: string;
-  showCTA?: boolean;
-}
-
-export function Hero({ headline, subheadline, showCTA = true }: HeroProps) {
+export function Hero() {
   return (
-    <Container as='section' className='relative'>
-      {/* Background Elements */}
-      <div className='absolute inset-0 -z-10'>
-        <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.15),transparent_50%)]' />
-        <div className='absolute h-full w-full bg-[linear-gradient(to_right,#000103_1px,transparent_1px),linear-gradient(to_bottom,#000103_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]' />
-      </div>
+    <section className='relative flex min-h-[calc(100vh-4rem)] w-full flex-col items-center justify-center overflow-hidden'>
+      {/* Spotlight with adjusted properties */}
+      <Spotlight
+        gradientFirst='radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210, 100%, 85%, .04) 0, hsla(210, 100%, 55%, .01) 50%, hsla(210, 100%, 45%, 0) 80%)'
+        gradientSecond='radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 85%, .03) 0, hsla(210, 100%, 55%, .01) 80%, transparent 100%)'
+        gradientThird='radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 85%, .02) 0, hsla(210, 100%, 45%, .01) 80%, transparent 100%)'
+        translateY={-450}
+        xOffset={80}
+      />
 
-      <div className='relative space-y-6 pb-20 pt-24 md:pb-32 md:pt-36 lg:pb-40 lg:pt-48'>
+      {/* Content */}
+      <div className='relative z-10 flex w-full flex-col items-center justify-center'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className='mx-auto flex max-w-[64rem] flex-col items-center gap-8'
+          transition={{ duration: 0.5 }}
+          className='container relative mx-auto flex max-w-4xl flex-col items-center justify-center text-center'
         >
-          {/* Headline */}
-          <motion.div
+          {/* Main Heading */}
+          <motion.h1
+            className='font-heading text-3xl font-bold tracking-tight md:text-5xl lg:text-6xl'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className='relative'
           >
-            <h1
-              className={cn(
-                'text-center text-4xl font-bold tracking-tight',
-                'bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent',
-                'sm:text-5xl md:text-6xl lg:text-7xl'
-              )}
-            >
-              {headline}
-            </h1>
-            <div className='absolute -inset-x-2 top-1/2 h-px -translate-y-1/2 bg-gradient-to-r from-transparent via-blue-900/50 to-transparent blur-sm' />
-          </motion.div>
+            Stop Waiting for Change.
+          </motion.h1>
 
-          {/* Subheadline */}
+          {/* Subheading */}
+          <motion.h2
+            className='font-heading mt-4 text-4xl font-semibold text-muted-foreground md:text-4xl lg:text-5xl'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            Start Writing Your Own Story
+          </motion.h2>
+
+          {/* Description */}
           <motion.p
+            className='mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className='text-center text-lg text-zinc-400 sm:text-xl md:text-2xl'
           >
-            {subheadline}
+            Discover the resources, knowledge, and community to help you move
+            from where you are to where you want to be—on your terms.
           </motion.p>
 
-          {/* CTAs */}
-          {showCTA && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className='flex flex-col gap-4 sm:flex-row'
-            >
-              <Link href='/register'>
-                <ShinyButton className='h-12 min-w-[200px] text-lg font-medium'>
-                  Get Started
-                </ShinyButton>
-              </Link>
-              <Link href='/login'>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={cn(
-                    'inline-flex h-12 items-center justify-center rounded-lg',
-                    'border border-zinc-800 bg-background/50 px-8',
-                    'text-lg font-medium text-zinc-300',
-                    'backdrop-blur-sm transition-colors',
-                    'hover:border-zinc-700 hover:bg-zinc-900/50 hover:text-white'
-                  )}
-                >
-                  Sign In
-                </motion.button>
-              </Link>
-            </motion.div>
-          )}
+          {/* Call-to-Action Buttons */}
+          <motion.div
+            className='mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row'
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <Link href='/register'>
+              <HoverButton>Find Out How</HoverButton>
+            </Link>
+          </motion.div>
         </motion.div>
       </div>
-
-      {/* Bottom Gradient */}
-      <div className='absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent' />
-    </Container>
+    </section>
   );
 }

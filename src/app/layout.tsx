@@ -1,19 +1,21 @@
+import { Cinzel, Open_Sans } from 'next/font/google';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import './globals.css';
 import { Navbar } from '@/components/shared/layout/Navbar';
 import { Footer } from '@/components/shared/layout/Footer';
 import { QueryProvider } from '@/lib/providers/query-provider';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const cinzel = Cinzel({
   subsets: ['latin'],
+  variable: '--font-cinzel',
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const openSans = Open_Sans({
   subsets: ['latin'],
+  variable: '--font-open-sans',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -38,8 +40,8 @@ export default function RootLayout({
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
-          geistSans.variable,
-          geistMono.variable
+          cinzel.variable,
+          openSans.variable
         )}
       >
         <QueryProvider>
