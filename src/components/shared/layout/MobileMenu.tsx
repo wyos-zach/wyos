@@ -4,19 +4,33 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { MobileAuthButtons } from '../MobileAuthButtons';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
-type NavLink = {
-  href: string;
-  label: string;
-};
-
-type MobileMenuProps = {
+interface MobileMenuProps {
   isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
-  links: NavLink[];
-};
+  setIsOpen: (isOpen: boolean) => void;
+  isMember: boolean;
+}
 
-export function MobileMenu({ isOpen, setIsOpen, links }: MobileMenuProps) {
+const memberLinks = [
+  { href: '/knowledge', label: 'Knowledge' },
+  { href: '/resources', label: 'Resources' },
+  { href: '/community', label: 'Community' },
+] as const;
+
+const publicLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/knowledge', label: 'Knowledge' },
+  { href: '/resources', label: 'Resources' },
+  { href: '/community', label: 'Community' },
+  { href: '/pricing', label: 'Benefits' },
+] as const;
+
+export function MobileMenu({ isOpen, setIsOpen, isMember }: MobileMenuProps) {
+  const pathname = usePathname();
+  const links = isMember ? memberLinks : publicLinks;
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild className='md:hidden'>
@@ -39,21 +53,24 @@ export function MobileMenu({ isOpen, setIsOpen, links }: MobileMenuProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ staggerChildren: 0.1 }}
         >
-          {links.map((link) => (
-            <motion.div
-              key={link.href}
-              whileHover={{ x: 4 }}
-              className='border-b border-zinc-800/20 pb-4'
-            >
-              <Link
-                href={link.href}
-                className='text-sm font-medium tracking-wide text-zinc-400 transition-colors hover:text-white'
-                onClick={() => setIsOpen(false)}
-              >
-                {link.label}
-              </Link>
-            </motion.div>
-          ))}
+          <nav className='mt-12'>
+            <ul className='space-y-4'>
+              {links.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      'block text-base font-medium tracking-wide text-zinc-400 transition-colors duration-150 hover:text-white',
+                      pathname === link.href && 'text-white'
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
           <MobileAuthButtons closeMobileMenu={() => setIsOpen(false)} />
         </motion.div>
       </SheetContent>

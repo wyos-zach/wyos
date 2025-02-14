@@ -1,13 +1,15 @@
-import Link from 'next/link';
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { ShinyButton } from '@/components/ui/shiny-button';
-import { useAuthStore } from '@/store/Auth';
-import { User, LogOut } from 'lucide-react';
+import { LogOut, User } from 'lucide-react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAuthStore } from '@/store/Auth';
 
-type AuthButtonsProps = {
-  onAction?: () => void; // Optional callback (e.g., to close a mobile menu if needed)
-};
+interface AuthButtonsProps {
+  onAction?: () => void;
+}
 
 export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
   const { session, user, logout } = useAuthStore();
@@ -15,13 +17,13 @@ export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/');
     onAction();
+    router.push('/');
   };
 
   if (session) {
     return (
-      <>
+      <div className="flex items-center gap-4">
         <Button
           variant='ghost'
           className='flex items-center gap-2 font-medium tracking-wide text-zinc-400 hover:bg-blue-950/30 hover:text-white'
@@ -37,12 +39,12 @@ export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
           <LogOut className='h-4 w-4' />
           <span>Logout</span>
         </Button>
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="flex items-center gap-4">
       <Link href='/login'>
         <Button
           variant='ghost'
@@ -52,10 +54,10 @@ export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
         </Button>
       </Link>
       <Link href='/register'>
-        <ShinyButton className='font-medium tracking-wide'>
+        <ShinyButton>
           Get Started
         </ShinyButton>
       </Link>
-    </>
+    </div>
   );
 }
