@@ -23,7 +23,7 @@ export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
 
   if (session) {
     return (
-      <div className="flex items-center gap-4">
+      <div className='flex items-center gap-4'>
         <Button
           variant='ghost'
           className='flex items-center gap-2 font-medium tracking-wide text-zinc-400 hover:bg-blue-950/30 hover:text-white'
@@ -44,7 +44,7 @@ export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <div className='flex items-center gap-4'>
       <Link href='/login'>
         <Button
           variant='ghost'
@@ -54,9 +54,7 @@ export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
         </Button>
       </Link>
       <Link href='/register'>
-        <ShinyButton>
-          Get Started
-        </ShinyButton>
+        <ShinyButton>Get Started</ShinyButton>
       </Link>
     </div>
   );

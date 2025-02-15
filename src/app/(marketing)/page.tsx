@@ -16,10 +16,7 @@ import {
 export default function HomePage() {
   return (
     <>
-      <Hero
-        headline='Writing Your Own Story'
-        subheadline='Take control of your narrative and share your unique perspective with the world'
-      />
+      <Hero />
       <Features features={features} />
       <Benefits benefits={benefits} />
       <HowItWorks steps={steps} />

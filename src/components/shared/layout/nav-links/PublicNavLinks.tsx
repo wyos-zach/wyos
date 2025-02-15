@@ -10,6 +10,7 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 const features = [
   {
@@ -47,24 +48,32 @@ export function PublicNavLinks() {
 
       <NavigationMenu>
         <NavigationMenuList className="gap-0">
-          <NavigationMenuItem className="relative">
+          <NavigationMenuItem>
             <NavigationMenuTrigger 
               className={cn(
-                'group border-none bg-transparent px-0 py-0 text-base font-medium tracking-wide text-zinc-400 shadow-none hover:bg-transparent hover:text-white data-[state=open]:bg-transparent',
+                'group border-none bg-transparent px-0 py-0 text-base font-medium tracking-wide text-zinc-400 shadow-none transition-colors duration-200 hover:bg-transparent hover:text-white data-[state=open]:bg-transparent data-[state=open]:text-white',
                 features.some(feature => pathname === feature.href) && 'text-white'
               )}
             >
               Features
             </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+            <NavigationMenuContent className="animate-in fade-in slide-in-from-top-5 duration-200">
+              <motion.div 
+                className="grid w-[400px] gap-3 rounded-xl bg-zinc-900/90 p-4 backdrop-blur-sm md:w-[500px] md:grid-cols-2 lg:w-[600px]"
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.2 }}
+              >
                 {features.map((feature) => (
                   <Link
                     key={feature.href}
                     href={feature.href}
                     className={cn(
-                      'group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors',
-                      pathname === feature.href ? 'text-white' : 'text-zinc-400 hover:text-white'
+                      'group block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-all duration-200',
+                      pathname === feature.href 
+                        ? 'bg-zinc-800/50 text-white' 
+                        : 'text-zinc-400 hover:bg-zinc-800/30 hover:text-white'
                     )}
                   >
                     <div className="text-sm font-medium leading-none">
@@ -75,7 +84,7 @@ export function PublicNavLinks() {
                     </p>
                   </Link>
                 ))}
-              </div>
+              </motion.div>
             </NavigationMenuContent>
           </NavigationMenuItem>
         </NavigationMenuList>
