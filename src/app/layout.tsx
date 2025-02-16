@@ -5,6 +5,7 @@ import './globals.css';
 import { Navbar } from '@/components/shared/layout/Navbar';
 import { Footer } from '@/components/shared/layout/Footer';
 import { QueryProvider } from '@/lib/providers/query-provider';
+import { SmoothScroll } from '@/lib/providers/smooth-scroll';
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export default function RootLayout({
         )}
       >
         <QueryProvider>
+          <SmoothScroll />
           <Navbar />
           <main className='relative flex min-h-screen flex-col'>
             {children}
