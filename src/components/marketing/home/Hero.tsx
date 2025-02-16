@@ -7,7 +7,7 @@ import { HoverButton } from '@/components/ui/hover-button';
 
 export function Hero() {
   return (
-    <section className='relative flex min-h-[calc(100vh-4rem)] w-full flex-col items-center justify-center overflow-hidden'>
+    <section className='relative h-screen'>
       {/* Spotlight with adjusted properties */}
       <Spotlight
         gradientFirst='radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210, 100%, 85%, .04) 0, hsla(210, 100%, 55%, .01) 50%, hsla(210, 100%, 45%, 0) 80%)'
@@ -17,8 +17,8 @@ export function Hero() {
         xOffset={80}
       />
 
-      {/* Content */}
-      <div className='relative z-10 flex w-full flex-col items-center justify-center'>
+      {/* Header Content */}
+      <div className='flex h-full items-center justify-center'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -37,7 +37,7 @@ export function Hero() {
 
           {/* Subheading */}
           <motion.h2
-            className='font-heading mt-4 text-4xl font-semibold text-muted-foreground md:text-4xl lg:text-5xl'
+            className='mt-4 font-heading text-4xl font-semibold text-muted-foreground md:text-4xl lg:text-5xl'
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
