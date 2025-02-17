@@ -75,7 +75,7 @@ export function HeroScrollAnimation() {
                   text={sentence}
                   progress={scrollYProgress}
                   start={0.1 + index * 0.15} // Start earlier and give more time
-                  end={0.2 + index * 0.15}   // Complete before next sentence
+                  end={0.2 + index * 0.15} // Complete before next sentence
                   className='mb-6 block' // Increased gap between sentences
                 />
               ))}
