@@ -4,11 +4,13 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Spotlight } from '@/components/ui/spotlight-new';
 import { HoverButton } from '@/components/ui/hover-button';
+import { HeroScrollAnimation } from './HeroScrollAnimation';
 
 export function Hero() {
   return (
-    <section className='relative h-screen'>
-      {/* Spotlight with adjusted properties */}
+    // Increase the overall height to ensure enough scroll space
+    <section className='relative h-[350vh]'>
+      {/* Spotlight Background */}
       <Spotlight
         gradientFirst='radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210, 100%, 85%, .04) 0, hsla(210, 100%, 55%, .01) 50%, hsla(210, 100%, 45%, 0) 80%)'
         gradientSecond='radial-gradient(50% 50% at 50% 50%, hsla(210, 100%, 85%, .03) 0, hsla(210, 100%, 55%, .01) 80%, transparent 100%)'
@@ -17,8 +19,8 @@ export function Hero() {
         xOffset={80}
       />
 
-      {/* Header Content */}
-      <div className='flex h-full items-center justify-center'>
+      {/* Hero Content fills the first viewport (100vh) */}
+      <div className='relative z-10 flex h-screen items-center justify-center'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -68,6 +70,11 @@ export function Hero() {
             </Link>
           </motion.div>
         </motion.div>
+      </div>
+
+      {/* Position the scroll animation frame relative to the hero section */}
+      <div className='absolute left-0 right-0 top-[65vh] z-[5]'>
+        <HeroScrollAnimation />
       </div>
     </section>
   );
