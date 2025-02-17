@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { InputAnimation } from '@/components/ui/input-with-label-animation';
 import { cn } from '@/lib/utils';
 

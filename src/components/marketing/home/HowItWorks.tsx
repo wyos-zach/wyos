@@ -1,7 +1,7 @@
 'use client';
 
 import { Container } from '@/components/ui/container';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { type Step } from '@/types/marketing/home';
 import { cn } from '@/lib/utils';
 

@@ -49,7 +49,7 @@ export default async function ComponentName({
 
 import { cn } from '@/lib/utils';
 import type { ComponentProps } from '@/types';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 
 interface ComponentNameProps extends ComponentProps {

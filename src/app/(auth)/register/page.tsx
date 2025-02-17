@@ -5,7 +5,7 @@ import { RegisterFields } from '@/components/auth/forms/register/RegisterFields'
 import { SocialAuth } from '@/components/auth/SocialAuth';
 import { RippleButton } from '@/components/ui/ripple-button';
 import { useRegisterForm } from '@/lib/hooks/auth/useRegister';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 export default function Register() {
   const { isLoading, error, handleSubmit } = useRegisterForm();

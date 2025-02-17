@@ -1,8 +1,8 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import type { MotionProps } from 'framer-motion';
-import { motion, type AnimationProps } from 'framer-motion';
+import type { MotionProps } from 'motion/react';
+import { motion, type AnimationProps } from 'motion/react';
 import React from 'react';
 
 const animationProps = {
@@ -52,7 +52,7 @@ export const ShinyButton = React.forwardRef<
         style={{
           maskImage:
             'linear-gradient(-75deg,hsl(var(--primary)) calc(var(--x) + 20%),transparent calc(var(--x) + 30%),hsl(var(--primary)) calc(var(--x) + 100%))',
-          whiteSpace: 'nowrap'
+          whiteSpace: 'nowrap',
         }}
       >
         {children}

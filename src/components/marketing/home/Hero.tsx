@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import Link from 'next/link';
 import { Spotlight } from '@/components/ui/spotlight-new';
 import { HoverButton } from '@/components/ui/hover-button';

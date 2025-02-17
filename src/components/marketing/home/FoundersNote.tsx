@@ -1,7 +1,7 @@
 'use client';
 
 import { Container } from '@/components/ui/container';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { type FoundersNote as FoundersNoteType } from '@/types/marketing/home';
 
 type FoundersNoteProps = FoundersNoteType;

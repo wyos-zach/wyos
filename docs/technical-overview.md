@@ -149,7 +149,7 @@ src/
     "appwrite": "^16.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.18.0",
+    "motion/react": "^11.18.0",
     "lucide-react": "^0.471.1",
     "next": "15.1.4",
     "node-appwrite": "^14.1.0",

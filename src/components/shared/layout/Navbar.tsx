@@ -11,7 +11,7 @@ import { FadingDivider } from '@/components/ui/fading-divider';
 import { useAuthStore } from '@/store/Auth';
 import { MemberNavLinks } from './nav-links/MemberNavLinks';
 import { PublicNavLinks } from './nav-links/PublicNavLinks';
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 
 export function Navbar() {
   const isScrolled = useScroll(20);
@@ -59,7 +59,7 @@ export function Navbar() {
           />
         </div>
       </div>
-      
+
       {/* Fading divider that only shows when scrolled */}
       {isScrolled && (
         <motion.div
