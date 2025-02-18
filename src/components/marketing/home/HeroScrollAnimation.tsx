@@ -10,7 +10,7 @@ const sentences = [
   "Every day, it gets harder to tell what's real and what's not.",
   "You're overwhelmed with choices and drowning in information.",
   'The more you try to make sense of it ...',
-  'the more lost you become.',
+  'The more lost you become.',
 ];
 
 export function HeroScrollAnimation() {
