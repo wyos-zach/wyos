@@ -7,10 +7,10 @@ import { TextReveal } from '@/components/ui/text-reveal';
 
 const sentences = [
   "Life's chaotic.",
-  "Every day, it gets harder to tell what's real or not.",
+  "Every day, it gets harder to tell what's real and what's not.",
   "You're overwhelmed with choices and drowning in information.",
-  'The more you try to make sense of it, the more lost you become.',
-  "But it doesn't have to be this way.",
+  'The more you try to make sense of it ...',
+  'the more lost you become.',
 ];
 
 export function HeroScrollAnimation() {
@@ -75,7 +75,7 @@ export function HeroScrollAnimation() {
                   text={sentence}
                   progress={scrollYProgress}
                   start={0.1 + index * 0.15} // Start earlier and give more time
-                  end={0.2 + index * 0.15}   // Complete before next sentence
+                  end={0.2 + index * 0.15} // Complete before next sentence
                   className='mb-6 block' // Increased gap between sentences
                 />
               ))}

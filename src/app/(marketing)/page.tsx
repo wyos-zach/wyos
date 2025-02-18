@@ -12,11 +12,13 @@ import {
   benefits,
   startingSteps,
 } from '@/lib/config/site/home';
+import { BridgeSection } from '@/components/marketing/home/Bridge';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <BridgeSection />
       <Features features={features} />
       <Benefits benefits={benefits} />
       <HowItWorks steps={steps} />

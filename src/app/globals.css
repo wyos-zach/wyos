@@ -81,24 +81,34 @@
   }
 }
 
-.gradient-divider {
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(30, 58, 138, 0.1) 25%,
-    rgba(30, 58, 138, 0.1) 75%,
-    transparent 100%
-  );
-  height: 1px;
-  width: 80%;
-  margin: 0 auto;
-}
-
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    @apply bg-gradient-to-t from-[#363a3f] to-white/80 bg-clip-text text-transparent;
+  }
+
+  .section-container {
+    @apply relative bg-background py-24 text-foreground md:py-32;
+  }
+  .section-title {
+    @apply text-center font-heading text-4xl font-bold tracking-wide sm:text-5xl;
+  }
+  .value-card {
+    @apply flex items-center justify-center rounded-lg bg-card px-8 py-6 shadow-lg;
+  }
+  .value-card:hover {
+    @apply scale-105 transition-transform duration-300;
+  }
+
+  .gradient-divider {
+    @apply my-12 h-px w-full bg-gradient-to-r from-transparent via-zinc-800 to-transparent;
   }
 }

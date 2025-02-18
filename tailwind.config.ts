@@ -71,6 +71,12 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      backgroundImage: {
+        'gradient-hero':
+          'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
+        'gradient-bridge':
+          'radial-gradient(circle at center, rgba(30,30,30,1), rgba(10,10,10,1))',
+      },
       keyframes: {
         'accordion-down': {
           from: {
@@ -87,6 +93,10 @@ export default {
           to: {
             height: '0',
           },
+        },
+        fadeInUp: {
+          from: { opacity: '0', transform: 'translateY(20px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
         },
         rippling: {
           '0%': {
@@ -106,6 +116,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         rippling: 'rippling var(--duration) ease-out',
         spin: 'spin 3s linear infinite',
+        fadeInUp: 'fadeInUp 0.6s ease-out',
       },
     },
   },
