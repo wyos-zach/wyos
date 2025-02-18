@@ -42,12 +42,12 @@ export interface TextRevealProps extends ComponentPropsWithoutRef<'div'> {
   end?: number;
 }
 
-export const TextReveal: FC<TextRevealProps> = ({ 
-  text, 
+export const TextReveal: FC<TextRevealProps> = ({
+  text,
   className,
   progress,
   start = 0,
-  end = 1 
+  end = 1,
 }) => {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
@@ -64,15 +64,12 @@ export const TextReveal: FC<TextRevealProps> = ({
     <div ref={targetRef} className={cn('relative', className)}>
       <p className='text-xl font-medium text-white/20 md:text-2xl'>
         {words.map((word, i) => {
-          const wordStart = start + (i * wordDuration);
+          const wordStart = start + i * wordDuration;
           const wordEnd = wordStart + wordDuration;
 
           return (
             <span key={`${word}-${wordStart}`}>
-              <Word 
-                progress={scrollProgress} 
-                range={[wordStart, wordEnd]}
-              >
+              <Word progress={scrollProgress} range={[wordStart, wordEnd]}>
                 {word}
               </Word>
               {i < words.length - 1 && ' '}
