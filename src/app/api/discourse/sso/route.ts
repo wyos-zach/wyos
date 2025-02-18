@@ -15,7 +15,7 @@ function base64URLEncode(str: string): string {
     .toString('base64')
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
-    .replace(/=+$/, '');
+    .replace(/[=]+$/, '');
 }
 
 export async function GET(req: NextRequest) {

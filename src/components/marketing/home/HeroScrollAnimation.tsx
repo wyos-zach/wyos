@@ -71,7 +71,7 @@ export function HeroScrollAnimation() {
             <div className='absolute inset-0 flex flex-col items-center justify-center p-8 text-center'>
               {sentences.map((sentence, index) => (
                 <TextReveal
-                  key={index}
+                  key={`hero-${sentence.slice(0, 20)}`}
                   text={sentence}
                   progress={scrollYProgress}
                   start={0.1 + index * 0.15} // Start earlier and give more time

@@ -119,7 +119,7 @@ const AnimationComponent: React.FC<{
       <motion.span className='inline-block whitespace-pre'>
         {segment.split('').map((char, charIndex) => (
           <motion.span
-            key={`char-${charIndex}`}
+            key={`${segment}-${char}-${charIndex}`}
             aria-hidden='true'
             variants={variants}
             className='inline-block whitespace-pre'
@@ -199,14 +199,14 @@ export function TextEffect({
           initial='hidden'
           animate='visible'
           exit='exit'
-          aria-label={ariaLabel}
           variants={delayedContainerVariants}
-          className={cn('whitespace-pre-wrap', className)}
+          className={className}
+          aria-label={ariaLabel}
           onAnimationComplete={onAnimationComplete}
         >
           {segments.map((segment, index) => (
             <AnimationComponent
-              key={`${per}-${index}-${segment}`}
+              key={`${children.slice(0, 10)}-${segment}-${index}`}
               segment={segment}
               variants={itemVariants}
               per={per}

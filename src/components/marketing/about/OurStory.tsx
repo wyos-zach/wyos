@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import type { OurStoryProps } from '@/types/marketing/about';
+import Image from 'next/image';
 
 export function OurStory({ story, className }: OurStoryProps) {
   return (
@@ -29,8 +30,11 @@ export function OurStory({ story, className }: OurStoryProps) {
           </div>
 
           <div className='space-y-6 text-lg text-zinc-400 md:text-xl'>
-            {story.content.split('\n\n').map((paragraph, index) => (
-              <p key={index} className='leading-relaxed'>
+            {story.content.split('\n\n').map((paragraph, _index) => (
+              <p
+                key={`paragraph-${paragraph.slice(0, 20).toLowerCase().replace(/\s+/g, '-')}`}
+                className='leading-relaxed'
+              >
                 {paragraph}
               </p>
             ))}
@@ -44,7 +48,7 @@ export function OurStory({ story, className }: OurStoryProps) {
           >
             {story.author.image && (
               <div className='relative'>
-                <img
+                <Image
                   src={story.author.image}
                   alt={story.author.name}
                   className='h-16 w-16 rounded-lg object-cover grayscale'

@@ -10,6 +10,31 @@ import type { ComponentPropsWithoutRef, FC, ReactNode } from 'react';
 import { useRef } from 'react';
 import { cn } from '@/lib/utils';
 
+interface WordProps {
+  children: ReactNode;
+  progress: MotionValue<number>;
+  range: [number, number];
+}
+
+const Word: FC<WordProps> = ({ children, progress, range }) => {
+  const opacity = useTransform(progress, range, [0, 1]);
+  const blurAmount = useTransform(progress, range, [30, 0]);
+
+  return (
+    <motion.span
+      style={{
+        opacity,
+        WebkitFilter: `blur(${blurAmount}px)`,
+        filter: `blur(${blurAmount}px)`,
+        display: 'inline',
+      }}
+      className='text-white'
+    >
+      {children}
+    </motion.span>
+  );
+};
+
 export interface TextRevealProps extends ComponentPropsWithoutRef<'div'> {
   text: string;
   progress?: MotionValue<number>;
@@ -43,7 +68,7 @@ export const TextReveal: FC<TextRevealProps> = ({
           const wordEnd = wordStart + wordDuration;
 
           return (
-            <span key={i}>
+            <span key={`${word}-${wordStart}`}>
               <Word 
                 progress={scrollProgress} 
                 range={[wordStart, wordEnd]}
@@ -56,30 +81,5 @@ export const TextReveal: FC<TextRevealProps> = ({
         })}
       </p>
     </div>
-  );
-};
-
-interface WordProps {
-  children: ReactNode;
-  progress: MotionValue<number>;
-  range: [number, number];
-}
-
-const Word: FC<WordProps> = ({ children, progress, range }) => {
-  const opacity = useTransform(progress, range, [0, 1]);
-  const blurAmount = useTransform(progress, range, [30, 0]);
-
-  return (
-    <motion.span
-      style={{
-        opacity,
-        WebkitFilter: `blur(${blurAmount}px)`,
-        filter: `blur(${blurAmount}px)`,
-        display: 'inline',
-      }}
-      className='text-white'
-    >
-      {children}
-    </motion.span>
   );
 };

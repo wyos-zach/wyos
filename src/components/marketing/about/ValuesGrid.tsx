@@ -43,9 +43,9 @@ export function ValuesGrid({
             'grid-cols-1 md:grid-cols-2': columns === 2,
           })}
         >
-          {values.map((value, index) => (
+          {values.map((value) => (
             <motion.div
-              key={index}
+              key={`value-${value.title.toLowerCase().replace(/\s+/g, '-')}`}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

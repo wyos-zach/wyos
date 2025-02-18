@@ -37,9 +37,9 @@ export function Benefits({ benefits }: BenefitsProps) {
       </motion.div>
 
       <div className='mx-auto mt-20 grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3'>
-        {benefits.map((benefit, index) => (
+        {benefits.map((benefit) => (
           <motion.div
-            key={index}
+            key={`benefit-${benefit.title.toLowerCase().replace(/\s+/g, '-')}`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}

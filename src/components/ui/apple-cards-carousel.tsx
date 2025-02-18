@@ -18,6 +18,32 @@ import type { ImageProps } from 'next/image';
 import Image from 'next/image';
 import { useOutsideClick } from '@/lib/hooks/shared/useOutsideClick';
 
+const isMobile = () => {
+  return window && window.innerWidth < 768;
+};
+
+const BlurImage = ({ src, className, alt, ...rest }: ImageProps) => {
+  const [isLoading, setLoading] = useState(true);
+
+  return (
+    <Image
+      className={cn(
+        'duration-700 ease-in-out',
+        isLoading
+          ? 'scale-110 blur-2xl grayscale'
+          : 'scale-100 blur-0 grayscale-0',
+        className
+      )}
+      src={src}
+      alt={alt}
+      loading='lazy'
+      quality={100}
+      onLoad={() => setLoading(false)}
+      {...rest}
+    />
+  );
+};
+
 interface CarouselProps {
   items: React.ReactElement[];
   initialScroll?: number;
@@ -84,10 +110,6 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
     }
   };
 
-  const isMobile = () => {
-    return window && window.innerWidth < 768;
-  };
-
   return (
     <CarouselContext.Provider
       value={{ onCardClose: handleCardClose, currentIndex }}
@@ -112,10 +134,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
           >
             {items.map((item, index) => (
               <motion.div
-                initial={{
-                  opacity: 0,
-                  y: 20,
-                }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{
                   opacity: 1,
                   y: 0,
@@ -126,7 +145,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                     once: true,
                   },
                 }}
-                key={'card' + index}
+                key={`card-${React.isValidElement(item) && item.key ? item.key : index}`}
                 className='rounded-3xl last:pr-[5%] md:last:pr-[33%]'
               >
                 {item}
@@ -272,34 +291,5 @@ export const Card = ({
         />
       </motion.button>
     </>
-  );
-};
-
-export const BlurImage = ({
-  height,
-  width,
-  src,
-  className,
-  alt,
-  ...rest
-}: ImageProps) => {
-  const [isLoading, setLoading] = useState(true);
-  return (
-    <Image
-      className={cn(
-        'transition duration-300',
-        isLoading ? 'blur-sm' : 'blur-0',
-        className
-      )}
-      onLoad={() => setLoading(false)}
-      src={src}
-      width={width}
-      height={height}
-      loading='lazy'
-      decoding='async'
-      blurDataURL={typeof src === 'string' ? src : undefined}
-      alt={alt ? alt : 'Background of a beautiful view'}
-      {...rest}
-    />
   );
 };

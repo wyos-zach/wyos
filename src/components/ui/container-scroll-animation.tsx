@@ -2,47 +2,6 @@
 import React, { useRef } from 'react';
 import { useScroll, useTransform, motion } from 'motion/react';
 
-export const ContainerScroll = ({
-  titleComponent,
-  children,
-}: {
-  titleComponent: string | React.ReactNode;
-  children: React.ReactNode;
-}) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => {
-      window.removeEventListener('resize', checkMobile);
-    };
-  }, []);
-
-  return (
-    <div
-      className='relative flex h-[60rem] items-center justify-center p-2 md:h-[80rem] md:p-20'
-      ref={containerRef}
-    >
-      <div
-        className='relative w-full py-10 md:py-40'
-        style={{
-          perspective: '1000px',
-        }}
-      >
-        <Header containerRef={containerRef} titleComponent={titleComponent} />
-        <Card containerRef={containerRef} isMobile={isMobile}>
-          {children}
-        </Card>
-      </div>
-    </div>
-  );
-};
-
 interface HeaderProps {
   containerRef: React.RefObject<HTMLDivElement | null>;
   titleComponent: string | React.ReactNode;
@@ -102,5 +61,46 @@ export const Card = ({ containerRef, isMobile, children }: CardProps) => {
         {children}
       </div>
     </motion.div>
+  );
+};
+
+export const ContainerScroll = ({
+  titleComponent,
+  children,
+}: {
+  titleComponent: string | React.ReactNode;
+  children: React.ReactNode;
+}) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+
+  return (
+    <div
+      className='relative flex h-[60rem] items-center justify-center p-2 md:h-[80rem] md:p-20'
+      ref={containerRef}
+    >
+      <div
+        className='relative w-full py-10 md:py-40'
+        style={{
+          perspective: '1000px',
+        }}
+      >
+        <Header containerRef={containerRef} titleComponent={titleComponent} />
+        <Card containerRef={containerRef} isMobile={isMobile}>
+          {children}
+        </Card>
+      </div>
+    </div>
   );
 };

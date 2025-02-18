@@ -62,9 +62,9 @@ export function Features({ features }: FeaturesProps) {
         viewport={{ once: true, margin: '-100px' }}
         className='mx-auto mt-20 grid max-w-6xl gap-8 sm:grid-cols-2 lg:grid-cols-3'
       >
-        {features.map((feature, index) => (
+        {features.map((feature) => (
           <motion.div
-            key={index}
+            key={`feature-${feature.title.toLowerCase().replace(/\s+/g, '-')}`}
             variants={itemVariants}
             className={cn(
               'group relative rounded-lg border border-zinc-800/50',
