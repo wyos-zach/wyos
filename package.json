@@ -33,7 +33,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dompurify": "^3.2.4",
-    "motion/react": "^11.18.0",
     "immer": "^10.1.1",
     "lenis": "^1.1.20",
     "lucide-react": "^0.471.1",
