@@ -9,8 +9,8 @@ const sentences = [
   "Life's chaotic.",
   "Every day, it gets harder to tell what's real and what's not.",
   "You're overwhelmed with choices and drowning in information.",
-  'The more you try to make sense of it ...',
-  'The more lost you become.',
+  'The more you try to make sense of it, the more lost you become.',
+  "But it doesn't have to be this way.",
 ];
 
 export function HeroScrollAnimation() {

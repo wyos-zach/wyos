@@ -10,14 +10,14 @@ import {
   benefits,
   startingSteps,
 } from '@/lib/config/site/home';
-import { BridgeSection } from '@/components/marketing/home/Bridge';
+import { InternetVsWyos } from '@/components/marketing/home/InternetVsWyos';
 import { CorePillars } from '@/components/marketing/home/CorePillars';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <BridgeSection />
+      <InternetVsWyos />
       <CorePillars />
 
       <Benefits benefits={benefits} />

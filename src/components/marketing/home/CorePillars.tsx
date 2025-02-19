@@ -80,9 +80,8 @@ export function CorePillars() {
               </span>
             </h2>
             <p className='mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed text-[#A1A1AA]'>
-              WYOS brings together the essential pillars of success—knowledge,
-              resources, and community—into one seamless platform designed for
-              ambitious founders.
+              WYOS brings together the essential pillars into one platform
+              designed for the ones who are ready to level up their life.
             </p>
           </motion.div>
 
