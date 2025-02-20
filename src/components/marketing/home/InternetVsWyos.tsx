@@ -18,14 +18,13 @@ export function InternetVsWyos() {
           className='mb-24 text-center'
         >
           <h2 className='font-heading text-[40px] font-normal tracking-wide'>
-            <span className='block text-white'>The Internet's a Mess.</span>
-            <span className='gradient-text -mt-1 block'>
-              We're Trying to Fix It.
-            </span>
+            <span className='gradient-text block'>The Internet's a Mess.</span>
           </h2>
           <p className='mx-auto mt-8 max-w-2xl text-[18px] leading-relaxed text-[#A1A1AA]'>
             The internet has everything you need, but it's buried under all the
-            scams, noise, and bullshit. We want to change that.
+            scams, noise, and bullshit. We want to change that. And now AI is
+            making it even worse. That's why we're building WYOS - to help you
+            cut through the noise and find what actually works.
           </p>
         </motion.div>
 
@@ -93,16 +92,6 @@ export function InternetVsWyos() {
             </ul>
           </motion.div>
         </div>
-
-        <motion.p
-          className='mx-auto mt-24 max-w-2xl text-center text-[18px] leading-relaxed text-[#A1A1AA]'
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          And now AI is making it even worse. That's why we're building WYOS -
-          to help you cut through the noise and find what actually works.
-        </motion.p>
       </Container>
     </section>
   );

@@ -12,21 +12,21 @@ const pillars = [
     title: 'Knowledge',
     description:
       'Step-by-step guides to crush procrastination—not fluffy motivational quotes.',
-    image: '/images/knowledge-bg.jpg',
+    image: '/images/placeholder.png',
   },
   {
     id: 'resources',
     title: 'Resources',
     description:
       'Hand-picked tools that deliver results, not endless lists of options.',
-    image: '/images/resources-bg.jpg',
+    image: '/images/placeholder.png',
   },
   {
     id: 'community',
     title: 'Community',
     description:
       'Connect with driven founders who share your ambitions and challenges.',
-    image: '/images/community-bg.jpg',
+    image: '/images/placeholder.png',
   },
 ];
 

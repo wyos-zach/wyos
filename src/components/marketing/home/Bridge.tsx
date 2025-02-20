@@ -10,14 +10,6 @@ export function BridgeSection() {
   return (
     <section className='relative px-[5%] py-[120px]'>
       <Container className='mx-auto max-w-[1280px] px-5'>
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className='gradient-text mb-16 text-center font-heading text-[40px] font-normal tracking-wide'
-        >
-          But it doesn't have to be this way.
-        </motion.h2>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

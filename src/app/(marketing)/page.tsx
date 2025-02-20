@@ -12,6 +12,8 @@ import {
 } from '@/lib/config/site/home';
 import { InternetVsWyos } from '@/components/marketing/home/InternetVsWyos';
 import { CorePillars } from '@/components/marketing/home/CorePillars';
+import { BridgeSection } from '@/components/marketing/home/Bridge';
+import { HelpBuild } from '@/components/marketing/home/HelpBuild';
 
 export default function HomePage() {
   return (
@@ -19,7 +21,8 @@ export default function HomePage() {
       <Hero />
       <InternetVsWyos />
       <CorePillars />
-
+      <BridgeSection />
+      <HelpBuild />
       <Benefits benefits={benefits} />
       <HowItWorks steps={steps} />
       <GettingStarted steps={startingSteps} />
