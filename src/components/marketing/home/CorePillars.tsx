@@ -11,21 +11,21 @@ const pillars = [
     id: 'knowledge',
     title: 'Knowledge',
     description:
-      'Step-by-step guides to crush procrastination—not fluffy motivational quotes.',
+      "The Knowledge Section brings together the best insights and wisdom from across the internet, all in one place. Whether you're trying to build better habits, start a business, or just figure life out - you'll find practical, actionable information without having to wade through endless garbage to get it.",
     image: '/images/placeholder.png',
   },
   {
     id: 'resources',
     title: 'Resources',
     description:
-      'Hand-picked tools that deliver results, not endless lists of options.',
+      "The Resources Section is where you'll find tools that actually work. We test everything ourselves and only recommend what delivers real results. From meditation apps to productivity tools, you'll find the best options without the overwhelming choice paralysis.",
     image: '/images/placeholder.png',
   },
   {
     id: 'community',
     title: 'Community',
     description:
-      'Connect with driven founders who share your ambitions and challenges.',
+      "The Community is for people who are done with the fake stuff. It's a place where you can be real about your struggles, share what's actually working, and connect with others who are serious about leveling up. No judgment, no toxic positivity - just honest conversations and real support.",
     image: '/images/placeholder.png',
   },
 ];
@@ -73,15 +73,16 @@ export function CorePillars() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className='font-heading text-[40px] font-normal tracking-wide'>
+            <h2 className='font-heading text-[40px] font-semibold tracking-wide'>
               <span className='block text-white'>One Platform.</span>
-              <span className='gradient-text -mt-1 block'>
+              <span className='gradient-text -mt-1 block font-medium'>
                 Everything You Need
               </span>
             </h2>
             <p className='mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed text-[#A1A1AA]'>
-              WYOS brings together the essential pillars into one platform
-              designed for the ones who are ready to level up their life.
+              The idea behind WYOS is to combine everything you need into one
+              platform so you can move from where you are now to where you want
+              to be.
             </p>
           </motion.div>
 
@@ -137,7 +138,7 @@ export function CorePillars() {
                     />
                     <div className='absolute inset-0 bg-gradient-to-t from-[#0C0C0E]/90 via-[#0C0C0E]/50 to-[#0C0C0E]/20' />
                     <div className='absolute bottom-0 left-0 p-8 sm:p-12'>
-                      <h3 className='gradient-text mb-4 font-heading text-[32px] font-normal tracking-wide'>
+                      <h3 className='gradient-text mb-4 font-heading text-[32px] font-bold tracking-wide'>
                         {pillar.title}
                       </h3>
                       <p className='max-w-xl text-[18px] leading-relaxed text-[#E4E4E7]'>

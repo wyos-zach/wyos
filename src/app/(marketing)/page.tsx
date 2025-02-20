@@ -1,19 +1,21 @@
 import { Hero } from '@/components/marketing/home/Hero';
 import { CTA } from '@/components/marketing/home/CTA';
-import { InternetVsWyos } from '@/components/marketing/home/InternetVsWyos';
 import { CorePillars } from '@/components/marketing/home/CorePillars';
-import { BridgeSection } from '@/components/marketing/home/Bridge';
-import { HelpBuild } from '@/components/marketing/home/HelpBuild';
+import { NoBs } from '@/components/marketing/home/NoBs';
+import { NotForEveryone } from '@/components/marketing/home/NotForEveryone';
+import { FoundingMember } from '@/components/marketing/home/FoundingMember';
 import { Note } from '@/components/marketing/home/Note';
+import { InternetsAMess } from '@/components/marketing/home/InternetsAMess';
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <InternetVsWyos />
+      <InternetsAMess />
       <CorePillars />
-      <BridgeSection />
-      <HelpBuild />
+      <NoBs />
+      <NotForEveryone />
+      <FoundingMember />
       <Note />
 
       <CTA

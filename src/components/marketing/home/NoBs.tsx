@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Container } from '@/components/ui/container';
 
-export function BridgeSection() {
+export function NoBs() {
   const coreValues = ['Real Insights', 'Real Growth', 'No BS'];
 
   return (
