@@ -1,0 +1,183 @@
+@startuml WYOS Architecture
+
+' Styling
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam arrowColor #666666
+skinparam componentBackgroundColor #FFFFFF
+skinparam packageBackgroundColor #FFFFFF
+
+' Title
+title WYOS - Complete System Architecture
+
+' Database Layer
+package "Appwrite Database" {
+    [Users] as users
+    note right of users
+        - $id: string
+        - email: string
+        - name: string
+        - preferences: UserPrefs
+        - createdAt: DateTime
+    end note
+
+    [Teams] as teams
+    note right of teams
+        - $id: string
+        - name: string
+        - members: string[]
+        - roles: string[]
+    end note
+
+    [Knowledge] as knowledge
+    note right of knowledge
+        - $id: string
+        - title: string
+        - content: string
+        - categoryIds: string[]
+        - authorId: string
+    end note
+
+    [Resources] as resources
+    note right of resources
+        - $id: string
+        - title: string
+        - content: string
+        - categoryIds: string[]
+        - authorId: string
+    end note
+
+    [Subscriptions] as subs
+    note right of subs
+        - $id: string
+        - userId: string
+        - planId: string
+        - status: string
+    end note
+}
+
+' Frontend Layer
+package "Frontend (Next.js 15)" {
+    package "App Router" {
+        [Marketing Routes] as marketing #LightBlue
+        note right: Public pages\n/(marketing)/*
+        
+        [Auth Routes] as auth #LightYellow
+        note right: Authentication flows\n/(auth)/*
+        
+        [Core Routes] as core #LightGreen
+        note right: Protected features\n/(core)/*
+        
+        [Subscription Routes] as subscription #LightPink
+        note right: Subscription management\n/(subscription)/*
+    }
+
+    package "Components" {
+        package "Shared" {
+            [InfiniteGrid] as grid
+            [Layout Components] as layout
+            [Content Components] as content
+        }
+
+        package "Feature Components" {
+            [Knowledge Components] as kc
+            note right: KnowledgeGrid\nKnowledgeCard\nFeaturedKnowledge
+            
+            [Resource Components] as rc
+            note right: ResourceGrid\nResourceCard\nCategoryNav
+        }
+
+        package "UI Components" {
+            [shadcn/ui] as shadcn
+            [Custom UI] as customui
+        }
+    }
+
+    package "State Management" {
+        [Zustand Stores] as zustand
+        note right
+            - AuthStore
+            - KnowledgeStore
+            - ResourceStore
+            - UIStore
+        end note
+
+        [TanStack Query] as query
+        note right
+            - Query Client
+            - Query Cache
+            - Mutations
+        end note
+    }
+
+    package "Data Access" {
+        [Base Repository] as repo
+        note right
+            Abstract class with:
+            - CRUD operations
+            - Document mapping
+            - Error handling
+        end note
+
+        [Services] as services
+        note right
+            - KnowledgeService
+            - ResourceService
+            - AuthService
+            - SubscriptionService
+        end note
+    }
+}
+
+' External Services
+cloud "External Services" {
+    [Appwrite Cloud] as appwrite
+    [Stripe] as stripe
+}
+
+' Middleware
+package "Middleware" {
+    [Route Protection] as protection
+    [Session Validation] as session
+    [API Authentication] as api
+}
+
+' Relationships
+users --> teams
+knowledge --> users
+resources --> users
+subs --> users
+
+marketing --> shadcn
+auth --> shadcn
+core --> shadcn
+subscription --> shadcn
+
+kc --> grid
+rc --> grid
+
+zustand --> kc
+zustand --> rc
+query --> services
+
+services --> repo
+repo --> appwrite
+
+subscription --> stripe
+
+protection --> auth
+session --> auth
+api --> auth
+
+' Legend
+legend right
+    |Color|Component Type|
+    |<#LightBlue>|Public Routes|
+    |<#LightYellow>|Auth Routes|
+    |<#LightGreen>|Protected Routes|
+    |<#LightPink>|Subscription Routes|
+endlegend
+
+@enduml
