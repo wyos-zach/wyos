@@ -13,37 +13,42 @@ export function FoundersNote({
 }: FoundersNoteProps) {
   return (
     <Container as='section' className='relative py-24 md:py-32'>
+      {/* Keep the radial gradient background */}
       <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.1),transparent_50%)]' />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className='relative mx-auto max-w-[64rem] rounded-lg border border-zinc-800/50 bg-zinc-900/50 p-8 backdrop-blur-sm md:p-12'
+        className='relative mx-auto max-w-[64rem] rounded-lg border border-zinc-800/50 bg-zinc-900/50 p-8 shadow-lg backdrop-blur-sm md:p-12'
       >
-        <div className='absolute -inset-px rounded-lg bg-gradient-to-b from-blue-500/10 to-transparent blur-sm' />
+        {/* Subtle gradient overlay for a premium feel */}
+        <div className='pointer-events-none absolute -inset-px rounded-lg bg-gradient-to-b from-blue-500/10 to-transparent blur-sm' />
 
         <div className='relative space-y-8'>
+          {/* Founder info */}
           <div className='flex items-center gap-4'>
-            <div className='relative'>
-              <div className='absolute -inset-px rounded-lg bg-blue-500/20 blur-sm' />
+            <div className='flex-shrink-0'>
+              {/* Using the founder's initial as a placeholder */}
+              <div className='flex h-12 w-12 items-center justify-center rounded-full bg-blue-500/30'>
+                {founderName ? founderName.charAt(0) : ''}
+              </div>
             </div>
             <div>
-              <div className='font-mono text-sm text-zinc-400'>
+              <p className='font-mono text-xs uppercase text-zinc-400'>
                 From the Founder
-              </div>
-              <div className='font-semibold tracking-tight text-white'>
+              </p>
+              <h3 className='text-xl font-semibold text-white'>
                 {founderName}
-              </div>
-              <div className='text-sm text-zinc-500'>{founderTitle}</div>
+              </h3>
+              <p className='text-xs text-zinc-500'>{founderTitle}</p>
             </div>
           </div>
 
-          <blockquote className='space-y-4 border-l-2 border-blue-800/50 pl-6'>
-            <p className='text-lg font-medium leading-relaxed text-zinc-300 md:text-xl md:leading-relaxed'>
-              {message}
-            </p>
-          </blockquote>
+          {/* Founder’s message without a blockquote */}
+          <div className='space-y-4'>
+            <p className='text-lg leading-relaxed text-zinc-300'>{message}</p>
+          </div>
         </div>
       </motion.div>
     </Container>
