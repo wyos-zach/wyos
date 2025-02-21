@@ -71,7 +71,7 @@ export function CorePillars() {
               </span>
             </h2>
             <div className='mx-auto mt-6 h-px w-20 bg-gradient-to-r from-transparent via-blue-800/50 to-transparent' />
-            <p className='mx-auto mt-6 max-w-2xl text-[18px] leading-relaxed text-[#A1A1AA]'>
+            <p className='mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[#A1A1AA]'>
               The idea behind WYOS is to combine everything you need into one
               platform so you can move from where you are now to where you want
               to be.

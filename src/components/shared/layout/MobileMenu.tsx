@@ -1,3 +1,5 @@
+'use client';
+
 import { motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -9,7 +11,7 @@ import { cn } from '@/lib/utils';
 
 interface MobileMenuProps {
   isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpenAction: (isOpen: boolean) => void;
   isMember: boolean;
 }
 
@@ -27,17 +29,21 @@ const publicLinks = [
   { href: '/pricing', label: 'Benefits' },
 ] as const;
 
-export function MobileMenu({ isOpen, setIsOpen, isMember }: MobileMenuProps) {
+export function MobileMenu({
+  isOpen,
+  setIsOpenAction,
+  isMember,
+}: MobileMenuProps) {
   const pathname = usePathname();
   const links = isMember ? memberLinks : publicLinks;
 
   return (
-    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+    <Sheet open={isOpen} onOpenChange={setIsOpenAction}>
       <SheetTrigger asChild className='md:hidden'>
         <Button
-          variant='ghost'
-          size='icon'
-          className='ml-auto hover:bg-blue-950/30'
+          variant='outline'
+          size='sm'
+          className='ml-auto p-2 hover:bg-blue-950/30 hover:text-white'
         >
           <Menu className='h-5 w-5' />
           <span className='sr-only'>Toggle menu</span>
@@ -45,7 +51,7 @@ export function MobileMenu({ isOpen, setIsOpen, isMember }: MobileMenuProps) {
       </SheetTrigger>
       <SheetContent
         side='right'
-        className='border-zinc-800/50 bg-background/95 backdrop-blur-2xl'
+        className='rounded-lg border-zinc-800/50 bg-background/95 backdrop-blur-2xl'
       >
         <motion.div
           className='flex flex-col space-y-6 pt-6'
@@ -59,7 +65,7 @@ export function MobileMenu({ isOpen, setIsOpen, isMember }: MobileMenuProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={() => setIsOpenAction(false)}
                     className={cn(
                       'block text-base font-medium tracking-wide text-zinc-400 transition-colors duration-150 hover:text-white',
                       pathname === link.href && 'text-white'
@@ -71,7 +77,9 @@ export function MobileMenu({ isOpen, setIsOpen, isMember }: MobileMenuProps) {
               ))}
             </ul>
           </nav>
-          <MobileAuthButtons closeMobileMenu={() => setIsOpen(false)} />
+          <MobileAuthButtons
+            closeMobileMenuAction={() => setIsOpenAction(false)}
+          />
         </motion.div>
       </SheetContent>
     </Sheet>

@@ -65,7 +65,7 @@ export function PageHeader({
               transition={{ delay: 0.2 }}
               className={cn(
                 'font-bold tracking-tight',
-                'bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent',
+                'gradient-text',
                 sizeVariants[size]
               )}
             >

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { TextReveal } from '@/components/ui/text-reveal';
 
 const sentences = [
-  "Life's chaotic.",
+  "Life's getting chaotic.",
   "Every day, it gets harder to tell what's real and what's not.",
   "You're overwhelmed with choices and drowning in information.",
   'The more you try to make sense of it, the more lost you become.',
@@ -43,7 +43,7 @@ export function HeroScrollAnimation() {
       <div className='sticky top-[20vh] h-screen'>
         <div className='container mx-auto'>
           <motion.div
-            initial={{ rotateX: 25, scale: 0.09 }}
+            initial={{ rotateX: 25, scale: 1 }} // If desired, change scale from 0.09 to a higher value (e.g. 1) to start bigger
             style={{
               rotateX,
               scale,

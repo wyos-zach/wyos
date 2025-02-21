@@ -54,7 +54,7 @@ export function Navbar() {
         <div className='md:hidden'>
           <MobileMenu
             isOpen={isOpen}
-            setIsOpen={setIsOpen}
+            setIsOpenAction={setIsOpen}
             isMember={isMember}
           />
         </div>

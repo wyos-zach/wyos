@@ -24,10 +24,7 @@ export function AuthButtons({ onAction = () => {} }: AuthButtonsProps) {
   if (session) {
     return (
       <div className='flex items-center gap-4'>
-        <Button
-          variant='ghost'
-          className='flex items-center gap-2 font-medium tracking-wide text-zinc-400 hover:bg-blue-950/30 hover:text-white'
-        >
+        <Button variant='ghost'>
           <User className='h-4 w-4' />
           <span>{user?.name}</span>
         </Button>

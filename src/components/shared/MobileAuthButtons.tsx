@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ShinyButton } from '@/components/ui/shiny-button';
@@ -6,17 +8,19 @@ import { User, LogOut } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type MobileAuthButtonsProps = {
-  closeMobileMenu: () => void;
+  closeMobileMenuAction: () => void;
 };
 
-export function MobileAuthButtons({ closeMobileMenu }: MobileAuthButtonsProps) {
+export function MobileAuthButtons({
+  closeMobileMenuAction,
+}: MobileAuthButtonsProps) {
   const { session, user, logout } = useAuthStore();
   const router = useRouter();
 
   const handleLogout = async () => {
     await logout();
     router.push('/');
-    closeMobileMenu();
+    closeMobileMenuAction();
   };
 
   if (session) {
@@ -43,12 +47,12 @@ export function MobileAuthButtons({ closeMobileMenu }: MobileAuthButtonsProps) {
 
   return (
     <div className='pt-4'>
-      <Link href='/login' onClick={closeMobileMenu}>
+      <Link href='/login' onClick={closeMobileMenuAction}>
         <Button variant='ghost' className='w-full'>
           Login
         </Button>
       </Link>
-      <Link href='/register' onClick={closeMobileMenu}>
+      <Link href='/register' onClick={closeMobileMenuAction}>
         <ShinyButton className='mt-4 w-full'>Write Your Story</ShinyButton>
       </Link>
     </div>

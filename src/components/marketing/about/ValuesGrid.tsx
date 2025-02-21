@@ -27,7 +27,7 @@ export function ValuesGrid({
           <h2
             className={cn(
               'text-4xl font-bold tracking-tight md:text-5xl',
-              'bg-gradient-to-b from-white to-white/80 bg-clip-text text-transparent'
+              'gradient-text'
             )}
           >
             No Bullshit Values
