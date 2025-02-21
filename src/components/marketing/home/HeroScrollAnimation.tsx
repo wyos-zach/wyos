@@ -29,33 +29,34 @@ export function HeroScrollAnimation() {
     offset: ['start start', 'end start'],
   });
 
-  // Frame transformations
-  const rotateX = useTransform(scrollYProgress, [0, 0.15], [25, 0]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.25], [25, 0]);
   const scale = useTransform(
     scrollYProgress,
-    [0.15, 0.5],
-    [0.8, isMobile ? 1.1 : 1.3]
+    [0, 0.25],
+    [1, isMobile ? 1.1 : 1.3]
   );
-  const frameY = useTransform(scrollYProgress, [0, 0.15], ['20vh', '0vh']);
+
   const perspective = 1000;
 
   return (
-    <section ref={containerRef} className='relative -mt-[20vh] h-[300vh]'>
+    <section ref={containerRef} className='relative h-[300vh]'>
       <div className='sticky top-[20vh] h-screen'>
         <div className='container mx-auto'>
           <motion.div
-            initial={{ rotateX: 25, scale: 0.8 }}
+            initial={{ rotateX: 25, scale: 0.08 }}
             style={{
               rotateX,
               scale,
-              y: frameY,
               transformPerspective: perspective,
+              WebkitBackdropFilter: 'blur(64px)',
+              backdropFilter: 'blur(64px)',
+              backgroundImage:
+                'linear-gradient(rgba(16,17,20,.5), rgba(255,255,255,0)), linear-gradient(#060609, #060609)',
             }}
-            className='mx-auto h-[40rem] w-[90%] max-w-5xl overflow-hidden rounded-2xl border border-zinc-800 bg-gradient-to-b from-zinc-900/90 via-zinc-900/80 to-zinc-900/70 p-4 shadow-2xl backdrop-blur-sm'
+            className='relative mx-auto h-[40rem] w-[90%] max-w-5xl overflow-hidden rounded-[36px] p-4 shadow-2xl'
           >
-            {/* Image/Video Background */}
-            <div className='relative h-full w-full overflow-hidden rounded-xl'>
-              <div className='absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30' />
+            {/* Image/Video Background with adjusted padding */}
+            <div className='absolute inset-0 rounded-[32px] bg-[#060609]'>
               <div className='relative h-full w-full'>
                 <Image
                   src='/images/placeholder.png'
@@ -64,6 +65,7 @@ export function HeroScrollAnimation() {
                   className='object-cover'
                   priority
                 />
+                <div className='absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/70' />
               </div>
             </div>
 
@@ -74,12 +76,25 @@ export function HeroScrollAnimation() {
                   key={`hero-${sentence.slice(0, 20)}`}
                   text={sentence}
                   progress={scrollYProgress}
-                  start={0.1 + index * 0.15} // Start earlier and give more time
-                  end={0.2 + index * 0.15} // Complete before next sentence
-                  className='mb-6 block' // Increased gap between sentences
+                  start={0 + index * 0.15}
+                  end={0.1 + index * 0.15}
+                  className='mb-6 block !text-white' // Added !text-white to force full opacity
                 />
               ))}
             </div>
+
+            {/* Gradient Border */}
+            <div
+              className='pointer-events-none absolute inset-0 rounded-[36px]'
+              style={{
+                padding: '1px',
+                background:
+                  'linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 80%)',
+                WebkitMask:
+                  'linear-gradient(#060609, #060609) content-box, linear-gradient(#060609, #060609)',
+                WebkitMaskComposite: 'xor',
+              }}
+            />
           </motion.div>
         </div>
       </div>

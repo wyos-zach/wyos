@@ -1,4 +1,4 @@
-!node_modules
+node_modules
 !.augment-guidelines
 !.augmentignore
 !.env.example

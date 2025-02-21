@@ -3,6 +3,7 @@
 import { motion } from 'motion/react';
 import { Container } from '@/components/ui/container';
 import { Star, Users, MessageSquare, Zap } from 'lucide-react';
+import { HoverButton } from '@/components/ui/hover-button';
 
 export const FoundingMember = () => {
   const benefits = [
@@ -33,9 +34,12 @@ export const FoundingMember = () => {
   ];
 
   return (
-    <section className='relative py-24'>
-      {/* Background gradient */}
-      <div className='absolute inset-0 bg-gradient-to-b from-background/0 via-background/80 to-background' />
+    <section className='relative px-[5%] py-[120px]'>
+      {/* Grid Background */}
+      <div className='absolute inset-0'>
+        <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.15),transparent_50%)]' />
+        <div className='absolute inset-0 bg-[linear-gradient(to_right,#1e3a8a_1px,transparent_1px),linear-gradient(to_bottom,#1e3a8a_1px,transparent_1px)] opacity-[0.03] [background-size:32px_32px]' />
+      </div>
 
       <Container>
         <motion.div
@@ -47,9 +51,9 @@ export const FoundingMember = () => {
         >
           {/* Founding member badge */}
           <div className='mx-auto mb-12 flex justify-center'>
-            <div className='inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-2'>
-              <Star className='h-4 w-4 text-blue-400' />
-              <span className='text-sm font-medium text-blue-400'>
+            <div className='inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/50 px-4 py-2'>
+              <Star className='h-4 w-4 text-zinc-400' />
+              <span className='text-sm font-medium text-zinc-400'>
                 Limited Founding Member Spots
               </span>
             </div>
@@ -57,12 +61,12 @@ export const FoundingMember = () => {
 
           {/* Main content */}
           <div className='mx-auto max-w-4xl text-center'>
-            <h2 className='mb-6 text-3xl font-bold md:text-4xl'>
+            <h2 className='mb-6 font-heading text-4xl font-bold tracking-wide md:text-5xl'>
               Build Something Real
-              <span className='block text-blue-400'>With Us</span>
+              <span className='gradient-text mt-2 block'>With Us</span>
             </h2>
 
-            <p className='mb-8 text-lg text-zinc-400'>
+            <p className='mb-12 text-lg text-zinc-400'>
               This isn't about following someone else's vision. It's about
               building something together—a space where we can all grow, learn,
               and succeed on our own terms.
@@ -77,12 +81,12 @@ export const FoundingMember = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className='group relative rounded-lg border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-blue-500/50 hover:bg-blue-500/5'
+                  className='group relative rounded-lg border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-zinc-700 hover:bg-zinc-800/50'
                 >
-                  <div className='mb-3 inline-flex rounded-full bg-blue-500/10 p-3'>
+                  <div className='mb-3 inline-flex rounded-full bg-zinc-800/50 p-3'>
                     {benefit.icon}
                   </div>
-                  <h3 className='mb-2 text-lg font-semibold text-white'>
+                  <h3 className='mb-2 font-heading text-lg font-semibold text-white'>
                     {benefit.title}
                   </h3>
                   <p className='text-sm text-zinc-400'>{benefit.description}</p>
@@ -92,20 +96,7 @@ export const FoundingMember = () => {
 
             {/* CTA section */}
             <div className='space-y-6'>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className='inline-flex items-center justify-center rounded-lg bg-blue-600 px-8 py-3 font-medium text-white transition-colors hover:bg-blue-500'
-              >
-                Become a Founding Member
-              </motion.button>
-
-              <p className='text-sm text-zinc-500'>
-                <span className='font-medium text-blue-400'>
-                  Only 100 spots available
-                </span>{' '}
-                · Join the waitlist today
-              </p>
+              <HoverButton>Become a Founding Member</HoverButton>
             </div>
           </div>
         </motion.div>

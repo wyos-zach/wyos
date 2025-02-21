@@ -17,16 +17,16 @@ interface WordProps {
 }
 
 const Word: FC<WordProps> = ({ children, progress, range }) => {
-  const opacity = useTransform(progress, range, [0, 1]);
-  const blurAmount = useTransform(progress, range, [30, 0]);
+  const opacity = useTransform(
+    progress,
+    [range[0], range[0] + 0.015, range[1]],
+    [0, 1, 1]
+  );
 
   return (
     <motion.span
       style={{
         opacity,
-        WebkitFilter: `blur(${blurAmount}px)`,
-        filter: `blur(${blurAmount}px)`,
-        display: 'inline',
       }}
       className='text-white'
     >
@@ -42,12 +42,12 @@ export interface TextRevealProps extends ComponentPropsWithoutRef<'div'> {
   end?: number;
 }
 
-export const TextReveal: FC<TextRevealProps> = ({ 
-  text, 
+export const TextReveal: FC<TextRevealProps> = ({
+  text,
   className,
   progress,
   start = 0,
-  end = 1 
+  end = 1,
 }) => {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
@@ -62,20 +62,16 @@ export const TextReveal: FC<TextRevealProps> = ({
 
   return (
     <div ref={targetRef} className={cn('relative', className)}>
-      <p className='text-xl font-medium text-white/20 md:text-2xl'>
+      <p className='text-xl font-medium md:text-2xl'>
         {words.map((word, i) => {
-          const wordStart = start + (i * wordDuration);
+          const wordStart = start + i * wordDuration;
           const wordEnd = wordStart + wordDuration;
 
           return (
             <span key={`${word}-${wordStart}`}>
-              <Word 
-                progress={scrollProgress} 
-                range={[wordStart, wordEnd]}
-              >
+              <Word progress={scrollProgress} range={[wordStart, wordEnd]}>
                 {word}
-              </Word>
-              {i < words.length - 1 && ' '}
+              </Word>{' '}
             </span>
           );
         })}

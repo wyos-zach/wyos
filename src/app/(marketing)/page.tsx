@@ -4,7 +4,7 @@ import { CorePillars } from '@/components/marketing/home/CorePillars';
 import { NoBs } from '@/components/marketing/home/NoBs';
 import { NotForEveryone } from '@/components/marketing/home/NotForEveryone';
 import { FoundingMember } from '@/components/marketing/home/FoundingMember';
-import { Note } from '@/components/marketing/home/Note';
+import { FounderNote } from '@/components/marketing/home/FounderNote';
 import { InternetsAMess } from '@/components/marketing/home/InternetsAMess';
 
 export default function HomePage() {
@@ -16,7 +16,7 @@ export default function HomePage() {
       <NoBs />
       <NotForEveryone />
       <FoundingMember />
-      <Note />
+      <FounderNote />
 
       <CTA
         headline='Ready to start your journey?'
