@@ -67,7 +67,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            Discover the resources, knowledge, and community to help you move
+            Discover the knowledge, resources, and community to help you move
             from where you are to where you want to be—on your terms.
           </motion.p>
 

@@ -64,9 +64,9 @@ export const InternetsAMess = () => {
               transition={{ delay: 0.3 }}
             >
               Social media is just highlights and filters. "Gurus" push their
-              courses with false promises. And finding anything actually useful
-              has never been more difficult. On top of that, AI is only making
-              matters worse.
+              courses with false promises. And now the rise of AI has only made
+              things worse. Finding anything useful has never been more
+              difficult.
             </motion.p>
 
             <motion.p
@@ -75,8 +75,8 @@ export const InternetsAMess = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
             >
-              That's why we built WYOS—a space where you can finally get away
-              from it.
+              That's why we built WYOS—for the ones who want to get away from it
+              all.
             </motion.p>
 
             <motion.p
@@ -99,7 +99,7 @@ export const InternetsAMess = () => {
               transition={{ delay: 0.4 }}
               className='mt-8 text-center text-xl font-medium text-white'
             >
-              If that's what you're looking for, you're in the right place.
+              If that's what you've been looking for, you're in the right place.
             </motion.p>
           </div>
         </motion.div>

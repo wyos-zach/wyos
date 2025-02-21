@@ -32,8 +32,8 @@ export function HeroScrollAnimation() {
   const rotateX = useTransform(scrollYProgress, [0, 0.1], [20, 0]);
   const scale = useTransform(
     scrollYProgress,
-    [0, 1.5],
-    [0.9, isMobile ? 1.1 : 1.5]
+    [0, 0.25],
+    [0.9, isMobile ? 1.1 : 1.5] // If desired, change scale from 0.9 to a higher value (e.g. 1.5) to end bigger
   );
 
   const perspective = 1000;
