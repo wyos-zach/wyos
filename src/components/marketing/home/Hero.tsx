@@ -22,7 +22,7 @@ export function Hero() {
   );
 
   return (
-    <section ref={containerRef} className='relative h-[350vh]'>
+    <section ref={containerRef} className='relative h-[450vh]'>
       {/* Spotlight Background */}
       <Spotlight
         gradientFirst='radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210, 100%, 85%, .04) 0, hsla(210, 100%, 55%, .01) 50%, hsla(210, 100%, 45%, 0) 80%)'

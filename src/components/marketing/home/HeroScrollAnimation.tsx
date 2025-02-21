@@ -29,21 +29,21 @@ export function HeroScrollAnimation() {
     offset: ['start start', 'end start'],
   });
 
-  const rotateX = useTransform(scrollYProgress, [0, 0.25], [25, 0]);
+  const rotateX = useTransform(scrollYProgress, [0, 0.1], [20, 0]);
   const scale = useTransform(
     scrollYProgress,
-    [0, 0.25],
-    [1, isMobile ? 1.1 : 1.3]
+    [0, 1.5],
+    [0.9, isMobile ? 1.1 : 1.5]
   );
 
   const perspective = 1000;
 
   return (
-    <section ref={containerRef} className='relative h-[300vh]'>
+    <section ref={containerRef} className='relative h-[400vh]'>
       <div className='sticky top-[20vh] h-screen'>
         <div className='container mx-auto'>
           <motion.div
-            initial={{ rotateX: 25, scale: 0.08 }}
+            initial={{ rotateX: 25, scale: 0.09 }}
             style={{
               rotateX,
               scale,
