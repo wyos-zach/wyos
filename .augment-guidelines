@@ -24,13 +24,6 @@
 - camelCase: Variables, Functions, Methods, Hooks, Props
 - UPPERCASE: Environment Variables, Constants
 
-Common Patterns:
-
-- Event handlers: handleClick, handleSubmit
-- Boolean variables: isLoading, hasError
-- Custom hooks: useAuth, useForm
-- Allowed abbreviations: err, req, res, props, ref
-
 ## React & Next.js
 
 - Use functional components with TypeScript
@@ -94,15 +87,3 @@ Global (Redux):
 - Implement proper auth
 - Support RTL layouts
 - Format numbers/dates/currency
-
-## Documentation
-
-- Use JSDoc
-- Document public APIs
-- Include examples
-- Use clear, concise language
-- Use proper markdown formatting
-- Use proper code blocks
-- Use proper links
-- Use proper headings
-- Use proper lists
