@@ -18,6 +18,10 @@ const buttonVariants = cva('button-base', {
       default: '',
       sm: 'text-xs px-4 py-1.5',
       lg: 'text-base px-6 py-3',
+      icon: 'h-10 w-10 p-0',
+      'icon-sm': 'h-7 w-7 p-0',
+      'icon-lg': 'h-12 w-12 p-0',
+      'icon-xl': 'h-16 w-16 p-0',
     },
   },
   defaultVariants: {
