@@ -49,7 +49,7 @@ export default function AuthLayout({
   }
 
   return (
-    <main className='flex min-h-screen w-full items-center justify-center bg-background px-4 py-12'>
+    <main className='flex min-h-[calc(100%-100px)] w-full items-center justify-center bg-background px-4 py-12'>
       <div className='w-full max-w-[480px]'>{children}</div>
     </main>
   );

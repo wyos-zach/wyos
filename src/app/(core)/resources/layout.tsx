@@ -29,7 +29,7 @@ export default function ResourcesLayout({
   }
 
   return (
-    <div className='relative flex min-h-screen flex-col'>
+    <div className='relative flex min-h-[calc(100%-100px)] flex-col'>
       <Container as='main' className='flex-1 py-8 md:py-12 lg:py-16'>
         {children}
       </Container>
