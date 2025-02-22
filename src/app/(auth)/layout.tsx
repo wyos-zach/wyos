@@ -2,7 +2,7 @@
 
 import { useAuthStore } from '@/store/Auth';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import * as React from 'react';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 export default function AuthLayout({
@@ -15,7 +15,7 @@ export default function AuthLayout({
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
-    async function checkSession() {
+    const checkSession = async (): Promise<void> => {
       if (hydrated) {
         try {
           await verifySession();
@@ -23,7 +23,7 @@ export default function AuthLayout({
           setIsLoading(false);
         }
       }
-    }
+    };
 
     void checkSession();
   }, [hydrated, verifySession]);
@@ -49,7 +49,7 @@ export default function AuthLayout({
   }
 
   return (
-    <main className='flex min-h-[calc(100%-100px)] w-full items-center justify-center bg-background px-4 py-12'>
+    <main className='flex min-h-screen w-full items-center justify-center bg-background px-4 py-12'>
       <div className='w-full max-w-[480px]'>{children}</div>
     </main>
   );

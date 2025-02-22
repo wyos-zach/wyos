@@ -48,7 +48,7 @@ export default function RootLayout({
         <QueryProvider>
           <SmoothScroll />
           <Navbar />
-          <main className='relative flex min-h-[calc(100%-100px)] flex-col'>
+          <main className='relative flex min-h-screen flex-col'>
             {children}
           </main>
           <Footer />
