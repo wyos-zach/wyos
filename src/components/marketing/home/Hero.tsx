@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
 import Link from 'next/link';
-import { Spotlight } from '@/components/ui/spotlight-new';
+import { Spotlight } from '@/components/ui/spotlight';
 import { HoverButton } from '@/components/ui/hover-button';
 import { HeroScrollAnimation } from './HeroScrollAnimation';
 
