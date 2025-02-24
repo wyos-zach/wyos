@@ -9,7 +9,11 @@ interface AboutSectionProps {
   className?: string;
 }
 
-export function AboutSection({ title, children, className }: AboutSectionProps) {
+export function AboutSection({
+  title,
+  children,
+  className,
+}: AboutSectionProps) {
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
