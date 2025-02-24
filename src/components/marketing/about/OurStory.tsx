@@ -8,6 +8,7 @@ export function OurStory() {
     <section className='relative -mt-32'>
       <div className='absolute inset-0 h-[50vh]'>
         {' '}
+        {/* Limit gradient height */}
         {/* Primary gradient background */}
         <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0),transparent_50%)]' />
         {/* Subtle pattern overlay */}
@@ -21,6 +22,7 @@ export function OurStory() {
 
       <Container className='relative pt-32'>
         {' '}
+        {/* Add relative to ensure content stays above gradients */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
