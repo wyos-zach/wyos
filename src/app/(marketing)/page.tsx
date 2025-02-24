@@ -1,5 +1,5 @@
 import { Hero } from '@/components/marketing/home/Hero';
-import { CTA } from '@/components/marketing/home/CTA';
+import { CTA } from '@/components/shared/CTA';
 import { CorePillars } from '@/components/marketing/home/CorePillars';
 import { NoBs } from '@/components/marketing/home/NoBs';
 import { NotForEveryone } from '@/components/marketing/home/NotForEveryone';

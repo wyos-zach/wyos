@@ -1,21 +1,13 @@
 # Development Guidelines
 
-## Core Principles
+## Core
 
-- Write clean, maintainable, and scalable code
-- Follow SOLID principles
-- Prefer functional and declarative patterns
-- Emphasize type safety
-- Practice component-driven development
-
-## Code Style
-
-- Use tabs for indentation
-- Use single quotes for strings
-- Omit semicolons (unless required)
-- Use strict equality (===)
-- Limit line length to 80 characters
-- Use trailing commas in multiline literals
+**Framer motion is now `motion/react`. DO NOT use `framer-motion` anymore.**
+**Always follow SOLID principles and have clear separation of concerns.**
+**Write clean, maintainable, and scalable code.**
+**Practice component-driven development.**
+**Prefer functional and declarative patterns.**
+**Emphasize type safety.**
 
 ## Naming Conventions
 

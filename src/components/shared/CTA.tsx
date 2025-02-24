@@ -35,14 +35,14 @@ export function CTA({ headline, buttonText, subtext }: CTAProps) {
           viewport={{ once: true }}
           className='mx-auto max-w-3xl text-center'
         >
-          <h2 className='font-heading text-[40px] tracking-wide'>
+          <h2 className='font-heading text-[40px] tracking-tight'>
             <span className='gradient-text block font-semibold'>
               {headline}
             </span>
           </h2>
-
+          <div className='mx-auto mt-6 h-px w-20 bg-gradient-to-r from-transparent via-blue-800/50 to-transparent' />
           {subtext && (
-            <p className='mx-auto mt-4 text-lg leading-relaxed text-[#A1A1AA]'>
+            <p className='mx-auto mt-6 text-lg leading-relaxed text-[#A1A1AA]'>
               {subtext}
             </p>
           )}
@@ -54,7 +54,7 @@ export function CTA({ headline, buttonText, subtext }: CTAProps) {
             className='mt-16'
           >
             <Link href='/register'>
-              <ShinyButton className='text-lg font-medium'>
+              <ShinyButton className='text-lg font-medium tracking-widest'>
                 {buttonText}
               </ShinyButton>
             </Link>

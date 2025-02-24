@@ -1,30 +1,23 @@
-import { Container } from '@/components/ui/container';
-import { OurStory } from '@/components/marketing/about/OurStory';
-import { MissionSection } from '@/components/marketing/about/MissionSection';
-import { ValuesGrid } from '@/components/marketing/about/ValuesGrid';
-import { PageHeader } from '@/components/shared/layout/PageHeader';
-import { mission, story, values } from '@/lib/config/site/about';
+'use client';
 
-export const metadata = {
-  title: 'About - WYOS',
-  description:
-    'Learn about WYOS, our mission, and our commitment to helping you write your own story',
-};
+import { AboutHero } from '@/components/marketing/about/AboutHero';
+import { OurStory } from '@/components/marketing/about/OurStory';
+import { WhoWeAre } from '@/components/marketing/about/WhoWeAre';
+import { WhatWeBelieve } from '@/components/marketing/about/WhatWeBelieve';
+import { CTA } from '@/components/shared/CTA';
 
 export default function AboutPage() {
   return (
-    <Container>
-      <PageHeader
-        title='About WYOS'
-        description='A platform built for those ready to write their own story'
-        pattern='dots'
+    <main className='flex flex-col'>
+      <AboutHero />
+      <OurStory />
+      <WhoWeAre />
+      <WhatWeBelieve />
+      <CTA
+        headline='Become A Founding Member'
+        buttonText='Get Started'
+        subtext="We're not trying to attract everyone - we're looking for the right people. If you're tired of the bullshit and ready to help build something real, join us."
       />
-
-      <OurStory story={story} />
-
-      <MissionSection mission={mission} />
-
-      <ValuesGrid values={values} />
-    </Container>
+    </main>
   );
 }
