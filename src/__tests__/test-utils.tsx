@@ -1,13 +1,11 @@
-import React, { ReactElement } from 'react';
-import { render, RenderOptions } from '@testing-library/react';
+import React from 'react';
+import type { ReactElement } from 'react';
+import { render as rtlRender } from '@testing-library/react';
+import type { RenderOptions } from '@testing-library/react';
 
 // Add here any providers that you want to wrap your components with during testing
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 };
 
 /**
@@ -16,11 +14,11 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
  */
 const customRender = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>,
-) => render(ui, { wrapper: AllTheProviders, ...options });
+  options?: Omit<RenderOptions, 'wrapper'>
+) => rtlRender(ui, { wrapper: AllTheProviders, ...options });
 
-// Re-export everything from testing-library
+// Re-export everything except render from testing-library
+// skipcq: JS-E1004
 export * from '@testing-library/react';
-
-// Override the render method
+// skipcq: JS-E1004
 export { customRender as render };
