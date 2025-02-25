@@ -13,11 +13,7 @@ export function WhyNotFree() {
   ];
 
   return (
-    <Section 
-      className='relative pt-20' 
-      container={false}
-      spacing='lg'
-    >
+    <Section className='relative pt-20' container={false} spacing='lg'>
       <div className='absolute inset-0 h-full'>
         <div className='absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.05),transparent_50%)]' />
         <div
@@ -76,13 +72,13 @@ export function WhyNotFree() {
               className='mt-8 space-y-5 text-lg'
             >
               {reasons.map((reason, index) => (
-                <motion.li 
-                  key={index} 
+                <motion.li
+                  key={index}
                   className='flex items-start'
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.3 + (index * 0.1) }}
+                  transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
                 >
                   <span className='mr-3 mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-primary text-sm'>
                     {index + 1}
@@ -100,9 +96,10 @@ export function WhyNotFree() {
               className='mt-8 text-lg text-zinc-300'
             >
               The reality is that building and maintaining WYOS costs money.
-              Server costs, development, community hosting, content curation—these
-              aren't free. But instead of covering these costs by compromising the
-              platform's integrity, I'd rather be upfront about it.
+              Server costs, development, community hosting, content
+              curation—these aren't free. But instead of covering these costs by
+              compromising the platform's integrity, I'd rather be upfront about
+              it.
             </motion.p>
           </motion.div>
         </motion.div>
