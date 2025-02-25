@@ -99,7 +99,7 @@ export function PublicNavLinks() {
           pathname === '/membership' && 'text-white'
         )}
       >
-        <span>Benefits</span>
+        <span>Membership</span>
         <span className='absolute bottom-0 left-1/2 h-[1px] w-0 bg-gradient-to-r from-transparent via-white to-transparent transition-all duration-300 group-hover:left-0 group-hover:w-full' />
       </Link>
     </nav>
