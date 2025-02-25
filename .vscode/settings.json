@@ -52,5 +52,11 @@
   "jest.nodeEnv": {
     "NODE_OPTIONS": "--require ts-node/register"
   },
-  "jest.rootPath": "${workspaceFolder}"
+  "jest.rootPath": "${workspaceFolder}",
+  "augment.completions.enableAutomaticCompletions": false,
+  "augment.enableEmptyFileHint": false,
+  "augment.conflictingCodingAssistantCheck": false,
+  "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
+  "augment.nextEdit.enableAutoApply": false,
+  "augment.nextEdit.showDiffInHover": true
 }
