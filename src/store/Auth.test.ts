@@ -1,15 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import { useAuthStore } from './Auth';
+import { useAuthStore, type UserPrefs } from './Auth';
 import { account } from '@/models/client/config';
-import { AppwriteException, Models } from 'appwrite';
+import { AppwriteException, type Models } from 'appwrite';
 
 // Mock the Appwrite account module
 jest.mock('@/models/client/config', () => ({
   account: {
     get: jest.fn(),
-    getSession: jest.fn(), 
+    getSession: jest.fn(),
     createEmailPasswordSession: jest.fn(),
     create: jest.fn(),
     createJWT: jest.fn(),
@@ -44,20 +44,31 @@ describe('Auth Store', () => {
 
   describe('login', () => {
     it('successfully logs in user', async () => {
-      const mockUser = { $id: 'user-id', email: 'test@example.com', prefs: { reputation: 10 } };
+      const mockUser = {
+        $id: 'user-id',
+        email: 'test@example.com',
+        prefs: { reputation: 10 },
+      };
       const mockSession = { $id: 'session-id' };
       const mockJWT = 'jwt-token';
 
       // Mock successful login
-      (account.createEmailPasswordSession as jest.Mock).mockResolvedValueOnce(mockSession);
+      (account.createEmailPasswordSession as jest.Mock).mockResolvedValueOnce(
+        mockSession
+      );
       (account.get as jest.Mock).mockResolvedValueOnce(mockUser);
       (account.createJWT as jest.Mock).mockResolvedValueOnce({ jwt: mockJWT });
 
-      const result = await useAuthStore.getState().login('test@example.com', 'password');
+      const result = await useAuthStore
+        .getState()
+        .login('test@example.com', 'password');
 
       expect(result.success).toBe(true);
       expect(result.error).toBeUndefined();
-      expect(account.createEmailPasswordSession).toHaveBeenCalledWith('test@example.com', 'password');
+      expect(account.createEmailPasswordSession).toHaveBeenCalledWith(
+        'test@example.com',
+        'password'
+      );
       expect(account.get).toHaveBeenCalled();
       expect(account.createJWT).toHaveBeenCalled();
 
@@ -70,11 +81,19 @@ describe('Auth Store', () => {
 
     it('handles login failure', async () => {
       // Mock login failure
-      const mockError = new AppwriteException('Invalid credentials', 401, 'authentication_error');
-      
-      (account.createEmailPasswordSession as jest.Mock).mockRejectedValueOnce(mockError);
+      const mockError = new AppwriteException(
+        'Invalid credentials',
+        401,
+        'authentication_error'
+      );
 
-      const result = await useAuthStore.getState().login('test@example.com', 'wrong-password');
+      (account.createEmailPasswordSession as jest.Mock).mockRejectedValueOnce(
+        mockError
+      );
+
+      const result = await useAuthStore
+        .getState()
+        .login('test@example.com', 'wrong-password');
 
       expect(result.success).toBe(false);
       expect(result.error).toEqual(mockError);
@@ -93,7 +112,7 @@ describe('Auth Store', () => {
       useAuthStore.setState({
         session: { $id: 'session-id' } as Models.Session,
         jwt: 'jwt-token',
-        user: { $id: 'user-id' } as Models.User,
+        user: { $id: 'user-id' } as Models.User<UserPrefs>,
         hydrated: true,
       });
 
@@ -114,7 +133,11 @@ describe('Auth Store', () => {
 
   describe('verifySession', () => {
     it('verifies and updates session when valid', async () => {
-      const mockUser = { $id: 'user-id', email: 'test@example.com', prefs: { reputation: 10 } };
+      const mockUser = {
+        $id: 'user-id',
+        email: 'test@example.com',
+        prefs: { reputation: 10 },
+      };
       const mockSession = { $id: 'session-id' };
       const mockJWT = 'jwt-token';
 
@@ -141,12 +164,14 @@ describe('Auth Store', () => {
       useAuthStore.setState({
         session: { $id: 'session-id' } as Models.Session,
         jwt: 'jwt-token',
-        user: { $id: 'user-id' } as Models.User,
+        user: { $id: 'user-id' } as Models.User<UserPrefs>,
         hydrated: true,
       });
 
       // Mock failed session verification
-      (account.getSession as jest.Mock).mockRejectedValueOnce(new Error('Session expired'));
+      (account.getSession as jest.Mock).mockRejectedValueOnce(
+        new Error('Session expired')
+      );
 
       await useAuthStore.getState().verifySession();
 
