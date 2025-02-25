@@ -18,7 +18,7 @@ export function MembershipHero() {
   return (
     <section
       ref={containerRef}
-      className='relative flex h-[90vh] items-center justify-center overflow-hidden bg-background'
+      className='relative flex h-[70vh] items-center justify-center overflow-hidden bg-background'
     >
       <Spotlight
         translateY={-350}
@@ -41,24 +41,8 @@ export function MembershipHero() {
             transition={{ duration: 0.3 }}
             className='gradient-text font-heading text-3xl font-bold tracking-tight md:text-5xl lg:text-6xl'
           >
-            Membership That Matters
+            WYOS Membership
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className='mt-6 text-lg text-zinc-400'
-          >
-            Let's be honest—there's no shortage of platforms asking for your
-            credit card these days. Another subscription, another monthly
-            payment, another promise that <em>this</em> is the thing that will
-            finally help you level up. I get the skepticism. I really do. WYOS
-            isn't free, and that's a deliberate choice. Not because I'm trying
-            to build some cash-generating machine, but because I believe in
-            creating something sustainable that actually helps people—without
-            the bullshit that comes with "free" platforms.
-          </motion.p>
         </motion.div>
       </Container>
     </section>

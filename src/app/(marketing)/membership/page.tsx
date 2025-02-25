@@ -1,5 +1,6 @@
 // src/app/(marketing)/membership/page.tsx
 import { MembershipHero } from '@/components/marketing/membership/MembershipHero';
+import { MembershipIntro } from '@/components/marketing/membership/MembershipIntro';
 import { WhyNotFree } from '@/components/marketing/membership/WhyNotFree';
 import { MemberBenefits } from '@/components/marketing/membership/MemberBenefits';
 import { FoundingMemberOffer } from '@/components/marketing/membership/FoundingMemberOffer';
@@ -11,6 +12,7 @@ export default function MembershipPage() {
   return (
     <main className='flex flex-col'>
       <MembershipHero />
+      <MembershipIntro />
       <WhyNotFree />
       <MemberBenefits />
       <FoundingMemberOffer />
