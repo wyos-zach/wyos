@@ -93,10 +93,10 @@ export function PublicNavLinks() {
       </NavigationMenu>
 
       <Link
-        href='/pricing'
+        href='/membership'
         className={cn(
           'group relative text-base font-medium tracking-wide text-zinc-400 transition-colors hover:text-white',
-          pathname === '/pricing' && 'text-white'
+          pathname === '/membership' && 'text-white'
         )}
       >
         <span>Benefits</span>
