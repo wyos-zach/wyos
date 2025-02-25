@@ -47,5 +47,10 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "gitdoc.ai.enabled": true,
-  "gitdoc.enabled": true
+  "gitdoc.enabled": true,
+  
+  "jest.jestCommandLine": "pnpm test --",
+  "jest.nodeEnv": {
+    "NODE_OPTIONS": "--require ts-node/register"
+  }
 }
