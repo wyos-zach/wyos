@@ -32,7 +32,7 @@ export function MembershipHero() {
       />
 
       {/* Grid pattern overlay with low opacity */}
-      <div 
+      <div
         className='absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_110%)]'
         style={{ opacity: 0.05 }}
       />
@@ -52,7 +52,7 @@ export function MembershipHero() {
           >
             <div className='h-px w-24 bg-gradient-to-r from-transparent via-primary/50 to-transparent'></div>
           </motion.div>
-          
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ export function MembershipHero() {
           >
             No BS Membership for Real Growth
           </motion.h1>
-          
+
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.7 }}
