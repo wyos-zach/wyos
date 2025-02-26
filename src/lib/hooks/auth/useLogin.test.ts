@@ -1,4 +1,3 @@
-// src/lib/hooks/auth/useLogin.test.ts
 /**
  * @jest-environment jsdom
  * @description Tests for the useLogin hook
@@ -12,6 +11,12 @@ jest.mock('@/store/Auth', () => ({
   useAuthStore: jest.fn(),
 }));
 
+// Mock FormData
+const mockFormData = {
+  get: jest.fn(),
+};
+global.FormData = jest.fn(() => mockFormData) as unknown as typeof FormData;
+
 describe('useLoginForm', () => {
   const mockLogin = jest.fn();
 
@@ -24,16 +29,34 @@ describe('useLoginForm', () => {
 
   it('should handle successful login', async () => {
     mockLogin.mockResolvedValueOnce({ success: true });
+    mockFormData.get.mockImplementation((key) => {
+      if (key === 'email') return 'test@example.com';
+      if (key === 'password') return 'password123';
+      return null;
+    });
 
     const { result } = renderHook(() => useLoginForm());
 
+    // Create a mock form event
+    const formElement = {} as HTMLFormElement;
     const mockEvent = {
       preventDefault: jest.fn(),
-      currentTarget: {
-        email: { value: 'test@example.com' },
-        password: { value: 'password123' },
-      },
-    } as unknown as React.FormEvent<HTMLFormElement>;
+      currentTarget: formElement,
+      // Add required properties to satisfy FormEvent interface
+      bubbles: false,
+      cancelable: false,
+      defaultPrevented: false,
+      eventPhase: 0,
+      isTrusted: false,
+      nativeEvent: {} as Event,
+      target: formElement,
+      timeStamp: 0,
+      type: 'submit',
+      isDefaultPrevented: () => false,
+      isPropagationStopped: () => false,
+      persist: () => {},
+      stopPropagation: () => {},
+    };
 
     await act(async () => {
       await result.current.handleSubmit(mockEvent);
@@ -49,16 +72,34 @@ describe('useLoginForm', () => {
       success: false,
       error: { message: 'Invalid credentials' },
     });
+    mockFormData.get.mockImplementation((key) => {
+      if (key === 'email') return 'test@example.com';
+      if (key === 'password') return 'wrong-password';
+      return null;
+    });
 
     const { result } = renderHook(() => useLoginForm());
 
+    // Create a mock form event
+    const formElement = {} as HTMLFormElement;
     const mockEvent = {
       preventDefault: jest.fn(),
-      currentTarget: {
-        email: { value: 'test@example.com' },
-        password: { value: 'wrong-password' },
-      },
-    } as unknown as React.FormEvent<HTMLFormElement>;
+      currentTarget: formElement,
+      // Add required properties to satisfy FormEvent interface
+      bubbles: false,
+      cancelable: false,
+      defaultPrevented: false,
+      eventPhase: 0,
+      isTrusted: false,
+      nativeEvent: {} as Event,
+      target: formElement,
+      timeStamp: 0,
+      type: 'submit',
+      isDefaultPrevented: () => false,
+      isPropagationStopped: () => false,
+      persist: () => {},
+      stopPropagation: () => {},
+    };
 
     await act(async () => {
       await result.current.handleSubmit(mockEvent);
