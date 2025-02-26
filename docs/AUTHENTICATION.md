@@ -1,5 +1,3 @@
-// docs/AUTHENTICATION.md
-
 # WYOS Authentication System
 
 ## Overview
