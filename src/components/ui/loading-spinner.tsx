@@ -19,6 +19,7 @@ export function LoadingSpinner({
 
   return (
     <div
+      role="status"
       className={cn(
         'animate-spin rounded-full border-2 border-current border-t-transparent',
         sizeClasses[size],

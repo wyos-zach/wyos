@@ -3,7 +3,7 @@
  * @jest-environment jsdom
  * @description Tests for the authentication layout
  */
-import { render, screen, waitFor } from '@/__tests__/test-utils';
+import { render, screen, waitFor, act } from '@/__tests__/test-utils';
 import AuthLayout from './layout';
 import { useAuthStore } from '@/store/Auth';
 import { useRouter } from 'next/navigation';
@@ -28,35 +28,48 @@ describe('AuthLayout', () => {
     });
   });
 
-  it('shows loading spinner while checking authentication', () => {
+  it('shows loading spinner while checking authentication', async () => {
+    // Mock verifySession to return a promise that doesn't resolve immediately
+    mockVerifySession.mockImplementation(() => new Promise(() => {}));
+    
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       session: null,
       hydrated: true,
       verifySession: mockVerifySession,
     });
 
-    render(
-      <AuthLayout>
-        <div data-testid='child-content'>Test Content</div>
-      </AuthLayout>
-    );
+    await act(async () => {
+      render(
+        <AuthLayout>
+          <div data-testid='child-content'>Test Content</div>
+        </AuthLayout>
+      );
+    });
 
-    expect(screen.getByRole('status')).toBeInTheDocument();
+    // Wait for the component to render the loading state
+    await waitFor(() => {
+      expect(screen.getByRole('status')).toBeInTheDocument();
+    });
     expect(screen.queryByTestId('child-content')).not.toBeInTheDocument();
   });
 
   it('redirects authenticated users to dashboard', async () => {
+    // Mock verifySession to resolve immediately
+    mockVerifySession.mockResolvedValue(undefined);
+    
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       session: { $id: 'test-session' },
       hydrated: true,
       verifySession: mockVerifySession,
     });
 
-    render(
-      <AuthLayout>
-        <div data-testid='child-content'>Test Content</div>
-      </AuthLayout>
-    );
+    await act(async () => {
+      render(
+        <AuthLayout>
+          <div data-testid='child-content'>Test Content</div>
+        </AuthLayout>
+      );
+    });
 
     await waitFor(() => {
       expect(mockReplace).toHaveBeenCalledWith('/dashboard');
@@ -72,11 +85,13 @@ describe('AuthLayout', () => {
       verifySession: mockVerifySession,
     });
 
-    render(
-      <AuthLayout>
-        <div data-testid='child-content'>Test Content</div>
-      </AuthLayout>
-    );
+    await act(async () => {
+      render(
+        <AuthLayout>
+          <div data-testid='child-content'>Test Content</div>
+        </AuthLayout>
+      );
+    });
 
     await waitFor(() => {
       expect(screen.getByTestId('child-content')).toBeInTheDocument();
