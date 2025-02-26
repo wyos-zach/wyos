@@ -1,8 +1,6 @@
-auth-flow.md
+# WYOS Authentication Flow Documentation
 
-## WYOS Authentication Flow Documentation
-
-### **Overview**
+## **Overview**
 
 WYOS uses Appwrite for authentication, with Zustand for state management. The authentication system includes email/password authentication, Google OAuth, email verification, and password reset functionality.
 

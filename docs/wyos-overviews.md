@@ -6,7 +6,7 @@ WYOS is for the underdogs, the fighters, and the change-makers—the people who 
 
 ---
 
-### A Place to Get Away from the Bullshit
+## A Place to Get Away from the Bullshit
 
 The world is full of noise. Social media is fake, the internet is cluttered, and everyone’s trying to sell you something. WYOS is different. It’s a space you can trust—no agendas, no filters, no fluff. If something is included on WYOS, it’s because it works, it helps, and it’s worth your time. You don’t have to wonder if there’s a catch because there isn’t one.
 
@@ -58,7 +58,7 @@ This community is built for people who want the truth, who are ready to contribu
 
 ---
 
-### Who WYOS Is For
+## Who WYOS Is For
 
 WYOS is for people who are tired of the fake, fluffy bullshit that’s everywhere else. It’s for the ones who:
 
@@ -71,7 +71,7 @@ It’s for the fighters, the underdogs, and the people who refuse to give up on 
 
 ---
 
-### Why WYOS Exists
+## Why WYOS Exists
 
 I built WYOS because I needed it myself. When I started my own journey, I was overwhelmed. I didn’t know where to turn, who to trust, or what I was even looking for. The internet was full of hype, fluff, and garbage. Social media was fake. And I didn’t have a place to go where I could find the truth, tools, and people who could help me.
 
@@ -81,7 +81,7 @@ That’s WYOS. It’s not for everyone—and that’s the point. If you’re rea
 
 ---
 
-# Project Overview
+## Project Overview
 
 ### Objective
 
@@ -160,7 +160,7 @@ WYOS exists to change that. It’s for the fighters and underdogs—the people w
 
 ---
 
-# Core Offerings
+## Core Offerings
 
 ### 1. Knowledge Section
 

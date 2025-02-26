@@ -47,7 +47,8 @@
 ## Folder and File Management
 
 1. Follow the modular structure defined for WYOS:
-   ```
+
+   ```md
    src/
    ├── app/ # Next.js App Router routes
    │ ├── (auth)/ # Authentication routes
@@ -72,6 +73,7 @@
    ├── types/ # TypeScript types
    └── middleware.ts # Next.js middleware
    ```
+
 2. Keep feature-specific logic self-contained (e.g., `knowledge`, `resources`).
 3. Do not modify files in `/node_modules/` or critical folders without explicit approval.
 4. Maintain modular, feature-based folder structures (`src/app/`, `src/components/`).
@@ -129,7 +131,7 @@
    - How to test it.
    - Key dependencies.
 
-## General Interaction Guidelines:
+## General Interaction Guidelines
 
 - Ask for clarification when uncertain about a task
 - Avoid making assumptions, implementing changes, or creating new features without full understanding of what's already been configured.

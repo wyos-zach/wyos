@@ -1,6 +1,8 @@
+# Coding Standards
+
 This comprehensive guide outlines best practices, conventions, and standards for development with modern web technologies including NextJS, ReactJS, Redux, TypeScript, JavaScript, HTML, CSS, and UI/UX frameworks.
 
-Development Philosophy
+## Development Philosophy
 
 - Write clean, maintainable, and scalable code
 - Follow SOLID principles
@@ -8,15 +10,16 @@ Development Philosophy
 - Emphasize type safety and static analysis
 - Practice component-driven development
 
-Code Implementation Guidelines
-Planning Phase
+## Code Implementation Guidelines
+
+### Planning Phase
 
 - Begin with step-by-step planning
 - Write detailed pseudocode before implementation
 - Document component architecture and data flow
 - Consider edge cases and error scenarios
 
-Code Style
+### Code Style
 
 - Use tabs for indentation
 - Use single quotes for strings (except to avoid escaping)
@@ -33,8 +36,9 @@ Code Style
 - Limit line length to 80 characters
 - Use trailing commas in multiline object/array literals
 
-Naming Conventions
-General Rules
+## Naming Conventions
+
+### General Rules
 
 - Use PascalCase for:
   - Components
@@ -55,7 +59,7 @@ General Rules
   - Constants
   - Global configurations
 
-Specific Naming Patterns
+### Specific Naming Patterns
 
 - Prefix event handlers with 'handle': handleClick, handleSubmit
 - Prefix boolean variables with verbs: isLoading, hasError, canSubmit
@@ -67,8 +71,9 @@ Specific Naming Patterns
   - props (properties)
   - ref (reference)
 
-React Best Practices
-Component Architecture
+## React Best Practices
+
+### Component Architecture
 
 - Use functional components with TypeScript interfaces
 - Define components using the function keyword
@@ -77,7 +82,7 @@ Component Architecture
 - Use React.memo() strategically for performance
 - Implement proper cleanup in useEffect hooks
 
-React Performance Optimization
+### React Performance Optimization
 
 - Use useCallback for memoizing callback functions
 - Implement useMemo for expensive computations
@@ -85,15 +90,16 @@ React Performance Optimization
 - Implement code splitting using dynamic imports
 - Implement proper key props in lists (avoid using index as key)
 
-Next.js Best Practices
-Core Concepts
+## Next.js Best Practices
+
+### Core Concepts
 
 - Utilize App Router for routing
 - Implement proper metadata management
 - Use proper caching strategies
 - Implement proper error boundaries
 
-Components and Features
+### Components and Features
 
 - Use Next.js built-in components:
   - Image component for optimized images
@@ -103,7 +109,7 @@ Components and Features
 - Implement proper loading states
 - Use proper data fetching methods
 
-Server Components
+### Server Components
 
 - Default to Server Components
 - Use URL query parameters for data fetching and server state management
@@ -113,7 +119,7 @@ Server Components
   - State management
   - Client-side-only libraries
 
-TypeScript Implementation
+### TypeScript Implementation
 
 - Enable strict mode
 - Define clear interfaces for component props, state, and Redux state structure.
@@ -123,14 +129,15 @@ TypeScript Implementation
 - Prefer interface over type for defining object structures, especially when extending.
 - Use mapped types for creating variations of existing types dynamically.
 
-UI and Styling
-Component Libraries
+## UI and Styling
+
+### Component Libraries
 
 - Use Shadcn UI for consistent, accessible component design.
 - Integrate Radix UI primitives for customizable, accessible UI elements.
 - Apply composition patterns to create modular, reusable components.
 
-Styling Guidelines
+### Styling Guidelines
 
 - Use Tailwind CSS for styling
 - Use Tailwind CSS for utility-first, maintainable styling.
@@ -140,15 +147,16 @@ Styling Guidelines
 - Maintain consistent spacing values to establish visual harmony.
 - Define CSS variables for theme colors and spacing to support easy theming and maintainability.
 
-State Management
-Local State
+## State Management
+
+### Local State
 
 - Use useState for component-level state
 - Implement useReducer for complex state
 - Use useContext for shared state
 - Implement proper state initialization
 
-Global State
+### Global State
 
 - Use Redux Toolkit for global state
 - Use createSlice to define state, reducers, and actions together.
@@ -157,36 +165,39 @@ Global State
 - Use selectors to encapsulate state access.
 - Avoid large, all-encompassing slices; separate concerns by feature.
 
-Error Handling and Validation
-Form Validation
+## Error Handling and Validation
+
+### Form Validation
 
 - Use Zod for schema validation
 - Implement proper error messages
 - Use proper form libraries (e.g., React Hook Form)
 
-Error Boundaries
+### Error Boundaries
 
 - Use error boundaries to catch and handle errors in React component trees gracefully.
 - Log caught errors to an external service (e.g., Sentry) for tracking and debugging.
 - Design user-friendly fallback UIs to display when errors occur, keeping users informed without breaking the app.
 
-Testing
-Unit Testing
+## Testing
+
+### Unit Testing
 
 - Write thorough unit tests to validate individual functions and components.
 - Use Jest and React Testing Library for reliable and efficient testing of React components.
 - Follow patterns like Arrange-Act-Assert to ensure clarity and consistency in tests.
 - Mock external dependencies and API calls to isolate unit tests.
 
-Integration Testing
+## Integration Testing
 
 - Focus on user workflows to ensure app functionality.
 - Set up and tear down test environments properly to maintain test independence.
 - Use snapshot testing selectively to catch unintended UI changes without over-relying on it.
 - Leverage testing utilities (e.g., screen in RTL) for cleaner and more readable tests.
 
-Accessibility (a11y)
-Core Requirements
+## Accessibility (a11y)
+
+### Core Requirements
 
 - Use semantic HTML for meaningful structure.
 - Apply accurate ARIA attributes where needed.
@@ -197,13 +208,13 @@ Core Requirements
 - Make all interactive elements accessible.
 - Provide clear and accessible error feedback.
 
-Security
+### Security
 
 - Implement input sanitization to prevent XSS attacks.
 - Use DOMPurify for sanitizing HTML content.
 - Use proper authentication methods.
 
-Internationalization (i18n)
+### Internationalization (i18n)
 
 - Use next-i18next for translations
 - Implement proper locale detection
@@ -211,7 +222,7 @@ Internationalization (i18n)
 - Implement proper RTL support
 - Use proper currency formatting
 
-Documentation
+### Documentation
 
 - Use JSDoc for documentation
 - Document all public functions, classes, methods, and interfaces
