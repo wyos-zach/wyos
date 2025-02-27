@@ -1,0 +1,101 @@
+# Project Configuration
+
+## Tech Stack
+
+- Next.js 15 with App Router
+- React 19
+- TypeScript
+- Appwrite for backend services (authentication, databases, file storage)
+- Stripe for subscription payments and billing
+- Discourse for community forums with SSO integration
+- Zustand with Immer and Persist for state management
+- TanStack Query for data fetching
+- Zod for form validation
+- TailwindCSS for styling
+- ShadcN UI for components
+- Motion (motion/react) for animations
+
+## Project Structure
+
+```bash
+src/
+├── __tests__/              # Jest Testing configuration
+│
+├── app/                    # Next.js App Router routes
+│   ├── (auth)/            # Authentication routes (protected)
+│   ├── (core)/            # Main app features (protected) 
+│   ├── (marketing)/       # Public pages (home, about, membership)
+│   ├── (subscription)/    # Subscription-related pages (Stripe integration)
+│   ├── api/               # Custom API Routes
+│   └── auth/              # OAuth callback routes (social logins)
+│
+├── components/            # React components
+│   ├── auth/             # Authentication components (login,register, etc.)
+│   ├── core/             # Feature components (Knowledge, Resources, Community)
+│   ├── marketing/        # Marketing components 
+│   ├── shared/           # Common, reusable components
+│   └── ui/               # Shadcn components and styled elements
+│
+├── lib/                  # Utility functions and shared logic
+│   ├── api/             # API call helpers and external integrations
+│   ├── config/          # App configurations and environment setups
+│   ├── hooks/           # Custom React hooks
+│   ├── providers/       # React context providers
+│   └── repositories/    # Data repositories interfacing with Appwrite
+│
+├── models/               # Appwrite models and config files
+│   ├── client/           # Client side config
+│   └── server/           # Server-side config
+├── store/                # Zustand-based state management store
+└── types/                # Global TypeScript type definitions
+    ├── auth/
+    ├── core/
+    ├── marketing/
+    └── shared/
+
+```
+
+## External Integrations
+
+- **Stripe:** Used for managing secure subscription payments. Payment workflows and keys are handled via environment variables.
+- **Discourse:** Integrated for community features. SSO ensures a unified user experience between the main app and the forum.
+- **Appwrite:** Provides backend services including user authentication, database collections (Subscriptions, Knowledge, Resources, Categories, Tags), and storage (images, attachments).
+- All API calls for external services should reside under `/lib/api`.
+
+## Development Workflow
+
+- **Version Control:** Utilize Git with GitHub.
+    - `main`: Production-ready code.
+    - `develop`: Staging environment.
+    - `feature/*`: Branches for new features/experiments.
+- **Deployment:** Automatic deployments via Vercel using the `main` branch.
+- **Testing:** Jest tests are located in the `__tests__/` folder.
+- **Code Quality:** Enforced via ESLint, Prettier, and DeepSource.
+- **Reviews:** All significant changes, particularly affecting databases and external integrations (e.g., Appwrite schema updates or Stripe integration), are to be reviewed by Cline before execution.
+
+## Development
+
+- Use SOLID principles and clear separation of concerns
+- Use Server Components where possible
+- Minimize client-side JavaScript
+- Follow TypeScript best practices
+- Implement proper error handling
+- Use early returns for conditional logic
+- Optimize for performance and SEO
+
+## Design Guidelines
+
+- Dark mode by default
+- Inspired by Resend website - modern, sleek, and premium
+- Glass-morphism effects with subtle gradients
+- Responsive design and Accessible UI components
+- Subtle animations to enhance user experience
+
+## Security
+
+- **Do Not Modify or Expose:**
+    - `.env` files containing API keys and sensitive credentials.
+    - Files under `/lib/config/` that handle secrets.
+- **Sensitive Information:** Ensure that API keys, private credentials, and other sensitive configurations are kept out of version control.
+- **Access Controls:** Maintain strict role-based access control for Appwrite collections and storage buckets.
+- **Migration Policies:** Any changes to data schemas or external integrations need thorough documentation and pre-deployment review.
