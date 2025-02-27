@@ -58,7 +58,12 @@ import { Account } from 'node-appwrite';
 describe('Middleware', () => {
   let mockRequest: NextRequest;
   let mockAccount: MockAccount;
-  let middleware: (request: NextRequest) => Promise<ReturnType<typeof NextResponse.next> | ReturnType<typeof NextResponse.redirect>>;
+  let middleware: (
+    request: NextRequest
+  ) => Promise<
+    | ReturnType<typeof NextResponse.next>
+    | ReturnType<typeof NextResponse.redirect>
+  >;
 
   beforeEach(() => {
     // Reset mocks
@@ -66,37 +71,44 @@ describe('Middleware', () => {
 
     // Get the mocked account instance
     mockAccount = (Account as jest.Mock)() as MockAccount;
-    
+
     // Create a fresh middleware implementation for each test
     middleware = async (request: NextRequest) => {
       // Check if the path is protected
       const protectedPaths = ['/(subscription)', '/(core)'];
-      const publicPaths = ['/login', '/register', '/reset-password', '/verify-email'];
-      
+      const publicPaths = [
+        '/login',
+        '/register',
+        '/reset-password',
+        '/verify-email',
+      ];
+
       const { pathname } = request.nextUrl;
-      
+
       // Check if the path is public (no auth required)
-      if (publicPaths.some(path => pathname.startsWith(path))) {
+      if (publicPaths.some((path) => pathname.startsWith(path))) {
         return NextResponse.next();
       }
-      
+
       // Check if the path is protected (auth required)
-      const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path));
-      
+      const isProtectedPath = protectedPaths.some((path) =>
+        pathname.startsWith(path)
+      );
+
       if (!isProtectedPath) {
         return NextResponse.next();
       }
-      
+
       // Get the session cookie
       const sessionCookie = request.cookies.get('appwrite_session');
-      
+
       if (!sessionCookie) {
         // No session cookie, redirect to login
         const redirectUrl = new URL('/login', request.url);
         redirectUrl.searchParams.set('redirect', pathname);
         return NextResponse.redirect(redirectUrl);
       }
-      
+
       try {
         // Try to get the session
         await mockAccount.getSession('current');
@@ -170,7 +182,7 @@ describe('Middleware', () => {
     // Should redirect to login
     expect(NextResponse.redirect).toHaveBeenCalled();
     expect(NextResponse.next).not.toHaveBeenCalled();
-    
+
     // Check that the redirect URL includes the original path
     const redirectCall = (NextResponse.redirect as jest.Mock).mock.calls[0][0];
     expect(redirectCall.toString()).toContain('/login');
@@ -224,7 +236,7 @@ describe('Middleware', () => {
     // Should redirect to login
     expect(NextResponse.redirect).toHaveBeenCalled();
     expect(NextResponse.next).not.toHaveBeenCalled();
-    
+
     // Check that the redirect URL includes the original path
     const redirectCall = (NextResponse.redirect as jest.Mock).mock.calls[0][0];
     expect(redirectCall.toString()).toContain('/login');

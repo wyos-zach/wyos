@@ -18,6 +18,7 @@ The WYOS project uses Jest and React Testing Library for testing. This setup ena
 Place component tests in the same directory as the component, using the `.test.tsx` suffix.
 
 Example:
+
 ```tsx
 // src/components/MyComponent.test.tsx
 import { render, screen } from '@/__tests__/test-utils';
@@ -38,12 +39,12 @@ Use Jest's mocking capabilities to mock dependencies:
 ```tsx
 // Mock a component or module
 jest.mock('@/components/SomeComponent', () => ({
-  SomeComponent: () => <div data-testid="mocked-component">Mocked</div>
+  SomeComponent: () => <div data-testid='mocked-component'>Mocked</div>,
 }));
 
 // Mock a hook
 jest.mock('@/lib/hooks/useMyHook', () => ({
-  useMyHook: () => ({ data: 'test', isLoading: false })
+  useMyHook: () => ({ data: 'test', isLoading: false }),
 }));
 ```
 

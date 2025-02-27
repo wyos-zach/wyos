@@ -14,7 +14,7 @@ export function MemberNavLinks() {
   const pathname = usePathname();
 
   return (
-    <nav className="flex items-center space-x-12">
+    <nav className='flex items-center space-x-12'>
       {memberLinks.map((link) => (
         <Link
           key={link.href}
@@ -25,7 +25,7 @@ export function MemberNavLinks() {
           )}
         >
           <span>{link.label}</span>
-          <span className="absolute bottom-0 left-1/2 h-[1px] w-0 bg-gradient-to-r from-transparent via-white to-transparent transition-all duration-300 group-hover:left-0 group-hover:w-full" />
+          <span className='absolute bottom-0 left-1/2 h-[1px] w-0 bg-gradient-to-r from-transparent via-white to-transparent transition-all duration-300 group-hover:left-0 group-hover:w-full' />
         </Link>
       ))}
     </nav>

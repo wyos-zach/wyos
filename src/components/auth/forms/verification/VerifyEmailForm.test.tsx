@@ -16,7 +16,7 @@ jest.mock('next/navigation', () => ({
       if (param === 'userId') return 'test-user-id';
       if (param === 'secret') return 'test-secret';
       return null;
-    }
+    },
   })),
 }));
 
@@ -32,7 +32,7 @@ describe('VerifyEmailForm', () => {
       success: false,
     });
 
-    render(<VerifyEmailForm userId="test-user-id" secret="test-secret" />);
+    render(<VerifyEmailForm userId='test-user-id' secret='test-secret' />);
 
     expect(screen.getByText(/verifying your email/i)).toBeInTheDocument();
     expect(screen.getByText(/please wait/i)).toBeInTheDocument();
@@ -46,11 +46,13 @@ describe('VerifyEmailForm', () => {
       success: false,
     });
 
-    render(<VerifyEmailForm userId="test-user-id" secret="test-secret" />);
+    render(<VerifyEmailForm userId='test-user-id' secret='test-secret' />);
 
     expect(screen.getByText(/email verification status/i)).toBeInTheDocument();
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /request new verification email/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /request new verification email/i })
+    ).toBeInTheDocument();
   });
 
   it('shows success message when verification is successful', () => {
@@ -60,9 +62,11 @@ describe('VerifyEmailForm', () => {
       success: true,
     });
 
-    render(<VerifyEmailForm userId="test-user-id" secret="test-secret" />);
+    render(<VerifyEmailForm userId='test-user-id' secret='test-secret' />);
 
-    expect(screen.getByText(/email verified successfully/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/email verified successfully/i)
+    ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /login/i })).toBeInTheDocument();
   });
 
@@ -78,7 +82,7 @@ describe('VerifyEmailForm', () => {
       success: false,
     });
 
-    render(<VerifyEmailForm userId="" secret="" />);
+    render(<VerifyEmailForm userId='' secret='' />);
 
     expect(screen.getByText(/email verification status/i)).toBeInTheDocument();
   });
