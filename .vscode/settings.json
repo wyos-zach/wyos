@@ -59,6 +59,6 @@
   "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
   "augment.nextEdit.enableAutoApply": false,
   "augment.nextEdit.showDiffInHover": true,
-  "cline.mcp.mode": "server-use-only",
-  "cline.mcpMarketplace.enabled": true
+  "cline.mcp.mode": "off",
+  "cline.mcpMarketplace.enabled": false
 }
