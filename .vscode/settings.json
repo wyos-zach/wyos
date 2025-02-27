@@ -58,5 +58,7 @@
   "augment.conflictingCodingAssistantCheck": false,
   "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
   "augment.nextEdit.enableAutoApply": false,
-  "augment.nextEdit.showDiffInHover": true
+  "augment.nextEdit.showDiffInHover": true,
+  "cline.mcp.mode": "off",
+  "cline.mcpMarketplace.enabled": false
 }
