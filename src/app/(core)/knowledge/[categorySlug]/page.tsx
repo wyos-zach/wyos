@@ -1,6 +1,6 @@
 import { KnowledgeService } from '@/models/server/knowledge';
-import { KnowledgeGrid } from '@/components/core/knowledge/KnowledgeGrid';
-import { CategoryHeader } from '@/components/core/knowledge/CategoryHeader';
+import { EnhancedKnowledgeGrid } from '@/components/core/knowledge/EnhancedKnowledgeGrid';
+import { EnhancedCategoryHeader } from '@/components/core/knowledge/EnhancedCategoryHeader';
 import type { KnowledgeEntry } from '@/types/core/knowledge';
 
 // Declare that params is a Promise carrying our URL parameter.
@@ -38,8 +38,14 @@ export default async function CategoryPage({
 
     return (
       <div className='space-y-12'>
-        <CategoryHeader category={category} totalEntries={response.total} />
-        <KnowledgeGrid initialData={initialData} categorySlug={categorySlug} />
+        <EnhancedCategoryHeader
+          category={category}
+          totalEntries={response.total}
+        />
+        <EnhancedKnowledgeGrid
+          initialData={initialData}
+          categorySlug={categorySlug}
+        />
       </div>
     );
   } catch (error) {

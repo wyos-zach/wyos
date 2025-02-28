@@ -1,6 +1,5 @@
 'use client';
 
-import { Container } from '@/components/ui/container';
 import { useAuthStore } from '@/store/Auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -28,11 +27,10 @@ export default function KnowledgeLayout({
     );
   }
 
+  // Removed the Container component to allow full-width backgrounds
   return (
     <div className='relative flex min-h-screen flex-col'>
-      <Container as='main' className='flex-1 py-8 md:py-12 lg:py-16'>
-        {children}
-      </Container>
+      {children}
     </div>
   );
 }
