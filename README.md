@@ -1,4 +1,4 @@
-## WYOS (Writing Your Own Story)
+# WYOS (Writing Your Own Story)
 
 A subscription-based membership platform for personal and professional development built with Next.js 15, focusing on authentic guidance through curated knowledge and resources.
 
@@ -102,3 +102,42 @@ Refer to the `/docs` folder for detailed documentation:
 - **`component-guidelines.md`**: Component development standards
 - **`project-structure.md`**: Project organization
 - **`coding-standards.md`**: Development guidelines
+
+### **CSS Organization Guidelines**
+
+## Structure
+
+Our global CSS is organized into these clear sections:
+
+1. **CSS Reset & Base Styles**: Normalize browser styles and set basics
+2. **Typography**: Text styles for headings, paragraphs, links
+3. **Layout & Containers**: Flex, grid, and layout utilities
+4. **Spacing Utilities**: Margin and padding helper classes
+5. **Buttons & Form Elements**: Form controls styling
+6. **Cards & Component Styles**: Reusable component styles
+7. **Utility Classes**: Display, text alignment, etc.
+8. **Responsive Utilities**: Mobile breakpoints
+9. **Theme Variables**: CSS variables for theming
+
+## Naming Conventions
+
+- Use kebab-case for component classes (e.g., `.card-header`)
+- Use utility classes with shorthand (e.g., `.mb-4` for margin-bottom: 1rem)
+- Prefix responsive utilities with breakpoint (e.g., `.md\:hidden`)
+
+## Best Practices
+
+- Keep related styles grouped together
+- Add comments to mark sections
+- Avoid deep nesting of selectors
+- Use CSS variables for theming and consistent values
+- Consolidate duplicate properties
+- Maintain alphabetical order within rule sets when possible
+
+## How to Add New Styles
+
+1. Identify which section your style belongs to
+2. Check if a similar style already exists
+3. Add your style to the appropriate section
+4. Add comments for complex styles
+5. Consider if the style should be a utility or component

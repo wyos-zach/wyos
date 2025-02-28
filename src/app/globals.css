@@ -2,7 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * BASE LAYER
+ */
 @layer base {
+  /* CSS Variables */
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -24,7 +28,6 @@
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
-
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -33,7 +36,6 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-
     --button-bg: rgb(255, 255, 255);
     --button-hover: rgb(243, 244, 246);
     --button-text: rgb(17, 24, 39);
@@ -44,37 +46,28 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
   }
-  .dark {
-    --background: 0 0% 3.9%; /* Deep black */
-    --foreground: 0 0% 98%; /* Clean white text */
 
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
     --card-foreground: 0 0% 98%;
-
     --popover: 0 0% 3.9%;
     --popover-foreground: 0 0% 98%;
-
-    --primary: 0 0% 98%; /* Vibrant blue */
+    --primary: 0 0% 98%;
     --primary-foreground: 0 0% 9%;
-
-    --secondary: 0 0% 14.9%; /* Dark slate */
+    --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
-
     --muted: 0 0% 14.9%;
     --muted-foreground: 0 0% 63.9%;
-
     --accent: 0 0% 14.9%;
     --accent-foreground: 0 0% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-
     --border: 0 0% 14.9%;
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
-
     --radius: 0.5rem;
-
     --sidebar-background: 240 10% 3.9%;
     --sidebar-foreground: 0 0% 98%;
     --sidebar-primary: 217 91% 60%;
@@ -83,7 +76,6 @@
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217 91% 60%;
-
     --button-bg: rgb(29, 41, 57);
     --button-hover: rgb(39, 51, 67);
     --button-text: rgb(255, 255, 255);
@@ -94,19 +86,22 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
 
-@layer base {
+  /* Basic Element Styles */
   * {
-    @apply border-border;
+    @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
+/**
+ * COMPONENTS LAYER
+ */
 @layer components {
-  /* Base Button Styles */
+  /* === BUTTON COMPONENTS === */
   .button-base {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2 text-sm font-medium shadow-sm transition-all duration-200;
   }
@@ -155,14 +150,50 @@
   .button-base:disabled {
     @apply pointer-events-none opacity-50;
   }
-}
 
-@layer components {
-  /* Premium Card Components */
-  
+  /* === TYPOGRAPHY COMPONENTS === */
+  .overline {
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7;
+    color: #ffffff;
+  }
+
+  .p-regular {
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .p-small {
+    letter-spacing: -0.09px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .mb-16 {
+    margin-bottom: 16px;
+  }
+
+  .monthly-price {
+    display: flex;
+    align-items: flex-end;
+    gap: 5px;
+  }
+
+  /* === CARD COMPONENTS === */
   /* Feature Card */
   .feature-card {
-    background: linear-gradient(180deg, rgba(31, 33, 40, 0.5) 0%, rgba(31, 33, 40, 0.2) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(31, 33, 40, 0.5) 0%,
+      rgba(31, 33, 40, 0.2) 100%
+    );
     border-radius: 16px;
     display: flex;
     flex-direction: column;
@@ -190,13 +221,6 @@
     margin-bottom: 24px;
   }
 
-  .p-regular {
-    letter-spacing: -0.01em;
-    margin-bottom: 0;
-    font-size: 16px;
-    line-height: 1.6;
-  }
-
   .logo-loop {
     display: flex;
     flex-wrap: wrap;
@@ -213,7 +237,11 @@
   .feature-overlay {
     z-index: 1;
     min-height: 120px;
-    background-image: linear-gradient(to top, rgba(31, 33, 40, 0.5), rgba(31, 33, 40, 0));
+    background-image: linear-gradient(
+      to top,
+      rgba(31, 33, 40, 0.5),
+      rgba(31, 33, 40, 0)
+    );
     position: absolute;
     bottom: 0;
     left: 0;
@@ -241,6 +269,7 @@
     align-items: center;
   }
 
+  /* Card Light effects */
   .light-effect {
     position: absolute;
     top: -100px;
@@ -263,8 +292,8 @@
     right: -50px;
     background: radial-gradient(
       circle,
-      rgba(139, 92, 246, 0.3) 0%,
-      rgba(139, 92, 246, 0.1) 30%,
+      rgba(92, 146, 246, 0.3) 0%,
+      rgba(92, 159, 246, 0.1) 30%,
       transparent 70%
     );
   }
@@ -282,23 +311,13 @@
     );
   }
 
-  .linear-border {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.1) 50%,
-      transparent
-    );
-  }
-
   /* Pricing Card */
   .pricing-card {
-    background: linear-gradient(180deg, rgba(31, 33, 40, 0.5) 0%, rgba(31, 33, 40, 0.2) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(31, 33, 40, 0.5) 0%,
+      rgba(31, 33, 40, 0.2) 100%
+    );
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     position: relative;
@@ -334,65 +353,9 @@
     gap: 12px;
   }
 
-  .overline {
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.7;
-    color: #3b82f6;
-  }
-
-  .mb-16 {
-    margin-bottom: 16px;
-  }
-
-  .monthly-price {
-    display: flex;
-    align-items: flex-end;
-    gap: 5px;
-  }
-
-  .p-small {
-    letter-spacing: -0.09px;
-    margin-bottom: 0;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-
-  .gradient-text {
-    -webkit-text-fill-color: transparent;
-    background-image: linear-gradient(90deg, #3b82f6, #8b5cf6);
-    -webkit-background-clip: text;
-    background-clip: text;
-  }
-
   .pricing-button-wrapper {
     margin-top: auto;
     margin-bottom: 24px;
-  }
-
-  .button-secondary {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 12px 20px;
-    color: #3b82f6;
-    text-align: center;
-    letter-spacing: -0.18px;
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 24px;
-    transition: all 0.2s ease;
-  }
-
-  .button-secondary:hover {
-    background: rgba(59, 130, 246, 0.15);
-    border-color: rgba(59, 130, 246, 0.3);
   }
 
   .pricing-checklist-item {
@@ -416,7 +379,11 @@
 
   /* List Item Card */
   .list-item-card {
-    background: linear-gradient(180deg, rgba(31, 33, 40, 0.5) 0%, rgba(31, 33, 40, 0.2) 100%);
+    background: linear-gradient(
+      180deg,
+      rgba(31, 33, 40, 0.5) 0%,
+      rgba(31, 33, 40, 0.2) 100%
+    );
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     position: relative;
@@ -454,26 +421,50 @@
     margin-bottom: 8px;
     color: white;
   }
+
+  /* Horizontal line border style */
+  .linear-border-90 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent
+    );
+  }
 }
 
+/**
+ * UTILITIES LAYER
+ */
 @layer utilities {
+  /* === TEXT EFFECTS === */
   .gradient-text {
-    @apply bg-gradient-to-t from-[#3b82f6] to-[#8b5cf6] bg-clip-text text-transparent; /* Gradient Text */
+    @apply bg-gradient-to-t from-[#363a3f] to-[#ffffffb7] bg-clip-text text-transparent;
   }
 
+  /* === LAYOUT UTILITIES === */
   .section-container {
     @apply relative bg-background py-24 text-foreground md:py-32;
   }
+
   .section-title {
     @apply text-center font-heading text-4xl font-bold tracking-wide sm:text-5xl;
   }
+
   .value-card {
     @apply flex items-center justify-center rounded-lg bg-card px-8 py-6 shadow-lg;
   }
+
   .value-card:hover {
     @apply scale-105 transition-transform duration-300;
   }
 
+  /* === DIVIDERS === */
   .comparison-divider {
     position: relative;
     width: 1px;
@@ -492,19 +483,21 @@
     animation: dividerFlow 5s ease-in-out infinite;
   }
 
-  @keyframes dividerFlow {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(400%);
-    }
-  }
-
   .gradient-divider {
     @apply my-12 h-px w-full bg-gradient-to-r from-transparent via-zinc-800 to-transparent;
   }
 
+  .section-divider {
+    width: 75%;
+    height: 1px;
+    background-image: radial-gradient(
+      circle closest-corner at 50% 0,
+      rgba(54, 58, 63, 0.64) 50%,
+      rgba(255, 255, 255, 0)
+    );
+  }
+
+  /* === GRADIENT EFFECTS === */
   .gradient-transition {
     position: absolute;
     top: 0;
@@ -523,16 +516,7 @@
     pointer-events: none;
   }
 
-  .section-divider {
-    width: 75%;
-    height: 1px;
-    background-image: radial-gradient(
-      circle closest-corner at 50% 0,
-      rgba(54, 58, 63, 0.64) 50%,
-      rgba(255, 255, 255, 0)
-    );
-  }
-
+  /* === TAB EFFECTS === */
   .tab-container {
     position: relative;
     display: inline-flex;
@@ -568,6 +552,7 @@
     transform: scaleX(0);
   }
 
+  /* === BORDER EFFECTS === */
   .gradient-border {
     --border-width: 1px;
     --border-radius: 12px;
@@ -590,16 +575,33 @@
     animation: borderRotate 8s linear infinite;
   }
 
-  @keyframes borderRotate {
-    from {
-      background-position: 0% 0%;
-    }
-    to {
-      background-position: 200% 200%;
-    }
+  /* Full border style */
+  .linear-border-180 {
+    padding: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0) 80%
+    );
+    -webkit-mask:
+      linear-gradient(#131316, #131316) content-box content-box,
+      linear-gradient(#131316, #131316);
+    mask:
+      linear-gradient(#131316, #131316) content-box content-box,
+      linear-gradient(#131316, #131316);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 16px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
   }
 
-  /* Premium Card Styles from Redesign Plan */
+  /* === CARD EFFECTS === */
   .premium-card {
     position: relative;
     transition: all 0.3s ease-in-out;
@@ -649,15 +651,6 @@
     animation: shimmer 6s infinite;
   }
 
-  @keyframes shimmer {
-    0% {
-      transform: translateX(-100%) rotate(30deg);
-    }
-    100% {
-      transform: translateX(100%) rotate(30deg);
-    }
-  }
-
   .hover-glow {
     transition: box-shadow 0.3s ease;
   }
@@ -685,29 +678,36 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
 
-  .linear-border {
-    padding: 1px;
-    background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.12) 0%,
-      rgba(255, 255, 255, 0) 80%
-    );
-    -webkit-mask: linear-gradient(#131316, #131316) content-box content-box, linear-gradient(#131316, #131316);
-    mask: linear-gradient(#131316, #131316) content-box content-box, linear-gradient(#131316, #131316);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    z-index: 0;
-    border-radius: 16px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-
   .animate-card-entrance {
     animation: card-entrance 0.5s ease-out forwards;
+  }
+
+  /* === ANIMATIONS === */
+  @keyframes dividerFlow {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(400%);
+    }
+  }
+
+  @keyframes borderRotate {
+    from {
+      background-position: 0% 0%;
+    }
+    to {
+      background-position: 200% 200%;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%) rotate(30deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(30deg);
+    }
   }
 
   @keyframes card-entrance {
@@ -719,14 +719,5 @@
       opacity: 1;
       transform: translateY(0);
     }
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
   }
 }
