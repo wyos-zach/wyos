@@ -16,3 +16,8 @@ name = "javascript"
 
 [[transformers]]
 name = "prettier"
+
+test_patterns = \[
+  "tests/\*\*",
+  "test_\*.py"
+]
