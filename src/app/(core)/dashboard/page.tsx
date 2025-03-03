@@ -10,10 +10,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="container mx-auto mt-8">
-      <div className="grid gap-4">
-        {/* Add your dashboard content here */}
-      </div>
+    <div className='container mx-auto mt-8'>
+      <div className='grid gap-4'>{/* Add your dashboard content here */}</div>
     </div>
   );
 }

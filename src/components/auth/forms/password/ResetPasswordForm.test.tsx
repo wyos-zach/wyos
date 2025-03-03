@@ -15,7 +15,7 @@ jest.mock('next/navigation', () => ({
       if (param === 'userId') return 'test-user-id';
       if (param === 'secret') return 'test-secret';
       return null;
-    }
+    },
   })),
 }));
 
@@ -31,13 +31,15 @@ describe('ResetPasswordForm', () => {
   });
 
   it('renders the form with password inputs', () => {
-    render(<ResetPasswordForm userId="test-user-id" secret="test-secret" />);
+    render(<ResetPasswordForm userId='test-user-id' secret='test-secret' />);
 
     // Check for the text content instead of role since it's not using a heading role
     expect(screen.getByText('Reset your password')).toBeInTheDocument();
     expect(screen.getByLabelText(/new password/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /reset password/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /reset password/i })
+    ).toBeInTheDocument();
   });
 
   it('disables the form when loading', () => {
@@ -48,7 +50,7 @@ describe('ResetPasswordForm', () => {
       handleSubmit: jest.fn((e) => e.preventDefault()),
     });
 
-    render(<ResetPasswordForm userId="test-user-id" secret="test-secret" />);
+    render(<ResetPasswordForm userId='test-user-id' secret='test-secret' />);
 
     expect(screen.getByLabelText(/new password/i)).toBeDisabled();
     expect(screen.getByLabelText(/confirm password/i)).toBeDisabled();
@@ -64,7 +66,7 @@ describe('ResetPasswordForm', () => {
       handleSubmit: jest.fn((e) => e.preventDefault()),
     });
 
-    render(<ResetPasswordForm userId="test-user-id" secret="test-secret" />);
+    render(<ResetPasswordForm userId='test-user-id' secret='test-secret' />);
 
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
   });
@@ -77,10 +79,14 @@ describe('ResetPasswordForm', () => {
       handleSubmit: jest.fn(),
     });
 
-    render(<ResetPasswordForm userId="test-user-id" secret="test-secret" />);
+    render(<ResetPasswordForm userId='test-user-id' secret='test-secret' />);
 
-    expect(screen.getByText(/your password has been reset successfully/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /back to login/i })).toBeInTheDocument();
+    expect(
+      screen.getByText(/your password has been reset successfully/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /back to login/i })
+    ).toBeInTheDocument();
     // Form should not be visible
     expect(screen.queryByLabelText(/new password/i)).not.toBeInTheDocument();
   });
@@ -94,7 +100,7 @@ describe('ResetPasswordForm', () => {
       handleSubmit: mockHandleSubmit,
     });
 
-    render(<ResetPasswordForm userId="test-user-id" secret="test-secret" />);
+    render(<ResetPasswordForm userId='test-user-id' secret='test-secret' />);
 
     fireEvent.submit(screen.getByRole('button', { name: /reset password/i }));
     expect(mockHandleSubmit).toHaveBeenCalledTimes(1);
