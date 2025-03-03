@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { HoverButton } from '@/components/ui/hover-button';
 import { ShinyButton } from '@/components/ui/shiny-button';
+import { PrimaryButton } from '@/components/shared/primary-button';
+import { Mail, ArrowRight, Check } from 'lucide-react';
 
 export function ButtonsSection() {
   return (
@@ -24,6 +26,115 @@ export function ButtonsSection() {
         
         <TabsContent value="preview">
           <div className="grid gap-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Primary Buttons (Shared Component)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-4">
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="default">Default</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="default"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="destructive">Destructive</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="destructive"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="outline">Outline</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="outline"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="secondary">Secondary</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="secondary"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="ghost">Ghost</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="ghost"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="link">Link</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="link"</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Primary Button States & Features</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-4">
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton loading>Loading</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">loading</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton loading loadingText="Processing...">Loading with Text</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">loading loadingText="Processing..."</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton disabled>Disabled</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">disabled</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton leftIcon={<Mail className="h-4 w-4" />}>With Left Icon</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">leftIcon</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton rightIcon={<ArrowRight className="h-4 w-4" />}>With Right Icon</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">rightIcon</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton tooltipText="This is a tooltip">With Tooltip</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">tooltipText</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Primary Button Sizes</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton size="default">Default</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">size="default"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton size="sm">Small</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">size="sm"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton size="lg">Large</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">size="lg"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton size="icon">
+                      <Check className="h-4 w-4" />
+                    </PrimaryButton>
+                    <div className="text-xs text-muted-foreground">size="icon"</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
             <Card>
               <CardHeader>
                 <CardTitle>Standard Buttons</CardTitle>
@@ -96,38 +207,6 @@ export function ButtonsSection() {
             
             <Card>
               <CardHeader>
-                <CardTitle>Button States</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-4">
-                  <div className="space-y-2 w-full md:w-auto">
-                    <Button>Normal</Button>
-                    <div className="text-xs text-muted-foreground">Normal state</div>
-                  </div>
-                  
-                  <div className="space-y-2 w-full md:w-auto">
-                    <Button disabled>Disabled</Button>
-                    <div className="text-xs text-muted-foreground">disabled</div>
-                  </div>
-                  
-                  <div className="space-y-2 w-full md:w-auto">
-                    <Button className="cursor-not-allowed opacity-50">Disabled (visual)</Button>
-                    <div className="text-xs text-muted-foreground">className="cursor-not-allowed opacity-50"</div>
-                  </div>
-                  
-                  <div className="space-y-2 w-full md:w-auto">
-                    <Button>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 h-4 w-4 animate-spin"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
-                      Loading
-                    </Button>
-                    <div className="text-xs text-muted-foreground">With loading spinner</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardHeader>
                 <CardTitle>Special Buttons</CardTitle>
               </CardHeader>
               <CardContent>
@@ -151,16 +230,6 @@ export function ButtonsSection() {
                     <button className="button-base button-secondary">Secondary Base</button>
                     <div className="text-xs text-muted-foreground">button-base button-secondary</div>
                   </div>
-                  
-                  <div className="space-y-2 w-full md:w-auto">
-                    <button className="button-base button-outline">Outline Base</button>
-                    <div className="text-xs text-muted-foreground">button-base button-outline</div>
-                  </div>
-                  
-                  <div className="space-y-2 w-full md:w-auto">
-                    <button className="button-base button-ghost">Ghost Base</button>
-                    <div className="text-xs text-muted-foreground">button-base button-ghost</div>
-                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -175,6 +244,46 @@ export function ButtonsSection() {
             <CardContent>
               <div className="space-y-4">
                 <div>
+                  <h4 className="text-lg font-semibold mb-2">Primary Button Import</h4>
+                  <pre className="bg-muted p-4 rounded-md overflow-x-auto">
+                    <code>{`import { PrimaryButton } from '@/components/shared/primary-button';`}</code>
+                  </pre>
+                </div>
+                
+                <div>
+                  <h4 className="text-lg font-semibold mb-2">Primary Button Usage</h4>
+                  <pre className="bg-muted p-4 rounded-md overflow-x-auto">
+                    <code>{`// Basic usage
+<PrimaryButton>Click me</PrimaryButton>
+
+// With loading state
+<PrimaryButton loading>Loading</PrimaryButton>
+<PrimaryButton loading loadingText="Processing...">Loading with Text</PrimaryButton>
+
+// With icons
+<PrimaryButton leftIcon={<Mail className="h-4 w-4" />}>With Left Icon</PrimaryButton>
+<PrimaryButton rightIcon={<ArrowRight className="h-4 w-4" />}>With Right Icon</PrimaryButton>
+
+// With tooltip
+<PrimaryButton tooltipText="This is a tooltip">With Tooltip</PrimaryButton>
+
+// Different variants
+<PrimaryButton variant="default">Default</PrimaryButton>
+<PrimaryButton variant="destructive">Destructive</PrimaryButton>
+<PrimaryButton variant="outline">Outline</PrimaryButton>
+<PrimaryButton variant="secondary">Secondary</PrimaryButton>
+<PrimaryButton variant="ghost">Ghost</PrimaryButton>
+<PrimaryButton variant="link">Link</PrimaryButton>
+
+// Different sizes
+<PrimaryButton size="default">Default</PrimaryButton>
+<PrimaryButton size="sm">Small</PrimaryButton>
+<PrimaryButton size="lg">Large</PrimaryButton>
+<PrimaryButton size="icon"><Check className="h-4 w-4" /></PrimaryButton>`}</code>
+                  </pre>
+                </div>
+                
+                <div>
                   <h4 className="text-lg font-semibold mb-2">Standard Button Import</h4>
                   <pre className="bg-muted p-4 rounded-md overflow-x-auto">
                     <code>{`import { Button } from '@/components/ui/button';`}</code>
@@ -182,7 +291,7 @@ export function ButtonsSection() {
                 </div>
                 
                 <div>
-                  <h4 className="text-lg font-semibold mb-2">Basic Usage</h4>
+                  <h4 className="text-lg font-semibold mb-2">Standard Button Usage</h4>
                   <pre className="bg-muted p-4 rounded-md overflow-x-auto">
                     <code>{`<Button>Default Button</Button>
 <Button variant="destructive">Destructive Button</Button>
@@ -191,43 +300,6 @@ export function ButtonsSection() {
 <Button variant="ghost">Ghost Button</Button>
 <Button variant="link">Link Button</Button>`}</code>
                   </pre>
-                </div>
-                
-                <div>
-                  <h4 className="text-lg font-semibold mb-2">Button Sizes</h4>
-                  <pre className="bg-muted p-4 rounded-md overflow-x-auto">
-                    <code>{`<Button size="default">Default Size</Button>
-<Button size="sm">Small Button</Button>
-<Button size="lg">Large Button</Button>
-<Button size="icon"><IconComponent /></Button>`}</code>
-                  </pre>
-                </div>
-                
-                <div>
-                  <h4 className="text-lg font-semibold mb-2">Special Buttons</h4>
-                  <pre className="bg-muted p-4 rounded-md overflow-x-auto">
-                    <code>{`import { HoverButton } from '@/components/ui/hover-button';
-import { ShinyButton } from '@/components/ui/shiny-button';
-
-// In your component:
-<HoverButton>Hover Button</HoverButton>
-<ShinyButton>Shiny Button</ShinyButton>`}</code>
-                  </pre>
-                </div>
-                
-                <div>
-                  <h4 className="text-lg font-semibold mb-2">CSS Class Buttons</h4>
-                  <pre className="bg-muted p-4 rounded-md overflow-x-auto">
-                    <code>{`<button className="button-base button-default">Base Button</button>
-<button className="button-base button-secondary">Secondary Base</button>
-<button className="button-base button-outline">Outline Base</button>
-<button className="button-base button-ghost">Ghost Base</button>`}</code>
-                  </pre>
-                </div>
-                
-                <div className="p-4 border rounded-md bg-yellow-50 dark:bg-yellow-950 dark:border-yellow-800">
-                  <h4 className="text-lg font-semibold mb-2">Important Note</h4>
-                  <p>For consistency, prefer using the Button component from '@/components/ui/button' when possible. The CSS class buttons are available for specific use cases where the component approach might not be suitable.</p>
                 </div>
               </div>
             </CardContent>

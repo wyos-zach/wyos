@@ -5,7 +5,13 @@ import { Slot } from '@radix-ui/react-slot';
 import { Loader2 } from 'lucide-react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
+import { motion } from 'motion/react';
 
 const primaryButtonVariants = cva(
   // Base styles that apply to all variants
@@ -15,7 +21,8 @@ const primaryButtonVariants = cva(
       variant: {
         default: 'bg-[#212327]',
         destructive: 'bg-destructive text-destructive-foreground',
-        outline: 'border border-input bg-background text-foreground hover:bg-accent',
+        outline:
+          'border border-input bg-background text-foreground hover:bg-accent',
         secondary: 'bg-secondary text-secondary-foreground',
         ghost: 'shadow-none hover:bg-accent',
         link: 'text-primary underline-offset-4 shadow-none hover:underline',
@@ -45,6 +52,69 @@ export interface PrimaryButtonProps
   rightIcon?: React.ReactNode;
 }
 
+// Regular button component
+const RegularButton = React.forwardRef<
+  HTMLButtonElement,
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    loading?: boolean;
+    loadingText?: string;
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+  }
+>(
+  (
+    {
+      className,
+      disabled,
+      children,
+      loading,
+      loadingText,
+      leftIcon,
+      rightIcon,
+      ...props
+    },
+    ref
+  ) => (
+    <button className={className} disabled={disabled} ref={ref} {...props}>
+      {loading ? (
+        <div className='flex items-center justify-center gap-2'>
+          <div className='relative flex items-center justify-center'>
+            <Loader2 className='h-4 w-4 animate-spin' />
+          </div>
+          {loadingText && <span>{loadingText}</span>}
+        </div>
+      ) : (
+        <>
+          {leftIcon && <span className='mr-1'>{leftIcon}</span>}
+          {children}
+          {rightIcon && <span className='ml-1'>{rightIcon}</span>}
+        </>
+      )}
+    </button>
+  )
+);
+RegularButton.displayName = 'RegularButton';
+
+// Motion wrapper for the button
+const AnimatedButton = ({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof motion.div>) => (
+  <motion.div
+    className={className}
+    whileTap={{ scale: 0.97 }}
+    transition={{
+      type: 'spring',
+      stiffness: 500,
+      damping: 30,
+    }}
+    {...props}
+  >
+    {children}
+  </motion.div>
+);
+
 const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
   (
     {
@@ -62,38 +132,84 @@ const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
     },
     ref
   ) => {
-    const Comp = asChild ? Slot : 'button';
-    const buttonContent = (
-      <Comp
-        className={cn(
-          primaryButtonVariants({ variant, size, className }),
-          'hover:shadow-[inset_0_-2px_0.5px_rgba(0,0,0,0.4),_inset_0_1px_0.5px_rgba(255,255,255,0.16),_inset_0_0_24px_6px_rgba(156,160,171,0.2)]',
-          loading && 'pointer-events-none opacity-70'
-        )}
+    const buttonClasses = cn(
+      primaryButtonVariants({ variant, size, className }),
+      'hover:shadow-[inset_0_-2px_0.5px_rgba(0,0,0,0.4),_inset_0_1px_0.5px_rgba(255,255,255,0.16),_inset_0_0_24px_6px_rgba(156,160,171,0.2)]',
+      loading && 'pointer-events-none opacity-70'
+    );
+
+    // If using asChild, render with Slot
+    if (asChild) {
+      const slotButton = (
+        <Slot
+          className={buttonClasses}
+          disabled={props.disabled || loading}
+          {...props}
+        >
+          {loading ? (
+            <div className='flex items-center justify-center gap-2'>
+              <div className='relative flex items-center justify-center'>
+                <Loader2 className='h-4 w-4 animate-spin' />
+              </div>
+              {loadingText && <span>{loadingText}</span>}
+            </div>
+          ) : (
+            <>
+              {leftIcon && <span className='mr-1'>{leftIcon}</span>}
+              {children}
+              {rightIcon && <span className='ml-1'>{rightIcon}</span>}
+            </>
+          )}
+        </Slot>
+      );
+
+      if (tooltipText) {
+        return (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>{slotButton}</TooltipTrigger>
+              <TooltipContent>
+                <p>{tooltipText}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        );
+      }
+
+      return slotButton;
+    }
+
+    // Regular button with animation
+    const regularButton = (
+      <RegularButton
+        className={buttonClasses}
         ref={ref}
         disabled={props.disabled || loading}
+        loading={loading}
+        loadingText={loadingText}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
         {...props}
       >
-        {loading ? (
-          <>
-            <Loader2 className="h-4 w-4 animate-spin" />
-            {loadingText && <span>{loadingText}</span>}
-          </>
-        ) : (
-          <>
-            {leftIcon && <span className="mr-1">{leftIcon}</span>}
-            {children}
-            {rightIcon && <span className="ml-1">{rightIcon}</span>}
-          </>
-        )}
-      </Comp>
+        {children}
+      </RegularButton>
     );
+
+    // Wrap in animation if not disabled
+    const animatedButton =
+      props.disabled || loading ? (
+        regularButton
+      ) : (
+        <AnimatedButton className='inline-block'>
+          {regularButton}
+        </AnimatedButton>
+      );
 
     if (tooltipText) {
       return (
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
+            <TooltipTrigger asChild>{animatedButton}</TooltipTrigger>
             <TooltipContent>
               <p>{tooltipText}</p>
             </TooltipContent>
@@ -102,7 +218,7 @@ const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
       );
     }
 
-    return buttonContent;
+    return animatedButton;
   }
 );
 

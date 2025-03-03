@@ -5,6 +5,7 @@ import { ButtonsSection } from '@/components/design-system/buttons-section';
 import { InputsSection } from '@/components/design-system/inputs-section';
 import { CardsSection } from '@/components/design-system/cards-section';
 import { DialogsSection } from '@/components/design-system/dialogs-section';
+import { ButtonTest } from '@/components/design-system/button-test';
 
 export const metadata: Metadata = {
   title: 'Design System | WYOS',
@@ -71,6 +72,7 @@ export default function DesignSystemPage() {
         <InputsSection />
         <CardsSection />
         <DialogsSection />
+        <ButtonTest />
       </div>
     </div>
   );
