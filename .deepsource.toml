@@ -1,8 +1,16 @@
 version = 1
 
+test_patterns = [
+  "**/*.test.ts",
+  "**/*.test.tsx",
+  "**/tests/**",
+  "**/test/**",
+  "**/testing/**",
+  "**/__tests__/**"
+]
+
 [[analyzers]]
-name = "secrets"
-enabled = true
+name = "test-coverage"
 
 [[analyzers]]
 name = "javascript"
@@ -10,14 +18,10 @@ name = "javascript"
   [analyzers.meta]
   plugins = ["react"]
   environment = [
-    "nodejs",
-    "browser"
+    "jest",
+    "browser",
+    "nodejs"
   ]
 
 [[transformers]]
 name = "prettier"
-
-test_patterns = \[
-  "tests/\*\*",
-  "test_\*.py"
-]
