@@ -5,7 +5,12 @@ import { Slot } from '@radix-ui/react-slot';
 import { Loader2 } from 'lucide-react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../ui/tooltip';
 
 const primaryButtonVariants = cva(
   // Base styles that apply to all variants
@@ -15,7 +20,8 @@ const primaryButtonVariants = cva(
       variant: {
         default: 'bg-[#212327]',
         destructive: 'bg-destructive text-destructive-foreground',
-        outline: 'border border-input bg-background text-foreground hover:bg-accent',
+        outline:
+          'border border-input bg-background text-foreground hover:bg-accent',
         secondary: 'bg-secondary text-secondary-foreground',
         ghost: 'shadow-none hover:bg-accent',
         link: 'text-primary underline-offset-4 shadow-none hover:underline',
@@ -76,14 +82,14 @@ const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
       >
         {loading ? (
           <>
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className='h-4 w-4 animate-spin' />
             {loadingText && <span>{loadingText}</span>}
           </>
         ) : (
           <>
-            {leftIcon && <span className="mr-1">{leftIcon}</span>}
+            {leftIcon && <span className='mr-1'>{leftIcon}</span>}
             {children}
-            {rightIcon && <span className="ml-1">{rightIcon}</span>}
+            {rightIcon && <span className='ml-1'>{rightIcon}</span>}
           </>
         )}
       </Comp>

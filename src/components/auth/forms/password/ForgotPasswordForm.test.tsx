@@ -26,7 +26,9 @@ describe('ForgotPasswordForm', () => {
     // Check for the text content instead of role since it's not using a heading role
     expect(screen.getByText('Reset password')).toBeInTheDocument();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /send reset link/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /send reset link/i })
+    ).toBeInTheDocument();
     expect(screen.getByText(/remember your password/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /sign in/i })).toBeInTheDocument();
   });
@@ -69,8 +71,12 @@ describe('ForgotPasswordForm', () => {
 
     render(<ForgotPasswordForm />);
 
-    expect(screen.getByText(/check your email for a password reset link/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /back to login/i })).toBeInTheDocument();
+    expect(
+      screen.getByText(/check your email for a password reset link/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('link', { name: /back to login/i })
+    ).toBeInTheDocument();
     // Form should not be visible
     expect(screen.queryByLabelText(/email/i)).not.toBeInTheDocument();
   });

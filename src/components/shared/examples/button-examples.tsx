@@ -18,13 +18,9 @@ export default function ButtonExamples() {
         <h2 className='text-xl font-semibold'>Basic Buttons</h2>
         <div className='flex flex-wrap gap-4'>
           <PrimaryButton>Default Button</PrimaryButton>
-          <PrimaryButton variant='destructive'>
-            Destructive
-          </PrimaryButton>
+          <PrimaryButton variant='destructive'>Destructive</PrimaryButton>
           <PrimaryButton variant='outline'>Outline</PrimaryButton>
-          <PrimaryButton variant='secondary'>
-            Secondary
-          </PrimaryButton>
+          <PrimaryButton variant='secondary'>Secondary</PrimaryButton>
           <PrimaryButton variant='ghost'>Ghost</PrimaryButton>
           <PrimaryButton variant='link'>Link</PrimaryButton>
         </div>

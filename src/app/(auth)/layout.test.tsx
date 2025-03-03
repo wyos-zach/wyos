@@ -31,7 +31,7 @@ describe('AuthLayout', () => {
   it('shows loading spinner while checking authentication', async () => {
     // Mock verifySession to return a promise that doesn't resolve immediately
     mockVerifySession.mockImplementation(() => new Promise(() => {}));
-    
+
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       session: null,
       hydrated: true,
@@ -56,7 +56,7 @@ describe('AuthLayout', () => {
   it('redirects authenticated users to dashboard', async () => {
     // Mock verifySession to resolve immediately
     mockVerifySession.mockResolvedValue(undefined);
-    
+
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       session: { $id: 'test-session' },
       hydrated: true,

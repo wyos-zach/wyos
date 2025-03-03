@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 // Mock the next/navigation module
 jest.mock('next/navigation', () => ({
   useSearchParams: () => ({
-    get: jest.fn((param) => param === 'category' ? null : null),
+    get: jest.fn((param) => (param === 'category' ? null : null)),
   }),
 }));
 
@@ -24,19 +24,19 @@ jest.mock('@/models/server/resources', () => ({
 
 // Mock the ResourceCategoryCard component
 jest.mock('./ResourceCategoryCard', () => ({
-  ResourceCategoryCard: function MockResourceCategoryCard({ category }: { category: any }) {
-    return (
-      <div data-testid="resource-category-card">
-        {category.name}
-      </div>
-    );
+  ResourceCategoryCard: function MockResourceCategoryCard({
+    category,
+  }: {
+    category: any;
+  }) {
+    return <div data-testid='resource-category-card'>{category.name}</div>;
   },
 }));
 
 // Mock the Skeleton component
 jest.mock('@/components/ui/skeleton', () => ({
   Skeleton: function MockSkeleton(props: React.HTMLAttributes<HTMLDivElement>) {
-    return <div data-testid="skeleton" {...props} />;
+    return <div data-testid='skeleton' {...props} />;
   },
 }));
 
@@ -79,7 +79,9 @@ describe('ResourceCategoryGrid', () => {
     ];
 
     // Mock the service to return the data
-    (ResourceService.getResourceCategories as jest.Mock).mockResolvedValue(mockCategories);
+    (ResourceService.getResourceCategories as jest.Mock).mockResolvedValue(
+      mockCategories
+    );
 
     render(
       <QueryClientProvider client={queryClient}>
@@ -112,7 +114,9 @@ describe('ResourceCategoryGrid', () => {
 
     // Wait for the error message to appear
     await waitFor(() => {
-      expect(screen.getByText(/Error loading resource categories/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/Error loading resource categories/)
+      ).toBeInTheDocument();
     });
   });
 
@@ -128,7 +132,9 @@ describe('ResourceCategoryGrid', () => {
 
     // Wait for the empty message to appear
     await waitFor(() => {
-      expect(screen.getByText(/No resource categories found/)).toBeInTheDocument();
+      expect(
+        screen.getByText(/No resource categories found/)
+      ).toBeInTheDocument();
     });
   });
 });

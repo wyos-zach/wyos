@@ -28,9 +28,5 @@ export default function KnowledgeLayout({
   }
 
   // Removed the Container component to allow full-width backgrounds
-  return (
-    <div className='relative flex min-h-screen flex-col'>
-      {children}
-    </div>
-  );
+  return <div className='relative flex min-h-screen flex-col'>{children}</div>;
 }

@@ -36,9 +36,21 @@ describe('RegisterFields', () => {
   it('applies correct autocomplete attributes', () => {
     render(<RegisterFields isLoading={false} />);
 
-    expect(screen.getByLabelText(/first name/i)).toHaveAttribute('autocomplete', 'given-name');
-    expect(screen.getByLabelText(/last name/i)).toHaveAttribute('autocomplete', 'family-name');
-    expect(screen.getByLabelText(/email/i)).toHaveAttribute('autocomplete', 'email');
-    expect(screen.getByLabelText(/password/i)).toHaveAttribute('autocomplete', 'new-password');
+    expect(screen.getByLabelText(/first name/i)).toHaveAttribute(
+      'autocomplete',
+      'given-name'
+    );
+    expect(screen.getByLabelText(/last name/i)).toHaveAttribute(
+      'autocomplete',
+      'family-name'
+    );
+    expect(screen.getByLabelText(/email/i)).toHaveAttribute(
+      'autocomplete',
+      'email'
+    );
+    expect(screen.getByLabelText(/password/i)).toHaveAttribute(
+      'autocomplete',
+      'new-password'
+    );
   });
 });

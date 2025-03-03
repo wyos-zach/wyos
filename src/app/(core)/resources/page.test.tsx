@@ -7,25 +7,25 @@ import ResourcesPage from './page';
 // Mock all imported components
 jest.mock('@/components/shared/layout/PageHeader', () => ({
   PageHeader: function MockPageHeader({ title }: { title: string }) {
-    return <h1 data-testid="page-header">{title}</h1>;
+    return <h1 data-testid='page-header'>{title}</h1>;
   },
 }));
 
 jest.mock('@/components/core/resources/CategoryNav', () => ({
   CategoryNav: function MockCategoryNav() {
-    return <nav data-testid="category-nav">Category Navigation</nav>;
+    return <nav data-testid='category-nav'>Category Navigation</nav>;
   },
 }));
 
 jest.mock('@/components/core/resources/ResourceCategoryGrid', () => ({
   ResourceCategoryGrid: function MockResourceCategoryGrid() {
-    return <div data-testid="resource-category-grid">Resource Categories</div>;
+    return <div data-testid='resource-category-grid'>Resource Categories</div>;
   },
 }));
 
 jest.mock('@/components/core/resources/FeaturedResources', () => ({
   FeaturedResources: function MockFeaturedResources() {
-    return <div data-testid="featured-resources">Featured Resources</div>;
+    return <div data-testid='featured-resources'>Featured Resources</div>;
   },
 }));
 
@@ -33,7 +33,7 @@ jest.mock('@/components/core/resources/FeaturedResources', () => ({
 jest.mock('./loading', () => ({
   __esModule: true,
   default: function MockResourceLoading() {
-    return <div data-testid="resource-loading">Loading...</div>;
+    return <div data-testid='resource-loading'>Loading...</div>;
   },
 }));
 
@@ -49,17 +49,17 @@ jest.mock('react', () => {
 describe('ResourcesPage', () => {
   it('renders the page with correct components', () => {
     render(<ResourcesPage />);
-    
+
     // Check if the PageHeader is rendered with correct title
     expect(screen.getByTestId('page-header')).toBeInTheDocument();
     expect(screen.getByTestId('page-header')).toHaveTextContent('Resources');
-    
+
     // Check if the CategoryNav is rendered
     expect(screen.getByTestId('category-nav')).toBeInTheDocument();
-    
+
     // Check if the ResourceCategoryGrid is rendered
     expect(screen.getByTestId('resource-category-grid')).toBeInTheDocument();
-    
+
     // Check if the FeaturedResources is rendered
     expect(screen.getByTestId('featured-resources')).toBeInTheDocument();
   });
