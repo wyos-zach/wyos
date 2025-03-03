@@ -15,7 +15,7 @@ import { motion } from 'motion/react';
 
 const primaryButtonVariants = cva(
   // Base styles that apply to all variants
-  'inline-flex items-center justify-center gap-2 rounded-md text-white text-center text-sm font-medium leading-6 transition-all duration-400 ease-[cubic-bezier(0.6,0.6,0,1)] shadow-[inset_0_-2px_0.5px_rgba(0,0,0,0.4),_inset_0_1px_0.5px_rgba(255,255,255,0.16)]',
+  'inline-flex items-center justify-center whitespace-nowrap gap-2 rounded-md text-white text-center text-sm font-medium leading-6 transition-all duration-400 ease-[cubic-bezier(0.6,0.6,0,1)] shadow-[inset_0_-2px_0.5px_rgba(0,0,0,0.4),_inset_0_1px_0.5px_rgba(255,255,255,0.16)]',
   {
     variants: {
       variant: {
@@ -33,14 +33,14 @@ const primaryButtonVariants = cva(
         shimmer:
           'bg-gradient-to-r from-[#212327] via-[#3a3d42] to-[#212327] bg-[length:200%_100%] text-white animate-shimmer',
         perimeterShimmer:
-          'bg-[#212327] text-white relative overflow-hidden before:absolute before:inset-0 before:rounded-md before:border-2 before:border-accent/50 before:bg-transparent before:animate-perimeterShimmer',
+          'bg-[#212327] text-text relative overflow-hidden before:absolute before:inset-0 before:rounded-md before:border-2 before:border-accent/50 before:bg-transparent before:animate-perimeterShimmer',
         bouncing: 'bg-[#212327] text-white shadow animate-bounce',
       },
       size: {
-        default: 'px-5 py-2',
-        sm: 'px-3 py-1.5 text-xs',
-        lg: 'px-6 py-3 text-base',
-        icon: 'h-9 w-9 p-0',
+        default: 'h-9 px-5 py-2',
+        sm: 'h-8 px-3 py-1 text-xs',
+        lg: 'h-10 px-8 py-3',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
@@ -89,12 +89,12 @@ const RegularButton = React.forwardRef<
     <button className={className} disabled={disabled} ref={ref} {...props}>
       {loading ? (
         <>
-          {size === 'icon' ? (
-            <Loader2 className='h-4 w-4 animate-spin' />
+          {size == 'icon' ? (
+            <Loader2 className={cn('animate-spin')} />
           ) : (
             <>
-              <Loader2 className='h-4 w-4 animate-spin' />
-              {loadingText && <span className='ml-2'>{loadingText}</span>}
+              {loadingText}
+              <Loader2 className={cn('ml-2 h-4 w-4 animate-spin')} />
             </>
           )}
         </>

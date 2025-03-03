@@ -6,7 +6,7 @@ import { InputsSection } from '@/components/design-system/inputs-section';
 import { CardsSection } from '@/components/design-system/cards-section';
 import { DialogsSection } from '@/components/design-system/dialogs-section';
 import { ButtonTest } from '@/components/design-system/button-test';
-import { KnowledgeGridSection } from '@/components/design-system/knowledge-grid-section';
+import { KnowledgeGridSection } from '@/components/design-system/grid-section';
 
 export const metadata: Metadata = {
   title: 'Design System | WYOS',
