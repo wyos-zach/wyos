@@ -26,6 +26,15 @@ const primaryButtonVariants = cva(
         secondary: 'bg-secondary text-secondary-foreground',
         ghost: 'shadow-none hover:bg-accent',
         link: 'text-primary underline-offset-4 shadow-none hover:underline',
+        ringHover:
+          'bg-[#212327] text-white transition-all duration-300 hover:ring-2 hover:ring-primary/80 hover:ring-offset-2 hover:ring-offset-background',
+        glowingRing:
+          'bg-[#212327] text-white relative overflow-hidden ring-2 ring-primary/50 animate-glow',
+        shimmer:
+          'bg-gradient-to-r from-[#212327] via-[#3a3d42] to-[#212327] bg-[length:200%_100%] text-white animate-shimmer',
+        perimeterShimmer:
+          'bg-[#212327] text-white relative overflow-hidden before:absolute before:inset-0 before:rounded-md before:border-2 before:border-accent/50 before:bg-transparent before:animate-perimeterShimmer',
+        bouncing: 'bg-[#212327] text-white shadow animate-bounce',
       },
       size: {
         default: 'px-5 py-2',
@@ -60,6 +69,7 @@ const RegularButton = React.forwardRef<
     loadingText?: string;
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
+    size?: 'default' | 'sm' | 'lg' | 'icon' | null | undefined;
   }
 >(
   (
@@ -71,18 +81,23 @@ const RegularButton = React.forwardRef<
       loadingText,
       leftIcon,
       rightIcon,
+      size,
       ...props
     },
     ref
   ) => (
     <button className={className} disabled={disabled} ref={ref} {...props}>
       {loading ? (
-        <div className='flex items-center justify-center gap-2'>
-          <div className='relative flex items-center justify-center'>
+        <>
+          {size === 'icon' ? (
             <Loader2 className='h-4 w-4 animate-spin' />
-          </div>
-          {loadingText && <span>{loadingText}</span>}
-        </div>
+          ) : (
+            <>
+              <Loader2 className='h-4 w-4 animate-spin' />
+              {loadingText && <span className='ml-2'>{loadingText}</span>}
+            </>
+          )}
+        </>
       ) : (
         <>
           {leftIcon && <span className='mr-1'>{leftIcon}</span>}
@@ -147,12 +162,10 @@ const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
           {...props}
         >
           {loading ? (
-            <div className='flex items-center justify-center gap-2'>
-              <div className='relative flex items-center justify-center'>
-                <Loader2 className='h-4 w-4 animate-spin' />
-              </div>
+            <>
+              <Loader2 className='h-4 w-4 animate-spin' />
               {loadingText && <span>{loadingText}</span>}
-            </div>
+            </>
           ) : (
             <>
               {leftIcon && <span className='mr-1'>{leftIcon}</span>}
@@ -189,6 +202,7 @@ const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
         loadingText={loadingText}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
+        size={size}
         {...props}
       >
         {children}

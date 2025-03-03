@@ -6,6 +6,7 @@ import { InputsSection } from '@/components/design-system/inputs-section';
 import { CardsSection } from '@/components/design-system/cards-section';
 import { DialogsSection } from '@/components/design-system/dialogs-section';
 import { ButtonTest } from '@/components/design-system/button-test';
+import { KnowledgeGridSection } from '@/components/design-system/knowledge-grid-section';
 
 export const metadata: Metadata = {
   title: 'Design System | WYOS',
@@ -58,6 +59,12 @@ export default function DesignSystemPage() {
               Cards
             </a>
             <a
+              href='#grid'
+              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
+            >
+              Grid Layout
+            </a>
+            <a
               href='#dialogs'
               className='block rounded-lg border p-4 transition-colors hover:bg-muted'
             >
@@ -71,6 +78,7 @@ export default function DesignSystemPage() {
         <ButtonsSection />
         <InputsSection />
         <CardsSection />
+        <KnowledgeGridSection />
         <DialogsSection />
         <ButtonTest />
       </div>

@@ -710,6 +710,54 @@
     }
   }
 
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s linear infinite;
+  }
+
+  @keyframes perimeterShimmer {
+    0% {
+      clip-path: inset(0 0 98% 0);
+    }
+    25% {
+      clip-path: inset(0 0 0 98%);
+    }
+    50% {
+      clip-path: inset(98% 0 0 0);
+    }
+    75% {
+      clip-path: inset(0 98% 0 0);
+    }
+    100% {
+      clip-path: inset(0 0 98% 0);
+    }
+  }
+
+  .animate-perimeterShimmer {
+    animation: perimeterShimmer 4s linear infinite;
+  }
+
   @keyframes card-entrance {
     from {
       opacity: 0;

@@ -82,23 +82,28 @@ export function ButtonsSection() {
                   </div>
                   
                   <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton size="icon" loading><Mail /></PrimaryButton>
+                    <div className="text-xs text-muted-foreground">size="icon" loading</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
                     <PrimaryButton disabled>Disabled</PrimaryButton>
                     <div className="text-xs text-muted-foreground">disabled</div>
                   </div>
                   
                   <div className="space-y-2 w-full md:w-auto">
-                    <PrimaryButton leftIcon={<Mail className="h-4 w-4" />}>With Left Icon</PrimaryButton>
-                    <div className="text-xs text-muted-foreground">leftIcon</div>
+                    <PrimaryButton leftIcon={<Mail />}>With Left Icon</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">leftIcon={`<Mail />`}</div>
                   </div>
                   
                   <div className="space-y-2 w-full md:w-auto">
-                    <PrimaryButton rightIcon={<ArrowRight className="h-4 w-4" />}>With Right Icon</PrimaryButton>
-                    <div className="text-xs text-muted-foreground">rightIcon</div>
+                    <PrimaryButton rightIcon={<ArrowRight />}>With Right Icon</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">rightIcon={`<ArrowRight />`}</div>
                   </div>
                   
                   <div className="space-y-2 w-full md:w-auto">
-                    <PrimaryButton tooltipText="This is a tooltip">With Tooltip</PrimaryButton>
-                    <div className="text-xs text-muted-foreground">tooltipText</div>
+                    <PrimaryButton tooltipText="This is a helpful tooltip">With Tooltip</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">tooltipText="This is a helpful tooltip"</div>
                   </div>
                 </div>
               </CardContent>
@@ -137,6 +142,40 @@ export function ButtonsSection() {
             
             <Card>
               <CardHeader>
+                <CardTitle>Extended UI Button Variants</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-4">
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="ringHover">Ring Hover</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="ringHover"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="glowingRing">Glowing Ring</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="glowingRing"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="shimmer">Shimmer</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="shimmer"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="perimeterShimmer">Perimeter Shimmer</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="perimeterShimmer"</div>
+                  </div>
+                  
+                  <div className="space-y-2 w-full md:w-auto">
+                    <PrimaryButton variant="bouncing">Bouncing</PrimaryButton>
+                    <div className="text-xs text-muted-foreground">variant="bouncing"</div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardHeader>
                 <CardTitle>Standard Buttons</CardTitle>
               </CardHeader>
               <CardContent>
@@ -147,8 +186,8 @@ export function ButtonsSection() {
                   </div>
                   
                   <div className="space-y-2 w-full md:w-auto">
-                    <Button variant="destructive">Destructive</Button>
-                    <div className="text-xs text-muted-foreground">variant="destructive"</div>
+                    <Button className="bg-destructive text-destructive-foreground">Destructive</Button>
+                    <div className="text-xs text-muted-foreground">className="bg-destructive text-destructive-foreground"</div>
                   </div>
                   
                   <div className="space-y-2 w-full md:w-auto">
@@ -167,8 +206,8 @@ export function ButtonsSection() {
                   </div>
                   
                   <div className="space-y-2 w-full md:w-auto">
-                    <Button variant="link">Link</Button>
-                    <div className="text-xs text-muted-foreground">variant="link"</div>
+                    <Button className="text-primary underline-offset-4 hover:underline">Link</Button>
+                    <div className="text-xs text-muted-foreground">className="text-primary underline-offset-4 hover:underline"</div>
                   </div>
                 </div>
               </CardContent>
@@ -279,7 +318,9 @@ export function ButtonsSection() {
 <PrimaryButton size="default">Default</PrimaryButton>
 <PrimaryButton size="sm">Small</PrimaryButton>
 <PrimaryButton size="lg">Large</PrimaryButton>
-<PrimaryButton size="icon"><Check className="h-4 w-4" /></PrimaryButton>`}</code>
+<PrimaryButton size="icon">
+  <Check className="h-4 w-4" />
+</PrimaryButton>`}</code>
                   </pre>
                 </div>
                 
