@@ -1,5 +1,5 @@
-import { CardsSection } from '@/components/design-system/cards-section';
-import { DialogsSection } from '@/components/design-system/dialogs-section';
+import { CardsSection } from '@/components/design-system/molecules/cards-section';
+import { DialogsSection } from '@/components/design-system/molecules/dialogs-section';
 
 export default function MoleculesPage() {
   return (

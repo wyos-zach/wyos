@@ -1,4 +1,4 @@
-import { KnowledgeGridSection } from '@/components/design-system/grid-section';
+import { KnowledgeGridSection } from '@/components/design-system/organisms/grid-section';
 
 export default function OrganismsPage() {
   return (
