@@ -20,7 +20,7 @@ function StarRating({
   numStars = 5,
   icon,
   setValue,
-  value,
+  value = 0,
   disabled,
   showcase,
   iconProps = {},
@@ -36,9 +36,13 @@ function StarRating({
       {...restWrapperProps}
     >
       {Array.from({ length: numStars }, (_, i) => {
-        const isRated = i < value!;
+        const isRated = value !== undefined && i < value;
         const styledIconProps: LucideProps = {
-          onMouseEnter: () => !showcase && !disabled && setValue!(i + 1),
+          onMouseEnter: () => {
+            if (!showcase && !disabled && setValue) {
+              setValue(i + 1);
+            }
+          },
           className: cn(
             'fill-primary stroke-primary size-5',
             {

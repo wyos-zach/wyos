@@ -3,10 +3,10 @@ import { Button } from '@/components/ui/button';
 
 export function ButtonSection() {
   return (
-    <section className='space-y-6'>
-      <h2 className='text-2xl font-bold'>Button</h2>
-      <p>
-        Buttons are used to trigger actions or navigate users through the
+    <section className='space-y-6 px-6'>
+      <h2 className='font-heading text-3xl font-bold'>Button</h2>
+      <p className='text-muted-foreground'>
+        Buttons are used to trigger actions or navigate users throuph the
         interface.
       </p>
 
@@ -78,7 +78,9 @@ export function ButtonSection() {
       {/* Animations */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Animations</h3>
-        <p>Hover and tap animations are built into the button using Motion.</p>
+        <p className='text-muted-foreground'>
+          Hover and tap animatipns are built into the button using Motion.
+        </p>
         <div className='flex flex-wrap gap-4'>
           <Button variant='ringHover'>Hover Ring</Button>
           <Button variant='glowingRing'>Glowing Ring</Button>

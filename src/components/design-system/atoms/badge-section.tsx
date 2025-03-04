@@ -3,9 +3,11 @@ import { Badge } from '@/components/ui/badge';
 
 export function BadgeSection() {
   return (
-    <section className='space-y-6'>
-      <h2 className='text-2xl font-bold'>Badge</h2>
-      <p>Badges are used to highlight statuses, labels, or categories.</p>
+    <section className='space-y-6 px-6'>
+      <h2 className='font-heading text-2xl font-bold'>Badge</h2>
+      <p className='text-muted-foreground'>
+        Badges are used to highlight statuses, labels, or categories.
+      </p>
 
       <div className='flex flex-wrap gap-4'>
         <Badge variant='default'>Default</Badge>

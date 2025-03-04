@@ -10,10 +10,12 @@ import {
 
 export function CardSection() {
   return (
-    <section className='space-y-12 bg-black px-6 py-12'>
+    <section className='space-y-6 px-6'>
       <div>
-        <h2 className='text-3xl font-bold tracking-tight text-white'>Card</h2>
-        <p className='mt-2 text-neutral-400'>
+        <h2 className='font-heading text-3xl font-bold tracking-tight text-white'>
+          Card
+        </h2>
+        <p className='mt-2 text-muted-foreground'>
           Cards group related content and actions in a sleek, minimal container.
         </p>
       </div>
@@ -21,7 +23,7 @@ export function CardSection() {
       {/* Default Variant */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold text-white'>Default Variant</h3>
-        <Card className='mx-auto max-w-md'>
+        <Card className='max-w-md'>
           <CardHeader>
             <CardTitle>Premium Feature</CardTitle>
             <CardDescription>A sleek and modern card design.</CardDescription>
@@ -43,7 +45,7 @@ export function CardSection() {
         <div className='rounded-lg bg-neutral-900 p-4'>
           {' '}
           {/* Subtle background only for glass context */}
-          <Card variant='glass' className='mx-auto max-w-md'>
+          <Card variant='glass' className='max-w-md'>
             <CardHeader>
               <CardTitle>Glass Effect</CardTitle>
               <CardDescription>
@@ -65,10 +67,10 @@ export function CardSection() {
       {/* Hover State */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold text-white'>Interactive Hover</h3>
-        <p className='text-neutral-400'>
+        <p className='text-muted-foreground'>
           Subtle scaling enhances interactivity.
         </p>
-        <div className='mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2'>
+        <div className='grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2'>
           <Card className='w-full'>
             <CardHeader>
               <CardTitle>Hover Me</CardTitle>
@@ -90,7 +92,7 @@ export function CardSection() {
       </div>
 
       {/* Documentation */}
-      <div className='text-sm text-neutral-400'>
+      <div className='text-sm text-gray-500'>
         <p>Props:</p>
         <ul className='list-inside list-disc'>
           <li>variant: "default" | "glass"</li>
