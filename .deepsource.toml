@@ -1,14 +1,5 @@
 version = 1
 
-test_patterns = [
-  "**/*.test.ts",
-  "**/*.test.tsx",
-  "**/tests/**",
-  "**/test/**",
-  "**/testing/**",
-  "**/__tests__/**"
-]
-
 [[analyzers]]
 name = "test-coverage"
 
