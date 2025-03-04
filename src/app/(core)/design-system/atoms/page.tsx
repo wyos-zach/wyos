@@ -1,6 +1,7 @@
 import { AvatarSection } from '@/components/design-system/atoms/avatar-section';
 import { BadgeSection } from '@/components/design-system/atoms/badge-section';
 import { ButtonSection } from '@/components/design-system/atoms/buttons-section';
+import { CardSection } from '@/components/design-system/atoms/card-section';
 
 export default function AtomsPage() {
   return (
@@ -18,6 +19,8 @@ export default function AtomsPage() {
         <BadgeSection />
         <Divider />
         <ButtonSection />
+        <Divider />
+        <CardSection />
       </div>
     </div>
   );
