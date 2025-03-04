@@ -1,5 +1,6 @@
-import { ButtonsSection } from '@/components/design-system/buttons-section';
-import { InputsSection } from '@/components/design-system/inputs-section';
+import { AvatarSection } from '@/components/design-system/atoms/avatar-section';
+import { BadgeSection } from '@/components/design-system/atoms/badge-section';
+import { ButtonSection } from '@/components/design-system/atoms/buttons-section';
 
 export default function AtomsPage() {
   return (
@@ -10,9 +11,18 @@ export default function AtomsPage() {
         further without ceasing to be functional.
       </p>
 
-      <ButtonsSection />
-      <InputsSection />
-      {/* Add more atomic components here */}
+      {/* Sections with dividers */}
+      <div className='space-y-10'>
+        <AvatarSection />
+        <Divider />
+        <BadgeSection />
+        <Divider />
+        <ButtonSection />
+      </div>
     </div>
   );
+}
+
+function Divider() {
+  return <hr className='my-8 border-t border-gray-300 dark:border-gray-700' />;
 }

@@ -1,50 +1,151 @@
 'use client';
 
-import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
+import { Tooltip } from '@radix-ui/react-tooltip';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { Loader2 } from 'lucide-react';
+import * as React from 'react';
+import { motion, type MotionProps } from 'motion/react';
 
+import {
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
-const buttonVariants = cva('button-base', {
-  variants: {
-    variant: {
-      default: 'button-default',
-      secondary: 'button-secondary',
-      outline: 'button-outline',
-      ghost: 'button-ghost',
+const buttonVariants = cva(
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow-inset-custom',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-[var(--button-bg)] text-[var(--button-text)] hover:dark-bg-primary/90',
+        destructive:
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90',
+        outline:
+          'border border-input bg-background hover:bg-secondary hover:text-secondary-foreground',
+        secondary:
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        ghost: 'hover:bg-secondary hover:text-secondary-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
+        ringHover:
+          'bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-primary/90 hover:ring-2 hover:ring-primary/80 hover:ring-offset-2 hover:ring-offset-background',
+        glowingRing:
+          'bg-[var(--button-bg)] text-[var(--button-text)] relative overflow-hidden ring-2 ring-primary/50 animate-glow',
+        shimmer:
+          'bg-gradient-to-r from-primary via-primary/50 to-primary bg-[length:200%_100%] bg-[var(--button-bg)] text-[var(--button-text)] animate-shimmer',
+        perimeterShimmer:
+          'bg-[var(--button-bg)] text-[var(--button-text)] relative overflow-hidden before:absolute before:inset-0 before:rounded-md before:border-2 before:border-accent/50 before:bg-transparent before:animate-perimeterShimmer',
+        bouncing:
+          'bg-[var(--button-bg)] text-[var(--button-text)] shadow hover:dark-bg-primary/90 animate-bounce',
+      },
+      size: {
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
+      },
     },
-    size: {
-      default: '',
-      sm: 'text-xs px-4 py-1.5',
-      lg: 'text-base px-6 py-3',
-      icon: 'h-10 w-10 p-0',
-      'icon-sm': 'h-7 w-7 p-0',
-      'icon-lg': 'h-12 w-12 p-0',
-      'icon-xl': 'h-16 w-16 p-0',
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
     },
-  },
-  defaultVariants: {
-    variant: 'default',
-    size: 'default',
-  },
-});
+  }
+);
 
+// Props for the Button component
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag'>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  loading?: boolean;
+  loadingText?: string;
+  tooltipText?: string;
 }
 
+// Motion-specific props for animation
+type MotionButtonProps = MotionProps &
+  React.ButtonHTMLAttributes<HTMLButtonElement>;
+
+// Button component
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button';
-    return (
+  (
+    {
+      className,
+      variant,
+      size,
+      asChild = false,
+      loading,
+      loadingText = 'Processing...',
+      tooltipText,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    // Animation props for subtle hover/tap effects
+    const animationProps: MotionProps = {
+      whileHover: {
+        scale: 1.02,
+        boxShadow:
+          'inset 0 -2px 0.5px rgba(0,0,0,0.4), inset 0 1px 0.5px rgba(255,255,255,0.16), inset 0 0 24px 6px rgba(156,160,171,0.2)',
+      },
+      whileTap: { scale: 0.98 },
+      transition: {
+        type: 'spring',
+        stiffness: 400,
+        damping: 20,
+      },
+    };
+
+    // Determine the component type (Slot or native motion.button)
+    const Comp = asChild ? Slot : motion.button;
+
+    // Content rendering logic
+    const content = loading ? (
+      <>
+        {size === 'icon' ? (
+          <Loader2 className='h-4 w-4 animate-spin' />
+        ) : (
+          <>
+            {loadingText}
+            <Loader2 className='ml-2 h-4 w-4 animate-spin' />
+          </>
+        )}
+      </>
+    ) : (
+      children
+    );
+
+    // Render button with or without tooltip
+    return tooltipText ? (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Comp
+              ref={ref}
+              disabled={loading}
+              className={cn(buttonVariants({ variant, size }), className)}
+              {...(asChild ? (props as any) : (props as MotionButtonProps))}
+              {...(!loading ? animationProps : {})}
+            >
+              {content}
+            </Comp>
+          </TooltipTrigger>
+          <TooltipContent>{tooltipText}</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    ) : (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        {...props}
-      />
+        disabled={loading}
+        className={cn(buttonVariants({ variant, size }), className)}
+        {...(asChild ? (props as any) : (props as MotionButtonProps))}
+        {...(!loading ? animationProps : {})}
+      >
+        {content}
+      </Comp>
     );
   }
 );

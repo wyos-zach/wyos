@@ -1,4 +1,3 @@
-import { ButtonsSection } from '@/components/design-system/buttons-section';
 import { InputsSection } from '@/components/design-system/inputs-section';
 
 export default function AtomsPage() {
@@ -9,7 +8,6 @@ export default function AtomsPage() {
         Basic building blocks of the interface that can't be broken down any
         further without ceasing to be functional.
       </p>
-      <ButtonsSection />
       <InputsSection />
       {/* Add more atomic components here */}
     </div>

@@ -76,7 +76,7 @@
     --sidebar-accent-foreground: 0 0% 98%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217 91% 60%;
-    --button-bg: rgb(29, 41, 57);
+    --button-bg: rgb(33, 35, 39);
     --button-hover: rgb(39, 51, 67);
     --button-text: rgb(255, 255, 255);
     --button-border: rgb(29, 41, 57);
@@ -102,54 +102,6 @@
  */
 @layer components {
   /* === BUTTON COMPONENTS === */
-  .button-base {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2 text-sm font-medium shadow-sm transition-all duration-200;
-  }
-
-  /* Button Variants */
-  .button-default {
-    @apply bg-[var(--button-bg)] text-[var(--button-text)] hover:bg-[var(--button-hover)] active:scale-95;
-  }
-
-  .button-secondary {
-    @apply border border-[var(--button-border)] bg-transparent text-[var(--button-text)] hover:bg-[var(--button-hover)] active:scale-95;
-  }
-
-  .button-outline {
-    @apply border border-[var(--button-border)] bg-transparent text-[var(--button-text)] hover:bg-[var(--button-hover)] active:scale-95;
-  }
-
-  .button-ghost {
-    @apply bg-transparent text-[var(--button-text)] hover:bg-[var(--button-hover)] active:scale-95;
-  }
-
-  /* Button States */
-  .button-base:hover {
-    @apply scale-[1.02] shadow-[inset_0_-2px_0.5px_rgba(0,0,0,0.4),_inset_0_1px_0.5px_rgba(255,255,255,0.16),_0_4px_10px_rgba(0,0,0,0.1)];
-  }
-
-  .button-default:hover {
-    @apply bg-[var(--button-hover)];
-  }
-
-  .button-ghost:hover {
-    @apply bg-[rgb(29,41,57,0.1)];
-  }
-
-  /* Active/Press Effects */
-  .button-base:active {
-    @apply scale-[0.98] shadow-[inset_0_2px_4px_rgba(0,0,0,0.2)];
-  }
-
-  /* Focus Effects */
-  .button-base:focus-visible {
-    @apply outline-none ring-2 ring-[var(--button-bg)] ring-offset-2;
-  }
-
-  /* Disabled State */
-  .button-base:disabled {
-    @apply pointer-events-none opacity-50;
-  }
 
   /* === TYPOGRAPHY COMPONENTS === */
   .overline {
@@ -711,11 +663,16 @@
   }
 
   @keyframes glow {
-    0%, 100% {
-      box-shadow: 0 0 5px rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.2);
+    0%,
+    100% {
+      box-shadow:
+        0 0 5px rgba(255, 255, 255, 0.3),
+        0 0 10px rgba(255, 255, 255, 0.2);
     }
     50% {
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 15px rgba(255, 255, 255, 0.3);
+      box-shadow:
+        0 0 10px rgba(255, 255, 255, 0.5),
+        0 0 15px rgba(255, 255, 255, 0.3);
     }
   }
 
