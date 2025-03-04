@@ -1,12 +1,5 @@
 import type { Metadata } from 'next';
-import { TypographySection } from '@/components/design-system/typography-section';
-import { ColorsSection } from '@/components/design-system/colors-section';
-import { ButtonsSection } from '@/components/design-system/buttons-section';
-import { InputsSection } from '@/components/design-system/inputs-section';
-import { CardsSection } from '@/components/design-system/cards-section';
-import { DialogsSection } from '@/components/design-system/dialogs-section';
-import { ButtonTest } from '@/components/design-system/button-test';
-import { KnowledgeGridSection } from '@/components/design-system/grid-section';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Design System | WYOS',
@@ -20,68 +13,63 @@ export default function DesignSystemPage() {
         WYOS Design System
       </h1>
       <p className='mb-10 text-lg'>
-        A comprehensive showcase of all UI components, styles, and patterns used
-        throughout the WYOS application.
+        Welcome to the WYOS Design System. This comprehensive guide showcases
+        all UI components, styles, and patterns used throughout the WYOS
+        application.
       </p>
 
-      <div className='grid grid-cols-1 gap-8'>
-        <section id='navigation' className='space-y-2'>
-          <h2 className='font-heading text-2xl font-semibold'>Navigation</h2>
-          <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4'>
-            <a
-              href='#typography'
-              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
-            >
-              Typography
-            </a>
-            <a
-              href='#colors'
-              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
-            >
-              Colors
-            </a>
-            <a
-              href='#buttons'
-              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
-            >
-              Buttons
-            </a>
-            <a
-              href='#inputs'
-              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
-            >
-              Inputs & Forms
-            </a>
-            <a
-              href='#cards'
-              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
-            >
-              Cards
-            </a>
-            <a
-              href='#grid'
-              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
-            >
-              Grid Layout
-            </a>
-            <a
-              href='#dialogs'
-              className='block rounded-lg border p-4 transition-colors hover:bg-muted'
-            >
-              Dialogs & Modals
-            </a>
-          </div>
-        </section>
-
-        <TypographySection />
-        <ColorsSection />
-        <ButtonsSection />
-        <InputsSection />
-        <CardsSection />
-        <KnowledgeGridSection />
-        <DialogsSection />
-        <ButtonTest />
+      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+        <CategoryCard
+          title='Atoms'
+          description='Basic building blocks of the interface'
+          href='/design-system/atoms'
+        />
+        <CategoryCard
+          title='Molecules'
+          description='Combinations of atoms that form simple UI components'
+          href='/design-system/molecules'
+        />
+        <CategoryCard
+          title='Organisms'
+          description='Complex UI components composed of molecules and atoms'
+          href='/design-system/organisms'
+        />
+        <CategoryCard
+          title='Templates'
+          description='Page-level objects that place components into a layout'
+          href='/design-system/templates'
+        />
+        <CategoryCard
+          title='Pages'
+          description='Specific instances of templates with real content'
+          href='/design-system/pages'
+        />
+        <CategoryCard
+          title='Styles'
+          description='Colors, typography, and other foundational styles'
+          href='/design-system/styles'
+        />
       </div>
     </div>
+  );
+}
+
+function CategoryCard({
+  title,
+  description,
+  href,
+}: {
+  title: string;
+  description: string;
+  href: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className='block rounded-lg border p-6 transition-colors hover:bg-muted'
+    >
+      <h2 className='mb-2 font-heading text-2xl font-semibold'>{title}</h2>
+      <p className='text-muted-foreground'>{description}</p>
+    </Link>
   );
 }
