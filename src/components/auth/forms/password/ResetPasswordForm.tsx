@@ -1,16 +1,16 @@
 'use client';
 
 import { useResetPasswordForm } from '@/lib/hooks/auth/useResetPassword';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/atoms/button';
+import { Input } from '@/components/ui/atoms/input';
+import { Label } from '@/components/ui/atoms/label';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '@/components/ui/atoms/card';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 

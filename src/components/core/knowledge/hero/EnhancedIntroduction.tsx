@@ -1,13 +1,13 @@
 'use client';
 import { motion } from 'motion/react';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/atoms/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/components/ui/atoms/select';
 
 export function EnhancedIntroduction() {
   return (

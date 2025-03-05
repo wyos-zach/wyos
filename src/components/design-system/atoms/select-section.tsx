@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from '@/components/ui/atoms/select';
 
 const CustomSelect = React.forwardRef<
   HTMLButtonElement,

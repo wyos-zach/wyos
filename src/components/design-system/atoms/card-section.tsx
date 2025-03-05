@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardContent,
   CardFooter,
-} from '@/components/ui/card';
+} from '@/components/ui/atoms/card';
 
 export function CardSection() {
   return (

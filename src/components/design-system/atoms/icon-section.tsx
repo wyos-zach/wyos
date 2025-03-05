@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@/components/ui/icon';
+import { Icon } from '@/components/ui/atoms/icon';
 import { Home, Settings, User, Search } from 'lucide-react';
 
 export function IconSection() {

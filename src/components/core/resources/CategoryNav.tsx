@@ -1,14 +1,14 @@
 'use client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/atoms/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useResourcesStore } from '@/store/useResourcesStore';
+import { useContentStore } from '@/store/Content';
 import { ResourceService } from '@/models/server/resources';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 export const CategoryNav = () => {
-  const { selectedCategory, setCategory } = useResourcesStore();
+  const { selectedCategory, setCategory } = useContentStore();
   const { data: categories, isPending } = useQuery({
     queryKey: ['resources', 'main-categories'],
     queryFn: () => ResourceService.getMainCategories(),

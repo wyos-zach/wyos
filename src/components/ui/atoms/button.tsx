@@ -1,3 +1,4 @@
+// src/components/ui/button.tsx
 'use client';
 
 import { Slot } from '@radix-ui/react-slot';
@@ -6,7 +7,6 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Loader2 } from 'lucide-react';
 import * as React from 'react';
 import { motion, type MotionProps } from 'motion/react';
-
 import {
   TooltipContent,
   TooltipProvider,
@@ -39,6 +39,8 @@ const buttonVariants = cva(
           'bg-[var(--button-bg)] text-[var(--button-text)] relative overflow-hidden before:absolute before:inset-0 before:rounded-md before:border-2 before:border-accent/50 before:bg-transparent before:animate-perimeterShimmer',
         bouncing:
           'bg-[var(--button-bg)] text-[var(--button-text)] shadow hover:dark-bg-primary/90 animate-bounce',
+        hoverGlow:
+          'bg-gradient-to-b from-primary/80 to-primary/60 text-white border border-primary/40 backdrop-blur-sm shadow-sm',
       },
       size: {
         default: 'h-9 px-4 py-2',
@@ -54,7 +56,6 @@ const buttonVariants = cva(
   }
 );
 
-// Props for the Button component
 export interface ButtonProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag'>,
     VariantProps<typeof buttonVariants> {
@@ -64,11 +65,9 @@ export interface ButtonProps
   tooltipText?: string;
 }
 
-// Motion-specific props for animation
 type MotionButtonProps = MotionProps &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-// Button component
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -84,12 +83,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    // Animation props for subtle hover/tap effects
     const animationProps: MotionProps = {
       whileHover: {
         scale: 1.02,
         boxShadow:
-          'inset 0 -2px 0.5px rgba(0,0,0,0.4), inset 0 1px 0.5px rgba(255,255,255,0.16), inset 0 0 24px 6px rgba(156,160,171,0.2)',
+          variant === 'hoverGlow'
+            ? '0 0 5px rgba(52, 211, 153, 0.5), 0 0 10px rgba(52, 211, 153, 0.8)' // Subtle glow on hover
+            : 'inset 0 -2px 0.5px rgba(0,0,0,0.4), inset 0 1px 0.5px rgba(255,255,255,0.16), inset 0 0 24px 6px rgba(156,160,171,0.2)',
       },
       whileTap: { scale: 0.98 },
       transition: {
@@ -99,10 +99,8 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       },
     };
 
-    // Determine the component type (Slot or native motion.button)
     const Comp = asChild ? Slot : motion.button;
 
-    // Content rendering logic
     const content = loading ? (
       <>
         {size === 'icon' ? (
@@ -118,7 +116,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       children
     );
 
-    // Render button with or without tooltip
     return tooltipText ? (
       <TooltipProvider>
         <Tooltip>
@@ -127,6 +124,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               ref={ref}
               disabled={loading}
               className={cn(buttonVariants({ variant, size }), className)}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               {...(asChild ? (props as any) : (props as MotionButtonProps))}
               {...(!loading ? animationProps : {})}
             >
@@ -141,6 +139,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={loading}
         className={cn(buttonVariants({ variant, size }), className)}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {...(asChild ? (props as any) : (props as MotionButtonProps))}
         {...(!loading ? animationProps : {})}
       >

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/atoms/button';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { LogOut, User } from 'lucide-react';
 import Link from 'next/link';

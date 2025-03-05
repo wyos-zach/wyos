@@ -3,7 +3,12 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import type { ResourceCategory } from '@/types/core/resources/category';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/atoms/card';
 
 interface ResourceCategoryCardProps {
   category: ResourceCategory;

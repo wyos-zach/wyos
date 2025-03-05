@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  CustomCheckbox,
+  Checkbox,
   GradientCheckbox,
   TransformerCheckbox,
   AnimatedCheckbox,
-} from '@/components/ui/checkbox-animated';
+} from '@/components/ui/atoms/checkbox';
 
 export function CheckboxSection() {
   return (
@@ -18,9 +18,9 @@ export function CheckboxSection() {
       <div>
         <h3 className='text-lg font-semibold'>Default Checkbox</h3>
         <div className='flex flex-wrap gap-4'>
-          <CustomCheckbox id='default-checkbox' />
-          <CustomCheckbox id='checked-checkbox' checked />
-          <CustomCheckbox id='disabled-checkbox' disabled />
+          <Checkbox id='default-checkbox' />
+          <Checkbox id='checked-checkbox' checked />
+          <Checkbox id='disabled-checkbox' disabled />
         </div>
       </div>
 

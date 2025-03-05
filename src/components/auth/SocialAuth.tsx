@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/atoms/button';
 import { useAuthStore } from '@/store/Auth';
 import { OAuthProvider } from 'appwrite';
 

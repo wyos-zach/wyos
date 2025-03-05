@@ -1,5 +1,5 @@
-import { ColorsSection } from '@/components/design-system/atoms/colors-section';
-import { TypographySection } from '@/components/design-system/atoms/typography-section';
+import { ColorsSection } from '@/components/design-system/styles/colors-section';
+import { TypographySection } from '@/components/design-system/styles/typography-section';
 
 export default function StylesPage() {
   return (

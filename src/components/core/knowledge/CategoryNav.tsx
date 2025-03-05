@@ -1,15 +1,15 @@
 'use client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/atoms/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useKnowledgeStore } from '@/store/useKnowledgeStore';
+import { useContentStore } from '@/store/Content';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useCallback } from 'react';
 import { cn } from '@/lib/utils';
 
 export const CategoryNav = () => {
-  const { selectedCategory, setCategory } = useKnowledgeStore();
+  const { selectedCategory, setCategory } = useContentStore();
   const { data: categories, isPending } = useQuery({
     queryKey: ['knowledge', 'main-categories'],
     queryFn: async () => {

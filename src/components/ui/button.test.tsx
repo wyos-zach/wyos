@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Button } from './button';
+import { Button } from './atoms/button';
 
 describe('Button Component', () => {
   it('renders with default variant and size', () => {

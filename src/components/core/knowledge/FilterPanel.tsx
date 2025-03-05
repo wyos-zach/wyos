@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/ui/atoms/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,7 +28,7 @@ export function FilterPanel({ _onFilterChange }: FilterPanelProps) {
         <DropdownMenuLabel>Filter by</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuCheckboxItem checked>
-          Featured Resources
+          Featured Knowledge
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem>Recently Added</DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem>Most Popular</DropdownMenuCheckboxItem>

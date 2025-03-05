@@ -1,6 +1,6 @@
 'use client';
 import { useDebounce } from '@/lib/hooks/shared/useDebounce';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/atoms/input';
 import { Search, X, Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';

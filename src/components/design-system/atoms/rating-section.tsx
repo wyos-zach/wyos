@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { StarRating } from '@/components/ui/star-rating';
+import { StarRating } from '@/components/ui/atoms/star-rating';
 
 export function RatingSection() {
   const [rating, setRating] = useState(0);

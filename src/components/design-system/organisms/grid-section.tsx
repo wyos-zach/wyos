@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { H2, P } from '@/components/ui/typography';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card } from '@/components/ui/card';
+import { Card } from '@/components/ui/atoms/card';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 

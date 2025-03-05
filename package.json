@@ -38,6 +38,7 @@
     "appwrite": "^16.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "dompurify": "^3.2.4",
     "immer": "^10.1.1",
     "lenis": "^1.1.20",

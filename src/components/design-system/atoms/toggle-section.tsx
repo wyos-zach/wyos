@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Toggle } from '@/components/ui/toggle';
+import { Toggle } from '@/components/ui/atoms/toggle';
 import { Moon, Sun } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -70,8 +70,8 @@ export function ToggleSection() {
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Theme Toggle Example</h3>
         <p className='text-muted-foreground'>
-          A specialized toggle for switching between light and dark
-          themes using the base Toggle component.
+          A specialized toggle for switching between light and dark themes using
+          the base Toggle component.
         </p>
         <div className='flex flex-wrap gap-6'>
           <div className='flex flex-col items-center gap-2'>
@@ -82,7 +82,9 @@ export function ToggleSection() {
                 themeSizes.sm.container
               )}
               pressed={theme === 'dark'}
-              onPressedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onPressedChange={() =>
+                setTheme(theme === 'dark' ? 'light' : 'dark')
+              }
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               <Moon
@@ -108,7 +110,9 @@ export function ToggleSection() {
                 themeSizes.md.container
               )}
               pressed={theme === 'dark'}
-              onPressedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onPressedChange={() =>
+                setTheme(theme === 'dark' ? 'light' : 'dark')
+              }
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               <Moon
@@ -136,7 +140,9 @@ export function ToggleSection() {
                 themeSizes.lg.container
               )}
               pressed={theme === 'dark'}
-              onPressedChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onPressedChange={() =>
+                setTheme(theme === 'dark' ? 'light' : 'dark')
+              }
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               <Moon

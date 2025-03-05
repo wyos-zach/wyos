@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/atoms/input';
 
 export function InputSection() {
   const [value, setValue] = useState('');
