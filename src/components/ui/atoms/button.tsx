@@ -1,4 +1,3 @@
-// src/components/ui/button.tsx
 'use client';
 
 import { Slot } from '@radix-ui/react-slot';

@@ -1,4 +1,3 @@
-// src/components/molecules/CommentForm.tsx
 'use client';
 import * as React from 'react';
 import { Textarea } from '@/components/ui/atoms/textarea';

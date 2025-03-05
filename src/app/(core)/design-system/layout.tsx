@@ -1,4 +1,4 @@
-import { SidebarNav } from '@/components/design-system/sidebar-nav';
+import { SidebarNav } from '@/components/ui/organisms/sidebar-nav';
 
 export default function DesignSystemLayout({
   children,

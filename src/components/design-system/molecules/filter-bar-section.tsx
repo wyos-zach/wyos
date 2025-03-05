@@ -1,4 +1,3 @@
-// src/components/design-system/molecules/filter-bar-section.tsx
 'use client';
 import * as React from 'react';
 import {
