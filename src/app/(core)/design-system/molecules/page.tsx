@@ -4,6 +4,8 @@ import { CategoryNavSection } from '@/components/design-system/molecules/categor
 import { CommentsSection } from '@/components/design-system/molecules/comments-section';
 import { FilterBarSection } from '@/components/design-system/molecules/filter-bar-section';
 import { FormFieldSection } from '@/components/design-system/molecules/form-field-section';
+import { InputGroupSection } from '@/components/design-system/molecules/input-group-section';
+import { SearchBarSection } from '@/components/design-system/molecules/search-bar-section';
 
 export default function MoleculesPage() {
   return (
@@ -24,6 +26,10 @@ export default function MoleculesPage() {
       <FilterBarSection />
       <Divider />
       <FormFieldSection />
+      <Divider />
+      <InputGroupSection />
+      <Divider />
+      <SearchBarSection />
       <Divider />
     </div>
   );
