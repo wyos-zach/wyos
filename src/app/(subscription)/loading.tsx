@@ -4,7 +4,7 @@ import {
   CardFooter,
   CardHeader,
 } from '@/components/ui/atoms/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/atoms/skeleton';
 
 export default function SubscriptionLoading() {
   return (

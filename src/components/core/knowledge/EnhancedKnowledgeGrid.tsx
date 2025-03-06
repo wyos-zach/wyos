@@ -4,7 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { EnhancedKnowledgeCategoryCard } from './EnhancedKnowledgeCategoryCard';
 import { EntryModal } from './entries/EntryModal';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/atoms/skeleton';
 import { InfiniteGrid } from '@/components/shared/InfiniteGrid';
 import { KnowledgeService } from '@/models/server/knowledge';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';

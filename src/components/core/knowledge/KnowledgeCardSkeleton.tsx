@@ -1,4 +1,4 @@
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/atoms/skeleton';
 
 export const KnowledgeCardSkeleton = () => (
   <div className='flex flex-col gap-3 rounded-lg border p-6'>

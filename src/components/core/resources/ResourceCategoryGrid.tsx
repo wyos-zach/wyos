@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ResourceService } from '@/models/server/resources';
 import { ResourceCategoryCard } from '@/components/core/resources/ResourceCategoryCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/atoms/skeleton';
 import { useSearchParams } from 'next/navigation';
 
 export const ResourceCategoryGrid = () => {

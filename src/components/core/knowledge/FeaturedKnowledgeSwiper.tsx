@@ -1,7 +1,7 @@
 'use client';
 import { useFeaturedKnowledge } from '@/lib/api/knowledge/hooks';
 import { KnowledgeCard } from '@/components/core/knowledge/KnowledgeCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/atoms/skeleton';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';

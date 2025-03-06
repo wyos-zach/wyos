@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { ResourceService } from '@/models/server/resources';
 import { ResourceCard } from './ResourceCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/atoms/skeleton';
 import type { ResourceEntry } from '@/types/core/resources/entry';
 
 interface ResourceGridProps {

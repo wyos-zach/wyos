@@ -20,7 +20,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/atoms/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/atoms/tabs';
 
 export function TypographySection() {
   return (

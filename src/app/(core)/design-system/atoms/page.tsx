@@ -11,6 +11,11 @@ import { RatingSection } from '@/components/design-system/atoms/rating-section';
 import { TextareaSection } from '@/components/design-system/atoms/textarea-section';
 import { InputSection } from '@/components/design-system/atoms/input-section';
 import { ToggleSection } from '@/components/design-system/atoms/toggle-section';
+import { BreadcrumbSection } from '@/components/design-system/atoms/breadcrumb-section';
+import { RadioGroupSection } from '@/components/design-system/atoms/radio-group-section';
+import { SkeletonSection } from '@/components/design-system/atoms/skeleton-section';
+import { TabsSection } from '@/components/design-system/atoms/tabs-section';
+import { ToastSection } from '@/components/design-system/atoms/toast-section';
 
 export default function AtomsPage() {
   return (
@@ -29,6 +34,8 @@ export default function AtomsPage() {
         <Divider />
         <ButtonSection />
         <Divider />
+        <BreadcrumbSection />
+        <Divider />
         <CardSection />
         <Divider />
         <CheckboxSection />
@@ -39,15 +46,24 @@ export default function AtomsPage() {
         <Divider />
         <LabelSection />
         <Divider />
+        <RadioGroupSection />
+        <Divider />
         <RatingSection />
         <Divider />
         <SelectSection />
         <Divider />
+        <SkeletonSection />
+        <Divider />
         <SpinnerSection />
+        <Divider />
+        <TabsSection />
         <Divider />
         <TextareaSection />
         <Divider />
+        <ToastSection />
+        <Divider />
         <ToggleSection />
+        <Divider />
       </div>
     </div>
   );

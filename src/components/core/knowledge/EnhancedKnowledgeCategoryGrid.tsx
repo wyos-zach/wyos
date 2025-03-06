@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { EnhancedKnowledgeCategoryCard } from '@/components/core/knowledge/EnhancedKnowledgeCategoryCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from '@/components/ui/atoms/skeleton';
 import { useSearchParams } from 'next/navigation';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';

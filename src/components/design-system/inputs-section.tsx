@@ -8,12 +8,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/atoms/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/atoms/tabs';
 import { Input } from '@/components/ui/atoms/input';
 import { Label } from '@/components/ui/atoms/label';
 import { Textarea } from '@/components/ui/atoms/textarea';
 import { Checkbox } from '@/components/ui/checkbox';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/atoms/radio-group';
 import {
   Select,
   SelectContent,

@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { Button } from '@/components/ui/atoms/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/atoms/radio-group';
 import { Check, Sparkles, Zap } from 'lucide-react';
 
 interface PlanOption {
