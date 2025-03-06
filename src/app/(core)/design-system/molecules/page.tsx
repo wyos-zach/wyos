@@ -6,6 +6,8 @@ import { FilterBarSection } from '@/components/design-system/molecules/filter-ba
 import { FormFieldSection } from '@/components/design-system/molecules/form-field-section';
 import { InputGroupSection } from '@/components/design-system/molecules/input-group-section';
 import { SearchBarSection } from '@/components/design-system/molecules/search-bar-section';
+import { AccordionSection } from '@/components/design-system/molecules/accordion-section';
+import { DropdownMenuSection } from '@/components/design-system/molecules/dropdown-section';
 
 export default function MoleculesPage() {
   return (
@@ -15,6 +17,8 @@ export default function MoleculesPage() {
         Molecules are combinations of atoms that form reusable components like
         cards and dialogs.
       </p>
+      <AccordionSection />
+      <Divider />
       <CardsSection />
       <Divider />
       <CategoryNavSection />
@@ -22,6 +26,8 @@ export default function MoleculesPage() {
       <CommentsSection />
       <Divider />
       <DialogsSection />
+      <Divider />
+      <DropdownMenuSection />
       <Divider />
       <FilterBarSection />
       <Divider />

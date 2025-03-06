@@ -1,6 +1,6 @@
 import { AvatarSection } from '@/components/design-system/atoms/avatar-section';
 import { BadgeSection } from '@/components/design-system/atoms/badge-section';
-import { ButtonSection } from '@/components/design-system/atoms/buttons-section';
+import { ButtonSection } from '@/components/design-system/atoms/button-section';
 import { CardSection } from '@/components/design-system/atoms/card-section';
 import { CheckboxSection } from '@/components/design-system/atoms/checkbox-section';
 import { IconSection } from '@/components/design-system/atoms/icon-section';

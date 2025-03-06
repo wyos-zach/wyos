@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
-} from '@/components/ui/dropdown-menu';
+} from '@/components/ui/molecules/dropdown';
 import { SlidersHorizontal } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

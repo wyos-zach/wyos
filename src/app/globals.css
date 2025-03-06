@@ -101,6 +101,18 @@
  * COMPONENTS LAYER
  */
 @layer components {
+  /* Tooltip Styling */
+  .tooltip-content {
+    background: rgba(19, 19, 22, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: hsl(var(--foreground));
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
   /* === BUTTON COMPONENTS === */
 
   /* === TYPOGRAPHY COMPONENTS === */

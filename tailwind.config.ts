@@ -120,6 +120,10 @@ export default {
             outline: '1px solid transparent',
           },
         },
+        lift: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-4px)' },
+        },
         rippling: {
           '0%': {
             opacity: '1',
@@ -170,6 +174,7 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        lift: 'lift 1.5s ease-in-out infinite',
         rippling: 'rippling var(--duration) ease-out',
         spin: 'spin 3s linear infinite',
         fadeInUp: 'fadeInUp 0.6s ease-out',

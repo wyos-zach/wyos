@@ -1,16 +1,24 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/atoms/button';
 
 export function ButtonSection() {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const toggleLoading = () => {
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 2000);
+  };
+
   return (
     <section className='space-y-6 px-6'>
       <h2 className='font-heading text-3xl font-bold'>Button</h2>
       <p className='text-muted-foreground'>
-        Buttons are used to trigger actions or navigate users throuph the
-        interface.
+        Buttons trigger actions or navigate users through the interface with a
+        premium, polished design.
       </p>
 
-      {/* Variants */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Variants</h3>
         <div className='flex flex-wrap gap-4'>
@@ -23,7 +31,6 @@ export function ButtonSection() {
         </div>
       </div>
 
-      {/* Sizes */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Sizes</h3>
         <div className='flex flex-wrap gap-4'>
@@ -31,7 +38,6 @@ export function ButtonSection() {
           <Button size='default'>Default</Button>
           <Button size='lg'>Large</Button>
           <Button size='icon' aria-label='Icon Button'>
-            {/* Example Icon */}
             <svg
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
@@ -50,18 +56,22 @@ export function ButtonSection() {
         </div>
       </div>
 
-      {/* Loading States */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Loading States</h3>
         <div className='flex flex-wrap gap-4'>
-          <Button loading>Loading</Button>
-          <Button loading loadingText='Submitting...'>
-            Loading with Text
+          <Button loading={isLoading} onClick={toggleLoading}>
+            Toggle Loading
+          </Button>
+          <Button
+            loading={isLoading}
+            loadingText='Submitting...'
+            onClick={toggleLoading}
+          >
+            Toggle with Text
           </Button>
         </div>
       </div>
 
-      {/* Disabled State */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Disabled State</h3>
         <div className='flex flex-wrap gap-4'>
@@ -75,28 +85,33 @@ export function ButtonSection() {
         </div>
       </div>
 
-      {/* Animations */}
       <div className='space-y-4'>
-        <h3 className='text-lg font-semibold'>Animations</h3>
-        <p className='text-muted-foreground'>
-          Hover and tap animatipns are built into the button using Motion.
-        </p>
+        <h3 className='text-lg font-semibold'>Tooltip</h3>
         <div className='flex flex-wrap gap-4'>
-          <Button variant='ringHover'>Hover Ring</Button>
-          <Button variant='glowingRing'>Glowing Ring</Button>
-          <Button variant='shimmer'>Shimmer Effect</Button>
-          <Button variant='perimeterShimmer'>Perimeter Shimmer</Button>
-          <Button variant='bouncing'>Bouncing Animation</Button>
+          <Button tooltipText='Click to proceed'>With Tooltip</Button>
         </div>
       </div>
 
-      {/* Documentation */}
+      <div className='space-y-4'>
+        <h3 className='text-lg font-semibold'>Animations</h3>
+        <p className='text-muted-foreground'>
+          Subtle hover, tap, and custom animations enhance interactivity.
+        </p>
+        <div className='flex flex-wrap gap-4'>
+          <Button variant='glowingRing'>Glowing Ring</Button>
+          <Button variant='shimmer'>Shimmer Effect</Button>
+          <Button variant='perimeterShimmer'>Perimeter Shimmer</Button>
+          <Button variant='hoverGlow'>Hover Glow</Button>
+        </div>
+      </div>
+
       <div className='text-sm text-gray-500'>
         <p>Props:</p>
         <ul className='list-inside list-disc'>
           <li>
             variant: "default" | "destructive" | "outline" | "secondary" |
-            "ghost" | "link" | etc.
+            "ghost" | "link" | "glowingRing" | "shimmer" | "perimeterShimmer" |
+            "hoverGlow"
           </li>
           <li>size: "sm" | "default" | "lg" | "icon"</li>
           <li>loading: boolean (shows a spinner)</li>

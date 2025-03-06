@@ -1,15 +1,17 @@
+// src/components/sections/ToggleSection.tsx
 'use client';
 
 import React, { useState } from 'react';
 import { Toggle } from '@/components/ui/atoms/toggle';
-import { Moon, Sun } from 'lucide-react';
+import { Sun } from 'lucide-react';
+import { Moon } from '@phosphor-icons/react'; // Use Phosphor Moon icon
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 export function ToggleSection() {
   const [isToggled, setIsToggled] = useState(false);
   const [theme, setTheme] = useState('light');
 
-  // Theme toggle sizes
   const themeSizes = {
     sm: { container: 'size-8', icon: 14 },
     md: { container: 'size-9', icon: 16 },
@@ -20,11 +22,10 @@ export function ToggleSection() {
     <section className='space-y-6 px-6'>
       <h2 className='font-heading text-3xl font-bold'>Toggle</h2>
       <p className='text-muted-foreground'>
-        Toggle components allow users to switch between two states, including
-        theme switching.
+        Sleek toggles with glassmorphic design and smooth animations for state
+        switching.
       </p>
 
-      {/* Basic Toggle */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Basic Toggle</h3>
         <Toggle
@@ -39,7 +40,6 @@ export function ToggleSection() {
         </p>
       </div>
 
-      {/* Variants */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Variants</h3>
         <div className='flex flex-wrap gap-4'>
@@ -48,7 +48,6 @@ export function ToggleSection() {
         </div>
       </div>
 
-      {/* Sizes */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Sizes</h3>
         <div className='flex flex-wrap gap-4'>
@@ -58,7 +57,6 @@ export function ToggleSection() {
         </div>
       </div>
 
-      {/* Disabled State */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Disabled State</h3>
         <Toggle disabled aria-label='Disabled toggle'>
@@ -66,38 +64,43 @@ export function ToggleSection() {
         </Toggle>
       </div>
 
-      {/* Theme Toggle */}
       <div className='space-y-4'>
         <h3 className='text-lg font-semibold'>Theme Toggle Example</h3>
         <p className='text-muted-foreground'>
-          A specialized toggle for switching between light and dark themes using
-          the base Toggle component.
+          A polished theme switcher with a classic dark mode moon icon from
+          Phosphor.
         </p>
         <div className='flex flex-wrap gap-6'>
           <div className='flex flex-col items-center gap-2'>
             <Toggle
               variant='outline'
-              className={cn(
-                'group data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted',
-                themeSizes.sm.container
-              )}
+              className={cn('group relative', themeSizes.sm.container)}
               pressed={theme === 'dark'}
               onPressedChange={() =>
                 setTheme(theme === 'dark' ? 'light' : 'dark')
               }
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
+              <motion.div
+                className='absolute inset-0 rounded-md'
+                initial={false}
+                animate={{
+                  boxShadow:
+                    theme === 'dark'
+                      ? '0 0 8px rgba(var(--primary), 0.3)'
+                      : 'none',
+                }}
+                transition={{ duration: 0.3 }}
+              />
               <Moon
                 size={themeSizes.sm.icon}
-                strokeWidth={2}
-                className='shrink-0 scale-0 opacity-0 transition-all group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100'
-                aria-hidden='true'
+                weight='fill' // Ensures the icon is filled for a solid look
+                className='shrink-0 transition-all duration-300 ease-in-out group-data-[state=off]:opacity-0 group-data-[state=on]:opacity-100'
               />
               <Sun
                 size={themeSizes.sm.icon}
                 strokeWidth={2}
-                className='absolute shrink-0 scale-100 opacity-100 transition-all group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0'
-                aria-hidden='true'
+                className='absolute shrink-0 transition-all duration-300 ease-in-out group-data-[state=off]:opacity-100 group-data-[state=on]:opacity-0'
               />
             </Toggle>
             <span className='text-xs text-muted-foreground'>Small</span>
@@ -105,27 +108,33 @@ export function ToggleSection() {
           <div className='flex flex-col items-center gap-2'>
             <Toggle
               variant='outline'
-              className={cn(
-                'group data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted',
-                themeSizes.md.container
-              )}
+              className={cn('group relative', themeSizes.md.container)}
               pressed={theme === 'dark'}
               onPressedChange={() =>
                 setTheme(theme === 'dark' ? 'light' : 'dark')
               }
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
+              <motion.div
+                className='absolute inset-0 rounded-md'
+                initial={false}
+                animate={{
+                  boxShadow:
+                    theme === 'dark'
+                      ? '0 0 8px rgba(var(--primary), 0.3)'
+                      : 'none',
+                }}
+                transition={{ duration: 0.3 }}
+              />
               <Moon
                 size={themeSizes.md.icon}
-                strokeWidth={2}
-                className='shrink-0 scale-0 opacity-0 transition-all group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100'
-                aria-hidden='true'
+                weight='fill'
+                className='shrink-0 transition-all duration-300 ease-in-out group-data-[state=off]:opacity-0 group-data-[state=on]:opacity-100'
               />
               <Sun
                 size={themeSizes.md.icon}
                 strokeWidth={2}
-                className='absolute shrink-0 scale-100 opacity-100 transition-all group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0'
-                aria-hidden='true'
+                className='absolute shrink-0 transition-all duration-300 ease-in-out group-data-[state=off]:opacity-100 group-data-[state=on]:opacity-0'
               />
             </Toggle>
             <span className='text-xs text-muted-foreground'>
@@ -135,27 +144,33 @@ export function ToggleSection() {
           <div className='flex flex-col items-center gap-2'>
             <Toggle
               variant='outline'
-              className={cn(
-                'group data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted',
-                themeSizes.lg.container
-              )}
+              className={cn('group relative', themeSizes.lg.container)}
               pressed={theme === 'dark'}
               onPressedChange={() =>
                 setTheme(theme === 'dark' ? 'light' : 'dark')
               }
               aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
+              <motion.div
+                className='absolute inset-0 rounded-md'
+                initial={false}
+                animate={{
+                  boxShadow:
+                    theme === 'dark'
+                      ? '0 0 8px rgba(var(--primary), 0.3)'
+                      : 'none',
+                }}
+                transition={{ duration: 0.3 }}
+              />
               <Moon
                 size={themeSizes.lg.icon}
-                strokeWidth={2}
-                className='shrink-0 scale-0 opacity-0 transition-all group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100'
-                aria-hidden='true'
+                weight='fill'
+                className='shrink-0 transition-all duration-300 ease-in-out group-data-[state=off]:opacity-0 group-data-[state=on]:opacity-100'
               />
               <Sun
                 size={themeSizes.lg.icon}
                 strokeWidth={2}
-                className='absolute shrink-0 scale-100 opacity-100 transition-all group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0'
-                aria-hidden='true'
+                className='absolute shrink-0 transition-all duration-300 ease-in-out group-data-[state=off]:opacity-100 group-data-[state=on]:opacity-0'
               />
             </Toggle>
             <span className='text-xs text-muted-foreground'>Large</span>
@@ -164,40 +179,27 @@ export function ToggleSection() {
         <p className='text-sm text-muted-foreground'>Current Theme: {theme}</p>
       </div>
 
-      {/* Custom Toggle Example */}
       <div className='space-y-4'>
-        <h3 className='text-lg font-semibold'>Other Custom Toggle Example</h3>
+        <h3 className='text-lg font-semibold'>Custom Toggle Example</h3>
         <p className='text-muted-foreground'>
-          You can create any custom toggle using the base Toggle component.
+          A custom toggle using the base Toggle component.
         </p>
         <Toggle
-          variant='outline'
-          className='group size-9 data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted'
+          variant='default'
+          className='group size-9'
           pressed={isToggled}
           onPressedChange={() => setIsToggled(!isToggled)}
           aria-label={`Custom toggle is ${isToggled ? 'on' : 'off'}`}
         >
-          <Moon
-            size={16}
-            strokeWidth={2}
-            className='shrink-0 scale-0 opacity-0 transition-all group-data-[state=on]:scale-100 group-data-[state=on]:opacity-100'
-            aria-hidden='true'
-          />
-          <Sun
-            size={16}
-            strokeWidth={2}
-            className='absolute shrink-0 scale-100 opacity-100 transition-all group-data-[state=on]:scale-0 group-data-[state=on]:opacity-0'
-            aria-hidden='true'
-          />
+          {isToggled ? 'On' : 'Off'}
         </Toggle>
       </div>
 
-      {/* Documentation */}
       <div className='text-sm text-gray-500'>
         <p>Props:</p>
         <ul className='list-inside list-disc'>
           <li>pressed: boolean</li>
-          <li>onPressedChange: (pressed: boolean) {'=>'} void</li>
+          <li>onPressedChange: (pressed: boolean) =&gt; void</li>
           <li>variant: "default" | "outline"</li>
           <li>size: "sm" | "default" | "lg"</li>
           <li>disabled: boolean</li>

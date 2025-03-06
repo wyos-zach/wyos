@@ -1,3 +1,4 @@
+// src/components/sections/ToastSection.tsx
 'use client';
 
 import React from 'react';
@@ -37,15 +38,14 @@ export function ToastSection() {
   }, [defaultOpen, destructiveOpen, successOpen]);
 
   return (
-    <section className='space-y-6 border-t border-zinc-700/30 px-6 py-8'>
+    <section className='space-y-8 border-t border-zinc-700/30 px-6 py-10'>
       <h2 className='font-heading text-3xl font-bold text-zinc-100'>Toast</h2>
       <p className='text-zinc-400'>
-        Premium notifications with progress indicators.
+        Sleek, glassmorphic notifications with clear variant differentiation.
       </p>
 
       <ToastProvider swipeDirection='left'>
-        {/* Demo 1: Default */}
-        <div className='space-y-4'>
+        <div className='space-y-6'>
           <h3 className='text-lg font-semibold text-zinc-200'>Default</h3>
           <button
             className='rounded-md bg-zinc-800 px-4 py-2 text-zinc-100 hover:bg-zinc-700/80'
@@ -62,17 +62,16 @@ export function ToastSection() {
             onOpenChange={setDefaultOpen}
             progress={defaultOpen ? getProgress(defaultTime) : 1}
           >
-            <div className='flex items-start gap-3'>
-              <ToastTitle>Notification</ToastTitle>
-              <ToastDescription>Event has been scheduled.</ToastDescription>
-            </div>
+            <ToastTitle>Notification</ToastTitle>
+            <ToastDescription>
+              Event has been scheduled successfully.
+            </ToastDescription>
             <ToastClose />
           </Toast>
         </div>
 
-        {/* Demo 2: Destructive */}
-        <div className='space-y-4'>
-          <h3 className='text-lg font-semibold text-zinc-200'>Destructive</h3>
+        <div className='space-y-6'>
+          <h3 className='text-base font-medium text-zinc-200'>Destructive</h3>
           <button
             className='rounded-md bg-zinc-800 px-4 py-2 text-zinc-100 hover:bg-zinc-700/80'
             onClick={() => {
@@ -89,17 +88,16 @@ export function ToastSection() {
             onOpenChange={setDestructiveOpen}
             progress={destructiveOpen ? getProgress(destructiveTime) : 1}
           >
-            <div className='flex items-start gap-3'>
-              <ToastTitle>Error</ToastTitle>
-              <ToastDescription>Something went wrong.</ToastDescription>
-            </div>
+            <ToastTitle>Error</ToastTitle>
+            <ToastDescription>
+              Something went wrong. Please try again.
+            </ToastDescription>
             <ToastClose />
           </Toast>
         </div>
 
-        {/* Demo 3: Success */}
-        <div className='space-y-4'>
-          <h3 className='text-lg font-semibold text-zinc-200'>Success</h3>
+        <div className='space-y-6'>
+          <h3 className='font-medium text-zinc-200'>Success</h3>
           <button
             className='rounded-md bg-zinc-800 px-4 py-2 text-zinc-100 hover:bg-zinc-700/80'
             onClick={() => {
@@ -116,11 +114,11 @@ export function ToastSection() {
             onOpenChange={setSuccessOpen}
             progress={successOpen ? getProgress(successTime) : 1}
           >
-            <div className='flex items-start gap-3'>
-              <ToastTitle>Success</ToastTitle>
-              <ToastDescription>Your request was completed!</ToastDescription>
-              <ToastAction altText='Undo'>Undo</ToastAction>
-            </div>
+            <ToastTitle>Success</ToastTitle>
+            <ToastDescription>
+              Your request was completed successfully!
+            </ToastDescription>
+            <ToastAction altText='Undo'>Undo</ToastAction>
             <ToastClose />
           </Toast>
         </div>

@@ -3,7 +3,7 @@
 import { RegisterHeader } from '@/components/auth/forms/register/RegisterHeader';
 import { RegisterFields } from '@/components/auth/forms/register/RegisterFields';
 import { SocialAuth } from '@/components/auth/SocialAuth';
-import { PrimaryButton } from '@/components/shared/primary-button';
+import { Button } from '@/components/ui/atoms/button';
 import { useRegisterForm } from '@/lib/hooks/auth/useRegister';
 import { motion } from 'motion/react';
 
@@ -28,7 +28,7 @@ export default function Register() {
         <form onSubmit={handleSubmit} className='mt-8 space-y-6'>
           <RegisterFields isLoading={isLoading} />
 
-          <PrimaryButton
+          <Button
             type='submit'
             disabled={isLoading}
             className='w-full bg-blue-900 text-white hover:bg-blue-800 focus:ring-2 focus:ring-blue-900/50 disabled:bg-zinc-800 disabled:text-zinc-400'
@@ -56,7 +56,7 @@ export default function Register() {
             ) : (
               'Write Your Story'
             )}
-          </PrimaryButton>
+          </Button>
 
           <div className='relative my-8'>
             <div className='absolute inset-0 flex items-center'>
