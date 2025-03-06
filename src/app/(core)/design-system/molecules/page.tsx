@@ -8,6 +8,11 @@ import { InputGroupSection } from '@/components/design-system/molecules/input-gr
 import { SearchBarSection } from '@/components/design-system/molecules/search-bar-section';
 import { AccordionSection } from '@/components/design-system/molecules/accordion-section';
 import { DropdownMenuSection } from '@/components/design-system/molecules/dropdown-section';
+import { AuthButtonsSection } from '@/components/design-system/molecules/auth-button-section';
+import { AuthFieldsSection } from '@/components/design-system/molecules/auth-fields-section';
+import { AuthFormSection } from '@/components/design-system/molecules/auth-form-section';
+import { SocialAuthSection } from '@/components/design-system/molecules/social-auth-section';
+import { AuthHeaderSection } from '@/components/design-system/molecules/auth-header-section';
 
 export default function MoleculesPage() {
   return (
@@ -18,6 +23,14 @@ export default function MoleculesPage() {
         cards and dialogs.
       </p>
       <AccordionSection />
+      <Divider />
+      <AuthButtonsSection />
+      <Divider />
+      <AuthFieldsSection />
+      <Divider />
+      <AuthFormSection />
+      <Divider />
+      <AuthHeaderSection />
       <Divider />
       <CardsSection />
       <Divider />
@@ -36,6 +49,8 @@ export default function MoleculesPage() {
       <InputGroupSection />
       <Divider />
       <SearchBarSection />
+      <Divider />
+      <SocialAuthSection />
       <Divider />
     </div>
   );

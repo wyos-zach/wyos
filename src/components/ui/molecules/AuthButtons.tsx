@@ -26,10 +26,11 @@ export function AuthButtons({
   };
 
   const baseButtonStyles =
-    'font-medium tracking-wide text-foreground bg-gradient-to-r from-[hsl(var(--primary))] to-[hsl(var(--primary-foreground))] hover-glow rounded-md transition-all duration-300 shadow-[0_2px_4px_rgba(0,0,0,0.1)]';
+    'bg-gradient-to-b from-[hsl(var(--muted))/0.8] to-[hsl(var(--background))] glass-effect text-foreground font-thin tracking-wide shadow-[0_2px_6px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_8px_rgba(0,0,0,0.2)] hover-glow transition-all duration-200 rounded-md px-4 py-2';
+
   const containerStyles = mobile
-    ? 'flex flex-col gap-4 pt-4'
-    : 'flex items-center gap-4';
+    ? 'flex flex-col gap-2 pt-2'
+    : 'flex items-center gap-2';
 
   if (session) {
     return (
@@ -38,11 +39,10 @@ export function AuthButtons({
           variant='ghost'
           className={cn(
             baseButtonStyles,
-            'flex items-center justify-center gap-2 px-4 py-2',
-            mobile ? 'w-full' : 'w-auto'
+            mobile ? 'w-full justify-center' : 'w-auto'
           )}
         >
-          <User className='h-4 w-4' />
+          <User className='mr-2 h-4 w-4' />
           <span>{user?.name}</span>
         </Button>
         <Button
@@ -50,11 +50,10 @@ export function AuthButtons({
           onClick={handleLogout}
           className={cn(
             baseButtonStyles,
-            'flex items-center justify-center gap-2 px-4 py-2',
-            mobile ? 'w-full' : 'w-auto'
+            mobile ? 'w-full justify-center' : 'w-auto'
           )}
         >
-          <LogOut className='h-4 w-4' />
+          <LogOut className='mr-2 h-4 w-4' />
           <span>Logout</span>
         </Button>
       </div>
@@ -66,30 +65,16 @@ export function AuthButtons({
       <Link href='/login' onClick={mobile ? onAction : undefined}>
         <Button
           variant='ghost'
-          className={cn(
-            baseButtonStyles,
-            'px-4 py-2',
-            mobile ? 'w-full' : 'w-auto'
-          )}
+          className={cn(baseButtonStyles, mobile ? 'w-full' : 'w-auto')}
         >
           Login
         </Button>
       </Link>
       <Link href='/register' onClick={mobile ? onAction : undefined}>
-        <Button
-          className={cn(
-            baseButtonStyles,
-            'glass-effect px-4 py-2',
-            mobile ? 'w-full' : 'w-auto'
-          )}
-        >
-          {mobile ? 'Write Your Story' : 'Get Started'}
+        <Button className={cn(baseButtonStyles, mobile ? 'w-full' : 'w-auto')}>
+          Get Started
         </Button>
       </Link>
     </div>
   );
 }
-
-// Usage:
-// Desktop: <AuthButtons />
-// Mobile: <AuthButtons mobile onAction={closeMobileMenuAction} />import { cn } from '@/lib/utils';
