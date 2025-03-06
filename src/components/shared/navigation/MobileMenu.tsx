@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/atoms/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
-import { MobileAuthButtons } from '../MobileAuthButtons';
+import { MobileAuthButtons } from '../../auth/MobileAuthButtons';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 

@@ -3,7 +3,7 @@
  * @description Tests for the SocialAuth component
  */
 import { render, screen, fireEvent } from '@/__tests__/test-utils';
-import { SocialAuth } from './SocialAuth';
+import { SocialAuth } from '../ui/molecules/SocialAuth';
 import { useAuthStore } from '@/store/Auth';
 import { OAuthProvider } from 'appwrite';
 

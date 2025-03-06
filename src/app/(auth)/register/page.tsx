@@ -2,7 +2,7 @@
 
 import { RegisterHeader } from '@/components/auth/RegisterHeader';
 import { RegisterFields } from '@/components/auth/RegisterFields';
-import { SocialAuth } from '@/components/auth/SocialAuth';
+import { SocialAuth } from '@/components/ui/molecules/SocialAuth';
 import { Button } from '@/components/ui/atoms/button';
 import { useRegisterForm } from '@/lib/hooks/auth/useRegister';
 import { motion } from 'motion/react';
