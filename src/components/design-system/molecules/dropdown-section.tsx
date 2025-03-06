@@ -1,21 +1,14 @@
 'use client';
-
 import React from 'react';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuRadioGroup,
 } from '@/components/ui/molecules/dropdown';
 
 export function DropdownMenuSection() {
-  const [checked, setChecked] = React.useState(false);
-  const [radioValue, setRadioValue] = React.useState('default');
+  const [selected, setSelected] = React.useState('Profile');
 
   return (
     <section className='space-y-6 px-6 py-12'>
@@ -23,32 +16,31 @@ export function DropdownMenuSection() {
         Dropdown Menu
       </h2>
       <p className='text-muted-foreground'>
-        A sharp, elegant dropdown menu with subtle premium styling.
+        A sleek, premium dropdown menu with sharp design and subtle gradients.
       </p>
 
-      <div className='relative'>
+      <div>
         <DropdownMenu>
-          <DropdownMenuTrigger className='inline-flex items-center justify-center rounded-md border border-[rgba(255,255,255,0.05)] bg-[rgba(24,24,27,0.95)] px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-[rgba(59,130,246,0.05)]'>
-            Open Menu
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger>{selected}</DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuCheckboxItem
-              checked={checked}
-              onCheckedChange={setChecked}
-            >
-              Notifications
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuRadioGroup
-              value={radioValue}
-              onValueChange={setRadioValue}
-            >
-              <DropdownMenuLabel>Theme</DropdownMenuLabel>
-              <DropdownMenuRadioItem value='light'>Light</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='dark'>Dark</DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
+            <DropdownMenuItem onSelect={() => setSelected('Profile')}>
+              Profile
+              <span className='mt-1 text-xs text-muted-foreground'>
+                View your profile details.
+              </span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setSelected('Billing')}>
+              Billing
+              <span className='mt-1 text-xs text-muted-foreground'>
+                Manage your payment methods.
+              </span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setSelected('Settings')}>
+              Settings
+              <span className='mt-1 text-xs text-muted-foreground'>
+                Customize your preferences.
+              </span>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -56,11 +48,11 @@ export function DropdownMenuSection() {
       <div className='text-sm text-muted-foreground'>
         <p>Props:</p>
         <ul className='list-inside list-disc'>
-          <li>sideOffset: number (Content)</li>
           <li>className: string (all components)</li>
+          <li>sideOffset: number (Content)</li>
+          <li>align: "start" | "end" | "center" (Content)</li>
+          <li>description: string (Item, optional)</li>
           <li>children: ReactNode (Trigger & Content)</li>
-          <li>checked: boolean (CheckboxItem)</li>
-          <li>value: string (RadioItem)</li>
         </ul>
       </div>
     </section>
