@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { cn } from '@/lib/utils';
 import './globals.css';
 import { Navbar } from '@/components/shared/navigation/Navbar';
-import { Footer } from '@/components/shared/layout/Footer';
+import { Footer } from '@/components/shared/Footer';
 import { QueryProvider } from '@/lib/providers/query-provider';
 import { SmoothScroll } from '@/lib/providers/smooth-scroll';
 

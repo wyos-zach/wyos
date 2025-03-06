@@ -1,6 +1,6 @@
 'use client';
 
-import { VerifyEmailForm } from '@/components/auth/forms/verification/VerifyEmailForm';
+import { VerifyEmailForm } from '@/components/auth/VerifyEmailForm';
 import { useSearchParams } from 'next/navigation';
 
 export default function VerifyEmailPage() {

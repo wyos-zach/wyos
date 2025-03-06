@@ -9,8 +9,8 @@ import { useScroll } from '@/lib/hooks/shared/useScroll';
 import { useScrollDirection } from '@/lib/hooks/shared/useScrollDirection';
 import { FadingDivider } from '@/components/ui/fading-divider';
 import { useAuthStore } from '@/store/Auth';
-import { MemberNavLinks } from './nav-links/MemberNavLinks';
-import { PublicNavLinks } from './nav-links/PublicNavLinks';
+import { MemberNavLinks } from './MemberNavLinks';
+import { PublicNavLinks } from './PublicNavLinks';
 import { motion } from 'motion/react';
 
 export function Navbar() {

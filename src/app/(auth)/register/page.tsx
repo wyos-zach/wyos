@@ -1,7 +1,7 @@
 'use client';
 
-import { RegisterHeader } from '@/components/auth/forms/register/RegisterHeader';
-import { RegisterFields } from '@/components/auth/forms/register/RegisterFields';
+import { RegisterHeader } from '@/components/auth/RegisterHeader';
+import { RegisterFields } from '@/components/auth/RegisterFields';
 import { SocialAuth } from '@/components/auth/SocialAuth';
 import { Button } from '@/components/ui/atoms/button';
 import { useRegisterForm } from '@/lib/hooks/auth/useRegister';

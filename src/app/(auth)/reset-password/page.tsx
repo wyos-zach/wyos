@@ -1,6 +1,6 @@
 'use client';
 
-import { ResetPasswordForm } from '@/components/auth/forms/password/ResetPasswordForm';
+import { ResetPasswordForm } from '@/components/auth/ResetPasswordForm';
 import { useSearchParams } from 'next/navigation';
 
 export default function ResetPasswordPage() {

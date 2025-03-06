@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { PageHeader } from '@/components/shared/layout/PageHeader';
+import { PageHeader } from '@/components/shared/PageHeader';
 import { CommunityIntro } from '@/components/core/community/CommunityIntro';
 import { CommunityCTA } from '@/components/core/community/CommunityCTA';
 import CommunityLoading from './loading';
