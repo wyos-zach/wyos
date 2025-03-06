@@ -1,6 +1,6 @@
 {
   "output": {
-    "filePath": "repomix-output.md",
+    "filePath": "repomix-output.xml",
     "style": "xml",
     "parsableStyle": true,
     "fileSummary": true,
@@ -16,7 +16,7 @@
   "ignore": {
     "useGitignore": true,
     "useDefaultPatterns": true,
-    "customPatterns": ["tmp/", "*.log", "**/node_modules/**"]
+    "customPatterns": []
   },
   "security": {
     "enableSecurityCheck": true

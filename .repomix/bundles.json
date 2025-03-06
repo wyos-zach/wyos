@@ -1,23 +1,12 @@
 {
   "bundles": {
-    "styling": {
-      "name": "styling",
-      "created": "2025-03-06T20:24:58.066Z",
-      "lastUsed": "2025-03-06T20:24:58.066Z",
-      "tags": [],
-      "files": [
-        "tailwind.config.ts",
-        "src/app/globals.css"
-      ]
-    },
     "design-system": {
       "name": "design-system",
       "description": "design system files",
       "created": "2025-03-06T20:27:35.152Z",
-      "lastUsed": "2025-03-06T20:27:35.152Z",
+      "lastUsed": "2025-03-06T21:26:38.966Z",
       "tags": [
-        "design",
-        "styling"
+        "design"
       ],
       "files": [
         "src/components/design-system/atoms/avatar-section.tsx",
@@ -54,6 +43,8 @@
         "src/components/design-system/molecules/search-bar-section.tsx",
         "src/components/design-system/molecules/social-auth-section.tsx",
         "src/components/design-system/organisms/grid-section.tsx",
+        "src/components/design-system/styles/colors-section.tsx",
+        "src/components/design-system/styles/typography-section.tsx",
         "src/components/ui/atoms/avatar.tsx",
         "src/components/ui/atoms/badge.tsx",
         "src/components/ui/atoms/breadcrumb.tsx",
@@ -87,9 +78,7 @@
         "src/components/ui/molecules/SearchBar.tsx",
         "src/components/ui/molecules/SocialAuth.tsx",
         "src/components/ui/organisms/ContentCard.tsx",
-        "src/components/ui/organisms/sidebar-nav.tsx",
-        "src/components/design-system/styles/colors-section.tsx",
-        "src/components/design-system/styles/typography-section.tsx"
+        "src/components/ui/organisms/sidebar-nav.tsx"
       ]
     }
   }
