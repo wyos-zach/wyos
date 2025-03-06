@@ -57,16 +57,8 @@
   '.env',
   // next.js build output
   '.next/**',
-  // nuxt.js build output
-  '.nuxt/**',
-  // vuepress build output
-  '.vuepress/dist/**',
   // Serverless directories
   '.serverless/**',
-  // FuseBox cache
-  '.fusebox/**',
-  // DynamoDB Local files
-  '.dynamodb/**',
   // TypeScript output
   'dist/**',
   // OS generated files
@@ -94,29 +86,18 @@
   '**/yarn.lock',
   '**/pnpm-lock.yaml',
   '**/bun.lockb',
-  // Essential Python-related entries
-  '**/__pycache__/**',
-  '**/*.py[cod]',
-  '**/venv/**',
-  '**/.venv/**',
-  '**/.pytest_cache/**',
-  '**/.mypy_cache/**',
-  '**/.ipynb_checkpoints/**',
-  '**/Pipfile.lock',
-  '**/poetry.lock',
-  // Essential Rust-related entries
-  '**/Cargo.lock',
-  '**/Cargo.toml.orig',
-  '**/target/**',
-  '**/*.rs.bk',
-  // Essential PHP-related entries
-  '**/composer.lock',
-  // Essential Ruby-related entries
-  '**/Gemfile.lock',
-  // Essential Go-related entries
-  '**/go.sum',
-  // Essential Elixir-related entries
-  '**/mix.lock',
-  // Essential Haskell-related entries
-  '**/stack.yaml.lock',
-  '**/cabal.project.freeze';
+  // Project-specific ignores
+  'public/**',
+  '.windsurfrules',
+  '.clinerules',
+  'CLAUDE.md',
+  'nyxbui.json',
+  'memory-bank/**',
+  // Test files and configurations
+  '**/__tests__/**',
+  '**/*.test.js',
+  '**/*.spec.js',
+  '**/*.test.ts',
+  '**/*.spec.ts',
+  'jest.config.ts',
+  'jest.config.js';
