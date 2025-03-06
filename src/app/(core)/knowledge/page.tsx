@@ -2,7 +2,7 @@
 
 import { Suspense } from 'react';
 import { EnhancedKnowledgeCategoryGrid } from '@/components/core/knowledge/EnhancedKnowledgeCategoryGrid';
-import { CategoryNav } from '@/components/core/knowledge/CategoryNav';
+import { CategoryNav } from '@/components/ui/molecules/CategoryNav';
 import { KnowledgeHero } from '@/components/core/knowledge/hero/KnowledgeHero';
 import { EnhancedIntroduction } from '@/components/core/knowledge/hero/EnhancedIntroduction';
 import KnowledgeLoading from './loading';
@@ -43,7 +43,25 @@ export default function KnowledgePage() {
             </div>
 
             {/* Category Navigation */}
-            <CategoryNav />
+            <CategoryNav 
+              categories={[
+                { id: '1', name: 'Mindfulness', slug: 'mindfulness' },
+                { id: '2', name: 'Productivity', slug: 'productivity' },
+                { id: '3', name: 'Wellness', slug: 'wellness' },
+                { id: '4', name: 'Philosophy', slug: 'philosophy' },
+                { id: '5', name: 'Technology', slug: 'technology' }
+              ]}
+              selectedCategory={null}
+              onSelectAction={(slug) => {
+                // Handle category selection - in a real implementation, this would update state
+                // or dispatch an action to your Zustand store
+                if (slug) {
+                  // Navigate or filter by category
+                } else {
+                  // Show all categories
+                }
+              }}
+            />
 
             {/* Category Grid and Community Section */}
             <Suspense fallback={<KnowledgeLoading />}>

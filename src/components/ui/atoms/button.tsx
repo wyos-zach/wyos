@@ -28,8 +28,8 @@ const buttonVariants = cva(
         secondary:
           'bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-inset-custom rounded-md',
         ghost:
-          'bg-transparent text-muted-foreground hover:bg-muted/30 hover:text-foreground border-none shadow-none rounded-none p-1', // Explicit overrides
-        link: 'bg-transparent text-primary underline-offset-4 hover:underline hover:text-primary/80 border-none shadow-none rounded-none p-0 h-auto leading-none', // Explicit overrides
+          'bg-transparent text-muted-foreground hover:bg-muted/30 hover:text-foreground  rounded-md p-1', // Explicit overrides
+        link: 'bg-transparent text-primary underline-offset-4 hover:underline hover:text-primary/80  rounded-md p-0 h-auto leading-none', // Explicit overrides
         glowingRing:
           'bg-[var(--button-bg)] text-[var(--button-text)] relative overflow-hidden ring-2 ring-primary/50 animate-glow shadow-inset-custom rounded-md',
         shimmer:
@@ -130,6 +130,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               ref={ref}
               disabled={loading}
               className={cn(buttonVariants({ variant, size }), className)}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               {...(asChild ? (props as any) : (props as MotionButtonProps))}
               {...(!loading ? animationProps : {})}
             >
@@ -144,6 +145,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={loading}
         className={cn(buttonVariants({ variant, size }), className)}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         {...(asChild ? (props as any) : (props as MotionButtonProps))}
         {...(!loading ? animationProps : {})}
       >

@@ -3,7 +3,7 @@ import { ResourceService } from '@/models/server/resources';
 import { PageHeader } from '@/components/shared/layout/PageHeader';
 import { ResourceCategoryGrid } from '@/components/core/resources/ResourceCategoryGrid';
 import { FeaturedResources } from '@/components/core/resources/FeaturedResources';
-import { CategoryNav } from '@/components/core/resources/CategoryNav';
+import { CategoryNavWrapper } from '@/components/core/resources/CategoryNavWrapper';
 import ResourceLoading from './loading';
 
 export default function ResourcesPage() {
@@ -16,7 +16,7 @@ export default function ResourcesPage() {
         size='large'
         align='center'
       />
-      <CategoryNav />
+      <CategoryNavWrapper />
       <Suspense fallback={<ResourceLoading />}>
         <div className='space-y-20'>
           <ResourceCategoryGrid />
