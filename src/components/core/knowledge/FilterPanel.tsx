@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
-} from '@/components/ui/molecules/dropdown';
+} from '@/components/ui/dropdown-menu';
 import { SlidersHorizontal } from 'lucide-react';
 
 interface FilterPanelProps {

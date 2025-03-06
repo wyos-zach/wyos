@@ -1,7 +1,7 @@
 {
   "output": {
     "filePath": "repomix-output.md",
-    "style": "markdown",
+    "style": "xml",
     "parsableStyle": true,
     "fileSummary": true,
     "directoryStructure": true,
