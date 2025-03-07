@@ -2,7 +2,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.organizeImports": "explicit"
   },
   "editor.quickSuggestions": {
     "strings": true
@@ -16,7 +16,7 @@
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
 
-  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.preferences.preferTypeOnlyAutoImports": false,
   "typescript.preferences.autoImportFileExcludePatterns": [
     "http",
     "inspector",
@@ -53,12 +53,11 @@
     "NODE_OPTIONS": "--require ts-node/register"
   },
   "jest.rootPath": "${workspaceFolder}",
-  "augment.completions.enableAutomaticCompletions": false,
-  "augment.enableEmptyFileHint": false,
-  "augment.conflictingCodingAssistantCheck": false,
-  "augment.nextEdit.enableGlobalBackgroundSuggestions": true,
-  "augment.nextEdit.enableAutoApply": false,
-  "augment.nextEdit.showDiffInHover": true,
   "cline.mcp.mode": "off",
-  "cline.mcpMarketplace.enabled": false
+  "cline.mcpMarketplace.enabled": false,
+  "typescript.updateImportsOnPaste.enabled": false,
+  "typescript.preferences.organizeImports": {},
+  "typescript.suggest.autoImports": false,
+  "javascript.updateImportsOnPaste.enabled": false,
+  "javascript.preferences.organizeImports": {}
 }

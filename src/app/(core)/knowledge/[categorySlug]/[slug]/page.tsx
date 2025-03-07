@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import { KnowledgeService } from '@/models/server/knowledge';
 import KnowledgeEntryHeader from '@/components/core/knowledge/KnowledgeEntryHeader';
 import ArticleEntry from '@/components/core/knowledge/entries/ArticleEntry';
-import VideoEntry from '@/components/core/knowledge/entries/VideoEntry';
 import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
 import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
 import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
@@ -21,8 +20,6 @@ export default async function Page({
     switch (type) {
       case 'article':
         return ArticleEntry;
-      case 'video':
-        return VideoEntry;
       case 'how-to':
         return HowToEntry;
       case 'infographic':

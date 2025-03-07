@@ -1,3 +1,4 @@
+import { CoreHeroSection } from '@/components/design-system/organisms/core-hero-section';
 import { KnowledgeGridSection } from '@/components/design-system/organisms/grid-section';
 
 export default function OrganismsPage() {
@@ -8,7 +9,14 @@ export default function OrganismsPage() {
         Organisms are complex components composed of molecules and atoms, such
         as grid layouts.
       </p>
+      <Divider />
+      <CoreHeroSection />
+      <Divider />
       <KnowledgeGridSection />
     </div>
   );
+}
+
+function Divider() {
+  return <hr className='my-8 border-t border-gray-300 dark:border-gray-700' />;
 }

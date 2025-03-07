@@ -1,18 +1,19 @@
-import { CardsSection } from '@/components/design-system/molecules/cards-section';
-import { DialogsSection } from '@/components/design-system/molecules/dialogs-section';
-import { CategoryNavSection } from '@/components/design-system/molecules/category-nav-section';
-import { CommentsSection } from '@/components/design-system/molecules/comments-section';
-import { FilterBarSection } from '@/components/design-system/molecules/filter-bar-section';
-import { FormFieldSection } from '@/components/design-system/molecules/form-field-section';
-import { InputGroupSection } from '@/components/design-system/molecules/input-group-section';
-import { SearchBarSection } from '@/components/design-system/molecules/search-bar-section';
 import { AccordionSection } from '@/components/design-system/molecules/accordion-section';
-import { DropdownMenuSection } from '@/components/design-system/molecules/dropdown-section';
 import { AuthButtonsSection } from '@/components/design-system/molecules/auth-button-section';
 import { AuthFieldsSection } from '@/components/design-system/molecules/auth-fields-section';
 import { AuthFormSection } from '@/components/design-system/molecules/auth-form-section';
-import { SocialAuthSection } from '@/components/design-system/molecules/social-auth-section';
 import { AuthHeaderSection } from '@/components/design-system/molecules/auth-header-section';
+import { CardsSection } from '@/components/design-system/molecules/cards-section';
+import { CategoryNavSection } from '@/components/design-system/molecules/category-nav-section';
+import { CommentsSection } from '@/components/design-system/molecules/comments-section';
+import { DialogsSection } from '@/components/design-system/molecules/dialogs-section';
+import { DropdownMenuSection } from '@/components/design-system/molecules/dropdown-section';
+import { FilterBarSection } from '@/components/design-system/molecules/filter-bar-section';
+import { FormFieldSection } from '@/components/design-system/molecules/form-field-section';
+import { HeroContentSection } from '@/components/design-system/molecules/hero-content-section';
+import { InputGroupSection } from '@/components/design-system/molecules/input-group-section';
+import { SearchBarSection } from '@/components/design-system/molecules/search-bar-section';
+import { SocialAuthSection } from '@/components/design-system/molecules/social-auth-section';
 
 export default function MoleculesPage() {
   return (
@@ -45,6 +46,8 @@ export default function MoleculesPage() {
       <FilterBarSection />
       <Divider />
       <FormFieldSection />
+      <Divider />
+      <HeroContentSection />
       <Divider />
       <InputGroupSection />
       <Divider />
