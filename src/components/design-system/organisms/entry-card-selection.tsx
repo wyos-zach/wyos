@@ -11,7 +11,7 @@ const mockEntry: KnowledgeEntry = {
   summary: 'A comprehensive guide to practicing mindfulness daily.',
   content: 'Full content of the mindfulness guide would go here.',
   type: 'Article',
-  imageUrl: '/placeholder-mindfulness.jpg',
+  imageUrl: '/images/placeholder.png',
   slug: 'mindful-living',
   categoryId: 'mock-category-1',
   categorySlug: 'health-wellness',
