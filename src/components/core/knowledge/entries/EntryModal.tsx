@@ -1,16 +1,15 @@
 'use client';
-import { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { X, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
+import { ChevronLeft, ChevronRight, MessageCircle, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import ArticleEntry from './ArticleEntry';
-import VideoEntry from './VideoEntry';
+import DefaultEntry from './DefaultEntry';
 import HowToEntry from './HowToEntry';
 import InfographicEntry from './InfographicEntry';
-import DefaultEntry from './DefaultEntry';
 
 interface EntryModalProps {
   entry: KnowledgeEntry;
@@ -84,8 +83,7 @@ export function EntryModal({
     switch (type.toLowerCase()) {
       case 'article':
         return ArticleEntry;
-      case 'video':
-        return VideoEntry;
+
       case 'how-to':
       case 'howto':
         return HowToEntry;

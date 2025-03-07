@@ -1,7 +1,7 @@
-import * as React from 'react';
+import { cn } from '@/lib/utils';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import * as React from 'react';
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
@@ -16,7 +16,7 @@ const Breadcrumb = React.forwardRef<
     className={cn(
       'inline-flex items-center',
       hasBackground &&
-        'rounded-md border border-zinc-700/30 bg-zinc-900/40 p-3 shadow-sm backdrop-blur-md',
+        'rounded-md border border-border bg-card/80 p-2 shadow-[inset_0_1px_2px_rgba(255,255,255,0.05)] backdrop-blur-md',
       className
     )}
     {...props}
@@ -31,7 +31,7 @@ const BreadcrumbList = React.forwardRef<
   <ol
     ref={ref}
     className={cn(
-      'flex flex-wrap items-center gap-1.5 break-words text-xs text-zinc-400',
+      'flex flex-wrap items-center gap-1.5 text-[0.75rem] text-muted-foreground', // Smaller font size
       className
     )}
     {...props}
@@ -63,11 +63,11 @@ const BreadcrumbLink = React.forwardRef<
     <Comp
       ref={ref}
       className={cn(
-        'relative text-zinc-100 transition-colors duration-200 ease-out',
-        'hover:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent',
-        'after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-transparent after:via-white/50 after:to-transparent',
-        'after:origin-center after:scale-x-0 after:transition-transform after:duration-200 hover:after:scale-x-100',
-        isIcon && 'p-1',
+        'gradient-text transition-colors hover:text-foreground hover:after:scale-x-100',
+        'focus:outline-none focus:ring-1 focus:ring-primary/50 focus:ring-offset-1 focus:ring-offset-transparent',
+        'after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-transparent after:via-primary/50 after:to-transparent',
+        'after:origin-center after:scale-x-0 after:transition-transform after:duration-200',
+        isIcon && 'p-0.5',
         className
       )}
       {...props}
@@ -86,8 +86,8 @@ const BreadcrumbPage = React.forwardRef<
     aria-disabled='true'
     aria-current='page'
     className={cn(
-      'relative font-light text-zinc-50',
-      'after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-transparent after:via-white/50 after:to-transparent',
+      'gradient-text font-medium',
+      'after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:bg-gradient-to-r after:from-transparent after:via-primary/50 after:to-transparent',
       className
     )}
     {...props}
@@ -103,13 +103,10 @@ const BreadcrumbSeparator = ({
   <li
     role='presentation'
     aria-hidden='true'
-    className={cn(
-      'flex items-center text-zinc-500 [&>svg]:h-3 [&>svg]:w-3',
-      className
-    )}
+    className={cn('flex items-center text-foreground/40', className)}
     {...props}
   >
-    {children ?? <ChevronRight />}
+    {children ?? <ChevronRight className='h-3 w-3' />}
   </li>
 );
 BreadcrumbSeparator.displayName = 'BreadcrumbSeparator';
@@ -122,12 +119,12 @@ const BreadcrumbEllipsis = ({
     role='presentation'
     aria-hidden='true'
     className={cn(
-      'flex h-8 w-8 items-center justify-center text-zinc-400 transition-colors hover:text-zinc-50',
+      'flex h-6 w-6 items-center justify-center text-foreground/40 hover:text-foreground',
       className
     )}
     {...props}
   >
-    <MoreHorizontal className='h-4 w-4' />
+    <MoreHorizontal className='h-3 w-3' />
     <span className='sr-only'>More</span>
   </span>
 );
@@ -135,10 +132,10 @@ BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis';
 
 export {
   Breadcrumb,
-  BreadcrumbList,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  BreadcrumbEllipsis,
 };

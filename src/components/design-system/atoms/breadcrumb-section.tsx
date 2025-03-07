@@ -1,12 +1,11 @@
-import React from 'react';
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/atoms/breadcrumb';
+} from '@/components/ui/atoms/Breadcrumb';
 import { Home } from 'lucide-react';
 
 export function BreadcrumbSection() {

@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { H2, P } from '@/components/ui/typography';
+import { Badge } from '@/components/ui/atoms/Badge';
+import { Button } from '@/components/ui/atoms/button';
 import {
   Card,
   CardContent,
@@ -16,8 +16,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/atoms/tabs';
-import { Button } from '@/components/ui/atoms/button';
-import { Badge } from '@/components/ui/atoms/badge';
+import { H2, P } from '@/components/ui/typography';
 
 export function CardsSection() {
   return (

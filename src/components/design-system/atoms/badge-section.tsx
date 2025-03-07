@@ -1,12 +1,12 @@
-import React from 'react';
-import { Badge } from '@/components/ui/atoms/badge';
+import { Badge } from '@/components/ui/atoms/Badge';
 
 export function BadgeSection() {
   return (
     <section className='space-y-6 px-6'>
       <h2 className='font-heading text-2xl font-bold'>Badge</h2>
       <p className='text-muted-foreground'>
-        Badges are used to highlight statuses, labels, or categories.
+        A sleek, premium badge with subtle gradients and glassmorphism for
+        highlighting content.
       </p>
 
       <div className='flex flex-wrap gap-4'>
