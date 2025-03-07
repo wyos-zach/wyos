@@ -1,6 +1,7 @@
 import { CategoryCardSection } from '@/components/design-system/organisms/category-card-section';
 import { CategoryHeaderSection } from '@/components/design-system/organisms/category-header-section';
 import { CoreHeroSection } from '@/components/design-system/organisms/core-hero-section';
+import { EntryCardSection } from '@/components/design-system/organisms/entry-card-selection';
 import { KnowledgeGridSection } from '@/components/design-system/organisms/grid-section';
 
 export default function OrganismsPage() {
@@ -17,6 +18,8 @@ export default function OrganismsPage() {
       <CategoryHeaderSection />
       <Divider />
       <CoreHeroSection />
+      <Divider />
+      <EntryCardSection />
       <Divider />
       <KnowledgeGridSection />
     </div>

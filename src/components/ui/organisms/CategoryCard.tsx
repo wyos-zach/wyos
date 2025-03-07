@@ -33,8 +33,9 @@ export const CategoryCard = ({ category, className }: CategoryCardProps) => {
       >
         {imageUrl && <CardImage imageUrl={imageUrl} alt={name} />}
         <CardContent
+          date={category.$updatedAt || new Date().toISOString()}
           title={name}
-          description={description}
+          summary={description}
           type={categoryType as 'knowledge' | 'resources'}
         />
         <motion.div
