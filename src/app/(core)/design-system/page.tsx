@@ -35,9 +35,9 @@ export default function DesignSystemPage() {
           href='/design-system/organisms'
         />
         <CategoryCard
-          title='Templates'
+          title='Sections'
           description='Page-level objects that place components into a layout'
-          href='/design-system/templates'
+          href='/design-system/sections'
         />
         <CategoryCard
           title='Pages'

@@ -1,4 +1,4 @@
-import { InputsSection } from '@/components/design-system/inputs-section';
+import { KnowledgeGrid } from '@/components/design-system/sections/knowledge-grid-section';
 
 export default function AtomsPage() {
   return (
@@ -8,8 +8,12 @@ export default function AtomsPage() {
         Basic building blocks of the interface that can't be broken down any
         further without ceasing to be functional.
       </p>
-      <InputsSection />
-      {/* Add more atomic components here */}
+      <KnowledgeGrid />
+      <Divider />
     </div>
   );
+}
+
+function Divider() {
+  return <hr className='my-8 border-t border-gray-300 dark:border-gray-700' />;
 }

@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
-import { motion, type HTMLMotionProps } from 'motion/react';
 import { cn } from '@/lib/utils';
+import { motion, type HTMLMotionProps } from 'motion/react';
+import * as React from 'react';
 
 const cardVariants = {
   default:
@@ -102,9 +102,9 @@ CardFooter.displayName = 'CardFooter';
 
 export {
   Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
   CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
 };
