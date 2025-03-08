@@ -1,20 +1,20 @@
 'use client';
 
 import { CardImage } from '@/components/ui/atoms/CardImage';
-import { CardContent } from '@/components/ui/molecules/CardContent';
+import { EntryCardContent } from '@/components/ui/molecules/EntryCardContent';
 import { EntryCard } from '@/components/ui/organisms/EntryCard';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
 
 const mockEntry: KnowledgeEntry = {
   $id: 'mock-entry-1',
-  title: 'Mindful Living Guide',
-  summary: 'A comprehensive guide to practicing mindfulness daily.',
+  title: 'Mindset',
+  summary: 'A comprehensive guide to building a growth mindset.',
   content: 'Full content of the mindfulness guide would go here.',
   type: 'Article',
   imageUrl: '/images/placeholder.png',
-  slug: 'mindful-living',
-  categoryId: 'mock-category-1',
-  categorySlug: 'health-wellness',
+  slug: 'mindset',
+  categoryId: 'personal-development',
+  categorySlug: 'personal-development',
   featured: true,
   $createdAt: new Date().toISOString(),
   $updatedAt: new Date().toISOString(),
@@ -95,7 +95,7 @@ export function EntryCardSection() {
           </div>
           <div>
             <h4 className='font-semibold'>CardContent</h4>
-            <CardContent
+            <EntryCardContent
               date={mockEntry.$createdAt}
               title={mockEntry.title}
               summary={mockEntry.summary}

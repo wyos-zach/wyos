@@ -1,7 +1,7 @@
 'use client';
 
 import { CardImage } from '@/components/ui/atoms/CardImage';
-import { CardContent } from '@/components/ui/molecules/CardContent';
+import { CategoryCardContent } from '@/components/ui/molecules/CategoryCardContent';
 import { CategoryCard } from '@/components/ui/organisms/CategoryCard';
 import type { KnowledgeCategory } from '@/types/core/knowledge/category';
 
@@ -101,11 +101,9 @@ export function CategoryCardSection() {
           </div>
           <div>
             <h4 className='font-semibold'>CardContent</h4>
-            <CardContent
-              date={mockCategory.$updatedAt}
+            <CategoryCardContent
               title={mockCategory.name}
-              summary={mockCategory.description}
-              type='knowledge'
+              description={mockCategory.description}
             />
           </div>
         </div>

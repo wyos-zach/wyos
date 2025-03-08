@@ -15,12 +15,13 @@ export default function OrganismsPage() {
       <Divider />
       <CategoryCardSection />
       <Divider />
+      <EntryCardSection />
+      <Divider />
       <CategoryHeaderSection />
       <Divider />
       <CoreHeroSection />
       <Divider />
-      <EntryCardSection />
-      <Divider />
+
       <KnowledgeGridSection />
     </div>
   );
