@@ -16,7 +16,7 @@ export function SidebarNav() {
   const pathname = usePathname();
 
   return (
-    <nav className='mt-8 space-y-1 px-3'>
+    <nav className='sticky top-14 mt-8 space-y-1 px-3'>
       {navItems.map((item) => (
         <Link
           key={item.href}

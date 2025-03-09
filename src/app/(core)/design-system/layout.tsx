@@ -6,7 +6,7 @@ export default function DesignSystemLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className='container flex gap-10 py-28'>
+    <div className='flex gap-10 py-28'>
       <aside className='w-64 flex-shrink-0'>
         <SidebarNav />
       </aside>
