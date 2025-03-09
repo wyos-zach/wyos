@@ -1,3 +1,5 @@
+import { CategoryHeaderSection } from '@/components/design-system/organisms/category-header-section';
+import { CoreHeroSection } from '@/components/design-system/organisms/core-hero-section';
 import { KnowledgeGrid } from '@/components/design-system/sections/knowledge-grid-section';
 
 export default function SectionsPage() {
@@ -7,6 +9,11 @@ export default function SectionsPage() {
       <p className='text-lg text-muted-foreground'>
         Sections are page-level objects that place components into a layout.
       </p>
+      <Divider />
+      <CategoryHeaderSection />
+      <Divider />
+      <CoreHeroSection />
+      <Divider />
       <KnowledgeGrid />
       <Divider />
     </div>

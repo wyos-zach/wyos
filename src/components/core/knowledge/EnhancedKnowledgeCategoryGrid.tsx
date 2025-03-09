@@ -1,15 +1,15 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { KnowledgeService } from '@/models/server/knowledge';
 import { EnhancedKnowledgeCategoryCard } from '@/components/core/knowledge/EnhancedKnowledgeCategoryCard';
-import { useSearchParams } from 'next/navigation';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
-import { useKnowledgeStore } from '@/store/useKnowledgeStore';
-import { useEffect } from 'react';
-import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
+import { KnowledgeService } from '@/models/server/knowledge';
+import { useKnowledgeStore } from '@/store/useKnowledgeStore';
+import { useQuery } from '@tanstack/react-query';
+import { AlertCircle } from 'lucide-react';
+import { motion } from 'motion/react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export const EnhancedKnowledgeCategoryGrid = () => {
   const searchParams = useSearchParams();
@@ -114,7 +114,7 @@ export const EnhancedKnowledgeCategoryGrid = () => {
     >
       {categories.map((category, index) => (
         <motion.div
-          key={category.id}
+          key={category.$id}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{

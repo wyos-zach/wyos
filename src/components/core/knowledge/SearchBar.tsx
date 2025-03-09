@@ -1,9 +1,9 @@
 'use client';
-import { useDebounce } from '@/lib/hooks/shared/useDebounce';
 import { Input } from '@/components/ui/atoms/input';
-import { Search, X, Loader2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useDebounce } from '@/lib/hooks/shared/useDebounce';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
+import { Loader2, Search, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export const SearchBar = () => {
   const [localQuery, setLocalQuery] = useState('');
