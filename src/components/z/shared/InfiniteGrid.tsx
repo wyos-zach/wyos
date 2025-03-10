@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/components/ui/atoms/button';
+import { Button } from '@/components/design-system/atoms/button';
 import { Loader2 } from 'lucide-react';
 
 export function InfiniteGrid({

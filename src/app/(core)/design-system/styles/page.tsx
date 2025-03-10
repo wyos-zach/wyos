@@ -1,5 +1,5 @@
-import { ColorsSection } from '@/components/design-system/styles/colors-section';
-import { TypographySection } from '@/components/design-system/styles/typography-section';
+import { ColorsSection } from '@/components/design-system-sections/styles/colors-section';
+import { TypographySection } from '@/components/design-system-sections/styles/typography-section';
 
 export default function StylesPage() {
   return (

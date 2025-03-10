@@ -1,6 +1,6 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/atoms/skeleton';
+import { Skeleton } from '@/components/design-system/atoms/skeleton';
 import { ResourceCategoryCard } from '@/components/z/resources/ResourceCategoryCard';
 import { ResourceService } from '@/models/server/resources';
 import { useQuery } from '@tanstack/react-query';

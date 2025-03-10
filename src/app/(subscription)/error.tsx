@@ -1,16 +1,16 @@
 'use client';
 
-import { useEffect } from 'react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Button } from '@/components/ui/atoms/button';
+import { Button } from '@/components/design-system/atoms/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/atoms/card';
+} from '@/components/design-system/atoms/card';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { XCircle } from 'lucide-react';
+import { useEffect } from 'react';
 
 export default function SubscriptionError({
   error,

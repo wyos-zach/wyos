@@ -1,14 +1,14 @@
 'use client';
 
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import type { ResourceCategory } from '@/types/core/resources/category';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from '@/components/ui/atoms/card';
+} from '@/components/design-system/atoms/card';
+import { cn } from '@/lib/utils';
+import type { ResourceCategory } from '@/types/core/resources/category';
+import Link from 'next/link';
 
 interface ResourceCategoryCardProps {
   category: ResourceCategory;

@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/atoms/button';
+import { Button } from '@/components/design-system/atoms/button';
 import { ShinyButton } from '@/components/ui/shiny-button';
 import { useAuthStore } from '@/store/AuthStore';
 import { LogOut, User } from 'lucide-react';

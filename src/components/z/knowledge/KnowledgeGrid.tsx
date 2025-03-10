@@ -1,5 +1,5 @@
 'use client';
-import { Skeleton } from '@/components/ui/atoms/skeleton';
+import { Skeleton } from '@/components/design-system/atoms/skeleton';
 import { InfiniteGrid } from '@/components/z/shared/InfiniteGrid';
 import { KnowledgeService } from '@/models/server/knowledge';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';

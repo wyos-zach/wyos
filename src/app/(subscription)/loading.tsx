@@ -3,8 +3,8 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from '@/components/ui/atoms/card';
-import { Skeleton } from '@/components/ui/atoms/skeleton';
+} from '@/components/design-system/atoms/card';
+import { Skeleton } from '@/components/design-system/atoms/skeleton';
 
 export default function SubscriptionLoading() {
   return (

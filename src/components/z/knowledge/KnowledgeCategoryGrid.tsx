@@ -1,7 +1,7 @@
 'use client';
 
+import { Skeleton } from '@/components/design-system/atoms/skeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Skeleton } from '@/components/ui/atoms/skeleton';
 import { KnowledgeCategoryCard } from '@/components/z/knowledge/KnowledgeCategoryCard';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';

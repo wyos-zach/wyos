@@ -1,10 +1,10 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { ResourceCard } from './ResourceCard';
-import { Skeleton } from '@/components/ui/atoms/skeleton';
+import { Skeleton } from '@/components/design-system/atoms/skeleton';
 import { ResourceService } from '@/models/server/resources';
 import type { ResourceEntry } from '@/types/core/resources/entry';
+import { useQuery } from '@tanstack/react-query';
+import { ResourceCard } from './ResourceCard';
 
 export const FeaturedResources = () => {
   const { data, isLoading, error } = useQuery<ResourceEntry[]>({

@@ -1,15 +1,15 @@
 'use client';
 
-import { useVerifyEmailForm } from '@/lib/hooks/auth/useVerifyEmail';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/atoms/card';
-import Link from 'next/link';
+} from '@/components/design-system/atoms/card';
+import { useVerifyEmailForm } from '@/lib/hooks/auth/useVerifyEmail';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface VerifyEmailFormProps extends React.ComponentPropsWithoutRef<'div'> {
   className?: string;

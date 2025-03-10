@@ -1,6 +1,6 @@
-import { CategoryHeaderSection } from '@/components/design-system/organisms/category-header-section';
-import { CoreHeroSection } from '@/components/design-system/organisms/core-hero-section';
-import { KnowledgeGrid } from '@/components/design-system/sections/knowledge-grid-section';
+import { CategoryHeaderSection } from '@/components/design-system-sections/organisms/category-header-section';
+import { CoreHeroSection } from '@/components/design-system-sections/organisms/core-hero-section';
+import { KnowledgeGrid } from '@/components/design-system-sections/sections/knowledge-grid-section';
 
 export default function SectionsPage() {
   return (

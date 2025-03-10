@@ -8,10 +8,10 @@ import { useAuthStore } from '@/store/AuthStore';
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { AuthButtons } from '../../auth/AuthButtons';
+import { MemberNavLinks } from '../MemberNavLinks';
+import { MobileMenu } from '../MobileMenu';
+import { PublicNavLinks } from '../PublicNavLinks';
 import { Icon } from '../wyosIcon';
-import { MemberNavLinks } from './MemberNavLinks';
-import { MobileMenu } from './MobileMenu';
-import { PublicNavLinks } from './PublicNavLinks';
 
 export function Navbar() {
   const isScrolled = useScroll(20);

@@ -1,13 +1,13 @@
 'use client';
 
-import { Button } from '@/components/ui/atoms/button';
+import { Button } from '@/components/design-system/atoms/button';
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
 } from '@/components/ui/dropdown-menu';
 import { SlidersHorizontal } from 'lucide-react';
 

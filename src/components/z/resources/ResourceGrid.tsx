@@ -1,10 +1,10 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from '@/components/design-system/atoms/skeleton';
 import { ResourceService } from '@/models/server/resources';
-import { ResourceCard } from './ResourceCard';
-import { Skeleton } from '@/components/ui/atoms/skeleton';
 import type { ResourceEntry } from '@/types/core/resources/entry';
+import { useQuery } from '@tanstack/react-query';
+import { ResourceCard } from './ResourceCard';
 
 interface ResourceGridProps {
   initialData?: {

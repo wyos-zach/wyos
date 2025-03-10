@@ -1,8 +1,8 @@
 'use client';
 
-import * as React from 'react';
-import { Input } from '@/components/ui/atoms/input';
+import { Input } from '@/components/design-system/atoms/input';
 import { cn } from '@/lib/utils';
+import * as React from 'react';
 
 interface InputAnimationProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

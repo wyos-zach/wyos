@@ -1,7 +1,7 @@
 'use client';
 
-import { Button } from '@/components/ui/atoms/button';
-import { SocialAuth } from '@/components/ui/molecules/SocialAuth';
+import { Button } from '@/components/design-system/atoms/button';
+import { SocialAuth } from '@/components/design-system/molecules/SocialAuth';
 import { RegisterFields } from '@/components/z/auth/RegisterFields';
 import { RegisterHeader } from '@/components/z/auth/RegisterHeader';
 import { useRegisterForm } from '@/lib/hooks/auth/useRegister';

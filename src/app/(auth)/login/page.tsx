@@ -1,7 +1,7 @@
 'use client';
 
+import { SocialAuth } from '@/components/design-system/molecules/SocialAuth';
 import { HoverButton } from '@/components/ui/hover-button';
-import { SocialAuth } from '@/components/ui/molecules/SocialAuth';
 import { LoginFields } from '@/components/z/auth/LoginFields';
 import { LoginHeader } from '@/components/z/auth/LoginHeader';
 import { useLoginForm } from '@/lib/hooks/auth/useLogin';

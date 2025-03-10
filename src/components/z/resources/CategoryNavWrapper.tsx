@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { CategoryNav } from '@/components/ui/molecules/CategoryNav';
+import { CategoryNav } from '@/components/design-system/molecules/CategoryNav';
+import { useState } from 'react';
 
 // Resource categories - in a real implementation, these would come from a data source
 const resourceCategories = [
@@ -9,7 +9,7 @@ const resourceCategories = [
   { id: 'courses', name: 'Courses', slug: 'courses' },
   { id: 'tools', name: 'Tools', slug: 'tools' },
   { id: 'articles', name: 'Articles', slug: 'articles' },
-  { id: 'podcasts', name: 'Podcasts', slug: 'podcasts' }
+  { id: 'podcasts', name: 'Podcasts', slug: 'podcasts' },
 ];
 
 export function CategoryNavWrapper() {
@@ -17,7 +17,7 @@ export function CategoryNavWrapper() {
 
   const handleCategorySelect = (slug: string | null) => {
     setSelectedCategory(slug);
-    
+
     // In a real implementation, this would:
     // 1. Update a Zustand store
     // 2. Trigger filtering of resources

@@ -1,6 +1,6 @@
-import { CategoryCardSection } from '@/components/design-system/organisms/category-card-section';
-import { EntryCardSection } from '@/components/design-system/organisms/entry-card-selection';
-import { KnowledgeGridSection } from '@/components/design-system/organisms/grid-section';
+import { CategoryCardSection } from '@/components/design-system-sections/organisms/category-card-section';
+import { EntryCardSection } from '@/components/design-system-sections/organisms/entry-card-selection';
+import { KnowledgeGridSection } from '@/components/design-system-sections/organisms/grid-section';
 
 export default function OrganismsPage() {
   return (

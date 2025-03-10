@@ -1,18 +1,18 @@
 'use client';
 
-import { useForgotPasswordForm } from '@/lib/hooks/auth/useForgotPassword';
-import { Button } from '@/components/ui/atoms/button';
-import { Input } from '@/components/ui/atoms/input';
-import { Label } from '@/components/ui/atoms/label';
+import { Button } from '@/components/design-system/atoms/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/atoms/card';
-import Link from 'next/link';
+} from '@/components/design-system/atoms/card';
+import { Input } from '@/components/design-system/atoms/input';
+import { Label } from '@/components/design-system/atoms/label';
+import { useForgotPasswordForm } from '@/lib/hooks/auth/useForgotPassword';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface ForgotPasswordFormProps
   extends React.ComponentPropsWithoutRef<'div'> {

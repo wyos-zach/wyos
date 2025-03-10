@@ -1,13 +1,13 @@
 'use client';
 
-import { Button } from '@/components/ui/atoms/button';
+import { Button } from '@/components/design-system/atoms/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/atoms/card';
+} from '@/components/design-system/atoms/card';
 import { cn } from '@/lib/utils';
 import { useAuthStore } from '@/store/AuthStore';
 import Link from 'next/link';

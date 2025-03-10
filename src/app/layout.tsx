@@ -1,5 +1,5 @@
 import { Footer } from '@/components/z/shared/Footer';
-import { Navbar } from '@/components/z/shared/navigation/Navbar';
+import { Navbar } from '@/components/z/shared/Navbar';
 import { QueryProvider } from '@/lib/providers/query-provider';
 import { SmoothScroll } from '@/lib/providers/smooth-scroll';
 import { cn } from '@/lib/utils';

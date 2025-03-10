@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/atoms/button';
+import { Button } from '@/components/design-system/atoms/button';
 import { useAuthStore } from '@/store/AuthStore';
 import { useRouter } from 'next/navigation';
 

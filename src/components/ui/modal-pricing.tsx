@@ -1,16 +1,19 @@
 'use client';
 
-import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogFooter,
+  DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { useState } from 'react';
 
-import { Button } from '@/components/ui/atoms/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/atoms/radio-group';
+import { Button } from '@/components/design-system/atoms/button';
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@/components/design-system/atoms/radio-group';
 import { Check, Sparkles, Zap } from 'lucide-react';
 
 interface PlanOption {

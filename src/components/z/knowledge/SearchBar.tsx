@@ -1,5 +1,5 @@
 'use client';
-import { Input } from '@/components/ui/atoms/input';
+import { Input } from '@/components/design-system/atoms/input';
 import { useDebounce } from '@/lib/hooks/shared/useDebounce';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';
 import { Loader2, Search, X } from 'lucide-react';

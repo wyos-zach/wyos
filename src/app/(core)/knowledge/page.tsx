@@ -1,9 +1,9 @@
 'use client';
 
-import { CategoryNav } from '@/components/ui/molecules/CategoryNav';
+import { CategoryNav } from '@/components/design-system/molecules/CategoryNav';
+import { EnhancedIntroduction } from '@/components/z/knowledge/EnhancedIntroduction';
 import { EnhancedKnowledgeCategoryGrid } from '@/components/z/knowledge/EnhancedKnowledgeCategoryGrid';
-import { EnhancedIntroduction } from '@/components/z/knowledge/hero/EnhancedIntroduction';
-import { KnowledgeHero } from '@/components/z/knowledge/hero/KnowledgeHero';
+import { KnowledgeHero } from '@/components/z/knowledge/KnowledgeHero';
 import { motion } from 'motion/react';
 import { Suspense } from 'react';
 import KnowledgeLoading from './loading';
