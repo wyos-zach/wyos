@@ -1,12 +1,12 @@
 'use client';
 
-import { Suspense } from 'react';
-import { EnhancedKnowledgeCategoryGrid } from '@/components/core/knowledge/EnhancedKnowledgeCategoryGrid';
 import { CategoryNav } from '@/components/ui/molecules/CategoryNav';
-import { KnowledgeHero } from '@/components/core/knowledge/hero/KnowledgeHero';
-import { EnhancedIntroduction } from '@/components/core/knowledge/hero/EnhancedIntroduction';
-import KnowledgeLoading from './loading';
+import { EnhancedKnowledgeCategoryGrid } from '@/components/z/knowledge/EnhancedKnowledgeCategoryGrid';
+import { EnhancedIntroduction } from '@/components/z/knowledge/hero/EnhancedIntroduction';
+import { KnowledgeHero } from '@/components/z/knowledge/hero/KnowledgeHero';
 import { motion } from 'motion/react';
+import { Suspense } from 'react';
+import KnowledgeLoading from './loading';
 
 export default function KnowledgePage() {
   return (
@@ -43,13 +43,13 @@ export default function KnowledgePage() {
             </div>
 
             {/* Category Navigation */}
-            <CategoryNav 
+            <CategoryNav
               categories={[
                 { id: '1', name: 'Mindfulness', slug: 'mindfulness' },
                 { id: '2', name: 'Productivity', slug: 'productivity' },
                 { id: '3', name: 'Wellness', slug: 'wellness' },
                 { id: '4', name: 'Philosophy', slug: 'philosophy' },
-                { id: '5', name: 'Technology', slug: 'technology' }
+                { id: '5', name: 'Technology', slug: 'technology' },
               ]}
               selectedCategory={null}
               onSelectAction={(slug) => {

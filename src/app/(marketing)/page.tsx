@@ -1,11 +1,11 @@
-import { Hero } from '@/components/marketing/home/Hero';
-import { CTA } from '@/components/shared/CTA';
 import { CorePillars } from '@/components/marketing/home/CorePillars';
+import { FounderNote } from '@/components/marketing/home/FounderNote';
+import { FoundingMember } from '@/components/marketing/home/FoundingMember';
+import { Hero } from '@/components/marketing/home/Hero';
+import { InternetsAMess } from '@/components/marketing/home/InternetsAMess';
 import { NoBs } from '@/components/marketing/home/NoBs';
 import { NotForEveryone } from '@/components/marketing/home/NotForEveryone';
-import { FoundingMember } from '@/components/marketing/home/FoundingMember';
-import { FounderNote } from '@/components/marketing/home/FounderNote';
-import { InternetsAMess } from '@/components/marketing/home/InternetsAMess';
+import { CTA } from '@/components/z/shared/CTA';
 
 export default function HomePage() {
   return (

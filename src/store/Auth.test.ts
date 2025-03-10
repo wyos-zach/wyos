@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { useAuthStore, type UserPrefs } from './Auth';
 import { account } from '@/models/client/config';
 import { AppwriteException, type Models, OAuthProvider } from 'appwrite';
+import { useAuthStore, type UserPrefs } from './AuthStore';
 
 // Mock the Appwrite account module
 jest.mock('@/models/client/config', () => ({
@@ -104,7 +104,7 @@ describe('Auth Store', () => {
       expect(state.session).toBeNull();
       expect(state.jwt).toBeNull();
     });
-    
+
     it('handles network errors during login', async () => {
       // Mock a network error during login
       const networkError = new Error('Network error');
@@ -118,7 +118,7 @@ describe('Auth Store', () => {
 
       expect(result.success).toBe(false);
       expect(result.error).toBeNull(); // Non-Appwrite errors are returned as null
-      
+
       // Check store state remains unchanged
       const state = useAuthStore.getState();
       expect(state.user).toBeNull();
@@ -150,7 +150,7 @@ describe('Auth Store', () => {
       expect(state.session).toBeNull();
       expect(state.jwt).toBeNull();
     });
-    
+
     it('cleans up state even when API call fails', async () => {
       // Setup initial state
       useAuthStore.setState({
@@ -173,7 +173,7 @@ describe('Auth Store', () => {
       } catch {
         // Ignore any errors
       }
-      
+
       // Manually set the state to simulate what the logout function should do
       // This is necessary because our test environment doesn't fully simulate zustand with immer
       useAuthStore.setState({
@@ -240,7 +240,7 @@ describe('Auth Store', () => {
       expect(state.session).toBeNull();
       expect(state.jwt).toBeNull();
     });
-    
+
     it('retries session verification on temporary failure', async () => {
       // Reset the store state first
       useAuthStore.setState({
@@ -249,44 +249,44 @@ describe('Auth Store', () => {
         user: null,
         hydrated: false,
       });
-      
+
       const mockUser = {
         $id: 'user-id',
         email: 'test@example.com',
       };
       const mockSession = { $id: 'session-id' };
       const mockJWT = 'jwt-token';
-      
+
       // Mock temporary failure then success
       (account.getSession as jest.Mock)
         .mockRejectedValueOnce(new Error('Temporary failure'))
         .mockResolvedValueOnce(mockSession);
-      
+
       (account.get as jest.Mock).mockResolvedValueOnce(mockUser);
       (account.createJWT as jest.Mock).mockResolvedValueOnce({ jwt: mockJWT });
-      
+
       // Replace setTimeout with a jest mock to avoid waiting
       const originalSetTimeout = global.setTimeout;
       global.setTimeout = jest.fn().mockImplementation((callback) => {
         callback();
         return 0; // Return a number which is compatible with NodeJS.Timeout
       }) as unknown as typeof global.setTimeout;
-      
+
       await useAuthStore.getState().verifySession();
-      
+
       // Restore original setTimeout
       global.setTimeout = originalSetTimeout;
-      
+
       // Should have called getSession twice (once for failure, once for success)
       expect(account.getSession).toHaveBeenCalledTimes(2);
-      
+
       // Check store state is updated with successful data
       const state = useAuthStore.getState();
       expect(state.user).toEqual(mockUser);
       expect(state.session).toEqual(mockSession);
       expect(state.jwt).toBe(mockJWT);
     });
-    
+
     it('handles token expiration error', async () => {
       // Setup initial state
       useAuthStore.setState({
@@ -302,7 +302,7 @@ describe('Auth Store', () => {
         401,
         'user_jwt_expired'
       );
-      
+
       (account.getSession as jest.Mock).mockRejectedValueOnce(tokenError);
 
       const originalState = {
@@ -311,7 +311,7 @@ describe('Auth Store', () => {
         user: null,
         hydrated: true,
       };
-      
+
       // Mock the setState function
       const mockSet = jest.fn().mockImplementation((newState) => {
         if (typeof newState === 'function') {
@@ -326,16 +326,18 @@ describe('Auth Store', () => {
           useAuthStore.setState(Object.assign({}, originalState, newState));
         }
       });
-      
+
       // Replace the set function temporarily
       const originalSet = useAuthStore.setState;
       // Use type assertion to unknown first to avoid type errors
-      (useAuthStore as unknown as { setState: typeof mockSet }).setState = mockSet;
+      (useAuthStore as unknown as { setState: typeof mockSet }).setState =
+        mockSet;
 
       await useAuthStore.getState().verifySession();
-      
+
       // Restore the original set function
-      (useAuthStore as unknown as { setState: typeof originalSet }).setState = originalSet;
+      (useAuthStore as unknown as { setState: typeof originalSet }).setState =
+        originalSet;
 
       // Check store state is reset
       const state = useAuthStore.getState();

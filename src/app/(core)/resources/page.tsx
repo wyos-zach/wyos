@@ -1,8 +1,8 @@
-import { Suspense } from 'react';
+import { CategoryNavWrapper } from '@/components/z/resources/CategoryNavWrapper';
+import { FeaturedResources } from '@/components/z/resources/FeaturedResources';
+import { ResourceCategoryGrid } from '@/components/z/resources/ResourceCategoryGrid';
 import { ResourceService } from '@/models/server/resources';
-import { ResourceCategoryGrid } from '@/components/core/resources/ResourceCategoryGrid';
-import { FeaturedResources } from '@/components/core/resources/FeaturedResources';
-import { CategoryNavWrapper } from '@/components/core/resources/CategoryNavWrapper';
+import { Suspense } from 'react';
 import ResourceLoading from './loading';
 
 export default function ResourcesPage() {

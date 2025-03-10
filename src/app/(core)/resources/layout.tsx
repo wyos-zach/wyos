@@ -1,10 +1,10 @@
 'use client';
 
 import { Container } from '@/components/ui/container';
-import { useAuthStore } from '@/store/Auth';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { useAuthStore } from '@/store/AuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 export default function ResourcesLayout({
   children,

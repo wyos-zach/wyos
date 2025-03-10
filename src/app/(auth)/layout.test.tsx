@@ -3,10 +3,10 @@
  * @jest-environment jsdom
  * @description Tests for the authentication layout
  */
-import { render, screen, waitFor, act } from '@/__tests__/test-utils';
-import AuthLayout from './layout';
-import { useAuthStore } from '@/store/Auth';
+import { act, render, screen, waitFor } from '@/__tests__/test-utils';
+import { useAuthStore } from '@/store/AuthStore';
 import { useRouter } from 'next/navigation';
+import AuthLayout from './layout';
 
 // Mock the Auth store and Next.js router
 jest.mock('@/store/Auth', () => ({
@@ -31,7 +31,7 @@ describe('AuthLayout', () => {
   it('shows loading spinner while checking authentication', async () => {
     // Mock verifySession to return a promise that doesn't resolve immediately
     mockVerifySession.mockImplementation(() => new Promise(() => {}));
-    
+
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       session: null,
       hydrated: true,
@@ -56,7 +56,7 @@ describe('AuthLayout', () => {
   it('redirects authenticated users to dashboard', async () => {
     // Mock verifySession to resolve immediately
     mockVerifySession.mockResolvedValue(undefined);
-    
+
     (useAuthStore as unknown as jest.Mock).mockReturnValue({
       session: { $id: 'test-session' },
       hydrated: true,

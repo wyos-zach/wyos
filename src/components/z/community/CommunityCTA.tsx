@@ -1,7 +1,7 @@
 'use client';
 
-import { useAuthStore } from '@/store/Auth';
 import { Button } from '@/components/ui/atoms/button';
+import { useAuthStore } from '@/store/AuthStore';
 import { useRouter } from 'next/navigation';
 
 export function CommunityCTA() {

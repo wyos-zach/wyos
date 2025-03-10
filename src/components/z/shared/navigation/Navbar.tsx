@@ -1,17 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import { cn } from '@/lib/utils';
-import { Icon } from '../wyosIcon';
-import { AuthButtons } from '../../auth/AuthButtons';
-import { MobileMenu } from './MobileMenu';
+import { FadingDivider } from '@/components/ui/fading-divider';
 import { useScroll } from '@/lib/hooks/shared/useScroll';
 import { useScrollDirection } from '@/lib/hooks/shared/useScrollDirection';
-import { FadingDivider } from '@/components/ui/fading-divider';
-import { useAuthStore } from '@/store/Auth';
-import { MemberNavLinks } from './MemberNavLinks';
-import { PublicNavLinks } from './PublicNavLinks';
+import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/AuthStore';
 import { motion } from 'motion/react';
+import { useState } from 'react';
+import { AuthButtons } from '../../auth/AuthButtons';
+import { Icon } from '../wyosIcon';
+import { MemberNavLinks } from './MemberNavLinks';
+import { MobileMenu } from './MobileMenu';
+import { PublicNavLinks } from './PublicNavLinks';
 
 export function Navbar() {
   const isScrolled = useScroll(20);

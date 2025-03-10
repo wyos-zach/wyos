@@ -1,5 +1,5 @@
+import { useAuthStore } from '@/store/AuthStore';
 import { useState } from 'react';
-import { useAuthStore } from '@/store/Auth';
 import { z } from 'zod';
 
 const forgotPasswordSchema = z.object({

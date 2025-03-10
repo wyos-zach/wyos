@@ -1,6 +1,5 @@
 'use client';
 
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/atoms/button';
 import {
   Card,
@@ -9,9 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/atoms/card';
-import { useState } from 'react';
-import { useAuthStore } from '@/store/Auth';
+import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/AuthStore';
 import Link from 'next/link';
+import { useState } from 'react';
 
 interface RequestVerificationFormProps
   extends React.ComponentPropsWithoutRef<'div'> {

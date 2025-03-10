@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthStore } from '@/store/Auth';
+import { useAuthStore } from '@/store/AuthStore';
 
 export default function DashboardPage() {
   const { user } = useAuthStore();
@@ -10,10 +10,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="container mx-auto mt-8">
-      <div className="grid gap-4">
-        {/* Add your dashboard content here */}
-      </div>
+    <div className='container mx-auto mt-8'>
+      <div className='grid gap-4'>{/* Add your dashboard content here */}</div>
     </div>
   );
 }

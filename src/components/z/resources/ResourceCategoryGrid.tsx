@@ -1,9 +1,9 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
-import { ResourceService } from '@/models/server/resources';
-import { ResourceCategoryCard } from '@/components/core/resources/ResourceCategoryCard';
 import { Skeleton } from '@/components/ui/atoms/skeleton';
+import { ResourceCategoryCard } from '@/components/z/resources/ResourceCategoryCard';
+import { ResourceService } from '@/models/server/resources';
+import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
 
 export const ResourceCategoryGrid = () => {

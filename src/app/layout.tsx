@@ -1,11 +1,11 @@
-import { Cinzel, Open_Sans } from 'next/font/google';
-import type { Metadata } from 'next';
-import { cn } from '@/lib/utils';
-import './globals.css';
-import { Navbar } from '@/components/shared/navigation/Navbar';
-import { Footer } from '@/components/shared/Footer';
+import { Footer } from '@/components/z/shared/Footer';
+import { Navbar } from '@/components/z/shared/navigation/Navbar';
 import { QueryProvider } from '@/lib/providers/query-provider';
 import { SmoothScroll } from '@/lib/providers/smooth-scroll';
+import { cn } from '@/lib/utils';
+import type { Metadata } from 'next';
+import { Cinzel, Open_Sans } from 'next/font/google';
+import './globals.css';
 
 const cinzel = Cinzel({
   subsets: ['latin'],

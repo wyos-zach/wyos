@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useAuthStore } from '@/store/Auth';
+import { useAuthStore } from '@/store/AuthStore';
+import { useEffect, useState } from 'react';
 
 export function useVerifyEmailForm(userId: string, secret: string) {
   const { verifyEmail } = useAuthStore();

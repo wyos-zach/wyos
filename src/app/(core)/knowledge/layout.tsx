@@ -1,9 +1,9 @@
 'use client';
 
-import { useAuthStore } from '@/store/Auth';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { useAuthStore } from '@/store/AuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { LoadingSpinner } from '@/components/ui/loading-spinner';
 
 export default function KnowledgeLayout({
   children,
@@ -28,9 +28,5 @@ export default function KnowledgeLayout({
   }
 
   // Removed the Container component to allow full-width backgrounds
-  return (
-    <div className='relative flex min-h-screen flex-col'>
-      {children}
-    </div>
-  );
+  return <div className='relative flex min-h-screen flex-col'>{children}</div>;
 }

@@ -2,9 +2,9 @@
 
 import { AboutHero } from '@/components/marketing/about/AboutHero';
 import { OurStory } from '@/components/marketing/about/OurStory';
-import { WhoWeAre } from '@/components/marketing/about/WhoWeAre';
 import { WhatWeBelieve } from '@/components/marketing/about/WhatWeBelieve';
-import { CTA } from '@/components/shared/CTA';
+import { WhoWeAre } from '@/components/marketing/about/WhoWeAre';
+import { CTA } from '@/components/z/shared/CTA';
 
 export default function AboutPage() {
   return (

@@ -1,11 +1,11 @@
 'use client';
 
 import { Button } from '@/components/ui/atoms/button';
+import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/AuthStore';
 import { LogOut, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/Auth';
-import { cn } from '@/lib/utils';
 
 interface AuthButtonsProps {
   mobile?: boolean;

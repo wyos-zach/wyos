@@ -1,8 +1,8 @@
-import { notFound } from 'next/navigation';
-import { ResourceService } from '@/models/server/resources';
-import ResourceHeader from '@/components/core/resources/ResourceHeader';
 import AppResource from '@/components/core/resources/entries/AppEntry';
-import DefaultResource from '@/components/core/resources/entries/DefaultEntry';
+import DefaultResource from '@/components/z/resources/entries/DefaultEntry';
+import ResourceHeader from '@/components/z/resources/ResourceHeader';
+import { ResourceService } from '@/models/server/resources';
+import { notFound } from 'next/navigation';
 
 // Declare params as a Promise carrying our URL parameters.
 export default async function Page({

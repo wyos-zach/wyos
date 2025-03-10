@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  * @description Tests for the useLogin hook
  */
-import { renderHook, act } from '@testing-library/react';
+import { useAuthStore } from '@/store/AuthStore';
+import { act, renderHook } from '@testing-library/react';
 import { useLoginForm } from './useLogin';
-import { useAuthStore } from '@/store/Auth';
 
 // Mock the Auth store
 jest.mock('@/store/Auth', () => ({

@@ -1,6 +1,6 @@
+import { CategoryHeader } from '@/components/z/resources/CategoryHeader';
+import { ResourceGrid } from '@/components/z/resources/ResourceGrid';
 import { ResourceService } from '@/models/server/resources';
-import { ResourceGrid } from '@/components/core/resources/ResourceGrid';
-import { CategoryHeader } from '@/components/core/resources/CategoryHeader';
 import type { ResourceEntry } from '@/types/core/resources/entry';
 
 export default async function ResourceCategoryPage({

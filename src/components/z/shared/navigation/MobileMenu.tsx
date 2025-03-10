@@ -1,13 +1,13 @@
 'use client';
 
-import { motion } from 'motion/react';
 import { Button } from '@/components/ui/atoms/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu } from 'lucide-react';
-import Link from 'next/link';
-import { MobileAuthButtons } from '../../auth/MobileAuthButtons';
-import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { Menu } from 'lucide-react';
+import { motion } from 'motion/react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { MobileAuthButtons } from '../../auth/MobileAuthButtons';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -26,7 +26,7 @@ const publicLinks = [
   { href: '/knowledge', label: 'Knowledge' },
   { href: '/resources', label: 'Resources' },
   { href: '/community', label: 'Community' },
-  { href: '/pricing', label: 'Benefits' },
+  { href: '/membership', label: 'Membership' },
 ] as const;
 
 export function MobileMenu({

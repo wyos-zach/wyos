@@ -1,9 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/atoms/button';
-import { useAuthStore } from '@/store/Auth';
-import { OAuthProvider } from 'appwrite';
 import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/AuthStore';
+import { OAuthProvider } from 'appwrite';
 
 interface OAuthButtonProps {
   provider: OAuthProvider;

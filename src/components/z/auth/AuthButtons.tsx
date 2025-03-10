@@ -2,10 +2,10 @@
 
 import { Button } from '@/components/ui/atoms/button';
 import { ShinyButton } from '@/components/ui/shiny-button';
+import { useAuthStore } from '@/store/AuthStore';
 import { LogOut, User } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/Auth';
 
 interface AuthButtonsProps {
   onAction?: () => void;

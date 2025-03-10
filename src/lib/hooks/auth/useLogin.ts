@@ -1,6 +1,6 @@
+import { useAuthStore } from '@/store/AuthStore';
 import { useState } from 'react';
 import { z } from 'zod';
-import { useAuthStore } from '@/store/Auth';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),

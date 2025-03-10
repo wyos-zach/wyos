@@ -3,7 +3,7 @@
  * Mock implementation of the Auth store for testing
  * Provides controlled authentication state for component testing
  */
-import { type UserPrefs } from '@/store/Auth';
+import { type UserPrefs } from '@/store/AuthStore';
 import { type Models } from 'appwrite';
 
 export const createAuthStoreMock = (initialState = {}) => {

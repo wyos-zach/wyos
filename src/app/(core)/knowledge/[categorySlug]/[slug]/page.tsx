@@ -1,10 +1,10 @@
-import { notFound } from 'next/navigation';
+import KnowledgeEntryHeader from '@/components/z/knowledge/KnowledgeEntryHeader';
+import ArticleEntry from '@/components/z/knowledge/entries/ArticleEntry';
+import DefaultEntry from '@/components/z/knowledge/entries/DefaultEntry';
+import HowToEntry from '@/components/z/knowledge/entries/HowToEntry';
+import InfographicEntry from '@/components/z/knowledge/entries/InfographicEntry';
 import { KnowledgeService } from '@/models/server/knowledge';
-import KnowledgeEntryHeader from '@/components/core/knowledge/KnowledgeEntryHeader';
-import ArticleEntry from '@/components/core/knowledge/entries/ArticleEntry';
-import HowToEntry from '@/components/core/knowledge/entries/HowToEntry';
-import InfographicEntry from '@/components/core/knowledge/entries/InfographicEntry';
-import DefaultEntry from '@/components/core/knowledge/entries/DefaultEntry';
+import { notFound } from 'next/navigation';
 import type { JSX } from 'react';
 
 // We declare that params is a Promise of our expected shape.

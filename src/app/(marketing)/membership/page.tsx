@@ -1,12 +1,12 @@
 // src/app/(marketing)/membership/page.tsx
+import { AffiliateNote } from '@/components/marketing/membership/AffiliateNote';
+import { FoundingMemberOffer } from '@/components/marketing/membership/FoundingMemberOffer';
+import { IdealMember } from '@/components/marketing/membership/IdealMember';
+import { MemberBenefits } from '@/components/marketing/membership/MemberBenefits';
 import { MembershipHero } from '@/components/marketing/membership/MembershipHero';
 import { MembershipIntro } from '@/components/marketing/membership/MembershipIntro';
 import { WhyNotFree } from '@/components/marketing/membership/WhyNotFree';
-import { MemberBenefits } from '@/components/marketing/membership/MemberBenefits';
-import { FoundingMemberOffer } from '@/components/marketing/membership/FoundingMemberOffer';
-import { AffiliateNote } from '@/components/marketing/membership/AffiliateNote';
-import { IdealMember } from '@/components/marketing/membership/IdealMember';
-import { CTA } from '@/components/shared/CTA';
+import { CTA } from '@/components/z/shared/CTA';
 
 export default function MembershipPage() {
   return (

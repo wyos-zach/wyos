@@ -16,6 +16,7 @@ export default function OrganismsPage() {
       <EntryCardSection />
       <Divider />
       <KnowledgeGridSection />
+      <Divider />
     </div>
   );
 }

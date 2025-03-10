@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  * @description Tests for the SocialAuth component
  */
-import { render, screen, fireEvent } from '@/__tests__/test-utils';
-import { SocialAuth } from '../ui/molecules/SocialAuth';
-import { useAuthStore } from '@/store/Auth';
+import { fireEvent, render, screen } from '@/__tests__/test-utils';
+import { useAuthStore } from '@/store/AuthStore';
 import { OAuthProvider } from 'appwrite';
+import { SocialAuth } from '../../ui/molecules/SocialAuth';
 
 // Mock the auth store
 jest.mock('@/store/Auth', () => ({

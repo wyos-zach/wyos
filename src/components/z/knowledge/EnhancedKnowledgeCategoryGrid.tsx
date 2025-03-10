@@ -1,7 +1,7 @@
 'use client';
 
-import { EnhancedKnowledgeCategoryCard } from '@/components/core/knowledge/EnhancedKnowledgeCategoryCard';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { EnhancedKnowledgeCategoryCard } from '@/components/z/knowledge/EnhancedKnowledgeCategoryCard';
 import { cn } from '@/lib/utils';
 import { KnowledgeService } from '@/models/server/knowledge';
 import { useKnowledgeStore } from '@/store/useKnowledgeStore';

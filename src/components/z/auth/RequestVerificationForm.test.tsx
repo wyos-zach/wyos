@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  * @description Tests for the RequestVerificationForm component
  */
-import { render, screen, fireEvent, waitFor } from '@/__tests__/test-utils';
+import { fireEvent, render, screen, waitFor } from '@/__tests__/test-utils';
+import { useAuthStore } from '@/store/AuthStore';
 import { RequestVerificationForm } from './RequestVerificationForm';
-import { useAuthStore } from '@/store/Auth';
 
 // Mock the auth store
 jest.mock('@/store/Auth', () => ({

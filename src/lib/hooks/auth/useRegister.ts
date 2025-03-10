@@ -1,6 +1,6 @@
+import { useAuthStore } from '@/store/AuthStore';
 import { useState } from 'react';
 import { z } from 'zod';
-import { useAuthStore } from '@/store/Auth';
 
 const registerSchema = z.object({
   firstname: z.string().min(2, 'First name must be at least 2 characters'),

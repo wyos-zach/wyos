@@ -1,10 +1,10 @@
 'use client';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { KnowledgeCard } from './KnowledgeCard';
 import { Skeleton } from '@/components/ui/atoms/skeleton';
-import { InfiniteGrid } from '@/components/shared/InfiniteGrid';
+import { InfiniteGrid } from '@/components/z/shared/InfiniteGrid';
 import { KnowledgeService } from '@/models/server/knowledge';
 import type { KnowledgeEntry } from '@/types/core/knowledge/entry';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { KnowledgeCard } from './KnowledgeCard';
 
 interface KnowledgeGridProps {
   categorySlug?: string;
